@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cửa hàng sách</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <!-- FONT AWESOME  -->
+    <link rel="stylesheet" href="../css/fontawesome-free/css/all.min.css">
+    <!-- CSS  -->
+    <link rel="stylesheet" href="../css/sanpham.css">
+    <link rel="stylesheet" href="../css/thanhtoan.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="text-white py-3">
+        <div class="container">
+            <nav class="navbar navbar-expand-md">
+                <div class="navbar-brand logo">
+                    <a href="../index.html" class="d-flex align-items-center">
+                        <img src="../Images/LogoSach.png" alt="logo" width="100" height="57">
+                    </a>
+                </div>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a href="../index.html" class="nav-link fw-bold text-white">TRANG CHỦ</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link fw-bold text-white">GIỚI THIỆU</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="../sanpham/sanpham.html" class="nav-link fw-bold text-white">SẢN
+                                PHẨM</a>
+                        </li>
+                    </ul>
+                    <form class="d-flex me-auto">
+                        <input class="form-control me-2" type="text" id="timkiem" placeholder="Tìm sách">
+                        <button class="btn btn-outline-light" type="submit">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </form>
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a href="./dangky/dangnhap.html" class="nav-link fw-bold text-white">ĐĂNG NHẬP</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="./dangky/dangky.html" class="nav-link fw-bold text-white">ĐĂNG KÝ</a>
+                        </li>
+                    </ul>
+                    <a href="giohang.html" class="nav-link text-white">
+                        <div class="cart-icon">
+                            <i class="fas fa-shopping-basket"></i>
+                            <span class="">0</span>
+                        </div>
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <!-- PAYMENT  -->
+    <section class="payment_container my-4">
+        <div class="payment__content row">
+            <div class="payment__content__left col-6 d-flex flex-column">
+                <h3>Thông tin giao hàng</h3>
+                <form class="payment--form d-flex flex-column gap-3" id="form-add" method="post" action="" onsubmit="return thanks()">
+                    <!-- Họ tên  -->
+                    <div>
+                        <label for="payment--receiver"><i class="fas fa-user"></i>Họ tên</label>
+                        <input type="text" id="payment--receiver" id="name-user" required
+                            placeholder="Tên người nhận hàng">
+                        <span></span>
+                    </div>
+                    <!-- Điện thoại  -->
+                    <div>
+                        <label for="payment--phone"><i class="fas fa-phone-volume"></i>Điện thoại</label>
+                        <input type="tel" id="payment--phone" id="phone-user"
+                            pattern="(0[3|5|7|8|9])+([0-9]{8})\b" placeholder="Số điện thoại người nhận hàng">
+                        <span></span>
+                    </div>
+                    <!-- Địa chỉ  -->
+                    <div>
+                        <label for="payment--adr"><i class="far fa-address-card"></i></i>Địa chỉ</label>
+                        <input type="text" id="payment--adr" placeholder="Địa chỉ nhận hàng">
+                        <div class="default-info d-flex flex-row">
+                            <input type="checkbox" id="payment--defaul">
+                            <label for="payment--defaul">Sử dụng thông tin mặc định</label>
+                            <span></span>
+                        </div>
+                    </div>
+                    <!-- Ghi chú  -->
+                    <div>
+                        <label for="payment--note"><i class="far fa-comment"></i>Ghi chú</label>
+                        <textarea type="text" name="user-note" id="payment--note" rows="3"
+                            placeholder="Ghi yêu cầu của bạn tại đây."></textarea>
+                        <span></span>
+                    </div>
+                    <!-- Button trigger modal -->
+                    <button type="submit" class="payment--button" name="payment--button">
+                        Đặt hàng
+                    </button>
+                </form>
+            </div>
+            <div class="payment__content__right col-5 ">
+                <h3>Phương thức thanh toán</h3>
+                <label>Chọn phương thức:</label>
+                <div class="btn-group d-flex flex-column" id="payment__method" role="group"
+                    aria-label="Basic radio toggle button group">
+                    <div class="payment-option">
+                        <input type="radio" name="btnradio" id="btnradio1" autocomplete="off" checked>
+                        <label class="btn d-flex" for="btnradio1">
+                            <img src="../Images/visa.png" class="w-12" alt="card1">
+                            <img src="../Images/mastercard.png" class="w-12" alt="card2" />
+                            <img src="../Images/ae.png" class="w-12" alt="card3" />
+                            <div class="payment__method--visa payment__method" style="display: none;">
+                                <p>Phương thức hiện tại không khả dụng.</p>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="payment-option">
+                        <input type="radio" name="btnradio" id="btnradio2" autocomplete="off" checked>
+                        <label class="btn d-flex" for="btnradio2">
+                            <img src="../Images/momo.png" class="w-12" alt="card1">
+                            <div class="payment__method--visa payment__method" style="display: none;">
+                                <p>Phương thức hiện tại không khả dụng.</p>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="payment-option">
+                        <input type="radio" name="btnradio" id="btnradio3" autocomplete="off" checked>
+                        <label class="btn d-flex" for="btnradio3">
+                            <div class="cash-icon"><i class="fas fa-money-bill"></i></div>
+                            <div class="payment__method--visa payment__method" style="display: none;">
+                                <p>Phương thức hiện tại không khả dụng.</p>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Footer -->
+    <footer class="text-white py-4">
+        <div class="container">
+            <div class="row pb-4 footer__bar">
+                <div class="col-md-12 d-flex justify-content-between fw-bold align-items-center footer__connect">
+                    <p>Thời gian mở cửa: <span>07h30 - 21h30 mỗi ngày</span></p>
+                    <div class="d-flex">
+                        <p>Kết nối với chúng tôi:</p>
+                        <a href="#" class="text-white ms-3">
+                            <i class="fab fa-facebook-square"></i>
+                        </a>
+                        <a href="#" class="text-white ms-3">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="row d-flex justify-content-center align-items-center footer__bar">
+                <div class="col-md-4">
+                    <div class="logo">
+                        <a href="../index.html" class="d-flex align-items-center">
+                            <img src="../Images/LogoSach.png" alt="logo" width="100" height="57">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div>
+                        <p class="mb-1">Hotline: 1900 0000</p>
+                        <p class="mb-1">Email: nhasach@gmail.com</p>
+                        <p>&copy; 2024 Công ty TNHH Nhà sách</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <ul class="list list-unstyled">
+                        <li class="list-item">
+                            <a href="#" class="text-white">Tuyển dụng</a>
+                        </li>
+                        <li class="list-item">
+                            <a href="#" class="text-white">Chính sách giao hàng</a>
+                        </li>
+                        <li class="list-item">
+                            <a href="#" class="text-white">Điều khoản và điều kiện</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row footer__bar">
+                <div class="col-md-12">
+                    <ul class="list-unstyled">
+                        <li>Chi nhánh 1: 273 An Dương Vương, Phường 3, Quận 5, TP. Hồ Chí Minh</li>
+                        <li>Chi nhánh 2: 105 Bà Huyện Thanh Quan, Phường Võ Thị Sáu, Quận 3, TP. Hồ Chí Minh</li>
+                        <li>Chi nhánh 3: 4 Tôn Đức Thắng, Phường Bến Nghé, Quận 1, TP. Hồ Chí Minh</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!--Modal-->
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Xác nhận xóa</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteButton">Xóa</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap JS -->
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../js/thanhtoan.js"></script>
+    <script>
+        Validator({
+            form: '#form-add',
+            errorSelector: '.form-message',
+            rules: [
+                Validator.isRequired('#name-user'),
+                Validator.isRequired('#phone-user'),
+                Validator.isPhone('#phone-user')
+            ]
+        })
+
+    </script>
+</body>
+
+</html>

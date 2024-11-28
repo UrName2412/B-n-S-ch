@@ -1,0 +1,182 @@
+@media (max-width: 750px) {
+    .payment__content__left {
+        padding: 15px; /* Giảm padding để tiết kiệm không gian */
+        box-shadow: none; /* Loại bỏ bóng đổ để gọn gàng */
+    }
+
+    .payment__content__left h3 {
+        font-size: 1.5rem;
+    }
+
+    .payment--form input,
+    .payment--form textarea {
+        font-size: 0.9rem;
+        padding: 8px;
+    }
+
+    .payment--button {
+        font-size: 1rem;
+        padding: 8px 15px;
+    }
+
+    .default-info {
+        flex-direction: column; /* Để label và checkbox xếp chồng nhau khi không gian hẹp */
+        align-items: flex-start; /* Căn trái */
+    }
+
+    .default-info input[type="checkbox"] {
+        margin-top: 10px; /* Tạo khoảng cách giữa label và checkbox */
+    }
+    .payment__content {
+        flex-direction: column; /* Chuyển từ dạng hàng sang cột */
+    }
+
+    .payment__content__left {
+        width: 100%; /* Mở rộng ra toàn màn hình */
+        margin: 0; /* Xóa margin nếu có */
+    }
+
+    .payment__content__right {
+        width: 100%; /* Chiếm toàn màn hình */
+        margin-top: 20px; /* Thêm khoảng cách phía trên */
+    }
+}
+body{
+    overflow-x: hidden;
+}
+.payment-option{
+    display: flex;
+}
+.payment_container{
+    max-width: 100vw;
+    min-height: calc(80vh - 120px);
+}
+.payment__content{
+    max-width: 100vw;
+}
+.payment--form div{
+    display: flex;
+    flex-direction: column;
+}
+input{
+    padding: 5px 0;
+    border-radius: 5px;
+    outline: none;
+}
+.w-12{
+    border-radius: 5px;
+    object-fit: contain;
+    width: 50px;
+    height: 35px;
+}
+.cash-icon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 35px;
+    background-color: rgb(116, 191, 116);
+    color: white;
+    border-radius: 5px;
+}
+
+/* Đặt nền cho toàn bộ form */
+.payment__content__left {
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Tiêu đề của form */
+.payment__content__left h3 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Các label */
+.payment--form label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 5px;
+    display: inline-block;
+}
+
+/* Các input và textarea */
+.payment--form input,
+.payment--form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: #333;
+    transition: border-color 0.3s;
+}
+
+/* Hiệu ứng hover/focus trên input */
+.payment--form input:focus,
+.payment--form textarea:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Nút submit */
+.payment--button {
+    background-color: #007bff;
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: background-color 0.3s;
+}
+
+.payment--button:hover {
+    background-color: #0056b3;
+}
+
+/* Khoảng cách giữa các phần */
+.payment--form .gap-3 > div {
+    margin-bottom: 15px;
+}
+
+/* Biểu tượng trong label */
+.payment--form label i {
+    color: #007bff;
+    margin-right: 5px;
+}
+
+/* Hiệu ứng toàn form khi hover */
+.payment__content__left:hover {
+    transform: scale(1.01);
+    transition: transform 0.3s ease;
+}
+
+.default-info {
+    display: flex;
+    align-items: center; /* Căn giữa theo chiều dọc */
+    justify-content: flex-start; /* Căn trái checkbox */
+    gap: 10px; /* Khoảng cách giữa checkbox và label */
+}
+.default-info label {
+    user-select: none;
+    width: 250px;
+    margin: 0; /* Xóa margin mặc định */
+}
+.default-info input[type="checkbox"] {
+    width: 10px;
+    margin: 0; /* Xóa margin mặc định */
+}
+
+

@@ -39,39 +39,57 @@ nav ul li a:active {
     color: #f0f0f0 !important;
 }
 
-aside {
-    position: sticky;
-    top: 20px;
-    height: max-content;
+main {
+    min-height: calc(75vh - 120px);
 }
 
-aside ul li a {
-    text-decoration: none;
-}
-
-aside ul li a:hover {
-    color: #4C8CC5 !important;
-}
-
-aside ul li a:active {
-    color: #336799 !important;
-}
-
-.card a img {
-    height: 400px;
-}
-
-.card-title {
-    height: 75px;
-}
-
-.card-body .btn:hover {
+main form button:hover {
     background-color: #28527a !important;
 }
 
-.page-link:hover {
+.card-header {
+    background-color: #336799;
+}
+
+.forgotpwd{
     text-decoration: none;
-    background-color: #28527a !important;
+    color: #212529;
+}
+
+.modal {
+    background-color: rgba(0,0,0,0.6);
+}
+
+.modal-header {
+    padding: 16px 0 0 0;
+}
+
+.icon__success p {
+    font-size: 2rem;
+}
+
+#successModal {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+#successModal.active {
+    display: block;
+    opacity: 1;
+    animation: modalShow 0.4s ease forwards;
+}
+
+#failModal {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+#failModal.active {
+    display: block;
+    opacity: 1;
+    animation: modalShow 0.4s ease forwards;
 }
 
 footer {
@@ -101,35 +119,13 @@ footer ul li a:active {
     color: yellow !important;
 }
 
-#backToTop {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: #336799;
-    color: white;
-    padding: 10px 15px;
-    border-radius: 5px;
-    text-decoration: none;
-    display: inline-block;
-}
-
-#backToTop:hover {
-    background-color: #28527a;
-}
-
-.cart-icon{
-    position: relative;
-}
-
-.cart-icon span{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    background-color: red;
-    border-radius: 50%;
-    width: 25px;
-    height: 25px;
-    top: 50%;
-    left:20px;
+@keyframes modalShow {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }   
 }

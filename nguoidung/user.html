@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>HỒ SƠ</title>
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="../css/bootstrap.min.css">
+        <!-- FONT AWESOME  -->
+        <link rel="stylesheet" href="../css/fontawesome-free/css/all.min.css">
+        <!-- CSS  -->
+        <link rel="stylesheet" href="../css/sanpham.css">
+
+    </head>
+    <body>
+        <!-- Header -->
+        <header class="text-white py-3">
+            <div class="container">
+                <nav class="navbar navbar-expand-md">                    
+                    <div class="navbar-brand logo">
+                        <a href="../user.html" class="d-flex align-items-center">
+                            <img src="../Images/LogoSach.png" alt="logo" width="100" height="57">
+                        </a>
+                    </div>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav me-auto">
+                            <li class="nav-item">
+                                <a href="../index.html" class="nav-link fw-bold" style="color: white ;">TRANG CHỦ</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link fw-bold text-white">GIỚI THIỆU</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../sanpham/sanpham.html" class="nav-link fw-bold text-white">SẢN PHẨM</a>
+                            </li>
+                        </ul>
+                        <form class="d-flex me-auto">
+                            <input class="form-control me-2" type="text" id="timkiem" placeholder="Tìm sách">
+                            <button class="btn btn-outline-light" type="submit">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </form>
+                        <ul class="navbar-nav me-auto">
+                            <li class="nav-item">
+                                <a href="../index.html" class="nav-link fw-bold text-white">ĐĂNG XUẤT</a>
+                            </li>
+                            <li class="nav-item">
+                                <div style="height: 25px; width: 25px;">
+                                    <a href="../user.html">
+                                        <img src="../Images/nguoi_dung.jpg" alt="Ảnh 1" class="card-img-top" >
+                                    </a>
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <a id="proflie-name" style="top: 20px; padding: 2px;">Nguyễn Văn A</a>
+                            </li>
+                        </ul>
+                        <a href="#" class="nav-link text-white">
+                            <i class="fas fa-shopping-basket"></i>
+                        </a>
+                    </div>                    
+                </nav>                                          
+            </div>
+        </header>
+        <!-- Main -->
+        <div class="container my-4">
+            <div class="row">
+                <!-- Sidebar -->
+                <aside class="col-lg-3">
+                    <div class="rounded text-dark p-4" style="border: 1px solid black; box-shadow: 5px 5px 5px rgba(50, 50, 50, 0.75);">
+                        <h5 class="fw-bold text-center">DANH MỤC</h5>
+                        <ul class="list-group" style="border: 1px solid;">
+                            <li class="list-group-item" style="border: none;">
+                                <a href="#" class="fw-bold text-dark">Sách thiếu nhi</a>
+                            </li>
+                            <li class="list-group-item"style="border: none;">
+                                <a href="#" class="fw-bold text-dark">Sách giáo khoa</a>
+                            </li>
+                            <li class="list-group-item"style="border: none;">
+                                <a href="#" class="fw-bold text-dark">Sách kinh tế</a>
+                            </li>
+                            <li class="list-group-item"style="border: none;">
+                                <a href="#" class="fw-bold text-dark">Sách lịch sử</a>
+                            </li>
+                            <li class="list-group-item"style="border: none;">
+                                <a href="#" class="fw-bold text-dark">Sách ngoại ngữ</a>
+                            </li>
+                            <li class="list-group-item"style="border: none;">
+                                <a href="#" class="fw-bold text-dark">Sách khoa học</a>
+                            </li>                            
+                        </ul>
+                    </div>
+                </aside>
+                <!-- Main profile -->
+                <div class="col-lg-9">
+                    <div class="border p-5" >
+                        <div class="navbar-brand profile-pic">
+                            <img src="../Images/nguoi_dung.jpg" alt="Ảnh 1" class="card-img-top">
+                        </div>
+                        <h1><span id="customer-name">Nguyễn Văn A</span></h1>
+                        <p id="customer-role">Khách Hàng Vàng</p>
+                    </div>
+                    <div >
+                        <h2>Thông tin cá nhân</h2>
+                        <p ><strong>Sinh Nhật:</strong> <span id="customer-sinhnhat">11/11/2001</span></p>
+                        <p ><strong>Email:</strong> <span id="customer-email">nguyenvana@example.com</span></p>
+                        <p ><strong>Số Điện Thoại:</strong> <span id="customer-phone">+84 912 345 678</span></p>
+                        <p ><strong>Địa Chỉ:</strong> <span id="customer-address">123 lê Lợi, Quận 1, TP Hồ Chí Minh</span></p>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="edit-btn" onclick="toggleEditForm()">Cập Nhật Thông Tin</button>
+                    </div>
+                    <form id="edit-form" class="hidden">
+                        <h2>Cập Nhật Thông Tin</h2>
+                        <label for="name">Họ Tên:</label>
+                        <input type="text" id="name" placeholder="Nhập họ tên" value="Nguyễn Văn A">
+                        
+                        <label for="role">Vai Trò:</label>
+                        <input type="text" id="role" placeholder="Nhập vai trò" value="Khách Hàng Vàng">
+                        
+                        <label for="sinhnhat">Sinh Nhật:</label>
+                        <input type="sinhnhat" id="sinhnhat" placeholder="Nhập sinh nhật" value="11/11/2001">
+
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" placeholder="Nhập email" value="nguyenvana@example.com">
+                        
+                        <label for="phone">Số Điện Thoại:</label>
+                        <input type="text" id="phone" placeholder="Nhập số điện thoại" value="+84 912 345 678">
+                        
+                        <label for="address">Địa Chỉ:</label>
+                        <input type="text" id="address" placeholder="Nhập địa chỉ" value="123 lê Lợi, Quận 1, TP Hồ Chí Minh">
+                        
+                        <button type="button" class="edit-btn" onclick="updateInfo()">Lưu</button>
+                        <button type="button" class="cancel-btn" onclick="toggleEditForm()">Hủy</button>
+                    </form>
+                    <div >
+                        <h2>Lich Su Mua Hang</h2>
+                        <ul>
+                            <li>San pham A - Ngay: 15/11/2024</li>
+                            <li>San pham B - Ngay: 10/11/2024</li>
+                            <li>San pham C - Ngay: 01/11/2024</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <script>
+                function toggleEditForm() {
+                const form = document.getElementById('edit-form');
+                form.classList.toggle('hidden');
+            }
+            
+            function updateInfo() {
+                const name = document.getElementById('name').value;
+                const role = document.getElementById('role').value;
+                const sinhnhat = document.getElementById('sinhnhat').value;
+                const email = document.getElementById('email').value;
+                const phone = document.getElementById('phone').value;
+                const address = document.getElementById('address').value;
+                
+                document.getElementById('customer-name').textContent = name;
+                document.getElementById('proflie-name').textContent = name;
+                document.getElementById('customer-role').textContent = role;
+                document.getElementById('customer-sinhnhat').textContent = sinhnhat;
+                document.getElementById('customer-email').textContent = email;
+                document.getElementById('customer-phone').textContent = phone;
+                document.getElementById('customer-address').textContent = address;
+                
+                toggleEditForm();
+            }
+            </script>
+        </div>
+        <!-- Footer -->
+        <footer class="text-white py-4">
+            <div class="container">
+                <div class="row pb-4 footer__bar">
+                    <div class="col-md-12 d-flex justify-content-between fw-bold align-items-center footer__connect">
+                        <p>Thời gian mở cửa: <span>07h30 - 21h30 mỗi ngày</span></p>
+                        <div class="d-flex">
+                            <p>Kết nối với chúng tôi:</p>
+                            <a href="#" class="text-white ms-3">
+                                <i class="fab fa-facebook-square"></i>
+                            </a>
+                            <a href="#" class="text-white ms-3">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                        </div>
+                    </div>                    
+                </div>
+                <div class="row d-flex justify-content-center align-items-center footer__bar">
+                    <div class="col-md-4">
+                        <div class="logo">
+                            <a href="../index.html" class="d-flex align-items-center">
+                                <img src="../Images/LogoSach.png" alt="logo" width="100" height="57">
+                            </a>
+                        </div>                       
+                    </div>
+                    <div class="col-md-4">
+                        <div>
+                            <p class="mb-1">Hotline: 1900 0000</p>
+                            <p class="mb-1">Email: nhasach@gmail.com</p>
+                            <p>&copy; 2024 Công ty TNHH Nhà sách</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <ul class="list list-unstyled">
+                            <li class="list-item">
+                                <a href="#" class="text-white">Tuyển dụng</a>
+                            </li>
+                            <li class="list-item">
+                                <a href="#" class="text-white">Chính sách giao hàng</a>
+                            </li>
+                            <li class="list-item">
+                                <a href="#" class="text-white">Điều khoản và điều kiện</a>
+                            </li>
+                        </ul>
+                    </div>                    
+                </div>
+                <div class="row footer__bar">
+                    <div class="col-md-12">
+                        <ul class="list-unstyled">
+                            <li>Chi nhánh 1: 273 An Dương Vương, Phường 3, Quận 5, TP. Hồ Chí Minh</li>
+                            <li>Chi nhánh 2: 105 Bà Huyện Thanh Quan, Phường Võ Thị Sáu, Quận 3, TP. Hồ Chí Minh</li>
+                            <li>Chi nhánh 3: 4 Tôn Đức Thắng, Phường Bến Nghé, Quận 1, TP. Hồ Chí Minh</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Bootstrap JS -->
+        <script src="js/bootstrap.bundle.min.js"></script>
+
+        <script>
+            function adjustSidebar() {  // Hàm điều khiển sidebar khi cuộn
+                const sidebar = document.querySelector("aside");
+                if (window.innerWidth > 991) {
+                    sidebar.style.position = "sticky";
+                    sidebar.style.top = "20px";
+                } else {
+                    sidebar.style.position = "static";
+                }
+            }
+        
+            // Gọi hàm khi tải trang và khi thay đổi kích thước
+            window.addEventListener("load", adjustSidebar);
+            window.addEventListener("resize", adjustSidebar);
+        </script>
+    </body>
+</html>
