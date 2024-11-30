@@ -48,10 +48,13 @@
                     </form>
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a href="../dangky/dangnhap.html" class="nav-link fw-bold text-white">ĐĂNG NHẬP</a>
+                            <a href="../index.html" class="nav-link fw-bold text-white">ĐĂNG XUẤT</a>
                         </li>
                         <li class="nav-item">
-                            <a href="../dangky/dangky.html" class="nav-link fw-bold text-white">ĐĂNG KÝ</a>
+                            <div>
+                                <img  style="height: 25px; width: 25px;" src="../Images/nguoi_dung.jpg" alt="Ảnh 1" class="card-img-top">
+                                <a id="proflie-name" style="top: 20px; padding: 2px;">Nguyễn Văn A</a>
+                            </div>
                         </li>
                     </ul>
                     <a href="/giohang/giohang.html" class="nav-link text-white">
@@ -84,8 +87,7 @@
                 <div class="text-end d-flex justify-content-end mt-3">
                     <a href="../sanpham/sanpham.html" class="btn btn-secondary me-2"> <i
                             class="fas fa-arrow-left mr-2"></i> Tiếp tục mua sắm</a>
-                    <button data-bs-toggle="modal" data-bs-target="#login-check" class="btn btn-success">Thanh
-                        toán</button>
+                    <a href="thanhtoan.html" class="btn btn-success">Thanh toán</a>
                 </div>
             </section>
         </div>
@@ -101,6 +103,20 @@
                         <button class="btn"><a href="../sanpham/sanpham.html">Chọn sản phẩm ngay</a></button>
                     </div>
                 </div>
+            </div>
+            <div class="d-flex align-items-center">
+                <section class="cart-total mt-4">
+                    <div class="d-flex justify-content-between fw-bold">
+                        <span>Tổng cộng:</span>
+                        <span class="text-danger">0 đ</span>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="text-end d-flex justify-content-end mt-3">
+                        <a href="../sanpham/sanpham.html" class="btn btn-secondary me-2">Tiếp tục mua sắm</a>
+                        <a href="thanhtoan.html" class="btn btn-success">Thanh toán</a>
+                    </div>
+                </section>
             </div>
         </div>
     </div>
@@ -181,29 +197,12 @@
         </div>
     </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="login-check" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Thông báo </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Hãy đăng nhập để tiếp tục mua hàng</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn btn-success"
-                        onclick="window.location.href='../dangky/dangnhap.html'">Đăng nhập</a></button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Bootstrap JS -->
     <script src="../js/bootstrap.bundle.min.js"></script>
     <script src="../js/user-cart.js"></script>
 </body>
 
 </html>
+
+
+<!--Word-character,non-word,digit,non-digit,spacebar là gì-->
