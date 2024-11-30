@@ -70,7 +70,8 @@
         <div class="payment__content row">
             <div class="payment__content__left col-6 d-flex flex-column">
                 <h3>Thông tin giao hàng</h3>
-                <form class="payment--form d-flex flex-column gap-3" id="form-add" method="post" action="" onsubmit="return thanks()">
+                <form class="payment--form d-flex flex-column gap-3" id="form-add" method="post" action=""
+                    onsubmit="return thanks()">
                     <!-- Họ tên  -->
                     <div>
                         <label for="payment--receiver"><i class="fas fa-user"></i>Họ tên</label>
@@ -81,8 +82,8 @@
                     <!-- Điện thoại  -->
                     <div>
                         <label for="payment--phone"><i class="fas fa-phone-volume"></i>Điện thoại</label>
-                        <input type="tel" id="payment--phone" id="phone-user"
-                            pattern="(0[3|5|7|8|9])+([0-9]{8})\b" placeholder="Số điện thoại người nhận hàng">
+                        <input type="tel" id="payment--phone" id="phone-user" pattern="(0[3|5|7|8|9])+([0-9]{8})\b"
+                            placeholder="Số điện thoại người nhận hàng">
                         <span></span>
                     </div>
                     <!-- Địa chỉ  -->
@@ -103,7 +104,7 @@
                         <span></span>
                     </div>
                     <!-- Button trigger modal -->
-                    <button type="submit" class="payment--button" name="payment--button">
+                    <button class="payment--button" name="payment--button" data-bs-toggle="modal" data-bs-target="#successModal">
                         Đặt hàng
                     </button>
                 </form>
@@ -218,6 +219,22 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
                     <button type="button" class="btn btn-danger" id="confirmDeleteButton">Xóa</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Payment Success-->
+    <div class="modal fade" id="successModal" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white d-flex justify-content-center">
+                    <div class="icon__success">
+                        <p>&#10003</p>
+                    </div>
+                </div>
+                <div class="modal-body text-center">
+                    <h4 class="modal-title">Tuyệt vời!</h4>
+                    <p style="font-size: 20px;">Bạn đã đăng nhập thành công</p>
                 </div>
             </div>
         </div>
