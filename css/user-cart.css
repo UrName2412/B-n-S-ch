@@ -5,11 +5,6 @@
     border: 2px solid black !important;
 }
 
-.d-flex img {
-    width: 10%;
-    height: auto;
-    object-fit: cover;
-}
 .product_container{
     min-height: calc(80vh - 120px);
 }
@@ -47,7 +42,10 @@
 .noproduct button:hover{
     background-color: #214e77e4;
 }
-
+.item-detail img{
+    width: 20%;
+    object-fit: cover;
+}
 @media (max-width: 650px) {
     .d-flex img {
         width: 18vw;
