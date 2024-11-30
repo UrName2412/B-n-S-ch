@@ -70,44 +70,36 @@
         <div class="payment__content row">
             <div class="payment__content__left col-6 d-flex flex-column">
                 <h3>Thông tin giao hàng</h3>
-                <form class="payment--form d-flex flex-column gap-3" id="form-add" method="post" action=""
+                <form class="payment--form d-flex flex-column gap-3" id="form-add" method="post"
                     onsubmit="return thanks()">
-                    <!-- Họ tên  -->
+                    <!-- Họ tên -->
                     <div>
-                        <label for="payment--receiver"><i class="fas fa-user"></i>Họ tên</label>
-                        <input type="text" id="payment--receiver" id="name-user" required
-                            placeholder="Tên người nhận hàng">
-                        <span></span>
+                        <label for="name-user"><i class="fas fa-user"></i>Họ tên</label>
+                        <input type="text" id="name-user" name="name-user" placeholder="Tên người nhận hàng">
+                        <span class="form-message"></span>
                     </div>
-                    <!-- Điện thoại  -->
+                    <!-- Điện thoại -->
                     <div>
-                        <label for="payment--phone"><i class="fas fa-phone-volume"></i>Điện thoại</label>
-                        <input type="tel" id="payment--phone" id="phone-user" pattern="(0[3|5|7|8|9])+([0-9]{8})\b"
-                            placeholder="Số điện thoại người nhận hàng">
-                        <span></span>
+                        <label for="phone-user"><i class="fas fa-phone-volume"></i>Điện thoại</label>
+                        <input type="tel" id="phone-user" name="phone-user" placeholder="Số điện thoại người nhận hàng">
+                        <span class="form-message"></span>
                     </div>
-                    <!-- Địa chỉ  -->
+                    <!-- Địa chỉ -->
                     <div>
-                        <label for="payment--adr"><i class="far fa-address-card"></i></i>Địa chỉ</label>
-                        <input type="text" id="payment--adr" placeholder="Địa chỉ nhận hàng">
-                        <div class="default-info d-flex flex-row">
-                            <input type="checkbox" id="payment--defaul">
-                            <label for="payment--defaul">Sử dụng thông tin mặc định</label>
-                            <span></span>
-                        </div>
+                        <label for="payment--adr"><i class="far fa-address-card"></i>Địa chỉ</label>
+                        <input type="text" id="payment--adr" name="payment--adr" placeholder="Địa chỉ nhận hàng">
+                        <span class="form-message"></span>
                     </div>
-                    <!-- Ghi chú  -->
+                    <!-- Ghi chú -->
                     <div>
                         <label for="payment--note"><i class="far fa-comment"></i>Ghi chú</label>
-                        <textarea type="text" name="user-note" id="payment--note" rows="3"
+                        <textarea id="payment--note" name="payment--note" rows="3"
                             placeholder="Ghi yêu cầu của bạn tại đây."></textarea>
-                        <span></span>
+                        <span class="form-message"></span>
                     </div>
-                    <!-- Button trigger modal -->
-                    <button class="payment--button" name="payment--button" data-bs-toggle="modal" data-bs-target="#successModal">
-                        Đặt hàng
-                    </button>
+                    <button class="payment--button" type="submit">Đặt hàng</button>
                 </form>
+
             </div>
             <div class="payment__content__right col-5 ">
                 <h3>Phương thức thanh toán</h3>
@@ -204,25 +196,6 @@
             </div>
         </div>
     </footer>
-    <!--Modal-->
-    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Xác nhận xóa</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn btn-danger" id="confirmDeleteButton">Xóa</button>
-                </div>
-            </div>
-        </div>
-    </div>
     <!--Payment Success-->
     <div class="modal fade" id="successModal" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -243,16 +216,16 @@
     <script src="../js/bootstrap.bundle.min.js"></script>
     <script src="../js/thanhtoan.js"></script>
     <script>
+        // Kích hoạt Validator
         Validator({
             form: '#form-add',
-            errorSelector: '.form-message',
             rules: [
                 Validator.isRequired('#name-user'),
                 Validator.isRequired('#phone-user'),
-                Validator.isPhone('#phone-user')
-            ]
-        })
-
+                Validator.isPhone('#phone-user'),
+                Validator.isRequired('#payment--adr'),
+            ],
+        });
     </script>
 </body>
 
