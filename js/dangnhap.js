@@ -37,6 +37,10 @@ document.addEventListener("DOMContentLoaded", function() {
             showError(username, "Tên đăng nhập không được để trống");
             valid = false;
         }
+        else if(!/^[a-zA-Z0-9_ ]+$/.test(username.value)) {
+            showError(username, "Tên đăng nhập không được chứa các kí tự đặc biệt");
+            valid = false;
+        }
         else if(username.value.length < 5) {
             showError(username, "Tên đăng nhập phải có ít nhất 5 kí tự");
             valid = false;
