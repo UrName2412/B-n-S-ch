@@ -1,0 +1,75 @@
+[
+    {
+      "img": "./Images/anh2/tuduynguoc.jpg",
+      "name": "Tư duy ngược",
+      "author": "Nguyễn Anh Dũng",
+      "category": "Kỹ năng sống",
+      "publisher": "Dân Trí",
+      "price": 80000,
+      "link": "#"
+    },
+    {
+      "img": "./Images/anh2/stopoverthinking.jpg",
+      "name": "Stop Overthinking",
+      "author": "Chase Hill, Scott Sharp",
+      "category": "Tâm Lý",
+      "publisher": "Dân Trí",
+      "price": 85000,
+      "link": "#"
+    },
+    {
+      "img": "./Images/anh2/tuduymo.jpg",
+      "name": "Tư duy mở",
+      "author": "Nguyễn Anh Dũng",
+      "category": "Kỹ năng sống",
+      "publisher": "Dân Trí",
+      "price": 80000,
+      "link": "#"
+    },
+    {
+      "img": "./Images/anh2/conduongchangmayaidi.jpg",
+      "name": "Con đường chẳng mấy ai đi",
+      "author": "M. Scott Peck",
+      "category": "Kỹ năng sống",
+      "publisher": "Dân Trí",
+      "price": 90000,
+      "link": "#"
+    },
+    {
+      "img": "./Images/anh2/saochungtalaingu.jpg",
+      "name": "Sao chúng ta lại ngủ",
+      "author": "Matthew Walker",
+      "category": "Khoa học kĩ thuật",
+      "publisher": "Lao Động",
+      "price": 195000,
+      "link": "#"
+    },
+    {
+      "img": "./Images/anh2/muonkiepnhansinh.jpg",
+      "name": "Muôn kiếp nhân sinh",
+      "author": "Nguyên Phong",
+      "category": "Tôn giáo",
+      "publisher": "Tổng hợp TPHCM",
+      "price": 125000,
+      "link": "#"
+    },
+    {
+      "img": "./Images/anh2/cuoccachmangglucose.jpg",
+      "name": "Cuộc cách mạng Glucose",
+      "author": "Jessie Inchauspé",
+      "category": "Khoa học kĩ thuật",
+      "publisher": "Thanh Niên",
+      "price": 120000,
+      "link": "#"
+    },
+    {
+      "img": "./Images/anh2/100kinangsinhton.jpg",
+      "name": "100 kĩ năng sinh tồn",
+      "author": "Clint Emerson",
+      "category": "Kỹ năng sống",
+      "publisher": "Thanh Niên",
+      "price": 70000,
+      "link": "#"
+    }
+  ]
+  
