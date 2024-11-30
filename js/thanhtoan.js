@@ -14,62 +14,85 @@ const updateTotal = () => {
 loadFromLocalStorage();
 
 
+// Định nghĩa hàm Validator
 function Validator(options) {
+    const formElement = document.querySelector(options.form);
+    console.log(formElement);
 
-    function validate(inputElement, rule) {
-        var errorMessage = rule.test(inputElement.value);
-        var errorElement = inputElement.parentElement.querySelector(options.errorSelector);
-
-        if (errorMessage) {
-            errorElement.innerText = errorMessage;
-            inputElement.parentElement.classList.add('invalid');
-        } else {
-            errorElement.innerText = '';
-            inputElement.parentElement.classList.remove('invalid');
-        }
-    }
-
-    var formElement = document.querySelector(options.form);
     if (formElement) {
-        options.rules.forEach(function (rule) {
-
-            var inputElement = formElement.querySelector(rule.selector);
+        options.rules.forEach((rule) => {
+            const inputElement = formElement.querySelector(rule.selector);
+            const errorElement = inputElement.parentElement.querySelector('.form-message');
 
             if (inputElement) {
-                // trường hợp blur
-                inputElement.onblur = function () {
-                    validate(inputElement, rule);
-                }
-                // khi đang nhập
-                inputElement.oninput = function () {
-                    var errorElement = inputElement.parentElement.querySelector(options.errorSelector);
+                // Xử lý sự kiện blur (rời khỏi trường)
+                inputElement.onblur = () => {
+                    const errorMessage = rule.test(inputElement.value);
+                    if (errorMessage) {
+                        errorElement.innerText = errorMessage;
+                        inputElement.classList.add('is-invalid');
+                    } else {
+                        errorElement.innerText = '';
+                        inputElement.classList.remove('is-invalid');
+                    }
+                };
+
+                // Xử lý sự kiện khi nhập (clear lỗi)
+                inputElement.oninput = () => {
                     errorElement.innerText = '';
-                    inputElement.parentElement.classList.remove('invalid');
-                }
+                    inputElement.classList.remove('is-invalid');
+                };
             }
-
-        })
-
+        });
     }
 }
 
-
-// Khi có lỗi => message lỗi
-// hợp lệ => trả undefined
-Validator.isRequired = function (selector) {
+// Các quy tắc kiểm tra
+Validator.isRequired = (selector) => {
     return {
         selector: selector,
-        test: function (value) {
-            return value.trim() ? undefined : 'Vui lòng nhập trường này';
-        }
+        test: (value) => (value.trim() ? undefined : 'Vui lòng nhập trường này!'),
     };
-}
-Validator.isPhone = function (selector) {
+};
+
+Validator.isPhone = (selector) => {
     return {
         selector: selector,
-        test: function (value) {
-            var regex = /(03|05|07|08|09)+([0-9]{8})\b/;
-            return regex.test(value) ? undefined : 'Trường này phải là số điện thoại'
-        }
+        test: (value) => {
+            const phoneRegex = /^(0[3|5|7|8|9])[0-9]{8}$/;
+            return phoneRegex.test(value) ? undefined : 'Số điện thoại không hợp lệ!';
+        },
+    };
+};
+
+function thanks() {
+    const formElement = document.querySelector('#form-add');
+    const nameUser = formElement.querySelector("#name-user").value.trim();
+    const phoneUser = formElement.querySelector("#phone-user").value.trim();
+    const paymentAdr = formElement.querySelector("#payment--adr").value.trim();
+
+    const phoneRegex = /^(0[3|5|7|8|9])[0-9]{8}$/;
+
+    // Kiểm tra thông tin nhập vào
+    if (!nameUser) {
+        alert("Vui lòng nhập họ tên!");
+        return false;
     }
+    if (!phoneUser || !phoneRegex.test(phoneUser)) {
+        alert("Số điện thoại không hợp lệ!");
+        return false;
+    }
+    if (!paymentAdr) {
+        alert("Vui lòng nhập địa chỉ!");
+        return false;
+    }
+
+    const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+    successModal.show();
+
+    localStorage.clear(); // Xóa giỏ hàng
+    setTimeout(() => {
+        window.location.href = "../index.html";
+    }, 3000); // Chờ 3 giây
+    return false;
 }
