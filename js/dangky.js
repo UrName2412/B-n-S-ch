@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const form = document.getElementById("signupform");
     const username = document.getElementById("username");
     const addr = document.getElementById("address");
-    const mail = document.getElementById("mail");
+    const phone = document.getElementById("phone");
     const passwd = document.getElementById("pass");
     const passwdconf = document.getElementById("pass-confirm");
     const terms = document.getElementById("terms");
@@ -65,17 +65,17 @@ document.addEventListener("DOMContentLoaded", function() {
             hideError(addr);
         }
 
-        // Kiểm tra email
-        if(mail.value.trim() === "") {
-            showError(mail, "Email không được để trống");
+        // Kiểm tra số điện thoại
+        if(phone.value.trim() === "") {
+            showError(phone, "Số điện thoại không được để trống");
             valid = false;
         }
-        else if(!/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(mail.value)) {
-            showError(mail, "Email phải tuân theo cú pháp tối thiểu 'a@a.aa'");
+        else if(!/(03|05|07|08|09)+(\d{8})\b/.test(phone.value)) {
+            showError(phone, "Số điện thoại phải bao gồm 10 số với các đầu số từ Việt Nam");
             valid = false;
         }
         else {
-            hideError(mail);
+            hideError(phone);
         }
 
         // Kiểm tra mật khẩu
