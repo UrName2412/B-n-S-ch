@@ -88,7 +88,7 @@
                 <div class="text-end d-flex justify-content-end mt-3">
                     <a href="../sanpham/sanpham.html" class="btn btn-secondary me-2"> <i
                             class="fas fa-arrow-left mr-2"></i> Tiếp tục mua sắm</a>
-                    <a href="thanhtoan.html" class="btn btn-success">Thanh toán</a>
+                    <button id="thanhtoan" class="btn btn-success" onclick="checkCart()">Thanh toán</button>
                 </div>
             </section>
         </div>
@@ -165,7 +165,7 @@
         </div>
     </footer>
     <!--Modal-->
-    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" 
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -183,13 +183,27 @@
             </div>
         </div>
     </div>
-
+    <!-- Modal -->
+    <div class="modal fade" id="empty" tabindex="-1" 
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Giỏ hàng trống</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Giỏ hàng của bạn hiện đang trống
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="window.location.href = '../sanpham/sanpham.html'">Mua sắm ngay</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Bootstrap JS -->
     <script src="../js/bootstrap.bundle.min.js"></script>
     <script src="../js/user-cart.js"></script>
 </body>
 
 </html>
-
-
-<!--Word-character,non-word,digit,non-digit,spacebar là gì-->

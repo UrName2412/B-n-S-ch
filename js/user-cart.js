@@ -5,7 +5,6 @@ const listcartsProductHTML = document.getElementById('cart-items');
 const confirmDeleteModal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
 const confirmDeleteButton = document.getElementById("confirmDeleteButton");
 const emptyListMessage = document.getElementById("empty-cart-message");
-
 // Load cart from localStorage
 const loadFromLocalStorage = () => {
     const storedCart = localStorage.getItem('cart');
@@ -119,6 +118,14 @@ const changeQuantity = (productName, newQuantity) => {
     }
 };
 
+const checkCart = () => {
+    if(productCart.length === 0){
+        const emptyCart = new bootstrap.Modal(document.getElementById('empty'))
+        emptyCart.show();
+    }else{
+        window.location.href = "thanhtoan.html";
+    }
+}
 
 // Initialize the cart on page load
 loadFromLocalStorage();

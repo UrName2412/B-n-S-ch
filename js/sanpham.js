@@ -2,7 +2,8 @@ let cart = [];
 let iconCartSpan = document.querySelector(".cart-icon span");
 
 const listProductHTML = document.querySelectorAll('.btn');
-
+const notification = document.getElementById("notification");
+console.log(notification)
 // Add event listeners for all add-to-cart buttons
 listProductHTML.forEach(addButton => {
     addButton.addEventListener('click', event => {
@@ -10,6 +11,7 @@ listProductHTML.forEach(addButton => {
         const productTitle = card.querySelector('.card-title').textContent;
         const productPrice = card.querySelector('.card-text.text-danger').textContent;
         const imageUrl = card.querySelector('.card-img-top').src;
+        addButton.addEventListener("click", showNotification);
         addToCart(productTitle, productPrice, imageUrl);
     });
 });
@@ -74,6 +76,19 @@ const loadFromLocalStorage = () => {
     } else {
         iconCartSpan.innerText = '99+';
     }
+};
+
+const showNotification = () => {
+    notification.classList.remove("d-none");
+    notification.classList.add("show");
+
+    // Để thông báo tự động biến mất sau 3 giây (3000 milliseconds)
+    setTimeout(() => {
+        notification.classList.remove("show");
+        setTimeout(() => {
+            notification.classList.add("d-none");
+        }, 500); // Thời gian trễ để hiệu ứng mờ dần hoàn thành
+    }, 3000);
 };
 
 // Initialize the cart on page load
