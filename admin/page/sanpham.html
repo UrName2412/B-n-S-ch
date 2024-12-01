@@ -3641,7 +3641,7 @@
     </div>
     <div id="customAlert" class="custom-alert">
         <div class="alert-content">
-            <p id="alertMessage">Đã xóa.</p>
+            <p id="alertMessage"></p>
             <button id="alertCloseBtn">OK</button>
         </div>
     </div>
@@ -3655,16 +3655,17 @@
     <script src="../asset/js/modal.js"></script>
     
     <script>
+        messageRequired = 'Vui lòng nhập thông tin.';
         Validator({
             form: '#form-add',
             errorSelector: '.form-message',
             rules: [
-                Validator.isRequired('#id-product'),
-                Validator.isRequired('#name-product'),
-                Validator.isRequired('#author-product'),
-                Validator.isRequired('#category-product'),
-                Validator.isRequired('#nxb-product'),
-                Validator.isRequired('#total-product'),
+                Validator.isRequired('#id-product',messageRequired),
+                Validator.isRequired('#name-product',messageRequired),
+                Validator.isRequired('#author-product',messageRequired),
+                Validator.isRequired('#category-product',messageRequired),
+                Validator.isRequired('#nxb-product',messageRequired),
+                Validator.isRequired('#total-product',messageRequired),
             ]
         })
     </script>

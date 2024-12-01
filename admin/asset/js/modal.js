@@ -1,9 +1,10 @@
-const deleteButtons = document.querySelectorAll(".tool-menu-fix-delete .row-element .delete");
+const deleteButtons = document.querySelectorAll('.tool-menu-fix-delete .row-element .delete');
 const modal = document.querySelector('.modal');
 const behindMenuModal = document.querySelector('.behindMenuModal');
 const behindMenuAlert = document.querySelector('.behindMenuAlert');
 const cancelButton = document.querySelector('.modal .choiceModal .cancel');
 const confirmButton = document.querySelector('.modal .choiceModal .confirm');
+const messageAlert = document.getElementById('alertMessage');
 
 let elementToDelete = null;
 
@@ -31,9 +32,10 @@ deleteButtons.forEach((deleteButton) => {
 
                     //Alert
                     behindMenuAlert.style.display = 'block';
-                    const customAlert = document.getElementById('customAlert');
+                    let customAlert = document.getElementById('customAlert');
                     customAlert.style.display = 'block';
-                    const closeButton = document.getElementById('alertCloseBtn');
+                    messageAlert.innerText = 'Đã xóa thành công.';
+                    let closeButton = document.getElementById('alertCloseBtn');
                     closeButton.addEventListener('click', () => {
                         customAlert.style.display = 'none';
                         behindMenuAlert.style.display = 'none';
@@ -54,7 +56,6 @@ behindMenuAlert.addEventListener('click', () => {
     behindMenuAlert.style.display = 'none';
     customAlert.style.display = 'none';
 })
-
 
 
 

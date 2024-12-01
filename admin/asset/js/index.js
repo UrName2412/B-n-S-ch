@@ -58,11 +58,6 @@ closeBtn_tool_menu_fix_delete.addEventListener('click', () => {
     behindMenuFix.style.display = 'none';
 })
 
-// submitAddbtn.addEventListener('click', () => {
-//     alert('Đã thêm.');
-// })
-
-
 
 behindMenu.addEventListener('click', () => {
     toolMenu.style.display = 'none';

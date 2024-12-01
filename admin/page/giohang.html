@@ -1103,7 +1103,7 @@
     </div>
     <div id="customAlert" class="custom-alert">
         <div class="alert-content">
-            <p id="alertMessage">Đã xóa.</p>
+            <p id="alertMessage"></p>
             <button id="alertCloseBtn">OK</button>
         </div>
     </div>
@@ -1117,17 +1117,21 @@
 
 
     <script>
+        messageRequired = 'Vui lòng nhập thông tin.';
+        messagePhone = 'Vui lòng nhập đúng số điện thoại';
         Validator({
             form: '#form-add',
             errorSelector: '.form-message',
             rules: [
-                Validator.isRequired('#id-cart'),
-                Validator.isRequired('#name-cart'),
-                Validator.isRequired('#address-cart'),
-                Validator.isRequired('#quantity-cart'),
-                Validator.isRequired('#total-cart'),
-                Validator.isRequired('#status-cart'),
-                Validator.isPhone('#phone-cart')
+                Validator.isRequired('#id-cart',messageRequired),
+                Validator.isRequired('#name-cart',messageRequired),
+                Validator.isRequired('#address-cart',messageRequired),
+                Validator.isRequired('#quantity-cart',messageRequired),
+                Validator.isRequired('#total-cart',messageRequired),
+                Validator.isRequired('#status-cart',messageRequired),
+                Validator.isPhone('#phone-cart',messagePhone),
+                Validator.minLength('#address-cart',6),
+                Validator.minLength('#name-cart',6)
             ]
         })
 

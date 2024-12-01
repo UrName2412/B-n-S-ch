@@ -1060,7 +1060,7 @@
     </div>
     <div id="customAlert" class="custom-alert">
         <div class="alert-content">
-            <p id="alertMessage">Đã xóa.</p>
+            <p id="alertMessage"></p>
             <button id="alertCloseBtn">OK</button>
         </div>
     </div>
@@ -1075,17 +1075,18 @@
 
 
     <script>
+        messageRequired = 'Vui lòng nhập thông tin.';
+        messageEmail = 'Vui lòng nhập đúng email.';
+        messagePhone = 'Vui lòng nhập đúng số điện thoại';
         Validator({
             form: '#form-add',
             errorSelector: '.form-message',
             rules: [
-                Validator.isRequired('#id-user'),
-                Validator.isRequired('#name-user'),
-                Validator.isRequired('#phone-user'),
-
-                Validator.isEmail('#email-user'),
-
-                Validator.isPhone('#phone-user')
+                Validator.isRequired('#id-user',messageRequired),
+                Validator.isRequired('#name-user',messageRequired),
+                Validator.isEmail('#email-user',messageEmail),
+                Validator.isPhone('#phone-user',messagePhone),
+                Validator.minLength('#name-user',6),
             ]
         })
 
