@@ -67,32 +67,48 @@ Validator.isPhone = (selector) => {
 
 function thanks() {
     const formElement = document.querySelector('#form-add');
-    const nameUser = formElement.querySelector("#name-user").value.trim();
-    const phoneUser = formElement.querySelector("#phone-user").value.trim();
-    const paymentAdr = formElement.querySelector("#payment--adr").value.trim();
+    const nameUser = formElement.querySelector("#name-user");
+    const phoneUser = formElement.querySelector("#phone-user");
+    const paymentAdr = formElement.querySelector("#payment--adr");
 
+    let isValid = true;
+
+    // Kiểm tra họ tên
+    if (!nameUser.value.trim()) {
+        const errorElement = nameUser.parentElement.querySelector('.form-message');
+        errorElement.innerText = "Vui lòng nhập họ tên!";
+        nameUser.classList.add('is-invalid');
+        isValid = false;
+    }
+
+    // Kiểm tra số điện thoại
     const phoneRegex = /^(0[3|5|7|8|9])[0-9]{8}$/;
-
-    // Kiểm tra thông tin nhập vào
-    if (!nameUser) {
-        alert("Vui lòng nhập họ tên!");
-        return false;
-    }
-    if (!phoneUser || !phoneRegex.test(phoneUser)) {
-        alert("Số điện thoại không hợp lệ!");
-        return false;
-    }
-    if (!paymentAdr) {
-        alert("Vui lòng nhập địa chỉ!");
-        return false;
+    if (!phoneUser.value.trim() || !phoneRegex.test(phoneUser.value)) {
+        const errorElement = phoneUser.parentElement.querySelector('.form-message');
+        errorElement.innerText = "Số điện thoại không hợp lệ!";
+        phoneUser.classList.add('is-invalid');
+        isValid = false;
     }
 
-    const successModal = new bootstrap.Modal(document.getElementById('successModal'));
-    successModal.show();
+    // Kiểm tra địa chỉ
+    if (!paymentAdr.value.trim()) {
+        const errorElement = paymentAdr.parentElement.querySelector('.form-message');
+        errorElement.innerText = "Vui lòng nhập địa chỉ!";
+        paymentAdr.classList.add('is-invalid');
+        isValid = false;
+    }
 
-    localStorage.clear(); // Xóa giỏ hàng
-    setTimeout(() => {
-        window.location.href = "../index.html";
-    }, 3000); // Chờ 3 giây
-    return false;
+    // Nếu tất cả trường hợp hợp lệ
+    if (isValid) {
+        const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+        successModal.show();
+
+        localStorage.clear(); // Xóa giỏ hàng
+        setTimeout(() => {
+            window.location.href = "../index.html";
+        }, 3000); // Chờ 3 giây
+    }
+
+    return false; // Ngăn submit form mặc định
 }
+
