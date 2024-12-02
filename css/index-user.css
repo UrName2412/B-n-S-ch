@@ -230,9 +230,6 @@ footer ul li a:active {
 }
 
 /* Cách để hiển thị một slide */
-.show {
-    display: flex;
-}
 .f-grid {
     position: relative;
     display: flex;
