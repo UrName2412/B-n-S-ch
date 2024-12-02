@@ -265,3 +265,34 @@ footer ul li a:active {
 #backToTop:hover {
     background-color: #28527a;
 }
+#avatar{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: white;
+}
+.nav-item{
+    display: flex;
+    align-items: center;
+}
+@media (max-width: 768px) {
+    #profile-name{
+        display: block!important;
+    }
+    #avatar{
+        margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 430px) or (max-width: 693px) {
+    .benner img,.slider {
+        display: none;
+    }
+    .nav-item div{
+        display: flex;
+        align-items: center;
+    }
+}
