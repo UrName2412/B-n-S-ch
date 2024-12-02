@@ -252,3 +252,19 @@ footer ul li a:active {
     height: 45vh;
     width: 85%;
 }
+
+#backToTop {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #336799;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+}
+
+#backToTop:hover {
+    background-color: #28527a;
+}
