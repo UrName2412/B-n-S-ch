@@ -221,6 +221,10 @@ footer ul li a:active {
     animation: fadeEffect 90s ease-in-out;
 }
 
+#cartModal{
+    animation: fadeEffect 0.3s ease-in-out;
+}
+
 /* Keyframes cho hiệu ứng fade */
 @keyframes fadeEffect {
     0% { opacity: 0; }

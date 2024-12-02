@@ -9,6 +9,7 @@ listProductHTML.forEach(addButton => {
         const productTitle = card.querySelector('.card-title').textContent;
         const productPrice = card.querySelector('.card-text.text-danger').textContent;
         const imageUrl = card.querySelector('.card-img-top').src;
+        console.log(imageUrl);
         const notification = new bootstrap.Modal(document.getElementById('cartModal'));
         notification.show();
         addToCart(productTitle, productPrice, imageUrl);
