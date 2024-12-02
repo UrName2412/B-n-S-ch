@@ -152,3 +152,25 @@ footer ul li a:active {
 .notification.show {
     opacity: 1;
 }
+
+#avatar{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: white;
+}
+.nav-item{
+    display: flex;
+    align-items: center;
+}
+@media (max-width: 768px) {
+    #profile-name{
+        display: block!important;
+    }
+    #avatar{
+        margin-bottom: 10px;
+    }
+}

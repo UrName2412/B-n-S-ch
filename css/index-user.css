@@ -278,6 +278,24 @@ footer ul li a:active {
     display: flex;
     align-items: center;
 }
+
+.cart-icon{
+    position: relative;
+}
+
+.cart-icon span{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    background-color: red;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    top: 50%;
+    left:20px;
+}
+
 @media (max-width: 768px) {
     #profile-name{
         display: block!important;
