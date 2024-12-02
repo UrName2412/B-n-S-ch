@@ -78,18 +78,5 @@ const loadFromLocalStorage = () => {
     }
 };
 
-const showNotification = () => {
-    notification.classList.remove("d-none");
-    notification.classList.add("show");
-
-    // Để thông báo tự động biến mất sau 3 giây (3000 milliseconds)
-    setTimeout(() => {
-        notification.classList.remove("show");
-        setTimeout(() => {
-            notification.classList.add("d-none");
-        }, 500); // Thời gian trễ để hiệu ứng mờ dần hoàn thành
-    }, 3000);
-};
-
 // Initialize the cart on page load
 loadFromLocalStorage();

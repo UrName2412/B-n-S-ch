@@ -108,7 +108,7 @@
                                         <h5 class="card-title">Harry Potter Và Hòn Đá Phù Thủy</h5>
                                         <p class="card-text">Tiểu thuyết</p>
                                         <p class="card-text text-danger fw-bold">120.000 đ</p>
-                                        <button class="btn" style="background-color: #336799; color: #ffffff;">Thêm
+                                        <button class="btn" data-bs-toggle="modal" data-bs-target="#cartModal" style="background-color: #336799; color: #ffffff;">Thêm
                                             vào giỏ hàng</button>
                                     </div>
                                 </div>
@@ -122,7 +122,7 @@
                                         <h5 class="card-title">Tư Duy Ngược</h5>
                                         <p class="card-text">Kỹ năng sống</p>
                                         <p class="card-text text-danger fw-bold">80.000 đ</p>
-                                        <button class="btn" style="background-color: #336799; color: #ffffff;">Thêm
+                                        <button class="btn" data-bs-toggle="modal" data-bs-target="#cartModal" style="background-color: #336799; color: #ffffff;">Thêm
                                             vào giỏ hàng</button>
                                     </div>
                                 </div>
@@ -136,7 +136,7 @@
                                         <h5 class="card-title">Bốn Mùa Cuộc Sống</h5>
                                         <p class="card-text">Truyền Cảm Hứng</p>
                                         <p class="card-text text-danger fw-bold">50.000 đ</p>
-                                        <button class="btn" style="background-color: #336799; color: #ffffff;">Thêm
+                                        <button class="btn" data-bs-toggle="modal" data-bs-target="#cartModal" style="background-color: #336799; color: #ffffff;">Thêm
                                             vào giỏ hàng</button>
                                     </div>
                                 </div>
@@ -150,7 +150,7 @@
                                         <h5 class="card-title">Cánh Đồng Bất Tận</h5>
                                         <p class="card-text">Văn học</p>
                                         <p class="card-text text-danger fw-bold">60.000 đ</p>
-                                        <button class="btn" style="background-color: #336799; color: #ffffff;">Thêm
+                                        <button class="btn" data-bs-toggle="modal" data-bs-target="#cartModal" style="background-color: #336799; color: #ffffff;">Thêm
                                             vào giỏ hàng</button>
                                     </div>
                                 </div>
@@ -165,7 +165,7 @@
                                         <h5 class="card-title">Khi Hơi Thở Hóa Thinh Không</h5>
                                         <p class="card-text">Hồi Ký</p>
                                         <p class="card-text text-danger fw-bold">75.000 đ</p>
-                                        <button class="btn" style="background-color: #336799; color: #ffffff;">Thêm
+                                        <button class="btn" data-bs-toggle="modal" data-bs-target="#cartModal" style="background-color: #336799; color: #ffffff;">Thêm
                                             vào giỏ hàng</button>
                                     </div>
                                 </div>
@@ -179,7 +179,7 @@
                                         <h5 class="card-title">Sách Của Sự Tĩnh Lặng</h5>
                                         <p class="card-text">Kỹ năng sống</p>
                                         <p class="card-text text-danger fw-bold">90.000 đ</p>
-                                        <button class="btn" style="background-color: #336799; color: #ffffff;">Thêm
+                                        <button class="btn" data-bs-toggle="modal" data-bs-target="#cartModal" style="background-color: #336799; color: #ffffff;">Thêm
                                             vào giỏ hàng</button>
                                     </div>
                                 </div>
@@ -193,7 +193,7 @@
                                         <h5 class="card-title">Stop Overthinking</h5>
                                         <p class="card-text">Tâm lý</p>
                                         <p class="card-text text-danger fw-bold">85.000 đ</p>
-                                        <button class="btn" style="background-color: #336799; color: #ffffff;">Thêm
+                                        <button class="btn" data-bs-toggle="modal" data-bs-target="#cartModal" style="background-color: #336799; color: #ffffff;">Thêm
                                             vào giỏ hàng</button>
                                     </div>
                                 </div>
@@ -207,7 +207,7 @@
                                         <h5 class="card-title">Con Chim Xanh Biếc Bay Về</h5>
                                         <p class="card-text">Văn học</p>
                                         <p class="card-text text-danger fw-bold">100.000 đ</p>
-                                        <button class="btn" style="background-color: #336799; color: #ffffff;">Thêm
+                                        <button class="btn" data-bs-toggle="modal" data-bs-target="#cartModal" style="background-color: #336799; color: #ffffff;">Thêm
                                             vào giỏ hàng</button>
                                     </div>
                                 </div>
@@ -221,7 +221,7 @@
                                         <h5 class="card-title">Bài Giảng Cuối Cùng</h5>
                                         <p class="card-text">Truyền cảm hứng</p>
                                         <p class="card-text text-danger fw-bold">70.000 đ</p>
-                                        <button class="btn" style="background-color: #336799; color: #ffffff;">Thêm
+                                        <button class="btn" data-bs-toggle="modal" data-bs-target="#cartModal" style="background-color: #336799; color: #ffffff;">Thêm
                                             vào giỏ hàng</button>
                                     </div>
                                 </div>
@@ -314,10 +314,17 @@
     </footer>
 
     <a href="#top" id="backToTop">&#8593;</a>
-    <!--Modal-->
-    <div id="notification" class="notification d-none">
-        Đã thêm vào giỏ hàng!
+
+    <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm position-absolute" style="top: 10%; left: 10%;">
+        <div class="modal-content bg-success text-white">
+            <div class="modal-body text-center">
+                <p class="m-0">Đã thêm vào giỏ hàng!</p>
+            </div>
+        </div>
     </div>
+</div>
+
     <!-- Bootstrap JS -->
     <script src="../js/bootstrap.bundle.min.js"></script>
     <script src="../js/sanpham.js"></script>
