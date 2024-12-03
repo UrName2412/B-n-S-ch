@@ -99,30 +99,30 @@ headClosebtnMobile.addEventListener('click', () => {
 
 
 
-document.querySelectorAll('.container-content .grid-row').forEach(row => {
-    row.addEventListener('click', function () {
-        const spans = this.querySelectorAll('span');
-        const isExpanded = this.classList.contains('expanded');
-        if (isExpanded) {
-            spans.forEach((span, index) => {
-                if (index > 1) {
-                    span.style.display = 'none';
-                    span.style.borderBottom = 'none';
-                }
-                else {
-                    span.style.borderBottom = 'none';
-                }
-            });
-            this.classList.remove('expanded');
-        } else {
-            spans.forEach(span => {
-                span.style.display = 'inline-block';
-                span.style.borderBottom = '1px solid var(--color-dark)';
-            });
-            this.classList.add('expanded');
-        }
-    });
-});
+// document.querySelectorAll('.container-content .grid-row').forEach(row => {
+//     row.addEventListener('click', function () {
+//         const spans = this.querySelectorAll('span');
+//         const isExpanded = this.classList.contains('expanded');
+//         if (isExpanded) {
+//             spans.forEach((span, index) => {
+//                 if (index > 1) {
+//                     span.style.display = 'none';
+//                     span.style.borderBottom = 'none';
+//                 }
+//                 else {
+//                     span.style.borderBottom = 'none';
+//                 }
+//             });
+//             this.classList.remove('expanded');
+//         } else {
+//             spans.forEach(span => {
+//                 span.style.display = 'inline-block';
+//                 span.style.borderBottom = '1px solid var(--color-dark)';
+//             });
+//             this.classList.add('expanded');
+//         }
+//     });
+// });
 
 
 document.querySelectorAll('.container-content .grid-row-product').forEach(row => {
@@ -176,40 +176,31 @@ document.querySelectorAll('.container-content .grid-row-cart').forEach(row => {
 });
 
 
-// Ngăn sự kiện khi chỉnh sửa input
-document.querySelectorAll('input').forEach(input => {
-    input.addEventListener('click', function (event) {
-        event.stopPropagation(); // Ngăn sự kiện lan ra hàng cha
-    });
-});
+// // Ngăn sự kiện khi chỉnh sửa input
+// document.querySelectorAll('input').forEach(input => {
+//     input.addEventListener('click', function (event) {
+//         event.stopPropagation(); // Ngăn sự kiện lan ra hàng cha
+//     });
+// });
 
 
-document.querySelectorAll('.fix').forEach(button => {
-    button.addEventListener('click', function (event) {
-        event.stopPropagation(); // Ngăn sự kiện lan ra hàng cha
-        const input = this.previousElementSibling;
-        if (input && input.disabled) {
-            input.disabled = false;
-            input.focus();
-        }
-    });
-});
-document.querySelectorAll('.fix-select').forEach(button => {
-    button.addEventListener('click', function (event) {
-        event.stopPropagation(); // Ngăn sự kiện lan ra hàng cha
-        const input = this.previousElementSibling;
-        if (input && input.disabled) {
-            input.disabled = false;
-            input.focus();
-        }
-    });
-});
 
-document.querySelectorAll('select').forEach(input => {
-    input.addEventListener('click', function (event) {
-        event.stopPropagation(); // Ngăn sự kiện lan ra hàng cha
-    });
-});
+// document.querySelectorAll('.fix-select').forEach(button => {
+//     button.addEventListener('click', function (event) {
+//         event.stopPropagation(); // Ngăn sự kiện lan ra hàng cha
+//         const input = this.previousElementSibling;
+//         if (input && input.disabled) {
+//             input.disabled = false;
+//             input.focus();
+//         }
+//     });
+// });
+
+// document.querySelectorAll('select').forEach(input => {
+//     input.addEventListener('click', function (event) {
+//         event.stopPropagation(); // Ngăn sự kiện lan ra hàng cha
+//     });
+// });
 
 
 
@@ -217,18 +208,18 @@ document.querySelectorAll('select').forEach(input => {
 
 var fixButton = document.querySelectorAll('.tool-menu-fix-delete .row-element .fix');
 var inputElement = document.querySelectorAll('.tool-menu-fix-delete .row-element input');
-for (let i = 0; i < fixButton.length; i++) {
-    fixButton[i].addEventListener('click', function () {
-        if (inputElement[i].disabled) {
-            inputElement[i].disabled = false;
-            inputElement[i].focus();
-            fixButton[i].innerHTML = '<img src="../image/check.png" alt="build" class="icon">';
-        } else {
-            inputElement[i].disabled = true;
-            fixButton[i].innerHTML = '<img src="../image/build.png" alt="build" class="icon">';
-        }
-    });
-};
+// for (let i = 0; i < fixButton.length; i++) {
+//     fixButton[i].addEventListener('click', function () {
+//         if (inputElement[i].disabled) {
+//             inputElement[i].disabled = false;
+//             inputElement[i].focus();
+//             fixButton[i].innerHTML = '<img src="../image/check.png" alt="build" class="icon">';
+//         } else {
+//             inputElement[i].disabled = true;
+//             fixButton[i].innerHTML = '<img src="../image/build.png" alt="build" class="icon">';
+//         }
+//     });
+// };
 
 var fixButtonSelect = document.querySelectorAll('.tool-menu-fix-delete .row-element .fix-select');
 var selectElement = document.querySelectorAll('.tool-menu-fix-delete .row-element select');
@@ -246,16 +237,16 @@ for (let i = 0; i < fixButtonSelect.length; i++) {
 };
 
 //Đặt disabled khi click Close
-if (closeBtn_tool_menu_fix_delete) {
-    closeBtn_tool_menu_fix_delete.addEventListener('click', function () {
-        inputElement.forEach(function (input) {
-            input.disabled = true;
-        });
-        fixButton.forEach(function (button) {
-            button.innerHTML = '<img src="../image/build.png" alt="build" class="icon">';
-        });
-    });
-}
+// if (closeBtn_tool_menu_fix_delete) {
+//     closeBtn_tool_menu_fix_delete.addEventListener('click', function () {
+//         inputElement.forEach(function (input) {
+//             input.disabled = true;
+//         });
+//         fixButton.forEach(function (button) {
+//             button.innerHTML = '<img src="../image/build.png" alt="build" class="icon">';
+//         });
+//     });
+// }
 
 //behindMenu của Fix Menu
 if (behindMenuFix) {
@@ -266,12 +257,12 @@ if (behindMenuFix) {
         fixMenu.style.display = 'none';
         deleteMenu.style.display = 'none';
         behindMenuFix.style.display = 'none';
-        inputElement.forEach(function (input) {
-            input.disabled = true;
-        });
-        fixButton.forEach(function (button) {
-            button.innerHTML = '<img src="../image/build.png" alt="build" class="icon">';
-        });
+        // inputElement.forEach(function (input) {
+        //     input.disabled = true;
+        // });
+        // fixButton.forEach(function (button) {
+        //     button.innerHTML = '<img src="../image/build.png" alt="build" class="icon">';
+        // });
     });
 }
 
@@ -289,26 +280,26 @@ document.querySelectorAll('.delete').forEach(button => {
     });
 });
 
-document.querySelectorAll('.tool-menu-fix-delete .grid-row').forEach(row => {
-    row.addEventListener('click', function (event) {
-        const rowElements = this.querySelectorAll('.row-element');
-        const isExpanded = this.classList.contains('expanded');
-        event.stopPropagation();
-        if (isExpanded) {
-            rowElements.forEach((element, index) => {
-                if (index > 0) {
-                    element.style.display = 'none';
-                }
-            });
-            this.classList.remove('expanded');
-        } else {
-            rowElements.forEach(element => {
-                element.style.display = 'grid';
-            });
-            this.classList.add('expanded');
-        }
-    });
-});
+// document.querySelectorAll('.tool-menu-fix-delete .grid-row').forEach(row => {
+//     row.addEventListener('click', function (event) {
+//         const rowElements = this.querySelectorAll('.row-element');
+//         const isExpanded = this.classList.contains('expanded');
+//         event.stopPropagation();
+//         if (isExpanded) {
+//             rowElements.forEach((element, index) => {
+//                 if (index > 0) {
+//                     element.style.display = 'none';
+//                 }
+//             });
+//             this.classList.remove('expanded');
+//         } else {
+//             rowElements.forEach(element => {
+//                 element.style.display = 'grid';
+//             });
+//             this.classList.add('expanded');
+//         }
+//     });
+// });
 
 
 
