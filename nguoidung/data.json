@@ -1,6 +1,6 @@
 [
     {
-      "img": "./Images/anh2/tuduynguoc.jpg",
+      "img": "./Images/tuduynguoc.jpg",
       "name": "Tư duy ngược",
       "author": "Nguyễn Anh Dũng",
       "category": "Kỹ năng sống",
@@ -9,7 +9,7 @@
       "link": "#"
     },
     {
-      "img": "./Images/anh2/stopoverthinking.jpg",
+      "img": "./Images/stopoverthinking.jpg",
       "name": "Stop Overthinking",
       "author": "Chase Hill, Scott Sharp",
       "category": "Tâm Lý",
@@ -18,7 +18,7 @@
       "link": "#"
     },
     {
-      "img": "./Images/anh2/tuduymo.jpg",
+      "img": "./Images/tuduymo.jpg",
       "name": "Tư duy mở",
       "author": "Nguyễn Anh Dũng",
       "category": "Kỹ năng sống",
@@ -27,7 +27,7 @@
       "link": "#"
     },
     {
-      "img": "./Images/anh2/conduongchangmayaidi.jpg",
+      "img": "./Images/conduongchangmayaidi.jpg",
       "name": "Con đường chẳng mấy ai đi",
       "author": "M. Scott Peck",
       "category": "Kỹ năng sống",
@@ -36,7 +36,7 @@
       "link": "#"
     },
     {
-      "img": "./Images/anh2/saochungtalaingu.jpg",
+      "img": "./Images/saochungtalaingu.jpg",
       "name": "Sao chúng ta lại ngủ",
       "author": "Matthew Walker",
       "category": "Khoa học kĩ thuật",
@@ -45,7 +45,7 @@
       "link": "#"
     },
     {
-      "img": "./Images/anh2/muonkiepnhansinh.jpg",
+      "img": "./Images/muonkiepnhansinh.jpg",
       "name": "Muôn kiếp nhân sinh",
       "author": "Nguyên Phong",
       "category": "Tôn giáo",
@@ -54,7 +54,7 @@
       "link": "#"
     },
     {
-      "img": "./Images/anh2/cuoccachmangglucose.jpg",
+      "img": "./Images/cuoccachmangglucose.jpg",
       "name": "Cuộc cách mạng Glucose",
       "author": "Jessie Inchauspé",
       "category": "Khoa học kĩ thuật",
@@ -63,7 +63,7 @@
       "link": "#"
     },
     {
-      "img": "./Images/anh2/100kinangsinhton.jpg",
+      "img": "./Images/100kinangsinhton.jpg",
       "name": "100 kĩ năng sinh tồn",
       "author": "Clint Emerson",
       "category": "Kỹ năng sống",
