@@ -20,7 +20,7 @@ function getProducts() {
         .then(response => response.json())
         .then(data => {
             products = data;
-            products.sort((a, b) => (b.quantity*b.total )- (a.quantity*a.total));
+            products.sort((a, b) => (b.quantity * b.total) - (a.quantity * a.total));
         });
 }
 
@@ -91,33 +91,31 @@ product.addEventListener('click', () => {
         <span>Tổng tiền</span>`;
     if (products.length > 0) {
         renderProducts(products);
+        showInventory(products); // Hiển thị thống kê khi nhấn Inventory
     } else {
         alert('Dữ liệu sản phẩm chưa được tải.');
     }
 });
 
 function showInventory(products) {
-    var inventoryButton = document.querySelector('.inventory');
-    inventoryButton.addEventListener('click', function () {
-        var totalRevenue = 0;
-        var bestSelling = { name: '', quantity: 0 };
-        var worstSelling = { name: '', quantity: Infinity };
+    var totalRevenue = 0;
+    var bestSelling = { name: '', quantity: 0 };
+    var worstSelling = { name: '', quantity: Infinity };
 
-        products.forEach(function (product) {
-            var revenue = product.total * product.quantity;
-            totalRevenue += revenue;
+    products.forEach(function (product) {
+        var revenue = product.total * product.quantity;
+        totalRevenue += revenue;
 
-            if (product.quantity > bestSelling.quantity) {
-                bestSelling = { name: product.name, quantity: product.quantity };
-            }
+        if (product.quantity > bestSelling.quantity) {
+            bestSelling = { name: product.name, quantity: product.quantity };
+        }
 
-            if (product.quantity < worstSelling.quantity) {
-                worstSelling = { name: product.name, quantity: product.quantity };
-            }
-        });
-
-        displayModal(totalRevenue, bestSelling, worstSelling);
+        if (product.quantity < worstSelling.quantity) {
+            worstSelling = { name: product.name, quantity: product.quantity };
+        }
     });
+
+    displayModal(totalRevenue, bestSelling, worstSelling);
 }
 
 function displayModal(totalRevenue, bestSelling, worstSelling) {
