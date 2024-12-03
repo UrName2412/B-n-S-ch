@@ -15,11 +15,11 @@
 
 <body>
     <!-- Header -->
-    <header class="text-white py-3" id="top">
+    <header class="text-white py-3">
         <div class="container">
             <nav class="navbar navbar-expand-md">
                 <div class="navbar-brand logo">
-                    <a href="../nguoidung/indexuser.html" class="d-flex align-items-center">
+                    <a href="../index.html" class="d-flex align-items-center">
                         <img src="../Images/LogoSach.png" alt="logo" width="100" height="57">
                     </a>
                 </div>
@@ -36,22 +36,34 @@
                             <a href="#" class="nav-link fw-bold text-white">GIỚI THIỆU</a>
                         </li>
                         <li class="nav-item">
-                            <a href="sanpham.html" class="nav-link fw-bold" style="color: yellow;">SẢN PHẨM</a>
+                            <a href="../sanpham/sanpham.html" class="nav-link fw-bold" style="color: yellow;">SẢN PHẨM</a>
                         </li>
                     </ul>
-                    <form class="d-flex me-auto">
+                    <form id="searchForm" class="d-flex me-auto">
                         <input class="form-control me-2" type="text" id="timkiem" placeholder="Tìm sách">
                         <button class="btn btn-outline-light" type="submit">
                             <i class="fas fa-search"></i>
                         </button>
                     </form>
+                    <script>
+                        document.getElementById('searchForm').addEventListener('submit', function (event) {
+                            event.preventDefault();
+                            const inputValue = document.getElementById('timkiem').value.trim();
+
+                            if (inputValue) {
+                                window.location.href = '../nguoidung/timkiem.html';
+                            } else {
+                                alert('Vui lòng nhập nội dung tìm kiếm!');
+                            }
+                        });
+                    </script>
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
                             <a href="../index.html" class="nav-link fw-bold text-white">ĐĂNG XUẤT</a>
                         </li>
                         <li class="nav-item">
                             <div>
-                                <a href="user.html"><i class="fas fa-user" id="avatar" style="color: black;"></i></a>
+                                <a href="../nguoidung/user.html"><i class="fas fa-user" id="avatar" style="color: black;"></i></a>
                                 <span id="profile-name" style="top: 20px; padding: 2px; display: none;">Nguyễn Văn A</span>
                             </div>
                         </li>
