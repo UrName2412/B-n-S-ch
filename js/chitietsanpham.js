@@ -83,31 +83,4 @@ const loadFromLocalStorage = () => {
     iconCartSpan.textContent = totalQuantity <= 99 ? totalQuantity : '99+';
 };
 
-document.addEventListener('DOMContentLoaded', () => {
-    const buyNowBtn = document.getElementById('buyNowBtn');
-
-    buyNowBtn.addEventListener('click', () => {
-        const productTitle = document.querySelector('.product-name').textContent.trim();
-        const productPrice = document.querySelector('.product-price strong').textContent.trim();
-        const imageUrl = document.querySelector('.img-fluid.rounded').src;
-        const quantity = parseInt(document.getElementById('quantity').value, 10);
-
-        if (!quantity || quantity < 1) {
-            alert('Vui lòng nhập số lượng hợp lệ!');
-            return;
-        }
-
-        // Lưu thông tin sản phẩm vào sessionStorage
-        const productDetails = {
-            productName: productTitle,
-            productPrice,
-            image: imageUrl,
-            quantity,
-        };
-        sessionStorage.setItem('buyNowProduct', JSON.stringify(productDetails));
-
-        // Chuyển đến trang thanh toán
-        window.location.href = '../giohang/thanhtoan.html';
-    });
-});
 
