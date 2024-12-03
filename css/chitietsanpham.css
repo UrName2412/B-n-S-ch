@@ -16,6 +16,23 @@ header {
     background-color: #ffffff;
     margin-right: 3em;
 }
+
+nav ul li a:hover {
+    color: #f0f0f0 !important;
+    text-decoration: underline;
+}
+
+nav ul li a:active {
+    color: yellow !important;
+}
+
+.fa-shopping-basket {
+    font-size: 2rem;
+}
+
+.fa-shopping-basket:hover {
+    color: #f0f0f0 !important;
+}
 .product-detail img {
     width: 100%;
     max-width: 350px;
@@ -105,15 +122,17 @@ footer ul li a:active {
         width: 80%; 
         margin-bottom: 10px;
     }
+    #profile-name{
+        display: block!important;
+    }
+    #avatar{
+        margin-bottom: 10px;
+    }
 }
 button {
     transition: background-color 0.3s, transform 0.3s;
 }
 
-button:hover {
-    background-color: #f39c12;
-    transform: scale(1.05);
-}
 @media (max-width: 576px) {
     .footer__bar {
         flex-direction: column;
@@ -177,4 +196,54 @@ button:hover {
 .btn-success:hover {
     background-color: #28a745;
     color: #fff;
+}
+
+.cart-icon{
+    position: relative;
+}
+
+.cart-icon span{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    background-color: red;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    top: 50%;
+    left:20px;
+}
+
+.notification {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    font-size: 16px;
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+.notification.show {
+    opacity: 1;
+}
+
+#avatar{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: white;
+}
+.nav-item{
+    display: flex;
+    align-items: center;
 }
