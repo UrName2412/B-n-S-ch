@@ -96,6 +96,54 @@ product.addEventListener('click', () => {
     }
 });
 
+function showInventory(products) {
+    var inventoryButton = document.querySelector('.inventory');
+    inventoryButton.addEventListener('click', function () {
+        var totalRevenue = 0;
+        var bestSelling = { name: '', quantity: 0 };
+        var worstSelling = { name: '', quantity: Infinity };
+
+        products.forEach(function (product) {
+            var revenue = product.total * product.quantity;
+            totalRevenue += revenue;
+
+            if (product.quantity > bestSelling.quantity) {
+                bestSelling = { name: product.name, quantity: product.quantity };
+            }
+
+            if (product.quantity < worstSelling.quantity) {
+                worstSelling = { name: product.name, quantity: product.quantity };
+            }
+        });
+
+        displayModal(totalRevenue, bestSelling, worstSelling);
+    });
+}
+
+function displayModal(totalRevenue, bestSelling, worstSelling) {
+    var modal = document.createElement('div');
+    modal.className = 'modal show';
+
+    modal.innerHTML = `
+        <div class="headModal">Thống Kê Sản Phẩm</div>
+        <div class="modal-body">
+            <p><strong>Tổng thu: </strong>${totalRevenue.toLocaleString()} VNĐ</p>
+            <p><strong>Sản phẩm bán chạy nhất: </strong>${bestSelling.name} (Số lượng: ${bestSelling.quantity})</p>
+            <p><strong>Sản phẩm ít được quan tâm nhất: </strong>${worstSelling.name} (Số lượng: ${worstSelling.quantity})</p>
+        </div>
+        <div class="choiceModal">
+            <button class="cancel" onclick="closeModal()">Đóng</button>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+}
+
+function closeModal() {
+    var modal = document.querySelector('.modal');
+    modal.remove();
+}
+
 function formatCurrency(amount) {
     return amount.toLocaleString('en-US').replace(/,/g, '.').concat(' VNĐ');
 }
