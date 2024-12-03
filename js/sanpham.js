@@ -1,19 +1,21 @@
 let cart = [];
 let iconCartSpan = document.querySelector(".cart-icon span");
+const modalElement = document.getElementById('cartModal');
 
-const listProductHTML = document.querySelectorAll('.btn');
+const listProductHTML = document.querySelector('.listProduct');
+console.log(listProductHTML)
 // Add event listeners for all add-to-cart buttons
-listProductHTML.forEach(addButton => {
-    addButton.addEventListener('click', event => {
-        const card = event.target.closest('.card');
+document.addEventListener('DOMContentLoaded', () => { })
+listProductHTML.addEventListener('click', addButton => {
+    if (addButton.target.closest('.btn')) {
+        const card = addButton.target.closest('.card');
         const productTitle = card.querySelector('.card-title').textContent;
         const productPrice = card.querySelector('.card-text.text-danger').textContent;
         const imageUrl = card.querySelector('.card-img-top').src;
-        console.log(imageUrl);
-        const notification = new bootstrap.Modal(document.getElementById('cartModal'));
+        const notification = new bootstrap.Modal(modalElement); // Khởi tạo lại modal
         notification.show();
         addToCart(productTitle, productPrice, imageUrl);
-    });
+    }
 });
 
 // Function to add product to cart
@@ -64,7 +66,7 @@ const addToLocalStorage = () => {
 const loadFromLocalStorage = () => {
     const storedCart = localStorage.getItem('cart');
     cart = storedCart ? JSON.parse(storedCart) : [];
-    
+
     // Update cart icon with the total quantity on page load
     let totalQuantity = 0;
     cart.forEach((cartItem) => {
