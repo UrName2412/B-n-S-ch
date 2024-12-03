@@ -147,6 +147,7 @@ aside .sidebar:hover{
     font-size: 2rem;
 }
 
+aside .sidebar div,
 aside .sidebar a{
     display: flex;
     align-items: center;
@@ -197,6 +198,7 @@ aside .sidebar-re:hover{
     font-size: 2rem;
 }
 
+aside .sidebar-re div,
 aside .sidebar-re a{
     display: flex;
     align-items: center;
