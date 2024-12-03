@@ -20,8 +20,8 @@
         <div class="container">
             <nav class="navbar navbar-expand-md">
                 <div class="navbar-brand logo">
-                    <a href="../index.html" class="d-flex align-items-center">
-                        <img src="../Images/LogoSach.png" alt="logo" width="100" height="57">
+                    <a href="../nguoidung/indexuser.html" class="d-flex align-items-center">
+                        <img src="../Images/LogoSach.png" alt="logo" style="width: 100px; height: 57px;">
                     </a>
                 </div>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -31,14 +31,13 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a href="../index.html" class="nav-link fw-bold text-white">TRANG CHỦ</a>
+                            <a href="../nguoidung/indexuser.html" class="nav-link fw-bold text-white">TRANG CHỦ</a>
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link fw-bold text-white">GIỚI THIỆU</a>
                         </li>
                         <li class="nav-item">
-                            <a href="../sanpham/sanpham.html" class="nav-link fw-bold text-white">SẢN
-                                PHẨM</a>
+                            <a href="../sanpham/sanpham-user.html" class="nav-link fw-bold text-white">SẢN PHẨM</a>
                         </li>
                     </ul>
                     <form class="d-flex me-auto">
@@ -49,15 +48,20 @@
                     </form>
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a href="./dangky/dangnhap.html" class="nav-link fw-bold text-white">ĐĂNG NHẬP</a>
+                            <a href="../index.html" class="nav-link fw-bold text-white">ĐĂNG XUẤT</a>
                         </li>
                         <li class="nav-item">
-                            <a href="./dangky/dangky.html" class="nav-link fw-bold text-white">ĐĂNG KÝ</a>
+                            <div>
+                                <a href="../nguoidung/user.html"><i class="fas fa-user" id="avatar"
+                                        style="color: black;"></i></a>
+                                <span id="profile-name" style="top: 20px; padding: 2px; display: none;">Nguyễn Văn
+                                    A</span>
+                            </div>
                         </li>
                     </ul>
-                    <a href="giohang.html" class="nav-link text-white">
+                    <a href="/giohang/giohang.html" class="nav-link text-white">
                         <div class="cart-icon">
-                            <i class="fas fa-shopping-basket"></i>
+                            <i class="fas fa-shopping-basket" style="color: yellow;"></i>
                             <span class="">0</span>
                         </div>
                     </a>
@@ -74,19 +78,22 @@
                     onsubmit="return thanks()">
                     <!-- Họ tên -->
                     <div>
-                        <label for="name-user"><i class="fas fa-user"></i>Họ tên <span style="color: red;">*</span></label>
+                        <label for="name-user"><i class="fas fa-user"></i>Họ tên <span
+                                style="color: red;">*</span></label>
                         <input type="text" id="name-user" name="name-user" placeholder="Tên người nhận hàng">
                         <span class="form-message"></span>
                     </div>
                     <!-- Điện thoại -->
                     <div>
-                        <label for="phone-user"><i class="fas fa-phone-volume"></i>Điện thoại <span style="color: red;">*</span></label>
+                        <label for="phone-user"><i class="fas fa-phone-volume"></i>Điện thoại <span
+                                style="color: red;">*</span></label>
                         <input type="tel" id="phone-user" name="phone-user" placeholder="Số điện thoại người nhận hàng">
                         <span class="form-message"></span>
                     </div>
                     <!-- Địa chỉ -->
                     <div>
-                        <label for="payment--adr"><i class="far fa-address-card"></i>Địa chỉ <span style="color: red;">*</span></label>
+                        <label for="payment--adr"><i class="far fa-address-card"></i>Địa chỉ <span
+                                style="color: red;">*</span></label>
                         <input type="text" id="payment--adr" name="payment--adr" placeholder="Địa chỉ nhận hàng">
                         <span class="form-message"></span>
                     </div>
@@ -101,41 +108,63 @@
                 </form>
 
             </div>
-            <div class="payment__content__right col-5 ">
+            <div class="payment__content__right col-5">
                 <h3>Phương thức thanh toán</h3>
                 <label>Chọn phương thức:</label>
                 <div class="btn-group d-flex flex-column" id="payment__method" role="group"
                     aria-label="Basic radio toggle button group">
+                    <!-- Visa -->
                     <div class="payment-option">
-                        <input type="radio" name="btnradio" id="btnradio1" autocomplete="off" checked>
+                        <input type="radio" name="btnradio" id="btnradio1" value="visa" autocomplete="off">
                         <label class="btn d-flex" for="btnradio1">
-                            <img src="../Images/visa.png" class="w-12" alt="card1">
-                            <img src="../Images/mastercard.png" class="w-12" alt="card2" />
-                            <img src="../Images/ae.png" class="w-12" alt="card3" />
-                            <div class="payment__method--visa payment__method" style="display: none;">
-                                <p>Phương thức hiện tại không khả dụng.</p>
-                            </div>
+                            <img src="../Images/visa.png" class="w-12" alt="Visa">
+                            <span>Visa/Mastercard</span>
                         </label>
                     </div>
+                    <!-- Momo -->
                     <div class="payment-option">
-                        <input type="radio" name="btnradio" id="btnradio2" autocomplete="off" checked>
+                        <input type="radio" name="btnradio" id="btnradio2" value="momo" autocomplete="off">
                         <label class="btn d-flex" for="btnradio2">
-                            <img src="../Images/momo.png" class="w-12" alt="card1">
-                            <div class="payment__method--visa payment__method" style="display: none;">
-                                <p>Phương thức hiện tại không khả dụng.</p>
-                            </div>
+                            <img src="../Images/momo.png" class="w-12" alt="Momo">
+                            <span>Ví Momo</span>
                         </label>
                     </div>
+                    <!-- Cash -->
                     <div class="payment-option">
-                        <input type="radio" name="btnradio" id="btnradio3" autocomplete="off" checked>
+                        <input type="radio" name="btnradio" id="btnradio3" value="cash" autocomplete="off" checked>
                         <label class="btn d-flex" for="btnradio3">
                             <div class="cash-icon"><i class="fas fa-money-bill"></i></div>
-                            <div class="payment__method--visa payment__method" style="display: none;">
-                                <p>Phương thức hiện tại không khả dụng.</p>
-                            </div>
+                            <span>Tiền mặt</span>
                         </label>
                     </div>
                 </div>
+
+                <div id="visa-form" class="payment-detail-form" style="display: none;">
+                    <div class="d-flex flex-column">
+                        <h4>Thông tin thẻ Visa/Mastercard</h4>
+                        <label for="card-number">Số thẻ:</label>
+                        <input type="text" id="card-number" placeholder="Nhập số thẻ">
+                        <span class="form-message" id="error-card-number"></span>
+                        
+                        <label for="card-expiry">Ngày hết hạn:</label>
+                        <input type="text" id="card-expiry" placeholder="MM/YY">
+                        <span class="form-message" id="error-card-expiry"></span>
+                        
+                        <label for="card-cvv">Mã CVV:</label>
+                        <input type="text" id="card-cvv" placeholder="Mã CVV">
+                        <span class="form-message" id="error-card-cvv"></span>
+                    </div>
+                </div>
+                
+                <div id="momo-form" class="payment-detail-form" style="display: none;">
+                    <div class="d-flex flex-column">
+                        <h4>Thông tin Ví Momo</h4>
+                        <label for="momo-number">Số điện thoại:</label>
+                        <input type="text" id="momo-number" placeholder="Nhập số điện thoại liên kết">
+                        <span class="form-message" id="error-momo-number"></span>
+                    </div>
+                </div>
+                
             </div>
         </div>
     </section>

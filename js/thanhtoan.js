@@ -1,5 +1,4 @@
 let cartQuantity = [];
-console.log(localStorage);
 const iconCartSpan = document.querySelector('.cart-icon span')
 const loadFromLocalStorage = () => {
     const storedCart = localStorage.getItem('cart');
@@ -112,4 +111,107 @@ function thanks() {
 
     return false; // Ngăn submit form mặc định
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+    const visaForm = document.getElementById("visa-form");
+    const momoForm = document.getElementById("momo-form");
+
+    // Xử lý hiển thị form theo phương thức thanh toán
+    document.querySelectorAll('input[name="btnradio"]').forEach((radio) => {
+        radio.addEventListener("change", function () {
+            visaForm.style.display = "none";
+            momoForm.style.display = "none";
+
+            if (this.value === "visa") {
+                visaForm.style.display = "block";
+            } else if (this.value === "momo") {
+                momoForm.style.display = "block";
+            }
+        });
+    });
+
+    // Hàm kiểm tra định dạng số thẻ
+    function validateCardNumber(cardNumber) {
+        return /^\d{16}$/.test(cardNumber);
+    }
+
+    // Hàm kiểm tra ngày hết hạn
+    function validateExpiryDate(expiryDate) {
+        return /^(0[1-9]|1[0-2])\/\d{2}$/.test(expiryDate);
+    }
+
+    // Hàm kiểm tra mã CVV
+    function validateCVV(cvv) {
+        return /^\d{3}$/.test(cvv);
+    }
+
+    // Hàm kiểm tra số điện thoại Momo
+    function validatePhoneNumber(phone) {
+        return /^(03|07|08|09)\d{8}$/.test(phone);
+    }
+
+    // Xử lý khi submit form
+    const paymentForm = document.querySelector("#form-add");
+    paymentForm.addEventListener("submit", function (event) {
+        const selectedMethod = document.querySelector('input[name="btnradio"]:checked').value;
+        let isValid = true;
+
+        // Xóa thông báo lỗi cũ
+        document.querySelectorAll(".form-message").forEach((message) => {
+            message.textContent = "";
+        });
+
+        // Kiểm tra các form theo phương thức thanh toán
+        if (selectedMethod === "visa") {
+            const cardNumber = document.getElementById("card-number").value;
+            const cardExpiry = document.getElementById("card-expiry").value;
+            const cardCVV = document.getElementById("card-cvv").value;
+
+            if (!validateCardNumber(cardNumber)) {
+                document.getElementById("error-card-number").textContent = "Số thẻ không hợp lệ (16 chữ số).";
+                isValid = false;
+            }
+            if (!validateExpiryDate(cardExpiry)) {
+                document.getElementById("error-card-expiry").textContent = "Ngày hết hạn không hợp lệ (MM/YY).";
+                isValid = false;
+            }
+            if (!validateCVV(cardCVV)) {
+                document.getElementById("error-card-cvv").textContent = "Mã CVV không hợp lệ (3 chữ số).";
+                isValid = false;
+            }
+        } else if (selectedMethod === "momo") {
+            const momoNumber = document.getElementById("momo-number").value;
+            if (!validatePhoneNumber(momoNumber)) {
+                document.getElementById("error-momo-number").textContent = "Số điện thoại không hợp lệ.";
+                isValid = false;
+            }
+        }
+
+        // Ngăn không cho submit nếu không hợp lệ
+        if (!isValid) {
+            event.preventDefault();
+        }
+    });
+});
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const visaForm = document.getElementById("visa-form");
+    const momoForm = document.getElementById("momo-form");
+
+    document.querySelectorAll('input[name="btnradio"]').forEach((radio) => {
+        radio.addEventListener("change", function () {
+            // Ẩn tất cả các form
+            visaForm.style.display = "none";
+            momoForm.style.display = "none";
+
+            // Hiển thị form theo lựa chọn
+            if (this.value === "visa") {
+                visaForm.style.display = "flex";
+            } else if (this.value === "momo") {
+                momoForm.style.display = "block";
+            }
+        });
+    });
+});
 
