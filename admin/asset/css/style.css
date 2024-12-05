@@ -43,7 +43,6 @@ body{
     font-family: 'Poppins', sans-serif;
     font-size: 0.88rem;
     user-select: none;
-    overflow-y: hidden;
     color: black;
     background-color: var(--color-background);
 }
