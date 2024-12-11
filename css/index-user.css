@@ -10,7 +10,9 @@ html {
 header {
     background-color: #336799;
 }
-
+main{
+    min-height: calc(75vh - 120px);
+}
 .logo {
     width: 120px;
     height: 60px;
