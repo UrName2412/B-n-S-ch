@@ -25,6 +25,10 @@ const headMenuMoblie = document.querySelector('.menuHeader-mobile');
 const headAside = document.querySelector('aside');
 const headClosebtnMobile = document.querySelector('.header .close-mobile');
 
+headMenuMoblie.addEventListener('click', () => {
+    headAside.style.display = 'block';
+    headClosebtnMobile.style.display = 'block';
+})
 
 addBtn.addEventListener('click', () => {
     toolMenu.style.display = 'block';
@@ -88,10 +92,6 @@ headClosebtn.addEventListener('click', () => {
     containerCss.style.gridTemplateColumns = '3.5rem 1fr';
 })
 
-headMenuMoblie.addEventListener('click', () => {
-    headAside.style.display = 'block';
-    headClosebtnMobile.style.display = 'block';
-})
 
 headClosebtnMobile.addEventListener('click', () => {
     headAside.style.display = 'none';

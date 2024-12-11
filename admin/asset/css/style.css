@@ -170,7 +170,6 @@ aside .sidebar .last-child{
 
 aside .sidebar:hover{
     box-shadow: none;
-    font-size: 2rem;
 }
 
 aside .sidebar div,
@@ -352,6 +351,7 @@ a {
     width: 100%;
     transition: all 0.3s ease;
     display: flex;
+    flex-direction: column-reverse;
     gap: 2%;
     position: relative;
     box-sizing: border-box;
@@ -503,7 +503,7 @@ a {
 
 
 .tool {
-    height: 100%;
+    height: fit-content;
     width: 10vw;
     margin-right: 1rem;
     display: flex;
@@ -516,7 +516,6 @@ a {
     width: 100%;
     height: 90%;
     display: flex;
-    flex-direction: column;
     justify-content:center;
     align-items: center;
     gap: 10%;
@@ -525,7 +524,7 @@ a {
 
 .tool button {
     width: 100%;
-    height: 20%;
+    height: fit-content;
     display: flex;
     justify-content: center;
     align-items: center;

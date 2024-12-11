@@ -5,6 +5,42 @@ const listBlock = document.querySelector('#dataBlock');
 const headerContent = document.querySelector('.grid-header-product');
 let personInfo = [];
 let products = []; // Biến lưu dữ liệu sản phẩm
+const headMenuMoblie = document.querySelector('.menuHeader-mobile');
+const headAside = document.querySelector('aside')
+const headClosebtnMobile = document.querySelector('.header .close-mobile');
+const headMenu = document.querySelector('.menuHeader');
+const headLogo = document.querySelector('.logo a');
+const headSidebar = document.querySelector('.sidebar');
+const headSidebar_re = document.querySelector('.sidebar-re');
+const headClosebtn = document.querySelector('.header .close');
+
+headMenuMoblie.addEventListener('click', () => {
+    headAside.style.display = 'block';
+    headClosebtnMobile.style.display = 'block';
+})
+
+headClosebtnMobile.addEventListener('click',() => {
+    headAside.style.display = 'none';
+    headClosebtnMobile.style.display = 'none';
+})
+
+headMenu.addEventListener('click', () => {
+    headLogo.style.display = 'inline-flex';
+    headSidebar.style.display = 'block';
+    headSidebar_re.style.display = 'none';
+    headMenu.style.display = 'none';
+    headClosebtn.style.display = 'block';
+    containerCss.style.gridTemplateColumns = '12rem 1fr';
+})
+
+headClosebtn.addEventListener('click', () => {
+    headLogo.style.display = 'none';
+    headSidebar.style.display = 'none';
+    headSidebar_re.style.display = 'block';
+    headMenu.style.display = 'block';
+    headClosebtn.style.display = 'none';
+    containerCss.style.gridTemplateColumns = '3.5rem 1fr';
+})
 
 function start() {
     // Tải dữ liệu sản phẩm và người dùng khi trang load
