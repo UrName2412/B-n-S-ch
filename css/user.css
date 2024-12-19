@@ -12,3 +12,123 @@
     height: auto;
     border-radius: 50%;
 }
+
+/* Styles cho overlay */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(3px);
+}
+
+.overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Styles cho form */
+#edit-form {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -60%) scale(0.95);
+    background-color: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+    z-index: 1001;
+    width: 400px;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#edit-form.show {
+    visibility: visible;
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+#edit-form.hidden {
+    visibility: hidden;
+    opacity: 0;
+    transform: translate(-50%, -60%) scale(0.95);
+}
+
+/* Style cho form inputs */
+#edit-form input {
+    width: 100%;
+    padding: 10px 15px;
+    margin: 8px 0;
+    border: 2px solid #eee;
+    border-radius: 6px;
+    transition: ease-out ease 0.3s;
+    font-size: 15px;
+}
+
+#edit-form input:focus {
+    border-color: #4CAF50;
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+    outline: none;
+}
+
+#edit-form label {
+    display: block;
+    margin-top: 12px;
+    font-weight: 500;
+    color: #333;
+    font-size: 15px;
+}
+
+#edit-form h2 {
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+}
+
+.edit-btn, .cancel-btn {
+    padding: 10px 25px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 20px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.edit-btn {
+    background-color: #4CAF50;
+    color: white;
+    margin-right: 10px;
+}
+
+.edit-btn:hover {
+    background-color: #45a049;
+    transform: translateY(-1px);
+}
+
+.cancel-btn {
+    background-color: #f44336;
+    color: white;
+}
+
+.cancel-btn:hover {
+    background-color: #da190b;
+    transform: translateY(-1px);
+}
+
+/* Hiệu ứng hover cho inputs */
+#edit-form input:hover {
+    border-color: #ddd;
+}
+#sinhnhat{
+    display: flex;
+    gap: 10px;
+}
