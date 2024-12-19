@@ -103,12 +103,6 @@
                     <button type="button" class="add" id="add">
                         <img src="../image/add.png" alt="add" class="icon">
                     </button>
-                    <button type="button" class="fix">
-                        <img src="../image/build.png" alt="build" class="icon">
-                    </button>
-                    <button type="button" class="delete">
-                        <img src="../image/block.png" alt="delete" class="icon">
-                    </button>
                 </form>
             </div>
         </div>
@@ -152,42 +146,6 @@
                 </form>
             </div>
         </div>
-        <div class="tool-menu-fix-delete" style="display: none;">
-            <button type="button" class="close menu-close" id="close-tool-menu-fix-delete">
-                <img src="../image/close.png" alt="close" class="icon">
-            </button>
-            <div class="menu-fix" style="display: none;">
-                <h2>Sửa người dùng</h2>
-                <h3>(chọn người dùng cần sửa)</h3>
-                <form class="form" id="form-fix-delete">
-                    <div class="content">
-                        <div class="grid-header">
-                            <span>ID</span>
-                            <span>Họ Tên</span>
-                        </div>
-                        <div class="grid-body" id="dataUsersFix">
-                            <!-- JSON -->
-                        </div>
-                    </div>
-                </form>
-            </div>
-
-            <div class="menu-delete" style="display: none;">
-                <h2>Khóa người dùng</h2>
-                <h3>(chọn người dùng cần khóa)</h3>
-                <form>
-                    <div class="content">
-                        <div class="grid-header">
-                            <span>ID</span>
-                            <span>Họ Tên</span>
-                        </div>
-                        <div class="grid-body" id="dataUsersDelete">
-                            <!-- JSON -->
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
 
 
         <!--End of Content-Tool-->
@@ -215,7 +173,7 @@
     </div>
 
 
-    
+
 
     <script src="../asset/js/validator.js"></script>
     <script src="../asset/js/inputDataUser.js"></script>
@@ -231,11 +189,11 @@
             form: '#form-add',
             errorSelector: '.form-message',
             rules: [
-                Validator.isRequired('#id-user',messageRequired),
-                Validator.isRequired('#name-user',messageRequired),
-                Validator.isEmail('#email-user',messageEmail),
-                Validator.isPhone('#phone-user',messagePhone),
-                Validator.minLength('#name-user',6),
+                Validator.isRequired('#id-user', messageRequired),
+                Validator.isRequired('#name-user', messageRequired),
+                Validator.isEmail('#email-user', messageEmail),
+                Validator.isPhone('#phone-user', messagePhone),
+                Validator.minLength('#name-user', 6),
             ]
         })
 
