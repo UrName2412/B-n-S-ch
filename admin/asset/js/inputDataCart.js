@@ -27,17 +27,18 @@ function renderCarts(carts) {
         var newCart = document.createElement('div');
         newCart.className = 'grid-row-cart';
         newCart.innerHTML = `
-            <span>${cart.id}</span>
-            <span>${cart.name}</span>
-            <span>${cart.address}</span>
-            <span>${cart.phone}</span>
-            <span>${cart.quantity}</span>
-            <span>${cart.amount}</span>
+            <input type="text" name="cart-id" value="${cart.id}" readonly>
+            <input type="text" name="cart-name" value="${cart.name}" readonly>
+            <input type="text" name="cart-address" value="${cart.address}" readonly>
+            <input type="text" name="cart-phone" value="${cart.phone}" readonly>
+            <input type="text" name="cart-quantity" value="${cart.quantity}" readonly>
+            <input type="text" name="cart-amount" value="${cart.amount}" readonly>
             <div class="status">
-                <span>${cart.status}</span>
+                <input type="text" name="cart-status" value="${cart.status}" readonly>
             </div>
         `;
         var statusElement = newCart.querySelector('.status');
+        console.log(statusElement);
         if (cart.status == 'Chưa xử lí') statusElement.classList.add('not-confirm');
         else if (cart.status == 'Đã xác nhận') statusElement.classList.add('confirm');
         else if (cart.status == 'Đã giao') statusElement.classList.add('delivered');

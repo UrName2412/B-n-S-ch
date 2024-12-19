@@ -6,7 +6,8 @@
         "category": "Sách thiếu nhi",
         "nxb": "Hội nhà văn",
         "total": "75.000",
-        "quantity": 15
+        "quantity": 15,
+        "picture": "hoangtube.png"
     },
     {
         "id": 2,
@@ -15,7 +16,8 @@
         "category": "Kỹ năng sống",
         "nxb": "Trẻ",
         "total": "80.000",
-        "quantity": 15
+        "quantity": 15,
+        "picture": "dacnhantam.png"
     },
     {
         "id": 3,
@@ -24,7 +26,8 @@
         "category": "Kỹ năng sống",
         "nxb": "Trẻ",
         "total": "95.000",
-        "quantity": 10
+        "quantity": 10,
+        "picture": "chagiauchangheo.png"
     },
     {
         "id": 4,
@@ -33,7 +36,8 @@
         "category": "Tiểu thuyết",
         "nxb": "Hội nhà văn",
         "total": "85.000",
-        "quantity": 10
+        "quantity": 10,
+        "picture": "nhagiakim.png"
     },
     {
         "id": 5,
@@ -42,7 +46,8 @@
         "category": "Tiểu thuyết",
         "nxb": "Nhã Nam",
         "total": "90.000",
-        "quantity": 10
+        "quantity": 10,
+        "picture": "haychamsocme.png"
     },
     {
         "id": 6,
@@ -51,7 +56,8 @@
         "category": "Phật giáo",
         "nxb": "Trẻ",
         "total": "75.000",
-        "quantity": 18
+        "quantity": 18,
+        "picture": "bietyeuthuong.png"
     },
     {
         "id": 7,
@@ -60,7 +66,8 @@
         "category": "Văn học",
         "nxb": "Hội nhà văn",
         "total": "70.000",
-        "quantity": 18
+        "quantity": 18,
+        "picture": "thuongnhomuoihai.png"
     },
     {
         "id": 8,
@@ -69,7 +76,8 @@
         "category": "Tiểu thuyết",
         "nxb": "Hội nhà văn",
         "total": "110.000",
-        "quantity": 18
+        "quantity": 18,
+        "picture": "cuontheochieugio.png"
     },
     {
         "id": 9,
@@ -78,7 +86,8 @@
         "category": "Tiểu thuyết",
         "nxb": "Nhã Nam",
         "total": "120.000",
-        "quantity": 15
+        "quantity": 15,
+        "picture": "harrypotter.png"
     },
     {
         "id": 10,
@@ -87,7 +96,8 @@
         "category": "Kỹ năng sống",
         "nxb": "Trẻ",
         "total": "65.000",
-        "quantity": 15
+        "quantity": 15,
+        "picture": "cachnghithanhcong.png"
     },
     {
         "id": 11,
@@ -96,7 +106,8 @@
         "category": "Kỹ năng sống",
         "nxb": "Trẻ",
         "total": "55.000",
-        "quantity": 20
+        "quantity": 20,
+        "picture": "nguoibanhang.png"
     },
     {
         "id": 12,
@@ -105,7 +116,8 @@
         "category": "Kĩ năng sống",
         "nxb": "Dân Trí",
         "total": "80.000",
-        "quantity": 20
+        "quantity": 20,
+        "picture": "tuduynguoc.png"
     },
     {
         "id": 13,
@@ -114,7 +126,8 @@
         "category": "Truyền cảm hứng",
         "nxb": "Trẻ",
         "total": "50.000",
-        "quantity": 20
+        "quantity": 20,
+        "picture": "bonmuacuocsong.png"
     },
     {
         "id": 14,
@@ -123,7 +136,8 @@
         "category": "Văn học",
         "nxb": "Hội nhà văn",
         "total": "60.000",
-        "quantity": 20
+        "quantity": 20,
+        "picture": "canhdongbattan.png"
     },
     {
         "id": 15,
@@ -132,7 +146,8 @@
         "category": "Hồi ký",
         "nxb": "Nhã Nam",
         "total": "75.000",
-        "quantity": 15
+        "quantity": 15,
+        "picture": "khihoitho.png"
     },
     {
         "id": 16,
@@ -141,7 +156,8 @@
         "category": "Kỹ năng sống",
         "nxb": "Trẻ",
         "total": "90.000",
-        "quantity": 3
+        "quantity": 3,
+        "picture": "sachtinhlang.png"
     },
     {
         "id": 17,
@@ -150,7 +166,8 @@
         "category": "Tâm Lý",
         "nxb": "Dân Trí",
         "total": "85.000",
-        "quantity": 3
+        "quantity": 3,
+        "picture": "stopoverthinking.png"
     },
     {
         "id": 18,
@@ -159,7 +176,8 @@
         "category": "Văn học",
         "nxb": "Trẻ",
         "total": "100.000",
-        "quantity": 2
+        "quantity": 2,
+        "picture": "conchimxanh.png"
     },
     {
         "id": 19,
@@ -168,7 +186,8 @@
         "category": "Truyền cảm hứng",
         "nxb": "Nhã Nam",
         "total": "70.000",
-        "quantity": 8
+        "quantity": 8,
+        "picture": "baigiangcuoicung.png"
     },
     {
         "id": 20,
@@ -177,7 +196,8 @@
         "category": "Kĩ năng sống",
         "nxb": "Dân Trí",
         "total": "80.000",
-        "quantity": 8
+        "quantity": 8,
+        "picture": "tuduymo.png"
     },
     {
         "id": 21,

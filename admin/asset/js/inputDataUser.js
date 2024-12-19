@@ -27,10 +27,11 @@ function renderUsers(users) {
         var newUser = document.createElement('div');
         newUser.className = 'grid-row';
         newUser.innerHTML = `
-            <input type="text" name="id-user" value="${user.id}" readonly>
-            <input type="text" name="name-user" value="${user.name}" readonly>
-            <input type="text" name="name-user" value="${user.phone}" readonly>
-            <input type="text" name="name-user" value="${user.email}" readonly>
+            <input type="text" name="user-id" value="${user.id}" readonly>
+            <input type="text" name="user-name" value="${user.name}" readonly>
+            <input type="text" name="user-phone" value="${user.phone}" readonly>
+            <input type="text" name="user-email" value="${user.email}" readonly>
+            <textarea placeholder="Nhập nội dung..." readonly>${user.address}</textarea>
             <div class="tool">
                 <button type="button" class="fix">
                     <img src="../image/build.png" alt="build" class="icon">

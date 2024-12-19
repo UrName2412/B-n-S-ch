@@ -138,7 +138,7 @@ b{
 .container{
     display: grid;
     width: 100%;
-    grid-template-columns: 12rem 1fr;
+    grid-template-columns: 10rem 1fr;
     grid-template-rows: 12vh 1fr;
     column-gap: 1rem;
 }
@@ -179,7 +179,7 @@ aside .sidebar a{
     height: 5rem;
     gap: 1rem;
     position: relative;
-    padding-left: 2rem;
+    padding-left: 1rem;
     margin: 10px 0;
     transition: all 0.3s ease;
     box-sizing: border-box;
@@ -375,7 +375,7 @@ a {
 
 .grid-header {
     display: grid;
-    grid-template-columns: minmax(30px,0.5fr) repeat(auto-fit,minmax(120px,3fr)) minmax(50px,0.8fr);
+    grid-template-columns: minmax(30px,0.5fr) repeat(2,minmax(90px,2fr)) minmax(120px,2.5fr) minmax(120px,3fr) minmax(50px,1fr);
     font-weight: bold;
     border-bottom: 2px solid var(--color-dark);
     padding: 0.5rem 0;
@@ -384,15 +384,15 @@ a {
 
 .grid-header-product {
     display: grid;
-    grid-template-columns: minmax(30px,0.5fr) repeat(auto-fit,minmax(60px,2fr)) minmax(50px,0.8fr);
+    grid-template-columns: minmax(30px,0.5fr) repeat(6,minmax(60px,2fr)) minmax(50px,1fr);
     font-weight: bold;
     border-bottom: 2px solid var(--color-dark);
     padding: 0.5rem 0;
     text-align: center;
-}
+}   
 .grid-header-cart {
     display: grid;
-    grid-template-columns: minmax(30px,0.5fr) repeat(2,minmax(60px,2fr)) repeat(4,minmax(40px,1fr)) minmax(50px,0.8fr);
+    grid-template-columns:  minmax(30px,0.5fr) repeat(3,minmax(60px,2fr)) repeat(2,minmax(50px,1fr)) minmax(50px,1fr);
     font-weight: bold;
     border-bottom: 2px solid var(--color-dark);
     padding: 0.5rem 0;
@@ -407,7 +407,8 @@ a {
     
 .grid-row {
     display: grid;
-    grid-template-columns: minmax(30px,0.5fr) repeat(3,minmax(120px,3fr)) minmax(50px,0.8fr);
+    grid-auto-flow: row;
+    grid-template-columns: minmax(30px,0.5fr) repeat(2,minmax(90px,2fr)) minmax(120px,2.5fr) minmax(120px,3fr) minmax(50px,1fr);
     padding: 0.5rem 0;
     border-bottom: 1px solid var(--color-light);
 }
@@ -415,14 +416,14 @@ a {
 .grid-row-product {
     display: grid;
     grid-auto-flow: dense;
-    grid-template-columns: minmax(30px,0.5fr) repeat(auto-fit,minmax(60px,2fr)) minmax(50px,0.8fr);
+    grid-template-columns: minmax(30px,0.5fr) repeat(6,minmax(60px,2fr)) minmax(50px,1fr);
     padding: 0.5rem 0;
     border-bottom: 1px solid var(--color-light);
 }
 
 .grid-row-cart{
     display: grid;
-    grid-template-columns: minmax(30px,0.5fr) repeat(2,minmax(60px,2fr)) repeat(4,minmax(50px,1fr)) minmax(50px,0.8fr);
+    grid-template-columns: minmax(30px,0.5fr) repeat(3,minmax(60px,2fr)) repeat(2,minmax(50px,1fr)) minmax(50px,1fr);
     padding: 0.5rem 0;
     border-bottom: 1px solid var(--color-light);
 }
@@ -432,6 +433,7 @@ a {
 .grid-row-cart input {
     padding: 0.5rem;
     text-align: center;
+    border-left: 2px solid var(--color-light);
 }
 
 .grid-row-product:nth-child(even),
@@ -447,14 +449,19 @@ a {
 }
 
 
-.grid
-
-
 .grid-row-product:hover
 .grid-row-cart:hover
 .grid-row:hover {
     background-color: var(--color-light);
     border-radius: var(--border-radius-1);
+}
+
+.grid-row textarea{
+    resize: none;
+}
+
+.grid-row:nth-child(even) textarea{
+    background-color: var(--color-background);
 }
 
 .cart {
@@ -560,8 +567,15 @@ a {
     background-color: #1a874a;
 }
 
+.grid-body .tool{
+    width: 100%;
+    height: 100%;
+    gap: 5px;
+}
+
 .tool button.fix {
-    width: fit;
+    width: 100%;
+    height: 100%;
     background-color: var(--color-warning);
     color: var(--color-dark);
 }
@@ -571,6 +585,8 @@ a {
 }
 
 .tool button.delete {
+    width: 100%;
+    height: 100%;
     background-color: var(--color-danger);
     color: var(--color-white);
 }
