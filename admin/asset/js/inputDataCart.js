@@ -1,6 +1,6 @@
 
 
-var cartsAPI = '../data/JSON/giohang.json';
+var cartsAPI = '../data/JSON/hoadon.json';
 
 function start() {
     getCarts(function (carts) {
@@ -27,22 +27,21 @@ function renderCarts(carts) {
         var newCart = document.createElement('div');
         newCart.className = 'grid-row-cart';
         newCart.innerHTML = `
-            <input type="text" name="cart-id" value="${cart.id}" readonly>
-            <input type="text" name="cart-name" value="${cart.name}" readonly>
-            <input type="text" name="cart-address" value="${cart.address}" readonly>
-            <input type="text" name="cart-phone" value="${cart.phone}" readonly>
-            <input type="text" name="cart-quantity" value="${cart.quantity}" readonly>
-            <input type="text" name="cart-amount" value="${cart.amount}" readonly>
+            <textarea placeholder="Nhập nội dung..." readonly>${cart.id}</textarea>
+            <textarea placeholder="Nhập nội dung..." readonly>${cart.name}</textarea>
+            <textarea placeholder="Nhập nội dung..." readonly>${cart.address}</textarea>
+            <textarea placeholder="Nhập nội dung..." readonly>${cart.phone}</textarea>
+            <textarea placeholder="Nhập nội dung..." readonly>${cart.quantity}</textarea>
+            <textarea placeholder="Nhập nội dung..." readonly>${cart.amount}</textarea>
             <div class="status">
-                <input type="text" name="cart-status" value="${cart.status}" readonly>
+                <textarea placeholder="Nhập nội dung..." readonly>${cart.status}</textarea>
             </div>
         `;
-        var statusElement = newCart.querySelector('.status');
-        console.log(statusElement);
-        if (cart.status == 'Chưa xử lí') statusElement.classList.add('not-confirm');
-        else if (cart.status == 'Đã xác nhận') statusElement.classList.add('confirm');
-        else if (cart.status == 'Đã giao') statusElement.classList.add('delivered');
-        else if (cart.status == 'Đã hủy') statusElement.classList.add('canceled');
+        var statusInputElement = newCart.querySelector('.status textarea');
+        if (cart.status == 'Chưa xử lí') statusInputElement.classList.add('not-confirm');
+        else if (cart.status == 'Đã xác nhận') statusInputElement.classList.add('confirm');
+        else if (cart.status == 'Đã giao') statusInputElement.classList.add('delivered');
+        else if (cart.status == 'Đã hủy') statusInputElement.classList.add('canceled');
 
         // Thêm phần tử vào DOM
         listCartsBlock.appendChild(newCart);

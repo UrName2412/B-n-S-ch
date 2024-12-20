@@ -30,6 +30,7 @@
     appearance: 0;
     border: 0;
     text-decoration: none;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     box-sizing: border-box;
 }
 
@@ -109,29 +110,34 @@ b{
 }
 
 .status{
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    width: 100%;
     border-radius: 15px;
+    box-sizing: border-box;
+}
+
+.status textarea{
+    border-radius: 15px;
+    text-align: center;
+    font-weight: bold;
 }
 
 .not-confirm {
-    background-color: var(--color-warning);
+    background-color: var(--color-warning)!important;
     color: black;
 }
 
 .confirm {
-    background-color: var(--color-success);
+    background-color: var(--color-success)!important;
     color: white;
 }
 
 .delivered {
-    background-color: dodgerblue;
+    background-color: dodgerblue!important;
     color: white;
 }
 
 .canceled {
-    background-color: var(--color-danger);
+    background-color: var(--color-danger)!important;
     color: white;
 }
 
@@ -226,7 +232,7 @@ aside .sidebar-re div,
 aside .sidebar-re a{
     display: flex;
     align-items: center;
-    color: var(--color-info-dark);
+    color: black;
     height: 3.5rem;
     gap: 1rem;
     position: relative;
@@ -241,12 +247,14 @@ aside .sidebar-re a:hover{
     background-color: var(--color-hover);
     box-shadow: var(--box-shadow);
     border-radius: 15px;
+    color: white;
 }
 
 aside .sidebar-re .active{
     background-color: var(--color-hover);
     box-shadow: var(--box-shadow);
     border-radius: 15px;
+    color: white;
 }
 
 .header {
@@ -397,6 +405,7 @@ a {
     border-bottom: 2px solid var(--color-dark);
     padding: 0.5rem 0;
     text-align: center;
+    box-sizing: border-box;
 }
 
 .grid-body {
@@ -416,7 +425,7 @@ a {
 .grid-row-product {
     display: grid;
     grid-auto-flow: dense;
-    grid-template-columns: minmax(30px,0.5fr) repeat(6,minmax(60px,2fr)) minmax(50px,1fr);
+    grid-template-columns: minmax(30px,0.5fr) repeat(4,minmax(60px,2fr)) repeat(2,minmax(40px,1.2fr)) minmax(50px,1fr);
     padding: 0.5rem 0;
     border-bottom: 1px solid var(--color-light);
 }
@@ -426,14 +435,17 @@ a {
     grid-template-columns: minmax(30px,0.5fr) repeat(3,minmax(60px,2fr)) repeat(2,minmax(50px,1fr)) minmax(50px,1fr);
     padding: 0.5rem 0;
     border-bottom: 1px solid var(--color-light);
+    box-sizing: border-box;
 }
 
-.grid-row input,
-.grid-row-product input,
-.grid-row-cart input {
+.grid-row textarea,
+.grid-row-product textarea,
+.grid-row-cart textarea {
     padding: 0.5rem;
     text-align: center;
     border-left: 2px solid var(--color-light);
+    width: 100%;
+    resize: none;
 }
 
 .grid-row-product:nth-child(even),
@@ -442,9 +454,9 @@ a {
     background-color: var(--color-background);
 }
 
-.grid-row-product:nth-child(even) input,
-.grid-row-cart:nth-child(even) input,
-.grid-row:nth-child(even) input{
+.grid-row-product:nth-child(even) textarea,
+.grid-row-cart:nth-child(even) textarea,
+.grid-row:nth-child(even) textarea{
     background-color: var(--color-background);
 }
 
@@ -456,13 +468,16 @@ a {
     border-radius: var(--border-radius-1);
 }
 
-.grid-row textarea{
-    resize: none;
-}
-
 .grid-row:nth-child(even) textarea{
     background-color: var(--color-background);
 }
+
+.input-picture{
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
 
 .cart {
     width: 100%;

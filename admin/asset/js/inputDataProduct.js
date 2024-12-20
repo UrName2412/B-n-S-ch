@@ -27,15 +27,15 @@ function renderProducts(products) {
         var newProduct = document.createElement('div');
         newProduct.className = 'grid-row-product';
         newProduct.innerHTML = `
-            <input type="text" name="product-id" value="${product.id}" readonly>
-            <input type="text" name="product-name" value="${product.name}" readonly>
-            <input type="text" name="product-author" value="${product.author}" readonly>
-            <input type="text" name="product-category" value="${product.category}" readonly>
-            <input type="text" name="product-nxb" value="${product.nxb}" readonly>
-            <input type="text" name="product-total" value="${product.total}" readonly>
+            <textarea placeholder="Nhập nội dung..." readonly>${product.id}</textarea>
+            <textarea placeholder="Nhập nội dung..." readonly>${product.name}</textarea>
+            <textarea placeholder="Nhập nội dung..." readonly>${product.author}</textarea>
+            <textarea placeholder="Nhập nội dung..." readonly>${product.category}</textarea>
+            <textarea placeholder="Nhập nội dung..." readonly>${product.nxb}</textarea>
+            <textarea placeholder="Nhập nội dung..." readonly>${product.total}</textarea>
             <div class="input-picture">
-                <input type="file" name="picture" class="picture" placeholder="Chọn ảnh" onchange="displayFileName()">
-                <span class="file-name">${product.picture}</span>
+                <input type="file" name="picture" class="picture" placeholder="Chọn ảnh" onchange="displayFileName()" style="display: none;">
+                <textarea placeholder="Nhập nội dung..." class="file-name" readonly>${product.picture}</textarea>
             </div>
             <div class="tool">
                 <button type="button" class="fix">
