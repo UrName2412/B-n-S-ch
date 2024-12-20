@@ -67,6 +67,7 @@
 
 /* Bố cục danh sách sản phẩm */
 .product_container {
+    margin-top: 10px;
     background-color: #e9ecef;
     border-radius: 10px;
     border: 2px solid #ced4da;
