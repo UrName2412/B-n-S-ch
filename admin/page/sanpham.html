@@ -117,13 +117,13 @@
         </div>
         <div class="behindMenuFix" style="display: none;">
         </div>
-        <div class="tool-menu" style="display: none;">
+        <div class="tool-menu" style="display: none;" >
 
             <button type="button" class="close menu-close" id="close-btn">
                 <img src="../image/close.png" alt="close" class="icon">
             </button>
 
-            <div class="menu-add" style="display: none;">
+            <div class="menu-add">
                 <h2>Thêm Sản Phẩm</h2>
                 <form class="form" id="form-add">
                     <div class="form-group">
@@ -133,7 +133,7 @@
                     </div>
                     <div class="form-group">
                         <label for="id-product">Mã sách:</label>
-                        <input type="number" name="id-product" id="id-product" placeholder="Nhập mã sách">
+                        <input type="text" name="id-product" id="id-product" placeholder="Nhập mã sách">
                         <span class="form-message"></span>
                     </div>
                     <div class="form-group">
@@ -158,7 +158,12 @@
                     </div>
                     <div class="form-group">
                         <label for="total-product">Giá tiền:</label>
-                        <input type="number" name="total-product" id="total-product" placeholder="Nhập giá tiền">
+                        <input type="text" name="total-product" id="total-product" placeholder="Nhập giá tiền">
+                        <span class="form-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="total-product">Mô tả:</label>
+                        <textarea name="description-product"></textarea>
                         <span class="form-message"></span>
                     </div>
                     <div class="form-group">
@@ -168,6 +173,7 @@
             </div>
         </div>
 
+        <!-- Cần sửa nhà xuất bản với thể loại theo type select (lấy từ dữ liệu) -->
 
         <!--End of Content-Tool-->
     </div>
