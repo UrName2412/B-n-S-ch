@@ -154,12 +154,9 @@ label{
 }
 
 .list-unstyled a {
+    flex: 1;
     text-decoration: none;
-}
-
-.list-unstyled a li{
-    text-decoration: none;
-    color: black;
+    color:black
 }
 
 .Information{
