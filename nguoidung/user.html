@@ -70,12 +70,12 @@
     </header>
     <!-- Main -->
     <main class="container my-4">
-        <div class="row padding-0">
+        <div class="main-profile row padding-0">
             <!-- Main profile -->
-            <div class="col-3">
-                <ul class="list-group">
-                    <li class="list-group-item fw-bold"><a href="">Hồ sơ</a></li>
-                    <li class="list-group-item fw-bold">Lịch sử mua hàng</li>
+            <div class="list col-3">
+                <ul class="list-unstyled">
+                    <li class="list-item" style="background-color: #DFE1E5;"><a href="#">Hồ sơ</a></li>
+                    <li class="list-item"><a href="">Lịch sử mua hàng</a></li>
                 </ul>
             </div>
             <div class="Info col-9">
@@ -213,7 +213,7 @@
             <div>
                 <label for="ngay">Ngày</label>
                 <select name="day" id="ngay">
-                    <option value="">Chọn ngày</option>
+                    <option value="11">Chọn ngày</option>
                     <script>
                         for (let i = 1; i <= 31; i++) {
                             document.write(`<option value="${i}">${i}</option>`);
@@ -224,7 +224,7 @@
             <div>
                 <label for="thang">Tháng</label>
                 <select name="month" id="thang">
-                    <option value="">Chọn tháng</option>
+                    <option value="11">Chọn tháng</option>
                     <script>
                         for (let i = 1; i <= 12; i++) {
                             document.write(`<option value="${i}">Tháng ${i}</option>`);
@@ -235,7 +235,7 @@
             <div>
                 <label for="nam">Năm</label>
                 <select name="year" id="nam">
-                    <option value="">Chọn năm</option>
+                    <option value="2001">Chọn năm</option>
                     <script>
                         const currentYear = new Date().getFullYear();
                         for (let i = currentYear; i >= 1900; i--) {
