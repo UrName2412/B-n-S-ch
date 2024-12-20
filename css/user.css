@@ -153,7 +153,11 @@ label{
     font-size: 15px;
 }
 
-.list-unstyled li a{
+.list-unstyled a {
+    text-decoration: none;
+}
+
+.list-unstyled a li{
     text-decoration: none;
     color: black;
 }

@@ -1,0 +1,107 @@
+/* Cải thiện hình ảnh sản phẩm */
+.product_info img {
+    width: 10%;
+    height: auto;
+  }
+
+
+/* Enhance the appearance of the <p> tag containing the text "Đơn Hàng" */
+.order-title {
+    display: flex;
+    justify-content: space-between;
+    font-size: 20px;
+    font-weight: bold;
+    color: #fff;
+    padding: 10px;
+    border-radius: 10px 10px 0 0;
+    background-color: #85A6DD;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Thiết kế sản phẩm */
+.product_info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 15px;
+    transition: all 0.3s ease-in-out;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+/* Thiết kế chi tiết sản phẩm */
+.product_detail1{
+    padding: 0 10px 10px 10px;
+    display: flex;
+    flex-direction: column;
+    min-width: 65%;
+}
+.product_detail2 {
+    min-width: 20%;
+}
+
+.product_detail h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #343a40;
+}
+
+.product_detail2 p {
+    font-weight: 500;
+    margin: 5px 0;
+    font-size: 18px;
+    color: #dc3545;
+}
+
+/* Bố cục danh sách sản phẩm */
+.product_container {
+    background-color: #e9ecef;
+    border-radius: 10px;
+    border: 2px solid #ced4da;
+    display: flex;
+    flex-direction: column;
+}
+
+.total{
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px;
+    border-top: 2px solid #ced4da;
+}
+.total h3{
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    padding: 10px;
+}
+.total span{
+    margin: 0;
+    color: #dc3545;
+}
+
+/* Cải thiện giao diện trên thiết bị di động */
+@media (max-width: 769px) {
+    .product_info {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 15px;
+    }
+
+    .product-info img {
+        margin-bottom: 10px;
+    }
+
+    .product_detail {
+        align-items: center;
+        text-align: center;
+    }
+
+    .product_detail h3 {
+        font-size: 16px;
+    }
+
+    .product_detail p {
+        font-size: 12px;
+    }
+}
