@@ -34,10 +34,10 @@ function renderUsers(users) {
             <textarea placeholder="Nhập nội dung..." readonly>${user.address}</textarea>
             <div class="tool">
                 <button type="button" class="fix">
-                    <img src="../image/build.png" alt="build" class="icon">
+                    <i class="fas fa-wrench"></i>
                 </button>
                 <button type="button" class="delete">
-                    <img src="../image/block.png" alt="delete" class="icon">
+                    <i class="fas fa-ban"></i>
                 </button>
             </div>
         `;

@@ -39,10 +39,10 @@ function renderProducts(products) {
             </div>
             <div class="tool">
                 <button type="button" class="fix">
-                    <img src="../image/build.png" alt="build" class="icon">
+                    <i class="fas fa-wrench"></i>
                 </button>
                 <button type="button" class="delete">
-                    <img src="../image/delete.png" alt="delete" class="icon">
+                    <i class="fas fa-trash"></i>
                 </button>
             </div>
         `;
