@@ -28,7 +28,7 @@ function renderUsers(users) {
         newUser.className = 'grid-row';
         newUser.innerHTML = `
             <textarea placeholder="Nhập id..." readonly>${user.id}</textarea>
-            <textarea placeholder="Nhập tên người dùng..." readonly>${user.name}</textarea>
+            <textarea placeholder="Nhập tên người dùng..." readonly>${user.username}</textarea>
             <textarea placeholder="Nhập số điện thoại..." readonly>${user.phone}</textarea>
             <textarea placeholder="Nhập email..." readonly>${user.email}</textarea>
             <textarea placeholder="Nhập nội dung..." readonly>${user.address}</textarea>
