@@ -194,7 +194,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-
 document.addEventListener("DOMContentLoaded", function () {
     const visaForm = document.getElementById("visa-form");
     const momoForm = document.getElementById("momo-form");
@@ -212,6 +211,65 @@ document.addEventListener("DOMContentLoaded", function () {
                 momoForm.style.display = "block";
             }
         });
+    });
+
+    document.getElementById('default-info-checkbox').addEventListener('change', toggleDefaultInfo);
+
+    function toggleDefaultInfo() {
+        const isChecked = document.getElementById('default-info-checkbox').checked;
+        const nameUser = document.getElementById('name-user');
+        const phoneUser = document.getElementById('phone-user');
+        const paymentAdr = document.getElementById('payment--adr');
+        const paymentNote = document.getElementById('payment--note');
+
+        nameUser.disabled = isChecked;
+        phoneUser.disabled = isChecked;
+        paymentAdr.disabled = isChecked;
+        paymentNote.disabled = isChecked;
+
+        if (!isChecked) {
+            nameUser.value = '';
+            phoneUser.value = '';
+            paymentAdr.value = '';
+            paymentNote.value = '';
+        } else {
+            nameUser.value = 'Nguyễn Văn A';
+            phoneUser.value = '+84 912 345 678';
+            paymentAdr.value = '123 lê Lợi, Quận 1, TP Hồ Chí Minh';
+        }
+    }
+
+    function validateForm() {
+        const paymentMethods = document.getElementsByName('btnradio');
+        let isPaymentMethodSelected = false;
+
+        for (const method of paymentMethods) {
+            if (method.checked) {
+                isPaymentMethodSelected = true;
+                break;
+            }
+        }
+
+        if (!isPaymentMethodSelected) {
+            alert('Vui lòng chọn phương thức thanh toán.');
+            return false;
+        }
+
+        return true;
+    }
+
+    // Initialize form state
+    toggleDefaultInfo();
+
+    // Kích hoạt Validator
+    Validator({
+        form: '#form-add',
+        rules: [
+            Validator.isRequired('#name-user'),
+            Validator.isRequired('#phone-user'),
+            Validator.isPhone('#phone-user'),
+            Validator.isRequired('#payment--adr'),
+        ],
     });
 });
 

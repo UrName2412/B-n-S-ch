@@ -151,12 +151,6 @@ input{
     margin-bottom: 15px;
 }
 
-/* Biểu tượng trong label */
-.payment--form label i {
-    color: #007bff;
-    margin-right: 5px;
-}
-
 /* Hiệu ứng toàn form khi hover */
 .payment__content__left:hover {
     transform: scale(1.01);
@@ -194,4 +188,62 @@ input{
 .payment-detail-form h4 {
     margin-bottom: 15px;
 }
+
+fieldset {
+    border: 1px solid #ddd; /* Add border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 15px; /* Padding inside the fieldset */
+    margin-bottom: 20px; /* Space between fieldsets */
+}
+
+legend {
+    font-size: 1.2rem; /* Increase font size */
+    font-weight: bold; /* Bold text */
+    color: #333; /* Text color */
+    padding: 0 10px; /* Padding around the legend text */
+}
+
+.payment-option {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    transition: background-color 0.3s, border-color 0.3s;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.payment-option:hover {
+    background-color: #e6f7ff;
+    border-color: #007bff;
+}
+
+.payment-option input[type="radio"] {
+    display: none;
+}
+
+.payment-option label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.payment-option img,
+.payment-option .cash-icon {
+    margin-right: 10px;
+}
+
+.payment-option input[type="radio"]:checked + label {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
+}
+
+
 
