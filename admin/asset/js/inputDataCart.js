@@ -28,7 +28,7 @@ function renderCarts(carts) {
         newCart.className = 'grid-row-cart';
         newCart.innerHTML = `
             <textarea placeholder="Nhập nội dung..." readonly>${cart.id}</textarea>
-            <textarea placeholder="Nhập nội dung..." readonly>${cart.name}</textarea>
+            <textarea placeholder="Nhập nội dung..." readonly>${cart.username}</textarea>
             <textarea placeholder="Nhập nội dung..." readonly>${cart.address}</textarea>
             <textarea placeholder="Nhập nội dung..." readonly>${cart.phone}</textarea>
             <textarea placeholder="Nhập nội dung..." readonly>${cart.quantity}</textarea>

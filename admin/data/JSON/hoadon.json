@@ -6,7 +6,8 @@
         "phone": "0758469512",
         "quantity": 12,
         "amount": "1.500.000",
-        "status": "Chưa xử lí"
+        "status": "Chưa xử lí",
+        "username": "truongvudeptry"
     },
     {
         "id": "02",
@@ -15,7 +16,8 @@
         "phone": "0932475863",
         "quantity": 20,
         "amount": "3.000.000",
-        "status": "Đã xác nhận"
+        "status": "Đã xác nhận",
+        "username": "tuanbright"
     },
     {
         "id": "03",
@@ -24,7 +26,8 @@
         "phone": "0983456721",
         "quantity": 5,
         "amount": "200.000",
-        "status": "Đã giao"
+        "status": "Đã giao",
+        "username": "lanflower"
     },
     {
         "id": "04",
@@ -33,7 +36,8 @@
         "phone": "0912345678",
         "quantity": 16,
         "amount": "1.600.000",
-        "status": "Chưa xử lí"
+        "status": "Chưa xử lí",
+        "username": "maipeace"
     },
     {
         "id": "05",
@@ -42,7 +46,8 @@
         "phone": "0893456789",
         "quantity": 20,
         "amount": "2.000.000",
-        "status": "Đã hủy"
+        "status": "Đã hủy",
+        "username": "minhglory"
     },
     {
         "id": "06",
@@ -51,7 +56,8 @@
         "phone": "09123456780",
         "quantity": 2,
         "amount": "200.000",
-        "status": "Đã hủy"
+        "status": "Đã hủy",
+        "username": "khanhhero"
     },
     {
         "id": "07",
@@ -60,7 +66,8 @@
         "phone": "0983456721",
         "quantity": 7,
         "amount": "800.000",
-        "status": "Chưa xử lí"
+        "status": "Chưa xử lí",
+        "username": "luudaisy"
     },
     {
         "id": "08",
@@ -69,7 +76,8 @@
         "phone": "093567901",
         "quantity": 5,
         "amount": "250.000",
-        "status": "Đã xác nhận"
+        "status": "Đã xác nhận",
+        "username": "quanforce"
     },
     {
         "id": "09",
@@ -78,7 +86,8 @@
         "phone": "09034567890",
         "quantity": 5,
         "amount": "600.000",
-        "status": "Đã giao"
+        "status": "Đã giao",
+        "username": "chaustar"
     },
     {
         "id": "10",
@@ -87,6 +96,7 @@
         "phone": "09034567890",
         "quantity": 15,
         "amount": "1.200.000",
-        "status": "Chưa xử lí"
+        "status": "Chưa xử lí",
+        "username": "chaustar"
     }
 ]
