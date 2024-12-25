@@ -153,6 +153,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // Xử lý khi submit form
     const paymentForm = document.querySelector("#form-add");
     paymentForm.addEventListener("submit", function (event) {
+        event.preventDefault(); // Ngăn submit form mặc định
+
         const selectedMethod = document.querySelector('input[name="btnradio"]:checked').value;
         let isValid = true;
 
@@ -187,30 +189,17 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
 
-        // Ngăn không cho submit nếu không hợp lệ
-        if (!isValid) {
-            event.preventDefault();
+        // Nếu tất cả trường hợp hợp lệ
+        if (isValid) {
+            const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+            successModal.show();
+            
+            localStorage.clear(); // Xóa giỏ hàng
+            loadFromLocalStorage();
+            setTimeout(() => {
+                window.location.href = "../nguoidung/indexuser.html";
+            }, 3000); // Chờ 3 giây
         }
-    });
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-    const visaForm = document.getElementById("visa-form");
-    const momoForm = document.getElementById("momo-form");
-
-    document.querySelectorAll('input[name="btnradio"]').forEach((radio) => {
-        radio.addEventListener("change", function () {
-            // Ẩn tất cả các form
-            visaForm.style.display = "none";
-            momoForm.style.display = "none";
-
-            // Hiển thị form theo lựa chọn
-            if (this.value === "visa") {
-                visaForm.style.display = "flex";
-            } else if (this.value === "momo") {
-                momoForm.style.display = "block";
-            }
-        });
     });
 
     document.getElementById('default-info-checkbox').addEventListener('change', toggleDefaultInfo);
