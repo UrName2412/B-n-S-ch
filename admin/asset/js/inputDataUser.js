@@ -47,7 +47,8 @@ function renderUsers(users) {
     });
 
     var banButtons = document.querySelectorAll('.delete');
-    console.log(banButtons);
+    const stringModal = 'Bạn có chắc muốn khóa người dùng không?';
+    const stringAlert = 'Đã khóa.';
     banButtons.forEach((banButton) => {
         banButton.addEventListener('click', (event) => {
             var confirm = openModal(stringModal, stringAlert).then((result) => {
@@ -55,6 +56,7 @@ function renderUsers(users) {
                     if (banButton){
                         var gridRow = event.target.closest('.grid-row');
                         console.log(gridRow);
+                        //Chưa xong
                     }
                 }
             });
@@ -62,9 +64,6 @@ function renderUsers(users) {
         });
     })
 }
-
-const stringModal = 'Bạn có chắc muốn khóa người dùng không?';
-const stringAlert = 'Đã khóa người dùng.';
 
 
 

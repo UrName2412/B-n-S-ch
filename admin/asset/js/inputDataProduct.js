@@ -50,6 +50,24 @@ function renderProducts(products) {
         // Thêm phần tử vào DOM
         listProductsBlock.appendChild(newProduct);
     });
+    
+    var deleteButtons = document.querySelectorAll('.delete');
+    const stringModal = 'Bạn có chắc muốn xóa sản phẩm không?';
+    const stringAlert = 'Đã xóa.';
+    deleteButtons.forEach((deleteButton) => {
+        deleteButton.addEventListener('click', (event) => {
+            var confirm = openModal(stringModal, stringAlert).then((result) => {
+                if (result) {
+                    if (deleteButton){
+                        var gridRow = event.target.closest('.grid-row');
+                        console.log(gridRow);
+                        //Chưa xong
+                    }
+                }
+            });
+            
+        });
+    })
 }
 
 

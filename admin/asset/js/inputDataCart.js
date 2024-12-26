@@ -47,34 +47,3 @@ function renderCarts(carts) {
         listCartsBlock.appendChild(newCart);
     });
 }
-
-// document.querySelector('#dataCarts').addEventListener('click', function (event) {
-//     var row = event.target.closest('.grid-row-cart');
-//     if (row) {
-//         const status = row.querySelector('.status');
-//         const spans = row.querySelectorAll('span');
-//         const isExpanded = row.classList.contains('expanded');
-//         if (isExpanded) {
-//             spans.forEach((span, index) => {
-//                 if (index > 2) {
-//                     span.style.display = 'none';
-//                     span.style.borderBottom = 'none';
-//                 }
-//                 else {
-//                     span.style.borderBottom = 'none';
-//                 }
-//             });
-//             status.style.display = 'none';
-//             row.classList.remove('expanded');
-//         } else {
-//             spans.forEach(span => {
-//                 span.style.display = 'inline-block';
-//                 span.style.borderBottom = '1px solid var(--color-dark)';
-//             });
-//             status.style.display = 'inline-block';
-//             row.classList.add('expanded');
-//         }
-//     }
-// });
-
-// Fix button status
