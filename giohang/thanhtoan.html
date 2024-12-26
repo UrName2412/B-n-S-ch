@@ -71,100 +71,112 @@
     </header>
     <!-- PAYMENT  -->
     <section class="payment_container my-4">
-        <div class="payment__content row">
-            <div class="payment__content__left col-6 d-flex flex-column">
-                <h3>Thông tin giao hàng</h3>
-                <form class="payment--form d-flex flex-column gap-3" id="form-add" method="post"
-                    onsubmit="return thanks()">
-                    <!-- Họ tên -->
-                    <div>
-                        <label for="name-user"><i class="fas fa-user"></i>Họ tên <span
-                                style="color: red;">*</span></label>
-                        <input type="text" id="name-user" name="name-user" placeholder="Tên người nhận hàng">
-                        <span class="form-message"></span>
-                    </div>
-                    <!-- Điện thoại -->
-                    <div>
-                        <label for="phone-user"><i class="fas fa-phone-volume"></i>Điện thoại <span
-                                style="color: red;">*</span></label>
-                        <input type="tel" id="phone-user" name="phone-user" placeholder="Số điện thoại người nhận hàng">
-                        <span class="form-message"></span>
-                    </div>
-                    <!-- Địa chỉ -->
-                    <div>
-                        <label for="payment--adr"><i class="far fa-address-card"></i>Địa chỉ <span
-                                style="color: red;">*</span></label>
-                        <input type="text" id="payment--adr" name="payment--adr" placeholder="Địa chỉ nhận hàng">
-                        <span class="form-message"></span>
-                    </div>
-                    <!-- Ghi chú -->
-                    <div>
-                        <label for="payment--note"><i class="far fa-comment"></i>Ghi chú</label>
-                        <textarea id="payment--note" name="payment--note" rows="3"
-                            placeholder="Ghi yêu cầu của bạn tại đây."></textarea>
-                        <span class="form-message"></span>
-                    </div>
+        <div class="payment__content row justify-content-center">
+            <div class="payment__content__left col-12 col-md-8 col-lg-6 d-flex flex-column">
+                <h3>Thông tin giao hàng và thanh toán</h3>
+                <form class="payment--form d-flex flex-column gap-3" id="form-add" method="post" onsubmit="return validateForm()">
+                    <fieldset>
+                        <legend>Thông tin giao hàng</legend>
+                        <!-- Sử dụng thông tin mặc định -->
+                        <div class="d-flex flex-row">
+                            <input type="checkbox" id="default-info-checkbox" style="width: fit-content;" checked onchange="toggleDefaultInfo()">
+                            <label for="default-info-checkbox" style="width: fit-content;">Sử dụng thông tin mặc định</label>
+                        </div>
+                        <!-- Họ tên -->
+                        <div>
+                            <label for="name-user"><i class="fas fa-user"></i>Họ tên <span style="color: red;">*</span></label>
+                            <input type="text" id="name-user" name="name-user" value="Nguyễn Văn A" placeholder="Tên người nhận hàng" required>
+                            <span class="form-message"></span>
+                        </div>
+                        <!-- Điện thoại -->
+                        <div>
+                            <label for="phone-user"><i class="fas fa-phone-volume"></i>Điện thoại <span style="color: red;">*</span></label>
+                            <input type="tel" id="phone-user" name="phone-user" value="+84 912 345 678" placeholder="Số điện thoại người nhận hàng" required>
+                            <span class="form-message"></span>
+                        </div>
+                        <!-- Địa chỉ -->
+                        <div>
+                            <label for="payment--adr"><i class="far fa-address-card"></i>Địa chỉ <span style="color: red;">*</span></label>
+                            <input type="text" id="payment--adr" value="123 lê Lợi, Quận 1, TP Hồ Chí Minh" name="payment--adr" placeholder="Địa chỉ nhận hàng" required>
+                            <span class="form-message"></span>
+                        </div>
+                        <!-- Ghi chú -->
+                        <div>
+                            <label for="payment--note"><i class="far fa-comment"></i>Ghi chú</label>
+                            <textarea id="payment--note" name="payment--note" rows="3" placeholder="Ghi yêu cầu của bạn tại đây."></textarea>
+                            <span class="form-message"></span>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Phương thức thanh toán</legend>
+                        <label>Chọn phương thức:</label>
+                        <div class="btn-group d-flex flex-column" id="payment__method" role="group" aria-label="Basic radio toggle button group">
+                            <!-- Visa -->
+                            <div class="payment-option">
+                                <input type="radio" name="btnradio" id="btnradio1" value="visa" autocomplete="off">
+                                <label class="btn d-flex" for="btnradio1">
+                                    <img src="../Images/visa.png" class="w-12" alt="Visa">
+                                    <span>Visa/Mastercard</span>
+                                </label>
+                            </div>
+                            <!-- Momo -->
+                            <div class="payment-option">
+                                <input type="radio" name="btnradio" id="btnradio2" value="momo" autocomplete="off">
+                                <label class="btn d-flex" for="btnradio2">
+                                    <img src="../Images/momo.png" class="w-12" alt="Momo">
+                                    <span>Ví Momo</span>
+                                </label>
+                            </div>
+                            <!-- Cash -->
+                            <div class="payment-option">
+                                <input type="radio" name="btnradio" id="btnradio3" value="cash" autocomplete="off" checked>
+                                <label class="btn d-flex" for="btnradio3">
+                                    <div class="cash-icon"><i class="fas fa-money-bill"></i></div>
+                                    <span>Tiền mặt</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div id="visa-form" class="payment-detail-form" style="display: none;">
+                            <div class="d-flex flex-column">
+                                <h4>Thông tin thẻ Visa/Mastercard</h4>
+                                <label for="card-number">Số thẻ:</label>
+                                <input type="text" id="card-number" placeholder="Nhập số thẻ">
+                                <span class="form-message" id="error-card-number"></span>
+                                
+                                <label for="card-expiry">Ngày hết hạn:</label>
+                                <input type="text" id="card-expiry" placeholder="MM/YY">
+                                <span class="form-message" id="error-card-expiry"></span>
+                                
+                                <label for="card-cvv">Mã CVV:</label>
+                                <input type="text" id="card-cvv" placeholder="Mã CVV">
+                                <span class="form-message" id="error-card-cvv"></span>
+                                
+                                <label for="card-name">Tên trên thẻ:</label>
+                                <input type="text" id="card-name" placeholder="Tên trên thẻ">
+                                <span class="form-message" id="error-card-name"></span>
+                                
+                                <label for="billing-address">Địa chỉ thanh toán:</label>
+                                <input type="text" id="billing-address" placeholder="Địa chỉ thanh toán">
+                                <span class="form-message" id="error-billing-address"></span>
+                            </div>
+                        </div>
+                        
+                        <div id="momo-form" class="payment-detail-form" style="display: none;">
+                            <div class="d-flex flex-column">
+                                <h4>Thông tin Ví Momo</h4>
+                                <label for="momo-number">Số điện thoại:</label>
+                                <input type="text" id="momo-number" placeholder="Nhập số điện thoại liên kết">
+                                <span class="form-message" id="error-momo-number"></span>
+                                
+                                <label for="momo-name">Tên tài khoản Momo:</label>
+                                <input type="text" id="momo-name" placeholder="Tên tài khoản Momo">
+                                <span class="form-message" id="error-momo-name"></span>
+                            </div>
+                        </div>
+                    </fieldset>
                     <button class="payment--button" type="submit">Đặt hàng</button>
                 </form>
-
-            </div>
-            <div class="payment__content__right col-5">
-                <h3>Phương thức thanh toán</h3>
-                <label>Chọn phương thức:</label>
-                <div class="btn-group d-flex flex-column" id="payment__method" role="group"
-                    aria-label="Basic radio toggle button group">
-                    <!-- Visa -->
-                    <div class="payment-option">
-                        <input type="radio" name="btnradio" id="btnradio1" value="visa" autocomplete="off">
-                        <label class="btn d-flex" for="btnradio1">
-                            <img src="../Images/visa.png" class="w-12" alt="Visa">
-                            <span>Visa/Mastercard</span>
-                        </label>
-                    </div>
-                    <!-- Momo -->
-                    <div class="payment-option">
-                        <input type="radio" name="btnradio" id="btnradio2" value="momo" autocomplete="off">
-                        <label class="btn d-flex" for="btnradio2">
-                            <img src="../Images/momo.png" class="w-12" alt="Momo">
-                            <span>Ví Momo</span>
-                        </label>
-                    </div>
-                    <!-- Cash -->
-                    <div class="payment-option">
-                        <input type="radio" name="btnradio" id="btnradio3" value="cash" autocomplete="off" checked>
-                        <label class="btn d-flex" for="btnradio3">
-                            <div class="cash-icon"><i class="fas fa-money-bill"></i></div>
-                            <span>Tiền mặt</span>
-                        </label>
-                    </div>
-                </div>
-
-                <div id="visa-form" class="payment-detail-form" style="display: none;">
-                    <div class="d-flex flex-column">
-                        <h4>Thông tin thẻ Visa/Mastercard</h4>
-                        <label for="card-number">Số thẻ:</label>
-                        <input type="text" id="card-number" placeholder="Nhập số thẻ">
-                        <span class="form-message" id="error-card-number"></span>
-                        
-                        <label for="card-expiry">Ngày hết hạn:</label>
-                        <input type="text" id="card-expiry" placeholder="MM/YY">
-                        <span class="form-message" id="error-card-expiry"></span>
-                        
-                        <label for="card-cvv">Mã CVV:</label>
-                        <input type="text" id="card-cvv" placeholder="Mã CVV">
-                        <span class="form-message" id="error-card-cvv"></span>
-                    </div>
-                </div>
-                
-                <div id="momo-form" class="payment-detail-form" style="display: none;">
-                    <div class="d-flex flex-column">
-                        <h4>Thông tin Ví Momo</h4>
-                        <label for="momo-number">Số điện thoại:</label>
-                        <input type="text" id="momo-number" placeholder="Nhập số điện thoại liên kết">
-                        <span class="form-message" id="error-momo-number"></span>
-                    </div>
-                </div>
-                
             </div>
         </div>
     </section>
@@ -255,6 +267,36 @@
                 Validator.isRequired('#payment--adr'),
             ],
         });
+
+        function toggleDefaultInfo() {
+            const isChecked = document.getElementById('default-info-checkbox').checked;
+            document.getElementById('name-user').disabled = isChecked;
+            document.getElementById('phone-user').disabled = isChecked;
+            document.getElementById('payment--adr').disabled = isChecked;
+            document.getElementById('payment--note').disabled = isChecked;
+        }
+
+        function validateForm() {
+            const paymentMethods = document.getElementsByName('btnradio');
+            let isPaymentMethodSelected = false;
+
+            for (const method of paymentMethods) {
+                if (method.checked) {
+                    isPaymentMethodSelected = true;
+                    break;
+                }
+            }
+
+            if (!isPaymentMethodSelected) {
+                alert('Vui lòng chọn phương thức thanh toán.');
+                return false;
+            }
+
+            return true;
+        }
+
+        // Initialize form state
+        toggleDefaultInfo();
     </script>
 </body>
 

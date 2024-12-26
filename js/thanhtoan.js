@@ -153,6 +153,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // Xử lý khi submit form
     const paymentForm = document.querySelector("#form-add");
     paymentForm.addEventListener("submit", function (event) {
+        event.preventDefault(); // Ngăn submit form mặc định
+
         const selectedMethod = document.querySelector('input[name="btnradio"]:checked').value;
         let isValid = true;
 
@@ -187,31 +189,76 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
 
-        // Ngăn không cho submit nếu không hợp lệ
-        if (!isValid) {
-            event.preventDefault();
+        // Nếu tất cả trường hợp hợp lệ
+        if (isValid) {
+            const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+            successModal.show();
+            
+            localStorage.clear(); // Xóa giỏ hàng
+            loadFromLocalStorage();
+            setTimeout(() => {
+                window.location.href = "../nguoidung/indexuser.html";
+            }, 3000); // Chờ 3 giây
         }
     });
-});
 
+    document.getElementById('default-info-checkbox').addEventListener('change', toggleDefaultInfo);
 
-document.addEventListener("DOMContentLoaded", function () {
-    const visaForm = document.getElementById("visa-form");
-    const momoForm = document.getElementById("momo-form");
+    function toggleDefaultInfo() {
+        const isChecked = document.getElementById('default-info-checkbox').checked;
+        const nameUser = document.getElementById('name-user');
+        const phoneUser = document.getElementById('phone-user');
+        const paymentAdr = document.getElementById('payment--adr');
+        const paymentNote = document.getElementById('payment--note');
 
-    document.querySelectorAll('input[name="btnradio"]').forEach((radio) => {
-        radio.addEventListener("change", function () {
-            // Ẩn tất cả các form
-            visaForm.style.display = "none";
-            momoForm.style.display = "none";
+        nameUser.disabled = isChecked;
+        phoneUser.disabled = isChecked;
+        paymentAdr.disabled = isChecked;
+        paymentNote.disabled = isChecked;
 
-            // Hiển thị form theo lựa chọn
-            if (this.value === "visa") {
-                visaForm.style.display = "flex";
-            } else if (this.value === "momo") {
-                momoForm.style.display = "block";
+        if (!isChecked) {
+            nameUser.value = '';
+            phoneUser.value = '';
+            paymentAdr.value = '';
+            paymentNote.value = '';
+        } else {
+            nameUser.value = 'Nguyễn Văn A';
+            phoneUser.value = '+84 912 345 678';
+            paymentAdr.value = '123 lê Lợi, Quận 1, TP Hồ Chí Minh';
+        }
+    }
+
+    function validateForm() {
+        const paymentMethods = document.getElementsByName('btnradio');
+        let isPaymentMethodSelected = false;
+
+        for (const method of paymentMethods) {
+            if (method.checked) {
+                isPaymentMethodSelected = true;
+                break;
             }
-        });
+        }
+
+        if (!isPaymentMethodSelected) {
+            alert('Vui lòng chọn phương thức thanh toán.');
+            return false;
+        }
+
+        return true;
+    }
+
+    // Initialize form state
+    toggleDefaultInfo();
+
+    // Kích hoạt Validator
+    Validator({
+        form: '#form-add',
+        rules: [
+            Validator.isRequired('#name-user'),
+            Validator.isRequired('#phone-user'),
+            Validator.isPhone('#phone-user'),
+            Validator.isRequired('#payment--adr'),
+        ],
     });
 });
 
