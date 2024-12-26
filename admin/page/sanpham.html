@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../asset/css/style.css">
-    <link rel="stylesheet" href="../asset/css/modal.css">
+    <link rel="stylesheet" href="../asset/css/function.css">
     <link rel="stylesheet" href="../../css/fontawesome-free/css/all.min.css">
     <title>Admin </title>
 </head>
@@ -102,15 +102,10 @@
 
         <!-- Tool Menu -->
 
-        <div class="behindMenu" style="display: none;">
-        </div>
-        <div class="behindMenuFix" style="display: none;">
-        </div>
         <div class="tool-menu" style="display: none;" id="tool-menu">
             <button type="button" class="close menu-close" id="close-btn">
                 <img src="../image/close.png" alt="close" class="icon">
             </button>
-
             <div class="menu-add">
                 <h2>Thêm Sản Phẩm</h2>
                 <form class="form" id="form-add">
@@ -166,34 +161,9 @@
         <!--End of Content-Tool-->
     </div>
 
-    <div class="behindMenuModal" style="display: none;">
-    </div>
-    <div class="modal">
-        <div class="headModal">
-            <span>Bạn có chắc muốn xóa không?</span>
-        </div>
-        <div class="choiceModal">
-            <button type="button" class="cancel">Hủy</button>
-            <button type="button" class="confirm">Xác nhận</button>
-        </div>
-    </div>
-
-    <div class="behindMenuAlert" style="display: none;">
-    </div>
-    <div id="customAlert" class="custom-alert">
-        <div class="alert-content">
-            <p id="alertMessage"></p>
-            <button id="alertCloseBtn">OK</button>
-        </div>
-    </div>
-
-
-
-
+    <script src="../asset/js/function.js"></script>
     <script src="../asset/js/validator.js"></script>
     <script src="../asset/js/inputDataProduct.js"></script>
-    <script src="../asset/js/function.js"></script>
-    <script src="../asset/js/modal.js"></script>
     
     <script>
         messageRequired = 'Vui lòng nhập thông tin.';

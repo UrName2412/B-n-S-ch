@@ -45,5 +45,26 @@ function renderUsers(users) {
         // Thêm phần tử vào DOM
         listUsersBlock.appendChild(newUser);
     });
+
+    var banButtons = document.querySelectorAll('.delete');
+    console.log(banButtons);
+    banButtons.forEach((banButton) => {
+        banButton.addEventListener('click', (event) => {
+            var confirm = openModal(stringModal, stringAlert).then((result) => {
+                if (result) {
+                    if (banButton){
+                        var gridRow = event.target.closest('.grid-row');
+                        console.log(gridRow);
+                    }
+                }
+            });
+            
+        });
+    })
 }
+
+const stringModal = 'Bạn có chắc muốn khóa người dùng không?';
+const stringAlert = 'Đã khóa người dùng.';
+
+
 
