@@ -16,7 +16,7 @@
     <div class="container">
         <!--Sidebar Section-->
         <aside>
-            <div class="sidebar">
+           <div class="sidebar">
                 <a href="thongke.html">
                     <i class="fas fa-chart-line"></i>
                     <h3>Thống kê</h3>
@@ -37,24 +37,7 @@
                     <i class="fas fa-sign-out-alt"></i>
                     <h3>Đăng xuất</h3>
                 </a>
-            </div>
-            <div class="sidebar-re">
-                <a href="thongke.html">
-                    <i class="fas fa-chart-line"></i>
-                </a>
-                <div class="active">
-                    <i class="fas fa-user"></i>
-                </div>
-                <a href="sanpham.html">
-                    <i class="fas fa-archive"></i>
-                </a>
-                <a href="hoadon.html">
-                    <i class="fas fa-clipboard-list"></i>
-                </a>
-                <a href="../index.html" class="last-child">
-                    <i class="fas fa-sign-out-alt"></i>
-                </a>
-            </div>
+            </div> 
         </aside>
         <!--End of Sidebar Section-->
 
@@ -101,7 +84,7 @@
 
             <!-- Tool Section -->
             <div class="tool">
-                <button type="button" class="add" id="add">
+                <button type="button" class="add" id="add" onclick="openToolMenu()">
                     <i class="fas fa-plus"></i>
                 </button>
                 <div class="search">
@@ -121,7 +104,7 @@
         </div>
         <div class="behindMenuFix" style="display: none;">
         </div>
-        <div class="tool-menu" style="display: none;">
+        <div class="tool-menu" style="display: none;" id="tool-menu">
             <button type="button" class="close menu-close" id="close-tool-menu">
                 <img src="../image/close.png" alt="close" class="icon">
             </button>
@@ -139,13 +122,13 @@
                         <span class="form-message"></span>
                     </div>
                     <div class="form-group">
-                        <label for="name-user">Mật khẩu:</label>
-                        <input type="password" name="name-user" id="name-user" placeholder="Nhập mật khẩu">
+                        <label for="password-user">Mật khẩu:</label>
+                        <input type="password" name="password-user" id="password-user" placeholder="Nhập mật khẩu">
                         <span class="form-message"></span>
                     </div>
                     <div class="form-group">
-                        <label for="name-user">Nhập lại mật khẩu:</label>
-                        <input type="password" name="name-user" id="name-user" placeholder="Nhập mật khẩu">
+                        <label for="password-re-user">Nhập lại mật khẩu:</label>
+                        <input type="password" name="password-re-user" id="password-re-user" placeholder="Nhập mật khẩu">
                         <span class="form-message"></span>
                     </div>
                     <div class="form-group">
@@ -195,7 +178,7 @@
 
     <script src="../asset/js/validator.js"></script>
     <script src="../asset/js/inputDataUser.js"></script>
-    <script src="../asset/js/index.js"></script>
+    <script src="../asset/js/function.js"></script>
     <script src="../asset/js/modal.js"></script>
 
 

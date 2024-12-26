@@ -14,7 +14,6 @@
 
 <body>
     <div class="container">
-
         <!--Sidebar Section-->
         <aside>
             <div class="sidebar">
@@ -37,23 +36,6 @@
                 <a href="../index.html" class="last-child">
                     <i class="fas fa-sign-out-alt"></i>
                     <h3>Đăng xuất</h3>
-                </a>
-            </div>
-            <div class="sidebar-re">
-                <a href="thongke.html">
-                    <i class="fas fa-chart-line"></i>
-                </a>
-                <a href="nguoidung.html">
-                    <i class="fas fa-user"></i>
-                </a>
-                <a href="sanpham.html">
-                    <i class="fas fa-archive"></i>
-                </a>
-                <div class="active">
-                    <i class="fas fa-clipboard-list"></i>
-                </div>
-                <a href="../index.html" class="last-child">
-                    <i class="fas fa-sign-out-alt"></i>
                 </a>
             </div>
         </aside>
@@ -124,14 +106,12 @@
         </div>
         <div class="behindMenuFix" style="display: none;">
         </div>
-        <div class="tool-menu" style="display: none;">
-
+        <div class="tool-menu" style="display: none;" id="tool-menu">
             <button type="button" class="close menu-close" id="menu-close-btn">
                 <img src="../image/close.png" alt="close" class="icon">
             </button>
-
             <div class="menu-add" style="display: none;">
-                <h2>Thêm Đơn Hàng</h2>
+                <h2>Thêm Hóa Đơn</h2>
                 <form class="form" id="form-add">
                     <div class="form-group">
                         <label for="id-cart">Mã đơn:</label>
@@ -203,7 +183,7 @@
 
     <script src="../asset/js/validator.js"></script>
     <script src="../asset/js/inputDataCart.js"></script>
-    <script src="../asset/js/index.js"></script>
+    <script src="../asset/js/function.js"></script>
     <script src="../asset/js/modal.js"></script>
 
 

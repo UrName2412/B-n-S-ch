@@ -46,16 +46,7 @@ let elementToDelete = null;
 //     })
 // })
 
-behindMenuModal.addEventListener('click', () => {
-    modal.classList.toggle("show", false);
-    behindMenuModal.style.display = 'none';
-})
 
-behindMenuAlert.addEventListener('click', () => {
-    modal.classList.toggle("show", false);
-    behindMenuAlert.style.display = 'none';
-    customAlert.style.display = 'none';
-})
 
 
 
