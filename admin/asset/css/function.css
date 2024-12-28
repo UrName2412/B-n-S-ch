@@ -39,6 +39,7 @@
     margin-left: 5px;
     padding: 10px;
     display: inline-block;
+    transition: transform 0.3s ease;
 }
 
 .choiceModal .confirm{
@@ -46,7 +47,7 @@
     border: 2px solid black;
 }
 
-.choiceModal .cancel{
+.choiceModal .canceled{
     background-color: #1B9C85;
     border: 2px solid black;
 }

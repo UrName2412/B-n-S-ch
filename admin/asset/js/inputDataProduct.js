@@ -68,6 +68,29 @@ function renderProducts(products) {
             
         });
     })
+
+    var fixButtons = document.querySelectorAll('.fix');
+    fixButtons.forEach((fixButton) => {
+        fixButton.addEventListener('click', (event) => {
+            var gridRowProduct = event.target.closest('.grid-row-product');
+            var textAreas = gridRowProduct.querySelectorAll('textarea');
+            if (gridRowProduct.classList.contains('fixed')) {
+                textAreas.forEach((textArea) => {
+                    textArea.readOnly = true;
+                    textArea.classList.toggle('fixed');
+                })
+                fixButton.innerHTML = `<i class="fas fa-wrench"></i>`;
+            } else {
+                textAreas.forEach((textArea) => {
+                    textArea.readOnly = false;
+                    textArea.classList.toggle('fixed');
+                })
+                fixButton.innerHTML = `<i class="fas fa-check"></i>`;
+            }
+            gridRowProduct.classList.toggle('fixed');
+            fixButton.classList.toggle('fixed');
+        })
+    })
 }
 
 

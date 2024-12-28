@@ -53,15 +53,38 @@ function renderUsers(users) {
         banButton.addEventListener('click', (event) => {
             var confirm = openModal(stringModal, stringAlert).then((result) => {
                 if (result) {
-                    if (banButton){
+                    if (banButton) {
                         var gridRow = event.target.closest('.grid-row');
                         console.log(gridRow);
                         //Chưa xong
                     }
                 }
             });
-            
+
         });
+    })
+
+    var fixButtons = document.querySelectorAll('.fix');
+    fixButtons.forEach((fixButton) => {
+        fixButton.addEventListener('click', (event) => {
+            var gridRow = event.target.closest('.grid-row');
+            var textAreas = gridRow.querySelectorAll('textarea');
+            if (gridRow.classList.contains('fixed')) {
+                textAreas.forEach((textArea) => {
+                    textArea.readOnly = true;
+                    textArea.classList.toggle('fixed');
+                })
+                fixButton.innerHTML = `<i class="fas fa-wrench"></i>`;
+            } else {
+                textAreas.forEach((textArea) => {
+                    textArea.readOnly = false;
+                    textArea.classList.toggle('fixed');
+                })
+                fixButton.innerHTML = `<i class="fas fa-check"></i>`;
+            }
+            gridRow.classList.toggle('fixed');
+            fixButton.classList.toggle('fixed');
+        })
     })
 }
 

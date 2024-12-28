@@ -51,17 +51,12 @@
                     </a>
                 </div>
             </div>
-            <button type="button" class="close" id="head-close-btn">
+            <button type="button" class="close" id="closeHeaderButton">
                 <img src="../image/close.png" alt="close" class="icon">
             </button>
-            <button type="button" class="menuHeader">
+            <button type="button" class="menuHeader" id="menuHeaderButton">
                 <img src="../image/menu.png" alt="menu" class="icon">
             </button>
-            <button type="button" class="close-mobile" id="head-close-btn-mobile">
-                <img src="../image/close.png" alt="close" class="icon">
-            </button>
-            <button type="button" class="menuHeader-mobile">
-                <img src="../image/menu.png" alt="menu" class="icon">
             </button>
         </div>
         <!--End of Header-->
@@ -101,7 +96,7 @@
         <!-- Tool Menu -->
 
         <div class="tool-menu" style="display: none;" id="tool-menu">
-            <button type="button" class="close menu-close" id="close-tool-menu">
+            <button type="button" class="menu-close" id="closeToolMenuButton">
                 <img src="../image/close.png" alt="close" class="icon">
             </button>
             <div class="menu-add">
@@ -123,8 +118,8 @@
                         <span class="form-message"></span>
                     </div>
                     <div class="form-group">
-                        <label for="password-re-user">Nhập lại mật khẩu:</label>
-                        <input type="password" name="password-re-user" id="password-re-user" placeholder="Nhập mật khẩu">
+                        <label for="confirmPassword-user">Nhập lại mật khẩu:</label>
+                        <input type="password" name="confirmPassword-user" id="confirmPassword-user" placeholder="Nhập mật khẩu">
                         <span class="form-message"></span>
                     </div>
                     <div class="form-group">
@@ -152,21 +147,28 @@
     <script src="../asset/js/function.js"></script>
     <script src="../asset/js/validator.js"></script>
     <script src="../asset/js/inputDataUser.js"></script>
+    <script src="../asset/js/admin.js"></script>
 
 
     <script>
         messageRequired = 'Vui lòng nhập thông tin.';
         messageEmail = 'Vui lòng nhập đúng email.';
-        messagePhone = 'Vui lòng nhập đúng số điện thoại';
+        messagePhone = 'Vui lòng nhập đúng số điện thoại.';
+        messagePassword = 'Yêu cầu kí tự hoa, kí tự thường, số và ít nhất 7 kí tự.';
+        messageConfirmPassword = 'Nhập sai mật khẩu, vui lòng nhập lại.';
         Validator({
             form: '#form-add',
             errorSelector: '.form-message',
             rules: [
                 Validator.isRequired('#id-user', messageRequired),
                 Validator.isRequired('#name-user', messageRequired),
+                Validator.isRequired('#password-user', messageRequired),
+                Validator.isRequired('#confirmPassword-user', messageRequired),
                 Validator.isEmail('#email-user', messageEmail),
                 Validator.isPhone('#phone-user', messagePhone),
                 Validator.minLength('#name-user', 6),
+                Validator.isPassword('#password-user',messagePassword),
+                Validator.comparePassword('#confirmPassword-user','#password-user',messageConfirmPassword),
             ]
         })
     </script>

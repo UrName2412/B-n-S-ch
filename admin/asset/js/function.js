@@ -15,17 +15,20 @@ function closeBehindMenu(behindMenu){
 
 function openToolMenu(){
     var toolMenu = document.getElementById("tool-menu");
-    var closeButton = document.getElementById("close-tool-menu");
+    var closeButton = document.getElementById("closeToolMenuButton");
     var behindMenu = createBehindMenu();
 
     toolMenu.style.display = 'block';
+    closeButton.style.display = 'block';
 
     behindMenu.addEventListener('click',() => {
         toolMenu.style.display = 'none';
+        closeButton.style.display = 'block';
         closeBehindMenu(behindMenu);
     });
     closeButton.addEventListener('click',() => {
         toolMenu.style.display = 'none';
+        closeButton.style.display = 'block';
         closeBehindMenu(behindMenu);
     });
 }
@@ -39,7 +42,7 @@ function createModal(stringModal){
             <span>${stringModal}</span>
         </div>
         <div class="choiceModal">
-            <button type="button" class="cancel">Hủy</button>
+            <button type="button" class="canceled">Hủy</button>
             <button type="button" class="confirm">Xác nhận</button>
         </div>
     `;
@@ -56,10 +59,10 @@ function closeToolMenu(){
 // function openModal(stringModal,stringAlert){
 //     var modal = createModal(stringModal);
 //     var behindMenu = createBehindMenu();
-//     var cancel = modal.querySelector('.cancel');
+//     var canceled = modal.querySelector('.canceled');
 //     var confirm = modal.querySelector('.confirm');
 
-//     cancel.addEventListener('click', () => {
+//     canceled.addEventListener('click', () => {
 //         closeModal();
 //         return false
 //     }); 
@@ -82,10 +85,10 @@ function openModal(stringModal, stringAlert) {
         modal.style.display = 'block'; 
         behindMenu.style.display = 'block'; 
 
-        var cancel = modal.querySelector('.cancel');
+        var canceled = modal.querySelector('.canceled');
         var confirm = modal.querySelector('.confirm');
 
-        cancel.addEventListener('click', () => {
+        canceled.addEventListener('click', () => {
             closeModal();
             resolve(false); // Trả về false khi hủy
         });

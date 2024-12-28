@@ -34,16 +34,29 @@ function renderCarts(carts) {
             <textarea placeholder="Nhập nội dung..." readonly>${cart.quantity}</textarea>
             <textarea placeholder="Nhập nội dung..." readonly>${cart.amount}</textarea>
             <div class="status">
-                <textarea placeholder="Nhập nội dung..." readonly>${cart.status}</textarea>
+                <button type="button">${cart.status}</button>
             </div>
         `;
-        var statusInputElement = newCart.querySelector('.status textarea');
-        if (cart.status == 'Chưa xử lí') statusInputElement.classList.add('not-confirm');
-        else if (cart.status == 'Đã xác nhận') statusInputElement.classList.add('confirm');
-        else if (cart.status == 'Đã giao') statusInputElement.classList.add('delivered');
-        else if (cart.status == 'Đã hủy') statusInputElement.classList.add('canceled');
-
+        var statusButton = newCart.querySelector('.status button');
+        setStatus(cart.status,statusButton);
         // Thêm phần tử vào DOM
         listCartsBlock.appendChild(newCart);
+
+        statusButton.addEventListener('click', () => {
+            if (cart.status == 'Chưa xử lí') cart.status = 'Đã xác nhận';
+            else if (cart.status == 'Đã xác nhận') cart.status = 'Đã giao';
+            else if (cart.status == 'Đã giao') cart.status = 'Đã hủy';
+            else if (cart.status == 'Đã hủy') cart.status = 'Chưa xử lí';
+            setStatus(cart.status,statusButton);
+        })
+
+        function setStatus(cartStatus,statusButton){
+            statusButton.className = '';
+            if (cartStatus == 'Chưa xử lí') statusButton.classList.add('not-confirm');
+            else if (cartStatus == 'Đã xác nhận') statusButton.classList.add('confirm');
+            else if (cartStatus == 'Đã giao') statusButton.classList.add('delivered');
+            else if (cartStatus == 'Đã hủy') statusButton.classList.add('canceled');
+            statusButton.innerHTML = `${cartStatus}`;
+        }
     });
 }
