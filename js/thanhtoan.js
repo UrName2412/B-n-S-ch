@@ -214,7 +214,7 @@ document.addEventListener("DOMContentLoaded", function () {
         nameUser.disabled = isChecked;
         phoneUser.disabled = isChecked;
         paymentAdr.disabled = isChecked;
-        paymentNote.disabled = isChecked;
+        // paymentNote.disabled = isChecked;
 
         if (!isChecked) {
             nameUser.value = '';
