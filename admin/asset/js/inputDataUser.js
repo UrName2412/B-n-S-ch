@@ -84,9 +84,8 @@ function renderUsers(users) {
             }
             gridRow.classList.toggle('fixed');
             fixButton.classList.toggle('fixed');
+
         })
     })
 }
-
-
 

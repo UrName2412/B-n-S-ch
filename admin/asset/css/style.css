@@ -463,6 +463,19 @@ button:hover{
     background-color: var(--color-success);
 }
 
+.tool select{
+    width: minmax(10vw,fit-content);
+    height: 5vh;
+    border-radius: 10px;
+    border: 1px solid black;
+}
+
+.tool select:focus{
+    border-color: #4CAF50;
+    outline: none;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+
 .search{
     width: 100%;
     display: flex;
@@ -545,24 +558,6 @@ button:hover{
     background-color: #c00050;
 }
 
-.tool button.inventory {
-    background-color: var(--color-dark);
-    color: var(--color-white);
-}
-
-.tool button.inventory:hover {
-    background-color: #c00050;
-}
-
-.tool button.person {
-    background-color: var(--color-dark);
-    color: var(--color-white);
-}
-
-.tool button.person:hover {
-    background-color: #c00050;
-}
-
 .tool button span {
     font-size: 2rem;
 }
@@ -602,36 +597,6 @@ button:hover{
     align-content:center;
 }
 
-.menu-filter{
-    height: 100%;
-    width: 100%;
-    padding: 10px;
-    box-sizing: border-box;
-    background-color: var(--color-white);
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    align-content: center;
-}
-
-.filter-time{
-    font-size: 1.2rem;
-}
-
-.filter-time input{
-    background-color: var(--color-dark);
-    width: 100px;
-    height: 30px;
-    border-radius: 10px;
-    color: white;
-}
-
-.filter-status{
-    font-size: 1.2rem;
-    
-}
-
 #order-status{
     background-color: var(--color-dark);
     width: 100px;
@@ -639,15 +604,6 @@ button:hover{
     border-radius: 10px;
     color: white;
 }
-
-#filterBtn{
-    background-color: var(--color-dark);
-    width: 100px;
-    height: 30px;
-    border-radius: 10px;
-    color: white;
-}
-
 
 .tool-menu h2{
     text-align: center;
@@ -697,12 +653,23 @@ button:hover{
     resize: none;
 }
 
+.form-group select:focus,
 .form-group input:focus {
     border-color: #4CAF50;
     outline: none;
     box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
 }
 
+.form-group select{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.form-group.invalid select,
 .form-group.invalid input {
     border: 2px solid red;
     background-color: #ffe6e6;
@@ -711,6 +678,7 @@ button:hover{
 .form-group.invalid span{
     color: red;
 }
+
 
 .btn-submit {
     display: block;
