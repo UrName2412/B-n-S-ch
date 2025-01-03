@@ -7,7 +7,8 @@
         "nxb": "Hội nhà văn",
         "total": "75.000",
         "quantity": 15,
-        "picture": "hoangtube.png"
+        "picture": "hoangtube.png",
+        "isDeleted": "true"
     },
     {
         "id": 2,
@@ -17,7 +18,8 @@
         "nxb": "Trẻ",
         "total": "80.000",
         "quantity": 15,
-        "picture": "dacnhantam.png"
+        "picture": "dacnhantam.png",
+        "isDeleted": "true"
     },
     {
         "id": 3,
@@ -27,7 +29,8 @@
         "nxb": "Trẻ",
         "total": "95.000",
         "quantity": 10,
-        "picture": "chagiauchangheo.png"
+        "picture": "chagiauchangheo.png",
+        "isDeleted": "false"
     },
     {
         "id": 4,
@@ -37,7 +40,8 @@
         "nxb": "Hội nhà văn",
         "total": "85.000",
         "quantity": 10,
-        "picture": "nhagiakim.png"
+        "picture": "nhagiakim.png",
+        "isDeleted": "false"
     },
     {
         "id": 5,
@@ -47,7 +51,8 @@
         "nxb": "Nhã Nam",
         "total": "90.000",
         "quantity": 10,
-        "picture": "haychamsocme.png"
+        "picture": "haychamsocme.png",
+        "isDeleted": "false"
     },
     {
         "id": 6,
@@ -57,7 +62,8 @@
         "nxb": "Trẻ",
         "total": "75.000",
         "quantity": 18,
-        "picture": "bietyeuthuong.png"
+        "picture": "bietyeuthuong.png",
+        "isDeleted": "false"
     },
     {
         "id": 7,
@@ -67,7 +73,8 @@
         "nxb": "Hội nhà văn",
         "total": "70.000",
         "quantity": 18,
-        "picture": "thuongnhomuoihai.png"
+        "picture": "thuongnhomuoihai.png",
+        "isDeleted": "false"
     },
     {
         "id": 8,
@@ -77,7 +84,8 @@
         "nxb": "Hội nhà văn",
         "total": "110.000",
         "quantity": 18,
-        "picture": "cuontheochieugio.png"
+        "picture": "cuontheochieugio.png",
+        "isDeleted": "true"
     },
     {
         "id": 9,
@@ -87,7 +95,8 @@
         "nxb": "Nhã Nam",
         "total": "120.000",
         "quantity": 15,
-        "picture": "harrypotter.png"
+        "picture": "harrypotter.png",
+        "isDeleted": "false"
     },
     {
         "id": 10,
@@ -97,7 +106,8 @@
         "nxb": "Trẻ",
         "total": "65.000",
         "quantity": 15,
-        "picture": "cachnghithanhcong.png"
+        "picture": "cachnghithanhcong.png",
+        "isDeleted": "false"
     },
     {
         "id": 11,
@@ -107,7 +117,8 @@
         "nxb": "Trẻ",
         "total": "55.000",
         "quantity": 20,
-        "picture": "nguoibanhang.png"
+        "picture": "nguoibanhang.png",
+        "isDeleted": "false"
     },
     {
         "id": 12,
@@ -117,7 +128,8 @@
         "nxb": "Dân Trí",
         "total": "80.000",
         "quantity": 20,
-        "picture": "tuduynguoc.png"
+        "picture": "tuduynguoc.png",
+        "isDeleted": "true"
     },
     {
         "id": 13,
@@ -127,7 +139,8 @@
         "nxb": "Trẻ",
         "total": "50.000",
         "quantity": 20,
-        "picture": "bonmuacuocsong.png"
+        "picture": "bonmuacuocsong.png",
+        "isDeleted": "false"
     },
     {
         "id": 14,
@@ -137,7 +150,8 @@
         "nxb": "Hội nhà văn",
         "total": "60.000",
         "quantity": 20,
-        "picture": "canhdongbattan.png"
+        "picture": "canhdongbattan.png",
+        "isDeleted": "false"
     },
     {
         "id": 15,
@@ -147,7 +161,8 @@
         "nxb": "Nhã Nam",
         "total": "75.000",
         "quantity": 15,
-        "picture": "khihoitho.png"
+        "picture": "khihoitho.png",
+        "isDeleted": "true"
     },
     {
         "id": 16,
@@ -157,7 +172,8 @@
         "nxb": "Trẻ",
         "total": "90.000",
         "quantity": 3,
-        "picture": "sachtinhlang.png"
+        "picture": "sachtinhlang.png",
+        "isDeleted": "false"
     },
     {
         "id": 17,
@@ -167,7 +183,8 @@
         "nxb": "Dân Trí",
         "total": "85.000",
         "quantity": 3,
-        "picture": "stopoverthinking.png"
+        "picture": "stopoverthinking.png",
+        "isDeleted": "false"
     },
     {
         "id": 18,
@@ -177,7 +194,8 @@
         "nxb": "Trẻ",
         "total": "100.000",
         "quantity": 2,
-        "picture": "conchimxanh.png"
+        "picture": "conchimxanh.png",
+        "isDeleted": "false"
     },
     {
         "id": 19,
@@ -187,7 +205,8 @@
         "nxb": "Nhã Nam",
         "total": "70.000",
         "quantity": 8,
-        "picture": "baigiangcuoicung.png"
+        "picture": "baigiangcuoicung.png",
+        "isDeleted": "false"
     },
     {
         "id": 20,
@@ -197,7 +216,8 @@
         "nxb": "Dân Trí",
         "total": "80.000",
         "quantity": 8,
-        "picture": "tuduymo.png"
+        "picture": "tuduymo.png",
+        "isDeleted": "false"
     },
     {
         "id": 21,
@@ -206,7 +226,8 @@
         "category": "Hồi ký",
         "nxb": "Trẻ",
         "total": "65.000",
-        "quantity": 8
+        "quantity": 8,
+        "isDeleted": "false"
     },
     {
         "id": 22,
@@ -215,7 +236,8 @@
         "category": "Kỹ năng sống",
         "nxb": "Dân Trí",
         "total": "90.000",
-        "quantity": 8
+        "quantity": 8,
+        "isDeleted": "false"
     },
     {
         "id": 23,
@@ -224,7 +246,8 @@
         "category": "Kỹ năng sống",
         "nxb": "Dân Trí",
         "total": "68.000",
-        "quantity": 15
+        "quantity": 15,
+        "isDeleted": "false"
     },
     {
         "id": 24,
@@ -233,7 +256,8 @@
         "category": "Khoa học kĩ thuật",
         "nxb": "Lao Động",
         "total": "195.000",
-        "quantity": 15
+        "quantity": 15,
+        "isDeleted": "false"
     },
     {
         "id": 25,
@@ -242,7 +266,8 @@
         "category": "Tôn giáo",
         "nxb": "Tổng hợp TPHCM",
         "total": "125.000",
-        "quantity": 7
+        "quantity": 7,
+        "isDeleted": "false"
     },
     {
         "id": 26,
@@ -251,7 +276,8 @@
         "category": "Hồi ký",
         "nxb": "Nhã Nam",
         "total": "80.000",
-        "quantity": 7
+        "quantity": 7,
+        "isDeleted": "false"
     },
     {
         "id": 27,
@@ -260,7 +286,8 @@
         "category": "Khoa học kĩ thuật",
         "nxb": "Thanh Niên",
         "total": "120.000",
-        "quantity": 7
+        "quantity": 7,
+        "isDeleted": "false"
     },
     {
         "id": 28,
@@ -269,7 +296,8 @@
         "category": "Kĩ năng sống",
         "nxb": "Thanh Niên",
         "total": "70.000",
-        "quantity": 7
+        "quantity": 7,
+        "isDeleted": "false"
     },
     {
         "id": 29,
@@ -278,7 +306,8 @@
         "category": "Kĩ năng sống",
         "nxb": "Dân Trí",
         "total": "160.000",
-        "quantity": 4
+        "quantity": 4,
+        "isDeleted": "false"
     },
     {
         "id": 30,
@@ -287,7 +316,8 @@
         "category": "Kỹ năng sống",
         "nxb": "Nhã Nam",
         "total": "110.000",
-        "quantity": 20
+        "quantity": 20,
+        "isDeleted": "false"
     },
     {
         "id": 31,
@@ -296,7 +326,8 @@
         "category": "Trinh Thám",
         "nxb": "Thanh Niên",
         "total": "95.000",
-        "quantity": 20
+        "quantity": 20,
+        "isDeleted": "false"
     },
     {
         "id": 32,
@@ -305,7 +336,8 @@
         "category": "Văn học",
         "nxb": "Nhã Nam",
         "total": "200.000",
-        "quantity": 20
+        "quantity": 20,
+        "isDeleted": "false"
     },
     {
         "id": 33,
@@ -314,7 +346,8 @@
         "category": "Kĩ năng sống",
         "nxb": "Thế Giới",
         "total": "60.000",
-        "quantity": 20
+        "quantity": 20,
+        "isDeleted": "false"
     },
     {
         "id": 34,
@@ -323,7 +356,8 @@
         "category": "Tản văn",
         "nxb": "Thế Giới",
         "total": "75.000",
-        "quantity": 20
+        "quantity": 20,
+        "isDeleted": "false"
     },
     {
         "id": 35,
@@ -332,7 +366,8 @@
         "category": "Kinh tế",
         "nxb": "Lao Động",
         "total": "80.000",
-        "quantity": 20
+        "quantity": 20,
+        "isDeleted": "false"
     },
     {
         "id": 36,
@@ -341,7 +376,8 @@
         "category": "Văn học",
         "nxb": "Văn Học",
         "total": "200.000",
-        "quantity": 20
+        "quantity": 20,
+        "isDeleted": "false"
     },
     {
         "id": 37,
@@ -350,7 +386,8 @@
         "category": "Kĩ năng sống",
         "nxb": "Thế giới",
         "total": "100.000",
-        "quantity": 20
+        "quantity": 20,
+        "isDeleted": "false"
     },
     {
         "id": 38,
@@ -359,7 +396,8 @@
         "category": "Giả tưởng",
         "nxb": "Dân Trí",
         "total": "78.000",
-        "quantity": 20
+        "quantity": 20,
+        "isDeleted": "false"
     },
     {
         "id": 39,
@@ -368,7 +406,8 @@
         "category": "Thiếu nhi",
         "nxb": "Kim Đồng",
         "total": "45.000",
-        "quantity": 20
+        "quantity": 20,
+        "isDeleted": "false"
     },
     {
         "id": 40,
@@ -377,7 +416,8 @@
         "category": "Kinh tế",
         "nxb": "Trẻ",
         "total": "130.000",
-        "quantity": 20
+        "quantity": 20,
+        "isDeleted": "false"
     },
     {
         "id": 41,
@@ -386,7 +426,8 @@
         "category": "Kĩ năng sống",
         "nxb": "Thế Giới",
         "total": "60.000",
-        "quantity": 20
+        "quantity": 20,
+        "isDeleted": "false"
     },
     {
         "id": 42,
@@ -395,7 +436,8 @@
         "category": "Tâm lí",
         "nxb": "Thế Giới",
         "total": "250.000",
-        "quantity": 9
+        "quantity": 9,
+        "isDeleted": "false"
     },
     {
         "id": 43,
@@ -404,7 +446,8 @@
         "category": "Kĩ năng sống",
         "nxb": "Trẻ",
         "total": "65.000",
-        "quantity": 9
+        "quantity": 9,
+        "isDeleted": "false"
     },
     {
         "id": 44,
@@ -413,7 +456,8 @@
         "category": "Tâm lí",
         "nxb": "Thế Giới",
         "total": "160.000",
-        "quantity": 9
+        "quantity": 9,
+        "isDeleted": "false"
     },
     {
         "id": 45,
@@ -422,7 +466,8 @@
         "category": "Từ điển",
         "nxb": "Hồng Đức",
         "total": "455.000",
-        "quantity": 9
+        "quantity": 9,
+        "isDeleted": "false"
     },
     {
         "id": 46,
@@ -431,7 +476,8 @@
         "category": "Hồi ký",
         "nxb": "Hội nhà văn",
         "total": "70.000",
-        "quantity": 9
+        "quantity": 9,
+        "isDeleted": "false"
     },
     {
         "id": 47,
@@ -440,7 +486,8 @@
         "category": "Giáo trình",
         "nxb": "Hồng Đức",
         "total": "225.000",
-        "quantity": 9
+        "quantity": 9,
+        "isDeleted": "false"
     },
     {
         "id": 48,
@@ -449,7 +496,8 @@
         "category": "Tiểu thuyết",
         "nxb": "Hội nhà văn",
         "total": "90.000",
-        "quantity": 9
+        "quantity": 9,
+        "isDeleted": "false"
     },
     {
         "id": 49,
@@ -458,7 +506,8 @@
         "category": "Tản văn",
         "nxb": "Văn Học",
         "total": "75.000",
-        "quantity": 9
+        "quantity": 9,
+        "isDeleted": "false"
     },
     {
         "id": 50,
@@ -467,7 +516,8 @@
         "category": "Tâm lí",
         "nxb": "Dân Trí",
         "total": "85.000",
-        "quantity": 9
+        "quantity": 9,
+        "isDeleted": "false"
     }
 
 ]

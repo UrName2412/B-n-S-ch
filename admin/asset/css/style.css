@@ -378,15 +378,36 @@ a {
     transition: all 0.3s ease;
 }
 
-.content textarea.fixed{
+.grid-row.fixed textarea,
+.grid-row-product.fixed textarea{
     border-radius: 15px;
     padding: 5px;
     border: 0.5px solid var(--color-dark-variant);
 }
-
-.content textarea.fixed:focus{
+.grid-row.fixed textarea:focus,
+.grid-row-product.fixed textarea:focus{
     border: 2px solid #4CAF50;
     box-shadow: 0 0 5px 2px rgba(76, 175, 80, 0.5);
+}
+
+.grid-row.banned,
+.grid-row-product.banned,
+.grid-row-cart.banned{
+    border-radius: 15px;
+    border: 1px solid black;
+    outline: none;
+    box-shadow: 0 0 5px rgba(208, 232, 54, 0.5);
+    padding: 5px;
+    gap: 5px;
+    background-color: var(--color-danger)!important;
+    transition: all 0.3s ease;
+}
+
+.grid-row.banned textarea,
+.grid-row-product.banned textarea{
+    border-radius: 15px;
+    padding: 5px;
+    border: 0.5px solid var(--color-dark-variant);
 }
 
 .grid-row-product:nth-child(even),
@@ -551,11 +572,23 @@ button:hover{
     height: 80%;
     margin: 0;
     background-color: var(--color-danger);
-    color: var(--color-white);
 }
 
 .tool button.delete:hover {
     background-color: #c00050;
+}
+
+.tool button.restore,
+.tool button.unlock {
+    width: 80%;
+    height: 80%;
+    margin: 0;
+    background-color: var(--color-dark);
+}
+
+.tool button.restore i,
+.tool button.unlock i{
+    color: var(--color-white);
 }
 
 .tool button span {

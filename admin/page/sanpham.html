@@ -84,10 +84,10 @@
                     <i class="fas fa-plus"></i>
                 </button>
                 <div class="search">
-                    <select name="userFilter" id="userFilter">
-                        <option value="activeUsers">Sản phẩm hoạt động</option>
-                        <option value="banedUsers">Sản phẩm bị xóa</option>
-                        <option value="allUsers">Tất cả sản phẩm</option>
+                    <select name="productFilter" id="productFilter" onchange="productFilter()">
+                        <option value="activeProducts">Sản phẩm hoạt động</option>
+                        <option value="deletedProducts">Sản phẩm bị xóa</option>
+                        <option value="allProducts">Tất cả sản phẩm</option>
                     </select>
                     <form>
                         <input type="text" name="search" placeholder="Tìm kiếm...">

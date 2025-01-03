@@ -82,25 +82,11 @@
                 <button type="button" class="add" id="add" onclick="openToolMenu()">
                     <i class="fas fa-plus"></i>
                 </button>
-                
-                <!-- <div class="filterDeleteBan">
-                    <button type="button" class="filterButton">
-                        <i class="fas fa-filter"></i>
-                    </button>
-                    <div class="filterChoiceButton">
-                        <button type="button">
-                            <i class="fas fa-users"></i>
-                        </button>
-                        <button type="button">
-                            <i class="fas fa-user-lock"></i>
-                        </button>
-                    </div>
-                </div> -->
                 <div class="search">
-                    <select name="userFilter" id="userFilter">
-                        <option value="activeUsers" onclick="deleteHover()">Người dùng hoạt động</option>
-                        <option value="banedUsers" onclick="deleteHover()">Người dùng bị khóa</option>
-                        <option value="allUsers" onclick="deleteHover()">Tất cả người dùng</option>
+                    <select name="userFilter" id="userFilter" onchange="userFilter()">
+                        <option value="activeUsers">Người dùng hoạt động</option>
+                        <option value="bannedUsers">Người dùng bị khóa</option>
+                        <option value="allUsers">Tất cả người dùng</option>
                     </select>
                     <form>
                         <input type="text" name="search" placeholder="Tìm kiếm...">
@@ -108,7 +94,6 @@
                     <button type="button">
                         <i class="fas fa-search"></i>
                     </button>
-                    
                 </div>
             </div>
         </div>
