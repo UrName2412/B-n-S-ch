@@ -46,7 +46,7 @@ function banButtons(){
     const stringAlert = 'Đã khóa.';
     banButtons.forEach((banButton) => {
         banButton.addEventListener('click', (event) => {
-            var confirm = openModal(stringModal, stringAlert).then((result) => {
+            openModal(stringModal, stringAlert).then((result) => {
                 if (result) {
                     if (banButton) {
                         var gridRow = event.target.closest('.grid-row');
@@ -64,7 +64,7 @@ function banButtonsAllUsers(){
     var banButtons = document.querySelectorAll('.delete');
     const stringModal = 'Bạn có chắc muốn khóa người dùng không?';
     const stringAlert = 'Đã khóa.';
-    banButtons.forEach((banButton, index) => {
+    banButtons.forEach((banButton) => {
         banButton.addEventListener('click', (event) => {
             var confirm = openModal(stringModal, stringAlert).then((result) => {
                 if (result) {
@@ -85,7 +85,7 @@ function unlockButtons(){
     var unlockButtons = document.querySelectorAll('.unlock');
     const stringModal = 'Bạn có chắc muốn mở khóa người dùng không?';
     const stringAlert = 'Đã mở khóa.';
-    unlockButtons.forEach((unlockButton,index) => {
+    unlockButtons.forEach((unlockButton) => {
         unlockButton.addEventListener('click', (event) => {
             var confirm = openModal(stringModal,stringAlert).then((result) => {
                 if (result) {
@@ -105,7 +105,7 @@ function unlockButtonsAllUsers(){
     var unlockButtons = document.querySelectorAll('.unlock');
     const stringModal = 'Bạn có chắc muốn mở khóa người dùng không?';
     const stringAlert = 'Đã mở khóa.';
-    unlockButtons.forEach((unlockButton,index) => {
+    unlockButtons.forEach((unlockButton) => {
         unlockButton.addEventListener('click', (event) => {
             var confirm = openModal(stringModal,stringAlert).then((result) => {
                 if (result) {
@@ -124,8 +124,7 @@ function unlockButtonsAllUsers(){
 
 function userFilter(){
     const userFilter = document.getElementById('userFilter');
-    var listUsersBlock = document.querySelector('#dataUsers');
-    users.forEach(function (user) {
+    users.forEach((user) => {
         if (userFilter.value == "activeUsers") activeUsers(listUsersBlock);
         else if (userFilter.value == "bannedUsers") bannedUsers(listUsersBlock);
         else if (userFilter.value == "allUsers") allUsers(listUsersBlock);

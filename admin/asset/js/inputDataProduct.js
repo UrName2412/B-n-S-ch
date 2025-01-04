@@ -46,7 +46,7 @@ function deleteButtons(){
     const stringAlert = 'Đã xóa.';
     deleteButtons.forEach((deleteButton) => {
         deleteButton.addEventListener('click', (event) => {
-            var confirm = openModal(stringModal, stringAlert).then((result) => {
+            openModal(stringModal, stringAlert).then((result) => {
                 if (result) {
                     if (deleteButton) {
                         var gridRow = event.target.closest('.grid-row-product');
@@ -64,9 +64,9 @@ function deleteButtonsAllProducts(){
     var deleteButtons = document.querySelectorAll('.delete');
     const stringModal = 'Bạn có chắc muốn xóa sản phẩm không?';
     const stringAlert = 'Đã xóa.';
-    deleteButtons.forEach((deleteButton, index) => {
+    deleteButtons.forEach((deleteButton) => {
         deleteButton.addEventListener('click', (event) => {
-            var confirm = openModal(stringModal, stringAlert).then((result) => {
+            openModal(stringModal, stringAlert).then((result) => {
                 if (result) {
                     if (deleteButton) {
                         var gridRow = event.target.closest('.grid-row-product');
@@ -85,9 +85,9 @@ function restoreButtons(){
     var restoreButtons = document.querySelectorAll('.restore');
     const stringModal = 'Bạn có chắc muốn khôi phục sản phẩm không?';
     const stringAlert = 'Đã khôi phục.';
-    restoreButtons.forEach((restoreButton,index) => {
+    restoreButtons.forEach((restoreButton) => {
         restoreButton.addEventListener('click', (event) => {
-            var confirm = openModal(stringModal,stringAlert).then((result) => {
+            openModal(stringModal,stringAlert).then((result) => {
                 if (result) {
                     if (restoreButton) {
                         var gridRow = event.target.closest('.grid-row-product');
@@ -105,9 +105,9 @@ function restoreButtonsAllProducts(){
     var restoreButtons = document.querySelectorAll('.restore');
     const stringModal = 'Bạn có chắc muốn khôi phục sản phẩm không?';
     const stringAlert = 'Đã khôi phục.';
-    restoreButtons.forEach((restoreButton,index) => {
+    restoreButtons.forEach((restoreButton) => {
         restoreButton.addEventListener('click', (event) => {
-            var confirm = openModal(stringModal,stringAlert).then((result) => {
+            openModal(stringModal,stringAlert).then((result) => {
                 if (result) {
                     if (restoreButton) {
                         var gridRow = event.target.closest('.grid-row-product');
@@ -124,7 +124,7 @@ function restoreButtonsAllProducts(){
 
 function productFilter(){
     const productFilter = document.getElementById('productFilter');
-    products.forEach(function (product) {
+    products.forEach((product) => {
         if (productFilter.value == "activeProducts") activeProducts(listProductsBlock);
         else if (productFilter.value == "deletedProducts") deletedProducts(listProductsBlock);
         else if (productFilter.value == "allProducts") allProducts(listProductsBlock);
