@@ -64,54 +64,6 @@ Validator.isPhone = (selector) => {
     };
 };
 
-function thanks() {
-    const formElement = document.querySelector('#form-add');
-    const nameUser = formElement.querySelector("#name-user");
-    const phoneUser = formElement.querySelector("#phone-user");
-    const paymentAdr = formElement.querySelector("#payment--adr");
-
-    let isValid = true;
-
-    // Kiểm tra họ tên
-    if (!nameUser.value.trim()) {
-        const errorElement = nameUser.parentElement.querySelector('.form-message');
-        errorElement.innerText = "Vui lòng nhập họ tên!";
-        nameUser.classList.add('is-invalid');
-        isValid = false;
-    }
-
-    // Kiểm tra số điện thoại
-    const phoneRegex = /^(0[3|5|7|8|9])[0-9]{8}$/;
-    if (!phoneUser.value.trim() || !phoneRegex.test(phoneUser.value)) {
-        const errorElement = phoneUser.parentElement.querySelector('.form-message');
-        errorElement.innerText = "Số điện thoại không hợp lệ!";
-        phoneUser.classList.add('is-invalid');
-        isValid = false;
-    }
-
-    // Kiểm tra địa chỉ
-    if (!paymentAdr.value.trim()) {
-        const errorElement = paymentAdr.parentElement.querySelector('.form-message');
-        errorElement.innerText = "Vui lòng nhập địa chỉ!";
-        paymentAdr.classList.add('is-invalid');
-        isValid = false;
-    }
-
-    // Nếu tất cả trường hợp hợp lệ
-    if (isValid) {
-        const successModal = new bootstrap.Modal(document.getElementById('successModal'));
-        successModal.show();
-        
-        localStorage.clear(); // Xóa giỏ hàng
-        loadFromLocalStorage();
-        setTimeout(() => {
-            window.location.href = "hoaDon.html";
-        }, 3000); // Chờ 3 giây
-    }
-
-    return false; // Ngăn submit form mặc định
-}
-
 document.addEventListener("DOMContentLoaded", function () {
     const visaForm = document.getElementById("visa-form");
     const momoForm = document.getElementById("momo-form");
@@ -197,7 +149,7 @@ document.addEventListener("DOMContentLoaded", function () {
             localStorage.clear(); // Xóa giỏ hàng
             loadFromLocalStorage();
             setTimeout(() => {
-                window.location.href = "../nguoidung/indexuser.html";
+                window.location.href = "hoaDon.html";
             }, 3000); // Chờ 3 giây
         }
     });
