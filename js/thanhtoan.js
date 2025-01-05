@@ -105,7 +105,7 @@ function thanks() {
         localStorage.clear(); // Xóa giỏ hàng
         loadFromLocalStorage();
         setTimeout(() => {
-            window.location.href = "../nguoidung/indexuser.html";
+            window.location.href = "hoaDon.html";
         }, 3000); // Chờ 3 giây
     }
 
