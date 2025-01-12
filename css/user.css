@@ -2,18 +2,18 @@
     user-select: none;
     text-decoration: none;
 }
-.list-item:hover{
+.col-3 .list-item:hover{
     background-color: #f9f9f9;
     transform: scale(1.01);
     transition: transform 0.3s ease;
     cursor: pointer;
 }
-.list-item:active{
+.col-3 .list-item:active{
     background-color: rgba(240, 240, 240, 0.686);
     transform: scale(1);
     transition: transform 0.1s ease;
 }
-.list-item{
+.col-3 .list-item{
     padding: 10px;
     border-radius: 10px;
     transition: all 0.3s ease;

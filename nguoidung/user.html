@@ -40,12 +40,24 @@
                             <a href="../sanpham/sanpham-user.html" class="nav-link fw-bold text-white">SẢN PHẨM</a>
                         </li>
                     </ul>
-                    <form class="d-flex me-auto">
+                    <form id="searchForm" class="d-flex me-auto">
                         <input class="form-control me-2" type="text" id="timkiem" placeholder="Tìm sách">
                         <button class="btn btn-outline-light" type="submit">
                             <i class="fas fa-search"></i>
                         </button>
                     </form>
+                    <script>
+                        document.getElementById('searchForm').addEventListener('submit', function (event) {
+                            event.preventDefault();
+                            const inputValue = document.getElementById('timkiem').value.trim();
+
+                            if (inputValue) {
+                                window.location.href = '../nguoidung/timkiem.html';
+                            } else {
+                                alert('Vui lòng nhập nội dung tìm kiếm!');
+                            }
+                        });
+                    </script>
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
                             <a href="../index.html" class="nav-link fw-bold text-white">ĐĂNG XUẤT</a>

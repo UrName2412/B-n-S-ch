@@ -301,6 +301,16 @@ footer ul li a:active {
     left:20px;
 }
 
+.pagination .page-item .page-link {
+    color: white;
+    background-color: #336799;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #28527a;
+    color: white;
+}
+
 @media (max-width: 768px) {
     #profile-name{
         display: block!important;
