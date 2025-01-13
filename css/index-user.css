@@ -301,6 +301,29 @@ footer ul li a:active {
     left:20px;
 }
 
+.pagination .page-item .page-link {
+    color: white;
+    background-color: #336799;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #28527a;
+    color: white;
+}
+
+.nav-link {
+    color: #336799;
+}
+
+.nav-item .active {
+    background-color: #336799 !important;
+    color: white !important;
+}
+
+aside input {
+    border: none !important;
+}
+
 @media (max-width: 768px) {
     #profile-name{
         display: block!important;
@@ -310,7 +333,7 @@ footer ul li a:active {
     }
 }
 
-@media (max-width: 430px) or (max-width: 693px) {
+@media (max-width: 430px) or (max-width: 693px) or (max-width: 768px){
     .benner img,.slider {
         display: none;
     }
