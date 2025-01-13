@@ -82,6 +82,28 @@
     </header>
 
     <!-- Main -->
+    <div class="container mt-3">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link" href="sachthieunhi.html">Sách thiếu nhi</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="sachgiaokhoa.html">Sách giáo khoa</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="sachkinhte.html">Sách kinh tế</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="sachlichsu.html">Sách lịch sử</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="sachngoaingu.html">Sách ngoại ngữ</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="sachkhoahoc.html">Sách khoa học</a>
+            </li>
+        </ul>
+    </div>
     <div class="container my-4">
         <div class="slider">
             <div class="slide">
@@ -146,27 +168,36 @@
             <!-- Sidebar -->
             <aside class="col-lg-3">
                 <div class="rounded text-dark p-4"
-                    style="border: 1px solid black; box-shadow: 5px 5px 5px rgba(50, 50, 50, 0.75);">
-                    <h5 class="fw-bold text-center">DANH MỤC</h5>
-                    <ul class="list-group" style="border: 1px solid;">
-                        <li class="list-group-item" style="border: none;">
-                            <a href="sachthieunhi.html" class="fw-bold text-dark">Sách thiếu nhi</a>
-                        </li>
-                        <li class="list-group-item" style="border: none;">
-                            <a href="sachgiaokhoa.html" class="fw-bold text-dark">Sách giáo khoa</a>
-                        </li>
-                        <li class="list-group-item" style="border: none;">
-                            <a href="sachkinhte.html" class="fw-bold text-dark">Sách kinh tế</a>
-                        </li>
-                        <li class="list-group-item" style="border: none;">
-                            <a href="sachlichsu.html" class="fw-bold text-dark">Sách lịch sử</a>
-                        </li>
-                        <li class="list-group-item" style="border: none;">
-                            <a href="sachngoaingu.html" class="fw-bold text-dark">Sách ngoại ngữ</a>
-                        </li>
-                        <li class="list-group-item" style="border: none;">
-                            <a href="sachkhoahoc.html" class="fw-bold text-dark">Sách khoa học</a>
-                        </li>
+                    style="border: 1px solid black;">
+                    <h5 class="fw-bold text-center">TÌM KIẾM</h5>
+                    <ul class="list-group">
+                        <form>
+                            <li class="list-group-item">
+                                <input type="text" class="form-control" id="tensach" placeholder="Tên sách">
+                            </li>
+                            <li class="list-group-item">
+                                <input type="text" class="form-control" id="tentacgia" placeholder="Tên tác giả">
+                            </li>
+                            <li class="list-group-item">
+                                <input type="text" class="form-control" id="nxb" placeholder="Nhà xuất bản">
+                            </li>
+                            <li class="list-group-item">
+                                <input type="text" class="form-control" id="theloai" placeholder="Thể loại">
+                            </li>
+                            <li class="list-group-item">
+                                <div class="input-group">
+                                    <input class="form-control" type="number" id="minPrice" placeholder="Từ (VNĐ)"
+                                        min="0">
+                                    <input class="form-control" type="number" id="maxPrice" placeholder="Đến (VNĐ)"
+                                        min="0">
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="d-grid justify-content-md-end">
+                                    <button class="btn btn-outline-dark">Tìm</button>
+                                </div> 
+                            </li>
+                        </form>
                     </ul>
                 </div>
             </aside>
