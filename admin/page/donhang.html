@@ -80,9 +80,9 @@
 
             <!-- Tool Section -->
             <div class="tool">
-                <button type="button" class="add" id="add" onclick="openToolMenu()">
+                <!-- <button type="button" class="add" id="add" onclick="openToolMenu('')">
                     <i class="fas fa-plus"></i>
-                </button>
+                </button> -->
                 <div class="search">
                     <select name="cartFilter" id="cartFilter" onchange="cartFilter()">
                         <option value="allCarts">Tất cả đơn hàng</option>
@@ -102,7 +102,7 @@
         </div>
 
         <!-- Tool Menu -->
-        <div class="tool-menu" style="display: none;" id="tool-menu">
+        <!-- <div class="tool-menu" style="display: none;" id="tool-menu">
             <button type="button" class="menu-close" id="closeToolMenuButton">
                 <img src="../image/close.png" alt="close" class="icon">
             </button>
@@ -149,7 +149,7 @@
                     </div>
                 </form>
             </div>
-        </div>
+        </div> -->
         <!--End of Content-Tool-->
     </div>
 
@@ -166,15 +166,15 @@
             form: '#form-add',
             errorSelector: '.form-message',
             rules: [
-                Validator.isRequired('#id-cart',messageRequired),
-                Validator.isRequired('#name-cart',messageRequired),
-                Validator.isRequired('#address-cart',messageRequired),
-                Validator.isRequired('#quantity-cart',messageRequired),
-                Validator.isRequired('#total-cart',messageRequired),
-                Validator.isRequired('#status-cart',messageRequired),
-                Validator.isPhone('#phone-cart',messagePhone),
-                Validator.minLength('#address-cart',6),
-                Validator.minLength('#name-cart',6)
+                Validator.isRequired('#id',messageRequired),
+                Validator.isRequired('#name',messageRequired),
+                Validator.isRequired('#address',messageRequired),
+                Validator.isRequired('#quantity',messageRequired),
+                Validator.isRequired('#total',messageRequired),
+                Validator.isRequired('#status',messageRequired),
+                Validator.isPhone('#phone',messagePhone),
+                Validator.minLength('#address',6),
+                Validator.minLength('#name',6)
             ]
         })
 

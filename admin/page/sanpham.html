@@ -80,7 +80,7 @@
 
             <!-- Tool Section -->
             <div class="tool">
-                <button type="button" class="add" id="add" onclick="openToolMenu()">
+                <button type="button" class="add" id="add" onclick="openToolMenu('')">
                     <i class="fas fa-plus"></i>
                 </button>
                 <div class="search">
@@ -109,28 +109,28 @@
                 <h2>Thêm Sản Phẩm</h2>
                 <form class="form" id="form-add">
                     <div class="form-group">
-                        <label for="id-product">Hình ảnh:</label>
+                        <label for="picture">Hình ảnh:</label>
                         <input type="file" name="picture" id="picture" placeholder="Chọn ảnh">
                         <span class="form-message"></span>
                     </div>
                     <div class="form-group">
-                        <label for="id-product">Mã sách:</label>
-                        <input type="text" name="id-product" id="id-product" placeholder="Nhập mã sách">
+                        <label for="id">Mã sách:</label>
+                        <input type="text" name="id" id="id" placeholder="Nhập mã sách">
                         <span class="form-message"></span>
                     </div>
                     <div class="form-group">
-                        <label for="name-product">Tên sách:</label>
-                        <input type="text" name="name-product" id="name-product" placeholder="Nhập tên sách">
+                        <label for="name">Tên sách:</label>
+                        <input type="text" name="name" id="name" placeholder="Nhập tên sách">
                         <span class="form-message"></span>
                     </div>
                     <div class="form-group">
-                        <label for="author-product">Tác giả:</label>
-                        <input type="text" name="author-product" id="author-product" placeholder="Nhập tác giả">
+                        <label for="author">Tác giả:</label>
+                        <input type="text" name="author" id="author" placeholder="Nhập tác giả">
                         <span class="form-message"></span>
                     </div>
                     <div class="form-group">
-                        <label for="category-product">Thể loại:</label>
-                        <select name="category-product" id="category-product">
+                        <label for="category">Thể loại:</label>
+                        <select name="category" id="category">
                             <option value="">Lựa chọn:</option>
                             <option value="thieunhi">Thiếu nhi</option>
                             <option value="kynangsong">Kỹ năng sống</option>
@@ -149,24 +149,22 @@
                             <option value="thieunhi">Thiếu nhi</option>
                             <option value="giaotrinh">Giáo trình</option>
                             <option value="tudien">Từ điển</option>
-                            <!-- Sẽ dùng dữ liệu khắc phục -->
                         </select>
-                        <!-- <input type="text" name="category-product" id="category-product" placeholder="Nhập thể loại"> -->
                         <span class="form-message"></span>
                     </div>
                     <div class="form-group">
-                        <label for="nxb-product">Nhà xuất bản:</label>
-                        <input type="text" name="nxb-product" id="nxb-product" placeholder="Nhập nhà xuất bản">
+                        <label for="nxb">Nhà xuất bản:</label>
+                        <input type="text" name="nxb" id="nxb" placeholder="Nhập nhà xuất bản">
                         <span class="form-message"></span>
                     </div>
                     <div class="form-group">
-                        <label for="total-product">Giá tiền:</label>
-                        <input type="text" name="total-product" id="total-product" placeholder="Nhập giá tiền">
+                        <label for="price">Giá tiền:</label>
+                        <input type="text" name="price" id="price" placeholder="Nhập giá tiền">
                         <span class="form-message"></span>
                     </div>
                     <div class="form-group">
-                        <label for="total-product">Mô tả:</label>
-                        <textarea name="description-product"></textarea>
+                        <label for="description">Mô tả:</label>
+                        <textarea name="description"></textarea>
                         <span class="form-message"></span>
                     </div>
                     <div class="form-group">
@@ -192,12 +190,12 @@
             form: '#form-add',
             errorSelector: '.form-message',
             rules: [
-                Validator.isRequired('#id-product',messageRequired),
-                Validator.isRequired('#name-product',messageRequired),
-                Validator.isRequired('#author-product',messageRequired),
-                Validator.isRequired('#category-product','Vui lòng chọn thể loại'),
-                Validator.isRequired('#nxb-product',messageRequired),
-                Validator.isRequired('#total-product',messageRequired),
+                Validator.isRequired('#id',messageRequired),
+                Validator.isRequired('#name',messageRequired),
+                Validator.isRequired('#author',messageRequired),
+                Validator.isRequired('#category','Vui lòng chọn thể loại'),
+                Validator.isRequired('#nxb',messageRequired),
+                Validator.isRequired('#price',messageRequired),
             ]
         })
     </script>

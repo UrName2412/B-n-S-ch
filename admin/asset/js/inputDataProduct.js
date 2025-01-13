@@ -25,19 +25,104 @@ function renderProducts() {
 
 function fixButtons(){
     var fixButtons = document.querySelectorAll('.fix');
+    const toolMenu = document.querySelector('.tool-menu');
+    const menuFix = document.createElement('div');
+    menuFix.className = 'menu-fix';
+    const stringModal = 'Bạn có chắc muốn sửa sản phẩm không?';
+    const stringAlert = 'Đã sửa.';
+
     fixButtons.forEach((fixButton) => {
         fixButton.addEventListener('click', (event) => {
             var gridRow = event.target.closest('.grid-row-product');
-            if (gridRow.classList.contains('fixed')) {
-                fixButton.innerHTML = `<i class="fas fa-wrench"></i>`;
-            } else {
-                fixButton.innerHTML = `<i class="fas fa-check"></i>`;
-            }
-            gridRow.classList.toggle('fixed');
-            fixButton.classList.toggle('fixed');
+            let id = gridRow.querySelector('.grid-row-product textarea[placeholder="Nhập id..."]').value;
+            let index = products.findIndex(product => product.id == id);
+            menuFix.innerHTML = `
+            <h2>Sửa sản phẩm</h2>
+            <form class="form" id="form-fix">
+                <div class="form-group">
+                    <label for="name">Tên sách:</label>
+                    <input type="text" name="name" id="name" placeholder="Nhập tên sách" value="${products[index].name}">
+                    <span class="form-message"></span>
+                </div>
+                <div class="form-group">
+                    <label for="author">Tác giả:</label>
+                    <input type="text" name="author" id="author" placeholder="Nhập tác giả" value="${products[index].author}">
+                    <span class="form-message"></span>
+                </div>
+                <div class="form-group">
+                    <label for="category">Thể loại:</label>
+                    <select name="category" id="category">
+                        <option value="">Lựa chọn:</option>
+                        <option value="thieunhi">Thiếu nhi</option>
+                        <option value="kynangsong">Kỹ năng sống</option>
+                        <option value="tieuthuyet">Tiểu thuyết</option>
+                        <option value="phatgiao">Phật giáo</option>
+                        <option value="vanhoc">Văn học</option>
+                        <option value="truyencamhung">Truyền cảm hứng</option>
+                        <option value="hoiky">Hồi ký</option>
+                        <option value="tamly">Tâm lý</option>
+                        <option value="khoahockithuat">Khoa học kĩ thuật</option>
+                        <option value="tongiao">Tôn giáo</option>
+                        <option value="trinhtham">Trinh thám</option>
+                        <option value="tanvan">Tản văn</option>
+                        <option value="kinhte">Kinh tế</option>
+                        <option value="giatuong">Giả tưởng</option>
+                        <option value="thieunhi">Thiếu nhi</option>
+                        <option value="giaotrinh">Giáo trình</option>
+                        <option value="tudien">Từ điển</option>
+                    </select>
+                    <span class="form-message"></span>
+                </div>
+                <div class="form-group">
+                    <label for="nxb">Nhà xuất bản:</label>
+                    <input type="text" name="nxb" id="nxb" placeholder="Nhập nhà xuất bản" value="${products[index].nxb}">
+                    <span class="form-message"></span>
+                </div>
+                <div class="form-group">
+                    <label for="price">Giá tiền:</label>
+                    <input type="text" name="price" id="price" placeholder="Nhập giá tiền"  value="${products[index].price}">
+                    <span class="form-message"></span>
+                </div>
+                <div class="form-group">
+                    <label for="description">Mô tả:</label>
+                    <textarea name="description"></textarea>
+                    <span class="form-message"></span>
+                </div>
+                <div class="form-group">
+                    <button type="button" class="btn-submit">Xác nhận</button>
+                </div>
+            </form>
+            `;
+            toolMenu.appendChild(menuFix);
+            openToolMenu('.menu-fix');
+            behindMenu = document.querySelector('.behindMenu');
+            submitButton = document.querySelector('#form-fix .btn-submit');
 
+            submitButton.addEventListener('click', () => {
+                openModal(stringModal, stringAlert).then((result) => {
+                    if (result) {
+                        if (submitButton) {
+                            dataInputs = document.querySelectorAll('#form-fix input');
+                            dataInputs.forEach(dataInput => {
+                                products[index][dataInput.id] = dataInput.value;
+                            })
+                            textareaGridRows = gridRow.querySelectorAll('textarea');
+                            const data = ['id','name','author','category','nxb','price','picture'];
+                            var count=0;
+                            textareaGridRows.forEach(textareaGridRow => {
+                                textareaGridRow.innerHTML = products[index][data[count]];
+                                count++;
+                            })
+                            menuFix.remove();
+                            toolMenu.style.display = 'none';
+                            behindMenu.style.display = 'none';
+                        }
+                    }
+                });
+            })
         })
     })
+    // Mốt làm lại cái select
 }
 
 function deleteButtons(){
@@ -143,7 +228,7 @@ function activeProducts(listProductsBlock){
                 <textarea placeholder="Nhập tên tác giả..." readonly>${product.author}</textarea>
                 <textarea placeholder="chọn thể loại..." readonly>${product.category}</textarea>
                 <textarea placeholder="Nhập nhà xuất bản..." readonly>${product.nxb}</textarea>
-                <textarea placeholder="Nhập giá tiền..." readonly>${product.total}</textarea>
+                <textarea placeholder="Nhập giá tiền..." readonly>${product.price}</textarea>
                 <div class="input-picture">
                     <input type="file" name="picture" class="picture" placeholder="Chọn ảnh" onchange="displayFileName()" style="display: none;">
                     <textarea placeholder="Nhập nội dung..." class="file-name" readonly>${product.picture}</textarea>
@@ -177,7 +262,7 @@ function allProducts(listProductsBlock){
                 <textarea placeholder="Nhập tên tác giả..." readonly>${product.author}</textarea>
                 <textarea placeholder="chọn thể loại..." readonly>${product.category}</textarea>
                 <textarea placeholder="Nhập nhà xuất bản..." readonly>${product.nxb}</textarea>
-                <textarea placeholder="Nhập giá tiền..." readonly>${product.total}</textarea>
+                <textarea placeholder="Nhập giá tiền..." readonly>${product.price}</textarea>
                 <div class="input-picture">
                     <input type="file" name="picture" class="picture" placeholder="Chọn ảnh" onchange="displayFileName()" style="display: none;">
                     <textarea placeholder="Nhập nội dung..." class="file-name" readonly>${product.picture}</textarea>
@@ -195,7 +280,7 @@ function allProducts(listProductsBlock){
                 <textarea placeholder="Nhập tên tác giả..." readonly>${product.author}</textarea>
                 <textarea placeholder="chọn thể loại..." readonly>${product.category}</textarea>
                 <textarea placeholder="Nhập nhà xuất bản..." readonly>${product.nxb}</textarea>
-                <textarea placeholder="Nhập giá tiền..." readonly>${product.total}</textarea>
+                <textarea placeholder="Nhập giá tiền..." readonly>${product.price}</textarea>
                 <div class="input-picture">
                     <input type="file" name="picture" class="picture" placeholder="Chọn ảnh" onchange="displayFileName()" style="display: none;">
                     <textarea placeholder="Nhập nội dung..." class="file-name" readonly>${product.picture}</textarea>
@@ -230,7 +315,7 @@ function deletedProducts(listProductsBlock){
                 <textarea placeholder="Nhập tên tác giả..." readonly>${product.author}</textarea>
                 <textarea placeholder="chọn thể loại..." readonly>${product.category}</textarea>
                 <textarea placeholder="Nhập nhà xuất bản..." readonly>${product.nxb}</textarea>
-                <textarea placeholder="Nhập giá tiền..." readonly>${product.total}</textarea>
+                <textarea placeholder="Nhập giá tiền..." readonly>${product.price}</textarea>
                 <div class="input-picture">
                     <input type="file" name="picture" class="picture" placeholder="Chọn ảnh" onchange="displayFileName()" style="display: none;">
                     <textarea placeholder="Nhập nội dung..." class="file-name" readonly>${product.picture}</textarea>

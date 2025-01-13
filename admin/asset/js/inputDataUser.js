@@ -24,23 +24,80 @@ function renderUsers() {
     activeUsers(listUsersBlock);
 }
 
-function fixButtons(){
+function fixButtons() {
     var fixButtons = document.querySelectorAll('.fix');
+    const toolMenu = document.querySelector('.tool-menu');
+    const menuFix = document.createElement('div');
+    menuFix.className = 'menu-fix';
+    const stringModal = 'Bạn có chắc muốn sửa người dùng không?';
+    const stringAlert = 'Đã sửa.';
+
     fixButtons.forEach((fixButton) => {
         fixButton.addEventListener('click', (event) => {
             var gridRow = event.target.closest('.grid-row');
-            if (gridRow.classList.contains('fixed')) {
-                fixButton.innerHTML = `<i class="fas fa-wrench"></i>`;
-            } else {
-                fixButton.innerHTML = `<i class="fas fa-check"></i>`;
-            }
-            gridRow.classList.toggle('fixed');
-            fixButton.classList.toggle('fixed');
+            let id = gridRow.querySelector('.grid-row textarea[placeholder="Nhập id..."]').value;
+            let index = users.findIndex(user => user.id == id);
+            menuFix.innerHTML = `
+            <h2>Sửa người dùng</h2>
+            <form class="form" id="form-fix">
+                <div class="form-group">
+                    <label for="username">Tên người dùng:</label>
+                    <input type="text" name="username" id="username" placeholder="Nhập tên người dùng" value="${users[index].username}">
+                    <span class="form-message"></span>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Số điện thoại:</label>
+                    <input type="tel" name="phone" id="phone" placeholder="Nhập số điện thoại" value="${users[index].phone}">
+                    <span class="form-message"></span>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" name="email" id="email" placeholder="Nhập email" value="${users[index].email}">
+                    <span class="form-message"></span>
+                </div>
+                <div class="form-group">
+                        <label for="address">Địa chỉ:</label>
+                        <input type="text" name="address" id="address" placeholder="Nhập địa chỉ" value="${users[index].address}">
+                        <span class="form-message"></span>
+                </div>
+                <div class="form-group">
+                    <button type="button" class="btn-submit">Xác nhận</button>
+                </div>
+            </form>
+            `;
+            toolMenu.appendChild(menuFix);
+            openToolMenu('.menu-fix');
+            behindMenu = document.querySelector('.behindMenu');
+            submitButton = document.querySelector('#form-fix .btn-submit');
+
+            submitButton.addEventListener('click', () => {
+                openModal(stringModal, stringAlert).then((result) => {
+                    if (result) {
+                        if (submitButton) {
+                            dataInputs = document.querySelectorAll('#form-fix input');
+                            dataInputs.forEach(dataInput => {
+                                users[index][dataInput.id] = dataInput.value;
+                            })
+                            textareaGridRows = gridRow.querySelectorAll('textarea');
+                            const data = ['id','username','phone','email','address'];
+                            var count=0;
+                            textareaGridRows.forEach(textareaGridRow => {
+                                textareaGridRow.innerHTML = users[index][data[count]];
+                                count++;
+                            })
+                            menuFix.remove();
+                            toolMenu.style.display = 'none';
+                            behindMenu.style.display = 'none';
+                            
+                        }
+                    }
+                });
+            })
         })
     })
 }
 
-function banButtons(){
+function banButtons() {
     var banButtons = document.querySelectorAll('.delete');
     const stringModal = 'Bạn có chắc muốn khóa người dùng không?';
     const stringAlert = 'Đã khóa.';
@@ -60,7 +117,7 @@ function banButtons(){
         });
     })
 }
-function banButtonsAllUsers(){
+function banButtonsAllUsers() {
     var banButtons = document.querySelectorAll('.delete');
     const stringModal = 'Bạn có chắc muốn khóa người dùng không?';
     const stringAlert = 'Đã khóa.';
@@ -81,13 +138,13 @@ function banButtonsAllUsers(){
     })
 }
 
-function unlockButtons(){
+function unlockButtons() {
     var unlockButtons = document.querySelectorAll('.unlock');
     const stringModal = 'Bạn có chắc muốn mở khóa người dùng không?';
     const stringAlert = 'Đã mở khóa.';
     unlockButtons.forEach((unlockButton) => {
         unlockButton.addEventListener('click', (event) => {
-            var confirm = openModal(stringModal,stringAlert).then((result) => {
+            var confirm = openModal(stringModal, stringAlert).then((result) => {
                 if (result) {
                     if (unlockButton) {
                         var gridRow = event.target.closest('.grid-row');
@@ -101,13 +158,13 @@ function unlockButtons(){
         })
     })
 }
-function unlockButtonsAllUsers(){
+function unlockButtonsAllUsers() {
     var unlockButtons = document.querySelectorAll('.unlock');
     const stringModal = 'Bạn có chắc muốn mở khóa người dùng không?';
     const stringAlert = 'Đã mở khóa.';
     unlockButtons.forEach((unlockButton) => {
         unlockButton.addEventListener('click', (event) => {
-            var confirm = openModal(stringModal,stringAlert).then((result) => {
+            var confirm = openModal(stringModal, stringAlert).then((result) => {
                 if (result) {
                     if (unlockButton) {
                         var gridRow = event.target.closest('.grid-row');
@@ -122,7 +179,7 @@ function unlockButtonsAllUsers(){
     })
 }
 
-function userFilter(){
+function userFilter() {
     const userFilter = document.getElementById('userFilter');
     users.forEach((user) => {
         if (userFilter.value == "activeUsers") activeUsers(listUsersBlock);
@@ -131,10 +188,10 @@ function userFilter(){
     });
 }
 
-function activeUsers(listUsersBlock){
+function activeUsers(listUsersBlock) {
     listUsersBlock.innerHTML = '';
     users.forEach(function (user) {
-        if (user.isBanned == "false"){
+        if (user.isBanned == "false") {
             var newUser = document.createElement('div');
             newUser.className = 'grid-row';
             newUser.innerHTML = `
@@ -153,18 +210,18 @@ function activeUsers(listUsersBlock){
                 </div>
             `;
             listUsersBlock.appendChild(newUser);
-        }  
+        }
     });
     fixButtons();
     banButtons();
 }
 
-function allUsers(listUsersBlock){
+function allUsers(listUsersBlock) {
     listUsersBlock.innerHTML = '';
     users.forEach(function (user) {
         var newUser = document.createElement('div');
         newUser.className = 'grid-row';
-        if (user.isBanned == "true"){
+        if (user.isBanned == "true") {
             newUser.classList.add('banned');
             newUser.innerHTML = `
                 <textarea placeholder="Nhập id..." readonly>${user.id}</textarea>
@@ -178,7 +235,7 @@ function allUsers(listUsersBlock){
                     </button>
                 </div>
             `;
-        } else if (user.isBanned == "false"){
+        } else if (user.isBanned == "false") {
             newUser.innerHTML = `
                 <textarea placeholder="Nhập id..." readonly>${user.id}</textarea>
                 <textarea placeholder="Nhập tên người dùng..." readonly>${user.username}</textarea>
@@ -195,17 +252,17 @@ function allUsers(listUsersBlock){
                 </div>
             `;
         }
-        listUsersBlock.appendChild(newUser);  
+        listUsersBlock.appendChild(newUser);
     });
     fixButtons();
     banButtonsAllUsers();
     unlockButtonsAllUsers();
 }
 
-function bannedUsers(listUsersBlock){
+function bannedUsers(listUsersBlock) {
     listUsersBlock.innerHTML = '';
     users.forEach(function (user) {
-        if (user.isBanned == "true"){
+        if (user.isBanned == "true") {
             var newUser = document.createElement('div');
             newUser.className = 'grid-row';
             newUser.classList.add('banned');
@@ -222,7 +279,7 @@ function bannedUsers(listUsersBlock){
                 </div>
             `;
             listUsersBlock.appendChild(newUser);
-        }  
+        }
     });
     unlockButtons();
 }

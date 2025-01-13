@@ -359,31 +359,6 @@ a {
     font-size: 1.5vw;
 }
 
-.grid-row.fixed,
-.grid-row-product.fixed,
-.grid-row-cart.fixed{
-    border-radius: 15px;
-    border: 1px solid black;
-    outline: none;
-    box-shadow: 0 0 5px rgba(208, 232, 54, 0.5);
-    padding: 5px;
-    gap: 5px;
-    background-color: var(--color-warning)!important;
-    transition: all 0.3s ease;
-}
-
-.grid-row.fixed textarea,
-.grid-row-product.fixed textarea{
-    border-radius: 15px;
-    padding: 5px;
-    border: 0.5px solid var(--color-dark-variant);
-}
-.grid-row.fixed textarea:focus,
-.grid-row-product.fixed textarea:focus{
-    border: 2px solid #4CAF50;
-    box-shadow: 0 0 5px 2px rgba(76, 175, 80, 0.5);
-}
-
 .grid-row.banned,
 .grid-row-product.banned,
 .grid-row-cart.banned{
@@ -457,7 +432,8 @@ a {
 }
 button:hover{
     cursor: pointer;
-    transform: scale(1.1);
+    transform: scale(1.03);
+    transition: all 0.8 ease;
 }
 
 .tool button i{
@@ -546,16 +522,6 @@ button:hover{
 .tool button.fix i{
     color: black;
 }
-.tool button.fix.fixed{
-    background-color: black;
-}
-.tool button.fix.fixed i{
-    color: var(--color-warning);
-}
-.tool button.fix.fixed:hover{
-    background-color: black;
-}
-
 
 .tool button.fix:hover {
     background-color: #e0b000;
@@ -610,7 +576,7 @@ button:hover{
     border-radius: 5px;
 }
 
-
+.menu-fix,
 .menu-add{
     height: 100%;
     width: 100%;
@@ -619,7 +585,7 @@ button:hover{
     background-color: var(--color-white);
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    display: flex;
+    display: none;
     flex-direction: column;
     align-content:center;
 }

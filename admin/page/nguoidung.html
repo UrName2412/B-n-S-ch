@@ -79,7 +79,7 @@
 
             <!-- Tool Section -->
             <div class="tool">
-                <button type="button" class="add" id="add" onclick="openToolMenu()">
+                <button type="button" class="add" id="add" onclick="openToolMenu('')">
                     <i class="fas fa-plus"></i>
                 </button>
                 <div class="search">
@@ -108,33 +108,38 @@
                 <h2>Thêm Người Dùng</h2>
                 <form class="form" id="form-add">
                     <div class="form-group">
-                        <label for="id-user">ID:</label>
-                        <input type="text" name="id-user" id="id-user" placeholder="Nhập ID">
+                        <label for="id">ID:</label>
+                        <input type="text" name="id" id="id" placeholder="Nhập ID">
                         <span class="form-message"></span>
                     </div>
                     <div class="form-group">
-                        <label for="name-user">Tên người dùng:</label>
-                        <input type="text" name="name-user" id="name-user" placeholder="Nhập tên người dùng">
+                        <label for="username">Tên người dùng:</label>
+                        <input type="text" name="username" id="username" placeholder="Nhập tên người dùng">
                         <span class="form-message"></span>
                     </div>
                     <div class="form-group">
-                        <label for="password-user">Mật khẩu:</label>
-                        <input type="password" name="password-user" id="password-user" placeholder="Nhập mật khẩu">
+                        <label for="password">Mật khẩu:</label>
+                        <input type="password" name="password" id="password" placeholder="Nhập mật khẩu">
                         <span class="form-message"></span>
                     </div>
                     <div class="form-group">
-                        <label for="confirmPassword-user">Nhập lại mật khẩu:</label>
-                        <input type="password" name="confirmPassword-user" id="confirmPassword-user" placeholder="Nhập mật khẩu">
+                        <label for="confirmPassword">Nhập lại mật khẩu:</label>
+                        <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Nhập mật khẩu">
                         <span class="form-message"></span>
                     </div>
                     <div class="form-group">
-                        <label for="phone-user">Số điện thoại:</label>
-                        <input type="tel" name="phone-user" id="phone-user" placeholder="Nhập số điện thoại">
+                        <label for="phone">Số điện thoại:</label>
+                        <input type="tel" name="phone" id="phone" placeholder="Nhập số điện thoại">
                         <span class="form-message"></span>
                     </div>
                     <div class="form-group">
-                        <label for="email-user">Email:</label>
-                        <input type="email" name="email-user" id="email-user" placeholder="Nhập email">
+                        <label for="email">Email:</label>
+                        <input type="email" name="email" id="email" placeholder="Nhập email">
+                        <span class="form-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Địa chỉ:</label>
+                        <input type="text" name="address" id="address" placeholder="Nhập địa chỉ">
                         <span class="form-message"></span>
                     </div>
                     <div class="form-group">
@@ -165,15 +170,16 @@
             form: '#form-add',
             errorSelector: '.form-message',
             rules: [
-                Validator.isRequired('#id-user', messageRequired),
-                Validator.isRequired('#name-user', messageRequired),
-                Validator.isRequired('#password-user', messageRequired),
-                Validator.isRequired('#confirmPassword-user', messageRequired),
-                Validator.isEmail('#email-user', messageEmail),
-                Validator.isPhone('#phone-user', messagePhone),
-                Validator.minLength('#name-user', 6),
-                Validator.isPassword('#password-user',messagePassword),
-                Validator.comparePassword('#confirmPassword-user','#password-user',messageConfirmPassword),
+                Validator.isRequired('#id', messageRequired),
+                Validator.isRequired('#username', messageRequired),
+                Validator.isRequired('#password', messageRequired),
+                Validator.isRequired('#confirmPassword', messageRequired),
+                Validator.isRequired('#address', messageRequired),
+                Validator.isEmail('#email', messageEmail),
+                Validator.isPhone('#phone', messagePhone),
+                Validator.minLength('#username', 6),
+                Validator.isPassword('#password',messagePassword),
+                Validator.comparePassword('#confirmPassword','#password',messageConfirmPassword),
             ]
         })
     </script>

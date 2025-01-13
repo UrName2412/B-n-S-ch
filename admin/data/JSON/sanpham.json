@@ -5,7 +5,7 @@
         "author": "Antoine De Saint-Exupéry",
         "category": "Sách thiếu nhi",
         "nxb": "Hội nhà văn",
-        "total": "75.000",
+        "price": "75.000",
         "quantity": 15,
         "picture": "hoangtube.png",
         "isDeleted": "true"
@@ -16,7 +16,7 @@
         "author": "Dale Carnegie",
         "category": "Kỹ năng sống",
         "nxb": "Trẻ",
-        "total": "80.000",
+        "price": "80.000",
         "quantity": 15,
         "picture": "dacnhantam.png",
         "isDeleted": "true"
@@ -27,7 +27,7 @@
         "author": "Robert T. Kiyosaki",
         "category": "Kỹ năng sống",
         "nxb": "Trẻ",
-        "total": "95.000",
+        "price": "95.000",
         "quantity": 10,
         "picture": "chagiauchangheo.png",
         "isDeleted": "false"
@@ -38,7 +38,7 @@
         "author": "Paulo Coelho",
         "category": "Tiểu thuyết",
         "nxb": "Hội nhà văn",
-        "total": "85.000",
+        "price": "85.000",
         "quantity": 10,
         "picture": "nhagiakim.png",
         "isDeleted": "false"
@@ -49,7 +49,7 @@
         "author": "Shin Kyung-sook",
         "category": "Tiểu thuyết",
         "nxb": "Nhã Nam",
-        "total": "90.000",
+        "price": "90.000",
         "quantity": 10,
         "picture": "haychamsocme.png",
         "isDeleted": "false"
@@ -60,7 +60,7 @@
         "author": "Thích Nhất Hạnh",
         "category": "Phật giáo",
         "nxb": "Trẻ",
-        "total": "75.000",
+        "price": "75.000",
         "quantity": 18,
         "picture": "bietyeuthuong.png",
         "isDeleted": "false"
@@ -71,7 +71,7 @@
         "author": "Vũ Bằng",
         "category": "Văn học",
         "nxb": "Hội nhà văn",
-        "total": "70.000",
+        "price": "70.000",
         "quantity": 18,
         "picture": "thuongnhomuoihai.png",
         "isDeleted": "false"
@@ -82,7 +82,7 @@
         "author": "Margaret Mitchell",
         "category": "Tiểu thuyết",
         "nxb": "Hội nhà văn",
-        "total": "110.000",
+        "price": "110.000",
         "quantity": 18,
         "picture": "cuontheochieugio.png",
         "isDeleted": "true"
@@ -93,7 +93,7 @@
         "author": "J.K. Rowling",
         "category": "Tiểu thuyết",
         "nxb": "Nhã Nam",
-        "total": "120.000",
+        "price": "120.000",
         "quantity": 15,
         "picture": "harrypotter.png",
         "isDeleted": "false"
@@ -104,7 +104,7 @@
         "author": "Napoleon Hill",
         "category": "Kỹ năng sống",
         "nxb": "Trẻ",
-        "total": "65.000",
+        "price": "65.000",
         "quantity": 15,
         "picture": "cachnghithanhcong.png",
         "isDeleted": "false"
@@ -115,7 +115,7 @@
         "author": "Og Mandino",
         "category": "Kỹ năng sống",
         "nxb": "Trẻ",
-        "total": "55.000",
+        "price": "55.000",
         "quantity": 20,
         "picture": "nguoibanhang.png",
         "isDeleted": "false"
@@ -126,7 +126,7 @@
         "author": "Nguyễn Anh Dũng",
         "category": "Kĩ năng sống",
         "nxb": "Dân Trí",
-        "total": "80.000",
+        "price": "80.000",
         "quantity": 20,
         "picture": "tuduynguoc.png",
         "isDeleted": "true"
@@ -137,7 +137,7 @@
         "author": "Jim Rohn",
         "category": "Truyền cảm hứng",
         "nxb": "Trẻ",
-        "total": "50.000",
+        "price": "50.000",
         "quantity": 20,
         "picture": "bonmuacuocsong.png",
         "isDeleted": "false"
@@ -148,7 +148,7 @@
         "author": "Nguyễn Ngọc Tư",
         "category": "Văn học",
         "nxb": "Hội nhà văn",
-        "total": "60.000",
+        "price": "60.000",
         "quantity": 20,
         "picture": "canhdongbattan.png",
         "isDeleted": "false"
@@ -159,7 +159,7 @@
         "author": "Paul Kalanithi",
         "category": "Hồi ký",
         "nxb": "Nhã Nam",
-        "total": "75.000",
+        "price": "75.000",
         "quantity": 15,
         "picture": "khihoitho.png",
         "isDeleted": "true"
@@ -170,7 +170,7 @@
         "author": "Ryan Holiday",
         "category": "Kỹ năng sống",
         "nxb": "Trẻ",
-        "total": "90.000",
+        "price": "90.000",
         "quantity": 3,
         "picture": "sachtinhlang.png",
         "isDeleted": "false"
@@ -181,7 +181,7 @@
         "author": "Chase Hill, Scott Sharp",
         "category": "Tâm Lý",
         "nxb": "Dân Trí",
-        "total": "85.000",
+        "price": "85.000",
         "quantity": 3,
         "picture": "stopoverthinking.png",
         "isDeleted": "false"
@@ -192,7 +192,7 @@
         "author": "Nguyễn Nhật Ánh",
         "category": "Văn học",
         "nxb": "Trẻ",
-        "total": "100.000",
+        "price": "100.000",
         "quantity": 2,
         "picture": "conchimxanh.png",
         "isDeleted": "false"
@@ -203,7 +203,7 @@
         "author": "Randy Pausch",
         "category": "Truyền cảm hứng",
         "nxb": "Nhã Nam",
-        "total": "70.000",
+        "price": "70.000",
         "quantity": 8,
         "picture": "baigiangcuoicung.png",
         "isDeleted": "false"
@@ -214,7 +214,7 @@
         "author": "Nguyễn Anh Dũng",
         "category": "Kĩ năng sống",
         "nxb": "Dân Trí",
-        "total": "80.000",
+        "price": "80.000",
         "quantity": 8,
         "picture": "tuduymo.png",
         "isDeleted": "false"
@@ -225,7 +225,7 @@
         "author": "Baird T. Spalding",
         "category": "Hồi ký",
         "nxb": "Trẻ",
-        "total": "65.000",
+        "price": "65.000",
         "quantity": 8,
         "isDeleted": "false"
     },
@@ -235,7 +235,7 @@
         "author": "M. Scott Peck",
         "category": "Kỹ năng sống",
         "nxb": "Dân Trí",
-        "total": "90.000",
+        "price": "90.000",
         "quantity": 8,
         "isDeleted": "false"
     },
@@ -245,7 +245,7 @@
         "author": "Whon Jaehun",
         "category": "Kỹ năng sống",
         "nxb": "Dân Trí",
-        "total": "68.000",
+        "price": "68.000",
         "quantity": 15,
         "isDeleted": "false"
     },
@@ -255,7 +255,7 @@
         "author": "Matthew Walker",
         "category": "Khoa học kĩ thuật",
         "nxb": "Lao Động",
-        "total": "195.000",
+        "price": "195.000",
         "quantity": 15,
         "isDeleted": "false"
     },
@@ -265,7 +265,7 @@
         "author": "Nguyên Phong",
         "category": "Tôn giáo",
         "nxb": "Tổng hợp TPHCM",
-        "total": "125.000",
+        "price": "125.000",
         "quantity": 7,
         "isDeleted": "false"
     },
@@ -275,7 +275,7 @@
         "author": "Andrea Hirata",
         "category": "Hồi ký",
         "nxb": "Nhã Nam",
-        "total": "80.000",
+        "price": "80.000",
         "quantity": 7,
         "isDeleted": "false"
     },
@@ -285,7 +285,7 @@
         "author": "Jessie Inchauspé",
         "category": "Khoa học kĩ thuật",
         "nxb": "Thanh Niên",
-        "total": "120.000",
+        "price": "120.000",
         "quantity": 7,
         "isDeleted": "false"
     },
@@ -295,7 +295,7 @@
         "author": "Clint Emerson",
         "category": "Kĩ năng sống",
         "nxb": "Thanh Niên",
-        "total": "70.000",
+        "price": "70.000",
         "quantity": 7,
         "isDeleted": "false"
     },
@@ -305,7 +305,7 @@
         "author": "Mihaly Csikszentmihalyi",
         "category": "Kĩ năng sống",
         "nxb": "Dân Trí",
-        "total": "160.000",
+        "price": "160.000",
         "quantity": 4,
         "isDeleted": "false"
     },
@@ -315,7 +315,7 @@
         "author": "Meg Jay",
         "category": "Kỹ năng sống",
         "nxb": "Nhã Nam",
-        "total": "110.000",
+        "price": "110.000",
         "quantity": 20,
         "isDeleted": "false"
     },
@@ -325,7 +325,7 @@
         "author": "Lưu Bát Bách",
         "category": "Trinh Thám",
         "nxb": "Thanh Niên",
-        "total": "95.000",
+        "price": "95.000",
         "quantity": 20,
         "isDeleted": "false"
     },
@@ -335,7 +335,7 @@
         "author": "Victor Hugo",
         "category": "Văn học",
         "nxb": "Nhã Nam",
-        "total": "200.000",
+        "price": "200.000",
         "quantity": 20,
         "isDeleted": "false"
     },
@@ -345,7 +345,7 @@
         "author": "UNIVERSE",
         "category": "Kĩ năng sống",
         "nxb": "Thế Giới",
-        "total": "60.000",
+        "price": "60.000",
         "quantity": 20,
         "isDeleted": "false"
     },
@@ -355,7 +355,7 @@
         "author": "Châu Sa Đáy Mắt",
         "category": "Tản văn",
         "nxb": "Thế Giới",
-        "total": "75.000",
+        "price": "75.000",
         "quantity": 20,
         "isDeleted": "false"
     },
@@ -365,7 +365,7 @@
         "author": "Song Hong Bing",
         "category": "Kinh tế",
         "nxb": "Lao Động",
-        "total": "80.000",
+        "price": "80.000",
         "quantity": 20,
         "isDeleted": "false"
     },
@@ -375,7 +375,7 @@
         "author": "Gabriel Garcia Márquez",
         "category": "Văn học",
         "nxb": "Văn Học",
-        "total": "200.000",
+        "price": "200.000",
         "quantity": 20,
         "isDeleted": "false"
     },
@@ -385,7 +385,7 @@
         "author": "Vãn Tình",
         "category": "Kĩ năng sống",
         "nxb": "Thế giới",
-        "total": "100.000",
+        "price": "100.000",
         "quantity": 20,
         "isDeleted": "false"
     },
@@ -395,7 +395,7 @@
         "author": "Emma Hạ My",
         "category": "Giả tưởng",
         "nxb": "Dân Trí",
-        "total": "78.000",
+        "price": "78.000",
         "quantity": 20,
         "isDeleted": "false"
     },
@@ -405,7 +405,7 @@
         "author": "Tô Hoài",
         "category": "Thiếu nhi",
         "nxb": "Kim Đồng",
-        "total": "45.000",
+        "price": "45.000",
         "quantity": 20,
         "isDeleted": "false"
     },
@@ -415,7 +415,7 @@
         "author": "Jim Collins",
         "category": "Kinh tế",
         "nxb": "Trẻ",
-        "total": "130.000",
+        "price": "130.000",
         "quantity": 20,
         "isDeleted": "false"
     },
@@ -425,7 +425,7 @@
         "author": "Amateur Psychology Nguyễn Đoàn Minh Thư",
         "category": "Kĩ năng sống",
         "nxb": "Thế Giới",
-        "total": "60.000",
+        "price": "60.000",
         "quantity": 20,
         "isDeleted": "false"
     },
@@ -435,7 +435,7 @@
         "author": "Jo Hemmings",
         "category": "Tâm lí",
         "nxb": "Thế Giới",
-        "total": "250.000",
+        "price": "250.000",
         "quantity": 9,
         "isDeleted": "false"
     },
@@ -445,7 +445,7 @@
         "author": "Tony Buổi Sáng",
         "category": "Kĩ năng sống",
         "nxb": "Trẻ",
-        "total": "65.000",
+        "price": "65.000",
         "quantity": 9,
         "isDeleted": "false"
     },
@@ -455,7 +455,7 @@
         "author": "Kim Oanh",
         "category": "Tâm lí",
         "nxb": "Thế Giới",
-        "total": "160.000",
+        "price": "160.000",
         "quantity": 9,
         "isDeleted": "false"
     },
@@ -465,7 +465,7 @@
         "author": "GS. Hoàng Phê",
         "category": "Từ điển",
         "nxb": "Hồng Đức",
-        "total": "455.000",
+        "price": "455.000",
         "quantity": 9,
         "isDeleted": "false"
     },
@@ -475,7 +475,7 @@
         "author": "Maxim Gorky",
         "category": "Hồi ký",
         "nxb": "Hội nhà văn",
-        "total": "70.000",
+        "price": "70.000",
         "quantity": 9,
         "isDeleted": "false"
     },
@@ -485,7 +485,7 @@
         "author": "N Gregory Mankiw",
         "category": "Giáo trình",
         "nxb": "Hồng Đức",
-        "total": "225.000",
+        "price": "225.000",
         "quantity": 9,
         "isDeleted": "false"
     },
@@ -495,7 +495,7 @@
         "author": "Khaled Hosseini",
         "category": "Tiểu thuyết",
         "nxb": "Hội nhà văn",
-        "total": "90.000",
+        "price": "90.000",
         "quantity": 9,
         "isDeleted": "false"
     },
@@ -505,7 +505,7 @@
         "author": "Hạ Mer",
         "category": "Tản văn",
         "nxb": "Văn Học",
-        "total": "75.000",
+        "price": "75.000",
         "quantity": 9,
         "isDeleted": "false"
     },
@@ -515,7 +515,7 @@
         "author": "Morgan Housel",
         "category": "Tâm lí",
         "nxb": "Dân Trí",
-        "total": "85.000",
+        "price": "85.000",
         "quantity": 9,
         "isDeleted": "false"
     }

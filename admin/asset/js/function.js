@@ -13,22 +13,55 @@ function closeBehindMenu(behindMenu){
     }
 }
 
-function openToolMenu(){
+function isSelector(selector) {
+    try {
+        document.querySelector(selector);
+        return true; // Selector hợp lệ
+    } catch (error) {
+        return false; // Selector không hợp lệ
+    }
+}
+
+function isFunction(callback) {
+    try {
+        callback();
+        return true;
+    } catch (error) {
+        return false;
+    }
+}
+
+function openToolMenu(selector){
     var toolMenu = document.getElementById("tool-menu");
     var closeButton = document.getElementById("closeToolMenuButton");
     var behindMenu = createBehindMenu();
+    var menuAdd = document.querySelector('.menu-add');
+    if (isSelector(selector)){
+        var changeMenu = document.querySelector(`${selector}`);
+        changeMenu.style.display = 'flex';
+    } else{
+        menuAdd.style.display = 'block';
+    }
 
     toolMenu.style.display = 'block';
     closeButton.style.display = 'block';
 
     behindMenu.addEventListener('click',() => {
         toolMenu.style.display = 'none';
-        closeButton.style.display = 'block';
+        if (changeMenu){
+            changeMenu.style.display = 'none';
+        } else{
+            menuAdd.style.display = 'none';
+        }
         closeBehindMenu(behindMenu);
     });
     closeButton.addEventListener('click',() => {
         toolMenu.style.display = 'none';
-        closeButton.style.display = 'block';
+        if (changeMenu){
+            changeMenu.style.display = 'none';
+        } else{
+            menuAdd.style.display = 'none';
+        }
         closeBehindMenu(behindMenu);
     });
 }
@@ -50,33 +83,6 @@ function createModal(stringModal){
     document.body.appendChild(modal);
     return modal;
 }
-
-function closeToolMenu(){
-    toolMenu.style.display = 'none';
-    closeBehindMenu(behindMenu);
-}
-
-// function openModal(stringModal,stringAlert){
-//     var modal = createModal(stringModal);
-//     var behindMenu = createBehindMenu();
-//     var canceled = modal.querySelector('.canceled');
-//     var confirm = modal.querySelector('.confirm');
-
-//     canceled.addEventListener('click', () => {
-//         closeModal();
-//         return false
-//     }); 
-//     confirm.addEventListener('click', () => {
-//         createAlert(stringAlert);
-//         closeModal();
-//         return true;
-//     });
-
-//     function closeModal(){
-//         modal.style.display = 'none';
-//         behindMenu.style.display = 'none';
-//     }
-// }
 
 function openModal(stringModal, stringAlert) {
     return new Promise((resolve) => {
