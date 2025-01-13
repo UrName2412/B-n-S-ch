@@ -34,8 +34,7 @@ nav ul li a:active {
     color: #f0f0f0 !important;
 }
 .product-detail img {
-    width: 100%;
-    max-width: 350px;
+    width: 80%;
     height: auto;
     border-radius: 8px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
@@ -110,6 +109,15 @@ footer ul li a:active {
 .buy-btn:hover{
     background-color: #0066ff;
 }
+
+@media (max-width: 992px) {
+    .Picture {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 10px;
+    }
+}
+
 @media (max-width: 768px) {
     .flex-box {
         flex-direction: column;
