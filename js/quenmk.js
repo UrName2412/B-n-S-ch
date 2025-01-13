@@ -6,7 +6,6 @@ document.addEventListener("DOMContentLoaded", function() {
     const passconf = document.getElementById("pass-confirm");
     const form = document.getElementById("forgotpwdform");
     const modal = document.getElementById("successModal");
-    const modalFail = document.getElementById("failModal");
 
     // Hiển thị thông báo lỗi
     function showError(input, message) {
@@ -107,10 +106,13 @@ document.addEventListener("DOMContentLoaded", function() {
         // Kiểm tra tài khoản
         if(valid) {
             if(username.value === "user123" && phone.value === "0967147923") {
+                hideError(username);
+                hideError(phone);
                 modal.classList.add("active");
             }
             else {
-                modalFail.classList.add("active");
+                showError(username, "Tên đăng nhập hoặc số điện thoại không đúng");
+                showError(phone, "Tên đăng nhập hoặc số điện thoại không đúng");
             }
         }
     });
@@ -119,7 +121,6 @@ document.addEventListener("DOMContentLoaded", function() {
     closeModal.addEventListener("click", function() {
         // Sau khi đóng thông báo thì gửi form
         modal.classList.remove("active");
-        modalFail.classList.remove("active");
         form.submit();
     });
 });
