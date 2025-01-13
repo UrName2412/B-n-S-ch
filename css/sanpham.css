@@ -166,6 +166,20 @@ footer ul li a:active {
     display: flex;
     align-items: center;
 }
+
+.nav-link {
+    color: #336799;
+}
+
+.nav-item .active {
+    background-color: #336799 !important;
+    color: white !important;
+}
+
+aside input {
+    border: none !important;
+}
+
 @media (max-width: 768px) {
     #profile-name{
         display: block!important;
