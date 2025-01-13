@@ -171,7 +171,7 @@
                     style="border: 1px solid black;">
                     <h5 class="fw-bold text-center">TÌM KIẾM</h5>
                     <ul class="list-group">
-                        <form>
+                        <form id="priceFilterForm">
                             <li class="list-group-item">
                                 <input type="text" class="form-control" id="tensach" placeholder="Tên sách">
                             </li>
@@ -193,9 +193,10 @@
                                 </div>
                             </li>
                             <li class="list-group-item">
-                                <div class="d-grid justify-content-md-end">
-                                    <button class="btn btn-outline-dark">Tìm</button>
-                                </div> 
+                                <div class="d-grid justify-content-md-end d-md-flex gap-2">
+                                    <button type="button" class="btn btn-outline-dark" id="resetFilter">Xóa bộ lọc</button>
+                                    <button type="submit" class="btn btn-outline-dark">Tìm</button>
+                                </div>
                             </li>
                         </form>
                     </ul>
@@ -203,22 +204,10 @@
             </aside>
             <!-- Main content -->
             <div class="col-lg-9">
-                <!-- Form Lọc Giá Tiền -->
-                <form id="priceFilterForm" class="d-flex me-auto">
-                    <!-- Ô nhập giá tối thiểu -->
-                    <input class="form-control me-2" type="number" id="minPrice" placeholder="Giá từ (VNĐ)" min="0">
-                    <!-- Ô nhập giá tối đa -->
-                    <input class="form-control me-2" type="number" id="maxPrice" placeholder="Giá đến (VNĐ)" min="0">
-                    <!-- Nút lọc giá -->
-                    <button class="btn btn-outline-light btn-filter" type="submit">
-                        <i class="fas fa-filter"></i> Lọc Giá
-                    </button>
-                    <button class="btn btn-secondary ms-2" type="button" id="resetFilter">Xóa Lọc</button>
-                </form>
 
                 <!-- Hiển thị lỗi -->
                 <div id="priceFilterError" class="text-danger my-2"></div>
-                <h3>Sách Thiếu Nhi:</h3>
+                <h3>Sách Thiếu Nhi</h3>
                 <!-- Danh sách sản phẩm -->
                 <div class="border p-5">
                     <div class="container my-4">
@@ -227,100 +216,6 @@
                         </div>
                     </div>
                 </div>
-
-                <script>
-                    const formatPrice = (price) => {
-                        return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-                    };
-                    let allData = {};  // Biến lưu trữ dữ liệu của tất cả các danh mục
-
-                    // Hàm tải dữ liệu và hiển thị sản phẩm
-                    function loadProducts(category, minPrice = null, maxPrice = null) {
-                        const productList = document.getElementById('productList');
-                        productList.innerHTML = '';
-
-                        if (!allData[category] || allData[category].length === 0) {
-                            productList.innerHTML = '<p style="text-align:center; font-size:1.25rem; color:red;">Không có sản phẩm nào trong danh mục này.</p>';
-                            return;
-                        }
-
-                        const filteredProducts = allData[category].filter(product => {
-                            const productPrice = product.price;
-
-                            // Lọc sản phẩm theo giá
-                            if ((minPrice && productPrice < minPrice) || (maxPrice && productPrice > maxPrice)) {
-                                return false;
-                            }
-                            return true;
-                        });
-
-                        if (filteredProducts.length === 0) {
-                            productList.innerHTML = '<p style="text-align:center; font-size:1.25rem; color:red;">Không có sản phẩm nào phù hợp với giá lọc.</p>';
-                        } else {
-                            filteredProducts.forEach(product => {
-                                const productHTML = `
-                                        <div class="col-md-4 mb-4">
-                                        <div class="card" style="width: 100%;">
-                                            <a href="../sanpham/chitietsanpham-user.html">
-                                                <img src="${product.img}" alt="${product.name}" class="card-img-top">
-                                            </a>
-                                            <div class="card-body">
-                                                <h5 class="card-title">${product.name}</h5>
-                                                <p class="card-text">${product.category}</p>
-                                                <p class="card-text text-danger fw-bold">${formatPrice(product.price)} đ</p>
-                                                <buttom href="${product.link}" class="btn" style="background-color: #336799; color: #ffffff;">Thêm vào giỏ hàng</buttom>
-                                           </div>
-                                        </div>
-                                    </div>`;
-                                productList.innerHTML += productHTML;
-                            });
-                        }
-                    }
-
-                    // Hàm lấy dữ liệu từ file JSON và hiển thị theo danh mục
-                    function fetchAndDisplayProducts(category) {
-                        fetch('data.json')
-                            .then(response => response.json())
-                            .then(data => {
-                                allData = data;  // Lưu trữ dữ liệu toàn bộ vào allData
-                                loadProducts(category);  // Hiển thị sản phẩm theo danh mục
-                            })
-                            .catch(error => console.error('Có lỗi khi tải dữ liệu:', error));
-                    }
-
-                    // Sự kiện khi lọc giá
-                    document.getElementById('priceFilterForm').addEventListener('submit', function (event) {
-                        event.preventDefault();
-
-                        const errorDiv = document.getElementById('priceFilterError');
-                        errorDiv.textContent = '';
-
-                        const minPrice = parseFloat(document.getElementById('minPrice').value.trim()) || null;
-                        const maxPrice = parseFloat(document.getElementById('maxPrice').value.trim()) || null;
-
-                        // Kiểm tra điều kiện lọc
-                        if (minPrice === null && maxPrice === null) {
-                            errorDiv.textContent = 'Vui lòng nhập ít nhất một ô giá!';
-                            return;
-                        }
-
-                        const category = 'Sách thiếu nhi';  // Danh mục bạn muốn lọc(đổi danh mục ở đây)
-                        loadProducts(category, minPrice, maxPrice);  // Lọc sản phẩm theo giá
-                    });
-
-                    // Sự kiện reset lọc
-                    document.getElementById('resetFilter').addEventListener('click', () => {
-                        document.getElementById('minPrice').value = '';
-                        document.getElementById('maxPrice').value = '';
-                        document.getElementById('priceFilterError').textContent = '';
-
-                        const category = 'Sách thiếu nhi';  // Lọc lại danh mục ban đầu(đổi danh mục ở đây)
-                        loadProducts(category);  // Hiển thị lại tất cả sản phẩm trong danh mục
-                    });
-
-                    // Khi trang tải, hiển thị sản phẩm của danh mục "Sách thiếu nhi"
-                    fetchAndDisplayProducts('Sách thiếu nhi');//(đổi danh mục ở đây)
-                </script>
             </div>
         </div>
     </div>
@@ -395,6 +290,7 @@
     <!-- Bootstrap JS -->
     <script src="../js/bootstrap.bundle.min.js"></script>
     <script src="../js/sanpham.js"></script>
+    <script src="../js/danhMuc.js"></script>
 
     <script>
         function adjustSidebar() {  // Hàm điều khiển sidebar khi cuộn
