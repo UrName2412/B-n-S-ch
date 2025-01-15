@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", function() {
     const username = document.getElementById("username");
     const passwd = document.getElementById("pass");
     const modalSuccess = document.getElementById("successModal");
-    const modalFail = document.getElementById("failModal");
 
     // Hiển thị thông báo lỗi
     function showError(input, message) {
@@ -65,10 +64,12 @@ document.addEventListener("DOMContentLoaded", function() {
         // Kiểm tra tài khoản
         if(valid) {
             if(username.value === "user123" && passwd.value === "12345678") {
+                hideError(username);
+                hideError(passwd);
                 modalSuccess.classList.add("active");
-            } 
-            else {
-                modalFail.classList.add("active");
+            } else {
+                showError(username, "Tên đăng nhập hoặc mật khẩu không đúng");
+                showError(passwd, "Tên đăng nhập hoặc mật khẩu không đúng");
             }
         }
     });
@@ -77,7 +78,6 @@ document.addEventListener("DOMContentLoaded", function() {
     closeModal.addEventListener("click", function() {
         // Sau khi đóng thông báo thì gửi form
         modalSuccess.classList.remove("active");
-        modalFail.classList.remove("active");
         form.submit();
     });
 });
