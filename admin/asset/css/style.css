@@ -118,6 +118,19 @@ b{
     font-size: 1.2rem;
 }
 
+.detailButton{
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+    box-sizing: border-box;
+    text-align: center;
+    font-size: 1.2rem;
+    background-color: var(--color-dark);
+    color: white;
+}
+.detailButton:hover{
+    background-color: black;
+}
 .not-confirm{
     background-color: var(--color-warning)!important;
     color: black;
@@ -318,6 +331,10 @@ a {
     flex-direction: column;
     gap: 0.5rem;
 }
+.grid-body-detail{
+    display: flex;
+    flex-direction: column;
+}
 
 .grid-row{
     display: grid;
@@ -346,6 +363,7 @@ a {
     border-bottom: 1px solid var(--color-light);
     margin-top: 0.3rem;
     box-sizing: border-box;
+    gap: 5px;
 }
 
 .grid-row textarea,
@@ -558,9 +576,9 @@ button:hover{
 .tool-menu{
     position: absolute;
     height: auto;
-    width: 40vw;
+    width: 50vw;
     top:5vh;
-    left: 30vw;
+    left: 25vw;
     background-color: var(--color-white);
     box-shadow: var(--box-shadow);
     border-radius: var(--border-radius-1);
@@ -575,9 +593,10 @@ button:hover{
     height: 24px;
     border-radius: 5px;
 }
-
+.menu-detail,
 .menu-fix,
 .menu-add{
+    display: none;
     height: 100%;
     width: 100%;
     padding: 10px;
@@ -585,9 +604,77 @@ button:hover{
     background-color: var(--color-white);
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    display: none;
     flex-direction: column;
     align-content:center;
+}
+
+.detailHeader{
+    width: 100%;
+    height: 10vh;
+}
+
+.detailHeader ul{
+    list-style: none;
+}
+
+.grid-header-detail{
+    display: grid;
+    grid-template-columns: minmax(80px,2fr) minmax(40px,0.5fr) repeat(2,minmax(60px,1fr));
+    font-weight: bold;
+    border-top: 2px solid var(--color-dark);
+    border-bottom: 2px solid var(--color-dark);
+    padding: 0.5rem 0;
+    text-align: center;
+}
+
+.grid-row-detail{
+    display: grid;
+    grid-template-columns: minmax(80px,2fr) minmax(40px,0.5fr) repeat(2,minmax(60px,1fr));
+    border-bottom: 1px solid var(--color-dark);
+    box-sizing: border-box;
+}
+
+.grid-footer-detail{
+    display: grid;
+    grid-template-columns: minmax(180px,3.5fr) minmax(60px,1fr);
+    font-weight: bold;
+    padding: 0.5rem 0;
+    text-align: center;
+}
+
+.grid-header-detail textarea{
+    padding: 0;
+    text-align: center;
+    border-left: 1px solid var(--color-light);
+    width: 100%;
+    resize: none;
+    font-size: 1.5vw;
+}
+
+.grid-row-detail textarea{
+    padding: 0.5rem;
+    text-align: center;
+    width: 100%;
+    resize: none;
+    font-size: 1.5vw;
+}
+.grid-row-detail textarea:not(:first-child){
+    border-left: 1px solid var(--color-dark);
+}
+
+.grid-footer-detail textarea{
+    padding: 0.5rem;
+    text-align: center;
+    width: 100%;
+    resize: none;
+    font-size: 1.5vw;
+}
+.grid-footer-detail textarea:first-child{
+    padding: 0.5rem;
+    text-align: start;
+    width: 100%;
+    resize: none;
+    font-size: 1.5vw;
 }
 
 #order-status{

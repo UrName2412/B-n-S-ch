@@ -53,6 +53,57 @@ function setStatusButtons(statusButtons,isAllCarts){
     }
 }
 
+function setDetailButtons(detailButtons){
+    detailButtons.forEach(detailButton => {
+        detailButton.addEventListener('click', (event) => {
+            var gridRowCart = event.target.closest('.grid-row-cart');
+            var id = gridRowCart.querySelector('textarea[placeholder="Nhập id..."]').value;
+            var index = carts.findIndex(cart => cart.id == id);
+
+            const toolMenu = document.querySelector('.tool-menu');
+            toolMenu.style.display = 'block';
+            menuDetail = document.createElement('div');
+            menuDetail.className = 'menu-detail';
+            menuDetail.innerHTML = `
+                <h2>Chi tiết đơn hàng</h2>
+                <div class="detailHeader">
+                    <ul>
+                        <span>HÓA ĐƠN CHO</span>
+                        <li>Vũ</li>
+                        <li>Asd</li>
+                    </ul>
+                </div>
+                <div class="grid-header-detail">
+                    <textarea readonly>Sản phẩm</textarea>
+                    <textarea readonly>Số lượng</textarea>
+                    <textarea readonly>Đơn giá</textarea>
+                    <textarea readonly>Thành tiền</textarea>
+                </div>
+                <div class="grid-body-detail">
+                    <div class="grid-row-detail">
+                        <textarea readonly>Sach Cu~</textarea>
+                        <textarea readonly>5</textarea>
+                        <textarea readonly>30.000</textarea>
+                        <textarea readonly>150.000</textarea>
+                    </div>
+                    <div class="grid-row-detail">
+                        <textarea readonly>Sach Cu~</textarea>
+                        <textarea readonly>5</textarea>
+                        <textarea readonly>30.000</textarea>
+                        <textarea readonly>150.000</textarea>
+                    </div>
+                </div>
+                <div class="grid-footer-detail">
+                    <textarea readonly>Tổng cộng</textarea>
+                    <textarea readonly>300.000</textarea>
+                </div>
+            `;
+            toolMenu.appendChild(menuDetail)
+            openToolMenu('.menu-detail');
+        })
+    })
+}
+
 function allCarts(listCartsBlock){
     listCartsBlock.innerHTML = '';
     carts.forEach(function (cart) {
@@ -63,14 +114,16 @@ function allCarts(listCartsBlock){
             <textarea placeholder="Nhập tên người dùng..." readonly>${cart.username}</textarea>
             <textarea placeholder="Nhập địa chỉ..." readonly>${cart.address}</textarea>
             <textarea placeholder="Nhập số điện thoại..." readonly>${cart.phone}</textarea>
-            <textarea placeholder="Nhập số lượng..." readonly>${cart.quantity}</textarea>
             <textarea placeholder="Nhập tổng giá..." readonly>${cart.amount}</textarea>
             <button type="button" class="status">${cart.status}</button>
+            <button type="button" class="detailButton">Chi tiết đơn hàng</button>
         `;
         listCartsBlock.appendChild(newCart);
     });
-    var statusButtons = document.querySelectorAll('.status')
+    var statusButtons = document.querySelectorAll('.status');
+    var detailButtons = document.querySelectorAll('.detailButton');
     setStatusButtons(statusButtons,true);
+    setDetailButtons(detailButtons);
 }
 
 function statusCarts(listCartsBlock,status){
@@ -84,16 +137,17 @@ function statusCarts(listCartsBlock,status){
                 <textarea placeholder="Nhập tên người dùng..." readonly>${cart.username}</textarea>
                 <textarea placeholder="Nhập địa chỉ..." readonly>${cart.address}</textarea>
                 <textarea placeholder="Nhập số điện thoại..." readonly>${cart.phone}</textarea>
-                <textarea placeholder="Nhập số lượng..." readonly>${cart.quantity}</textarea>
                 <textarea placeholder="Nhập tổng giá..." readonly>${cart.amount}</textarea>
                 <button type="button" class="status">${cart.status}</button>
+                <button type="button" class="detail">Chi tiết đơn hàng</button>
             `;
             listCartsBlock.appendChild(newCart);
         }
     });
-    const statusButtons = document.querySelectorAll('.status');
-    console.log(statusButtons);
+    var statusButtons = document.querySelectorAll('.status');
+    var detailButtons = document.querySelectorAll('.detailButton');
     setStatusButtons(statusButtons,false);
+    setDetailButtons(detailButtons);
 }
 
 function cartFilter(){
