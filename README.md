@@ -1,1 +1,2 @@
-Test thử git nha mấy cu
+chú ý:
+    sửa đăng xuất
