@@ -1,0 +1,274 @@
+.list-unstyled{
+    user-select: none;
+    text-decoration: none;
+}
+.col-3 .list-item:hover{
+    background-color: #f9f9f9;
+    transform: scale(1.01);
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+.col-3 .list-item:active{
+    background-color: rgba(240, 240, 240, 0.686);
+    transform: scale(1);
+    transition: transform 0.1s ease;
+}
+.col-3 .list-item{
+    padding: 10px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+.avatar{
+    width: 100px;
+    height: auto;
+    border-radius: 50%;
+    border: 5px solid #E3E5E8;
+}
+
+/* Styles cho overlay */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(3px);
+}
+
+.overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Styles cho form */
+#edit-form {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -60%) scale(0.95);
+    background-color: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+    z-index: 1001;
+    width: max-content;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#edit-form.show {
+    visibility: visible;
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+#edit-form.hidden {
+    visibility: hidden;
+    opacity: 0;
+    transform: translate(-50%, -60%) scale(0.95);
+}
+
+/* Style cho form inputs */
+#edit-form input {
+    width: 100%;
+    padding: 10px 15px;
+    margin: 8px 0;
+    border: 2px solid #eee;
+    border-radius: 6px;
+    transition: ease-out ease 0.3s;
+    font-size: 15px;
+}
+
+#edit-form input:focus {
+    border-color: #4CAF50;
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+    outline: none;
+}
+
+#edit-form label {
+    display: block;
+    margin-top: 12px;
+    font-weight: 500;
+    color: #333;
+    font-size: 15px;
+}
+
+#edit-form h2 {
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+}
+
+.edit-btn, .cancel-btn {
+    padding: 10px 25px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 20px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.edit-btn {
+    background-color: #4CAF50;
+    color: white;
+    margin-right: 10px;
+}
+
+.edit-btn:hover {
+    background-color: #45a049;
+    transform: translateY(-1px);
+}
+
+.cancel-btn {
+    background-color: #f44336;
+    color: white;
+}
+
+.cancel-btn:hover {
+    background-color: #da190b;
+    transform: translateY(-1px);
+}
+
+/* Hiệu ứng hover cho inputs */
+#edit-form input:hover {
+    border-color: #ddd;
+}
+#sinhnhat{
+    margin-bottom: 10px;
+    display: flex;
+    gap: 10px;
+}
+
+label{
+    width: 100px;
+    font-weight: 500;
+    color: #333;
+    font-size: 15px;
+}
+
+.list-unstyled a {
+    flex: 1;
+    text-decoration: none;
+    color:black
+}
+
+.Information{
+    height: fit-content;
+    position: relative;
+    background-color: #E3E5E8!important;
+    border-radius: 0 0 10px 10px;
+}
+.profile-pic{
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    top: -30px;
+    left: 20px;
+    border-radius: 50%;
+}
+.blueblock{
+    height: 80px;
+    background-color: #85A6DD;
+    border-radius: 10px 10px 0 0;
+}
+.Info{
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    gap: 0;
+    padding: 0!important;
+}
+.action-buttons{
+    padding: 5px;
+    height: fit-content;
+    width: 100%;
+    display: flex;
+    justify-content: end;
+}
+
+#infoUpdate{
+    padding: 5px 25px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 20px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.profile-info{
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    margin: 20px;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #F2F3F5;
+}
+
+@media (max-width: 769px){
+    .main-profile {
+        flex-direction: column;
+    }
+    
+    .list {
+        width: 100%;
+        padding: 0;
+        margin-bottom: 20px;
+    }
+    
+    .list-unstyled {
+        margin: 10px 0;
+        display: flex;
+        flex-direction: row;
+        width: 90%;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .list-item {
+        flex: 1;
+        text-align: center;
+        border-radius: 10px;
+        margin: 0;
+    }
+    
+    .Info {
+        width: 100%;
+        padding: 0;
+    }
+    
+    .col-9 {
+        width: 100%;
+        max-width: 100%;
+        flex: 0 0 100%;
+    }
+    .col-3{
+        display: flex;
+        justify-content: center;
+    }
+    #edit-form {
+        width: 90%;
+        padding: 20px;
+    }
+    
+    #sinhnhat {
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .action-buttons button{
+        width: 50%;
+    }
+    
+    .profile-info {
+        margin: 15px;
+    }
+}

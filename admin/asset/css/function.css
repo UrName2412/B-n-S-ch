@@ -1,0 +1,126 @@
+.modal{
+    width: 40vw;
+    position: fixed;
+    border-radius: 30px;
+    border: 3px solid #4CAF50;
+    background-color: white;
+    display: none;
+    flex-direction: column;
+    padding: 0 15px;
+    top: 15vh;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.3s ease-in-out;
+    z-index: 2;
+}
+
+.modal:hover{
+    box-shadow: 0 0 5px rgba(68, 123, 70, 0.5);
+}
+
+.headModal{
+    text-align: center;
+    font-size: 1.5rem;
+    padding: 10px;
+    display: block;
+    border-bottom: 1px solid black;
+}
+
+.choiceModal{
+    text-align: end;
+    padding: 10px;
+    vertical-align: middle;
+    box-sizing: border-box;
+}
+
+.choiceModal button{
+    font-size: 1.2rem;
+    border-radius: 10px;
+    margin-left: 5px;
+    padding: 10px;
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.choiceModal .confirm{
+    background-color: #FF0060;
+    border: 2px solid black;
+}
+
+.choiceModal .canceled{
+    background-color: #1B9C85;
+    border: 2px solid black;
+}
+
+.choiceModal button:hover{
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+
+.behindMenuAlert,
+.behindMenuModal,
+.behindMenu{
+    position: fixed;
+    top: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: gray;
+    opacity: 0.5;
+    z-index: 1;
+}
+
+@media (max-width: 1024px){
+    .modal{
+        width: 60vw;
+    }
+
+    .headModal{
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 768px){
+    .modal{
+        width: 90vw;
+    }
+}
+
+/* Alert */
+.customAlert{
+    position: fixed;
+    width: 50vw;
+    top: 10vh;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 10px;
+    border-radius: 10px;
+    z-index: 9999;
+}
+
+.alertContent{
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+#alertMessage{
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: black;
+}
+
+#alertCloseBtn{
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#alertCloseBtn:hover{
+    background-color: #45a049;
+}

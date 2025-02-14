@@ -1,0 +1,125 @@
+/* Định dạng chung cho các mục trong giỏ hàng */
+.cart-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 8px;
+    border: 2px solid #ddd; /* Thay đổi viền để tạo sự nhẹ nhàng */
+    background-color: #fff; /* Màu nền sáng cho mỗi mục */
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+    transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.cart-item:hover {
+    transform: translateY(-3px); /* Tăng hiệu ứng khi hover */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Cấu trúc container sản phẩm */
+.product_container {
+    min-height: calc(80vh - 120px);
+    padding: 15px;
+}
+
+/* Chi tiết sản phẩm */
+.item-detail {
+    display: flex;
+    align-items: center;
+    width: 35%; /* Đảm bảo không gian hợp lý */
+}
+
+.item-detail img {
+    width: 25%; /* Điều chỉnh để phù hợp với tổng chiều rộng */
+    height: auto;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-right: 15px;
+}
+
+/* Phần tổng số tiền giỏ hàng */
+.cart-total {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90vw;
+    background-color: #efefef;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Avatar */
+.avatar {
+    display: flex;
+    align-items: center;
+}
+
+.card-img-top {
+    border-radius: 50%;
+    width: 40px; /* Kích thước phù hợp cho avatar */
+    height: 40px;
+}
+
+/* Phần khi không có sản phẩm */
+.noproduct {
+    text-align: center;
+    color: gray;
+    margin-top: 20px;
+}
+
+.noproduct i {
+    font-size: 6rem;
+}
+
+.noproduct button {
+    background-color: #336799;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.2s;
+}
+
+.noproduct button a {
+    color: white;
+    text-decoration: none;
+}
+
+.noproduct button:hover {
+    background-color: #214e77e4;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .cart-item {
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    .item-detail img {
+        width: 30vw; /* Điều chỉnh ảnh khi hiển thị trên màn hình nhỏ */
+    }
+
+    .cart-total {
+        width: 100vw;
+        padding: 10px;
+    }
+
+    .cart-item div {
+        margin: 10px 0;
+        align-self: flex-start;
+    }
+
+    .avatar {
+        align-items: flex-start;
+    }
+}

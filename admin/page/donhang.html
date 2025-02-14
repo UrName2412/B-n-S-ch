@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../asset/css/style.css">
+    <link rel="stylesheet" href="../asset/css/function.css">
+    <link rel="stylesheet" href="../vender/css/fontawesome-free/css/all.min.css">
+    <title>Admin </title>
+</head>
+
+
+
+<body>
+    <div class="container">
+        <!--Sidebar Section-->
+        <aside>
+            <div class="sidebar">
+                <a href="thongke.html">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Thống kê</h3>
+                </a>
+                <a href="nguoidung.html">
+                    <i class="fas fa-user"></i>
+                    <h3>Người dùng</h3>
+                </a>
+                <a href="sanpham.html">
+                    <i class="fas fa-archive"></i>
+                    <h3>Sản phẩm</h3>
+                </a>
+                <div class="active">
+                    <i class="fas fa-clipboard-list"></i>
+                    <h3>Đơn hàng</h3>
+                </div>
+                <a href="../index.html" class="last-child">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <h3>Đăng xuất</h3>
+                </a>
+            </div>
+        </aside>
+        <!--End of Sidebar Section-->
+
+        <!--Header-->
+        <div class="header">
+            <div class="toggle">
+                <div class="logo">
+                    <a href="nguoidung.html">
+                        <img src="../image/LogoSach.png">
+                        <h2>Admin</h2>
+                    </a>
+                </div>
+            </div>
+            <button type="button" class="close" id="closeHeaderButton">
+                <img src="../image/close.png" alt="close" class="icon">
+            </button>
+            <button type="button" class="menuHeader" id="menuHeaderButton">
+                <img src="../image/menu.png" alt="menu" class="icon">
+            </button>
+        </div>
+        <!--End of Header-->
+
+        <!-- Content Section -->
+        <div class="container-content">
+            <div class="content">
+                <div class="grid-header-cart">
+                    <span>Mã đơn</span>
+                    <span>Tên người dùng</span>
+                    <span>Địa chỉ</span>
+                    <span>Số điện thoại</span>
+                    <span>Tổng tiền</span>
+                    <span>Tình trạng</span>
+                    <span>Chi tiết</span>
+                </div>
+                <div class="grid-body" id="dataCarts">
+                    <!-- JSON -->
+                </div>
+            </div>
+
+            <!-- Tool Section -->
+            <div class="tool">
+                <div class="search">
+                    <button type="button">
+                        <i class="fas fa-filter"></i>
+                    </button>
+                    <select name="cartFilter" id="cartFilter" onchange="cartFilter()">
+                        <option value="allCarts">Tất cả đơn hàng</option>
+                        <option value="cartsNotConfirm">Chưa xử lí</option>
+                        <option value="cartsConfirm">Đã xác nhận</option>
+                        <option value="cartsDelivered">Đã giao</option>
+                        <option value="cartsCanceled">Đã hủy</option>
+                    </select>
+                    <input type="text" name="search" placeholder="Tìm kiếm..." id="searchInput">
+                    <button type="button" id="searchButton" onclick="searchButton()">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tool Menu -->
+        <div class="tool-menu" style="display: none;"  id="tool-menu">
+            <button type="button" class="menu-close" id="closeToolMenuButton">
+                <img src="../image/close.png" alt="close" class="icon">
+            </button>
+        </div>
+        <!--End of Content-Tool-->
+    </div>
+
+    <script src="../asset/js/function.js"></script>
+    <script src="../asset/js/validator.js"></script>
+    <script src="../asset/js/inputDataCart.js"></script>
+    <script src="../asset/js/admin.js"></script>
+
+
+    <script>
+        messageRequired = 'Vui lòng nhập thông tin.';
+        messagePhone = 'Vui lòng nhập đúng số điện thoại';
+        Validator({
+            form: '#form-add',
+            errorSelector: '.form-message',
+            rules: [
+                Validator.isRequired('#id',messageRequired),
+                Validator.isRequired('#name',messageRequired),
+                Validator.isRequired('#address',messageRequired),
+                Validator.isRequired('#quantity',messageRequired),
+                Validator.isRequired('#total',messageRequired),
+                Validator.isRequired('#status',messageRequired),
+                Validator.isPhone('#phone',messagePhone),
+                Validator.minLength('#address',6),
+                Validator.minLength('#name',6)
+            ]
+        })
+
+    </script>
+</body>
+
+</html>

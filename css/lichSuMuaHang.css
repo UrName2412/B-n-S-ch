@@ -1,0 +1,110 @@
+/* Cải thiện hình ảnh sản phẩm */
+.product_info img {
+    width: 10%;
+    height: auto;
+    border-radius: 10px;
+  }
+
+
+/* Enhance the appearance of the <p> tag containing the text "Đơn Hàng" */
+.order-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: #fff;
+    padding: 10px;
+    border-radius: 10px 10px 0 0;
+    background-color: #85A6DD;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.order-title p {
+    margin: 0;
+    padding: 5px 10px;
+    background-color: #007bff;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* Thiết kế sản phẩm */
+.product_info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 15px;
+    transition: all 0.3s ease-in-out;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+/* Thiết kế chi tiết sản phẩm */
+.product_detail1{
+    padding: 0 10px 10px 10px;
+    display: flex;
+    flex-direction: column;
+    width: 65%;
+}
+.product_detail2 {
+    width: 20%;
+}
+
+.product_detail h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #343a40;
+}
+
+.product_detail2 p {
+    font-weight: 500;
+    margin: 5px 0;
+    font-size: 18px;
+    color: #dc3545;
+}
+
+/* Bố cục danh sách sản phẩm */
+.product_container {
+    margin-top: 10px;
+    background-color: #e9ecef;
+    border-radius: 10px;
+    border: 2px solid #ced4da;
+    display: flex;
+    flex-direction: column;
+}
+
+.total{
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px;
+    border-top: 2px solid #ced4da;
+}
+.total p{
+    font-weight: bold;
+    font-size: 18px;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    padding: 10px;
+}
+.total span{
+    margin: 0;
+    color: #dc3545;
+}
+
+/* Cải thiện giao diện trên thiết bị di động */
+@media (max-width: 426px) {
+    .product_info {
+        flex-wrap: wrap;
+        align-items: flex-start;
+        justify-content: flex-end;
+        padding: 15px;
+    }
+
+    .product_info img {
+        width: 30%;
+        height: auto;
+        margin-bottom: 10px;
+    }
+}

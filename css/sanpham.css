@@ -1,0 +1,190 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+header {
+    background-color: #336799;
+}
+
+.logo {
+    width: 120px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
+    margin-right: 3em;
+}
+
+nav ul li a:hover {
+    color: #f0f0f0 !important;
+    text-decoration: underline;
+}
+
+nav ul li a:active {
+    color: yellow !important;
+}
+
+.fa-shopping-basket {
+    font-size: 2rem;
+}
+
+.fa-shopping-basket:hover {
+    color: #f0f0f0 !important;
+}
+
+aside {
+    position: sticky;
+    top: 20px;
+    height: max-content;
+}
+
+aside ul li a {
+    text-decoration: none;
+}
+
+aside ul li a:hover {
+    color: #4C8CC5 !important;
+}
+
+aside ul li a:active {
+    color: #336799 !important;
+}
+
+.card a img {
+    height: 400px;
+}
+
+.card-title {
+    height: 75px;
+}
+
+.card-body .btn:hover {
+    background-color: #28527a !important;
+}
+
+.page-link:hover {
+    text-decoration: none;
+    background-color: #28527a !important;
+}
+
+footer {
+    background-color: #336799;
+}
+
+.footer__connect {
+    border-bottom: 1px solid #adc2d7;
+    font-size: 16px;
+}
+
+.footer__bar {
+    border-left: 1px solid #adc2d7;
+    border-right: 1px solid #adc2d7;
+}
+
+footer ul li a {
+    text-decoration: none;
+}
+
+footer ul li a:hover {
+    color: #f0f0f0 !important;
+    text-decoration: underline;
+}
+
+footer ul li a:active {
+    color: yellow !important;
+}
+
+#backToTop {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #336799;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+}
+
+#backToTop:hover {
+    background-color: #28527a;
+}
+
+.cart-icon{
+    position: relative;
+}
+
+.cart-icon span{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    background-color: red;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    top: 50%;
+    left:20px;
+}
+
+.notification {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    font-size: 16px;
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+.notification.show {
+    opacity: 1;
+}
+
+#avatar{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: white;
+}
+.nav-item{
+    display: flex;
+    align-items: center;
+}
+
+.nav-link {
+    color: #336799;
+}
+
+.nav-item .active {
+    background-color: #336799 !important;
+    color: white !important;
+}
+
+aside input {
+    border: none !important;
+}
+
+@media (max-width: 768px) {
+    #profile-name{
+        display: block!important;
+    }
+    #avatar{
+        margin-bottom: 10px;
+    }
+}

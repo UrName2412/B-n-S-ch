@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../asset/css/style.css">
+    <link rel="stylesheet" href="../asset/css/function.css">
+    <link rel="stylesheet" href="../vender/css/fontawesome-free/css/all.min.css">
+    <title>Admin </title>
+</head>
+
+
+
+<body>
+    <div class="container">
+        <!--Sidebar Section-->
+        <aside>
+            <div class="sidebar">
+                <div class="active">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Thống kê</h3>
+                </div>
+                <a href="nguoidung.html">
+                    <i class="fas fa-user"></i>
+                    <h3>Người dùng</h3>
+                </a>
+                <a href="sanpham.html">
+                    <i class="fas fa-archive"></i>
+                    <h3>Sản phẩm</h3>
+                </a>
+                <a href="donhang.html">
+                    <i class="fas fa-clipboard-list"></i>
+                    <h3>Đơn hàng</h3>
+                </a>
+                <a href="../index.html" class="last-child">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <h3>Đăng xuất</h3>
+                </a>
+            </div>
+        </aside>
+        <!--End of Sidebar Section-->
+
+        <!--Header-->
+        <div class="header">
+            <div class="toggle">
+                <div class="logo">
+                    <a href="#">
+                        <img src="../image/LogoSach.png">
+                        <h2>Admin</h2>
+                    </a>
+                </div>
+            </div>
+            <button type="button" class="close" id="closeHeaderButton">
+                <img src="../image/close.png" alt="close" class="icon">
+            </button>
+            <button type="button" class="menuHeader" id="menuHeaderButton">
+                <img src="../image/menu.png" alt="menu" class="icon">
+            </button>
+        </div>
+        <!--End of Header-->
+
+        <!-- Content Section -->
+        <div class="container-content">
+            <div class="content">
+                <div class="grid-header-product">
+                    <span>Mã Sách</span>
+                    <span>Tên Sách</span>
+                    <span>Số lượng</span>
+                    <span>Tổng tiền</span>
+                </div>
+                <div class="grid-body" id="dataBlock">
+                    <!-- JSON -->
+                </div>
+            </div>
+
+
+            <!-- Tool Section -->
+            <div class="tool">
+                <form>
+                    <button type="button" class="inventory">
+                        <img src="../image/inventory_white.png" alt="inventory" class="icon">
+                    </button>
+                    <button type="button" class="person">
+                        <img src="../image/person_white.png" alt="build" class="icon">
+                    </button>
+                </form>
+            </div>
+        </div>
+
+
+    </div>
+
+    <script src="../asset/js/function.js"></script>
+    <script src="../asset/js/thongke.js"></script>
+    <script src="../asset/js/admin.js"></script>
+</body>
+
+</html>

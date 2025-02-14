@@ -1,0 +1,131 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+header {
+    background-color: #336799;
+}
+
+.logo {
+    width: 120px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
+    margin-right: 3em;
+}
+
+nav ul li a:hover {
+    color: #f0f0f0 !important;
+    text-decoration: underline;
+}
+
+nav ul li a:active {
+    color: yellow !important;
+}
+
+.fa-shopping-basket {
+    font-size: 2rem;
+}
+
+.fa-shopping-basket:hover {
+    color: #f0f0f0 !important;
+}
+
+main {
+    min-height: calc(75vh - 120px);
+}
+
+main form button:hover {
+    background-color: #28527a !important;
+}
+
+.card-header {
+    background-color: #336799;
+}
+
+.forgotpwd{
+    text-decoration: none;
+    color: #212529;
+}
+
+.modal {
+    background-color: rgba(0,0,0,0.6);
+}
+
+.modal-header {
+    padding: 16px 0 0 0;
+}
+
+.icon__success p {
+    font-size: 2rem;
+}
+
+#successModal {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+#successModal.active {
+    display: block;
+    opacity: 1;
+    animation: modalShow 0.4s ease forwards;
+}
+
+#failModal {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+#failModal.active {
+    display: block;
+    opacity: 1;
+    animation: modalShow 0.4s ease forwards;
+}
+
+footer {
+    background-color: #336799;
+}
+
+.footer__connect {
+    border-bottom: 1px solid #adc2d7;
+    font-size: 16px;
+}
+
+.footer__bar {
+    border-left: 1px solid #adc2d7;
+    border-right: 1px solid #adc2d7;
+}
+
+footer ul li a {
+    text-decoration: none;
+}
+
+footer ul li a:hover {
+    color: #f0f0f0 !important;
+    text-decoration: underline;
+}
+
+footer ul li a:active {
+    color: yellow !important;
+}
+
+@keyframes modalShow {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }   
+}

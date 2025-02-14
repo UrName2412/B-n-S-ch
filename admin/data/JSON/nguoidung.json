@@ -1,0 +1,202 @@
+    [
+        {
+            "id": 1,
+            "name": "Ngô Trường Vũ",
+            "phone": "0758469512",
+            "quantity": 45,
+            "email": "ngotruongvu@gmail.com",
+            "address": "123 Trần Hưng Đạo, Quận 1, TP. Hồ Chí Minh",
+            "username": "truongvudeptry",
+            "isBanned": "true" 
+        },
+        {
+            "id": 2,
+            "name": "Phạm Minh Tuấn",
+            "phone": "0932475863",
+            "quantity": 72,
+            "email": "phamtuan@gmail.com",
+            "address": "456 Nguyễn Huệ, Quận 3, TP. Hồ Chí Minh",
+            "username": "tuanbright",
+            "isBanned": "true" 
+        },
+        {
+            "id": 3,
+            "name": "Trần Thị Lan",
+            "phone": "0983456721",
+            "quantity": 56,
+            "email": "tranlan@gmail.com",
+            "address": "789 Lê Lợi, Quận 5, TP. Hồ Chí Minh",
+            "username": "lanflower",
+            "isBanned": "true" 
+        },
+        {
+            "id": 4,
+            "name": "Nguyễn Thị Mai",
+            "phone": "0912345678",
+            "quantity": 89,
+            "email": "nguyenmai@gmail.com",
+            "address": "321 Phan Đình Phùng, Quận Phú Nhuận, TP. Hồ Chí Minh",
+            "username": "maipeace",
+            "isBanned": "false" 
+        },
+        {
+            "id": 5,
+            "name": "Hoàng Đức Minh",
+            "phone": "0893456789",
+            "quantity": 34,
+            "email": "hoangminh@gmail.com",
+            "address": "654 Hai Bà Trưng, Quận 1, TP. Hồ Chí Minh",
+            "username": "minhglory",
+            "isBanned": "false" 
+        },
+        {
+            "id": 6,
+            "name": "Vũ Hồng Sơn",
+            "phone": "0789456123",
+            "quantity": 15,
+            "email": "vuhongson@gmail.com",
+            "address": "987 Trường Chinh, Quận Tân Bình, TP. Hồ Chí Minh",
+            "username": "sonsky",
+            "isBanned": "false" 
+        },
+        {
+            "id": 7,
+            "name": "Đoàn Thanh Hương",
+            "phone": "0918675309",
+            "quantity": 77,
+            "email": "doanthanhhuong@gmail.com",
+            "address": "159 Điện Biên Phủ, Quận Bình Thạnh, TP. Hồ Chí Minh",
+            "username": "huongscent",
+            "isBanned": "false" 
+        },
+        {
+            "id": 8,
+            "name": "Nguyễn Duy Khánh",
+            "phone": "0912456780",
+            "quantity": 68,
+            "email": "nguyenkhanh@gmail.com",
+            "address": "753 Nguyễn Văn Trỗi, Quận Phú Nhuận, TP. Hồ Chí Minh",
+            "username": "khanhhero",
+            "isBanned": "false" 
+        },
+        {
+            "id": 9,
+            "name": "Lê Bảo Châu",
+            "phone": "0903457890",
+            "quantity": 42,
+            "email": "lebaochau@gmail.com",
+            "address": "951 Lý Thái Tổ, Quận 10, TP. Hồ Chí Minh",
+            "username": "chaustar",
+            "isBanned": "false" 
+        },
+        {
+            "id": 10,
+            "name": "Trịnh Quang Hieu",
+            "phone": "0945682035",
+            "quantity": 99,
+            "email": "trinhhieu@gmail.com",
+            "address": "741 Hùng Vương, Quận 5, TP. Hồ Chí Minh",
+            "username": "hieumind",
+            "isBanned": "false" 
+        },
+        {
+            "id": 11,
+            "name": "Trần Thị Lựu",
+            "phone": "0983456721",
+            "quantity": 83,
+            "email": "tranlan@gmail.com",
+            "address": "852 Trần Văn Đang, Quận 10, TP. Hồ Chí Minh",
+            "username": "luudaisy",
+            "isBanned": "false" 
+        },
+        {
+            "id": 12,
+            "name": "Nguyễn Thị Bích",
+            "phone": "0908765432",
+            "quantity": 25,
+            "email": "nguyenthibich@gmail.com",
+            "address": "963 Nguyễn Đình Chiểu, Quận 3, TP. Hồ Chí Minh",
+            "username": "bichsmile",
+            "isBanned": "false" 
+        },
+        {
+            "id": 13,
+            "name": "Hoàng Minh Tú",
+            "phone": "0934785612",
+            "quantity": 54,
+            "email": "hoangminhtu@gmail.com",
+            "address": "174 Võ Văn Tần, Quận 3, TP. Hồ Chí Minh",
+            "username": "tucharm",
+            "isBanned": "false" 
+        },
+        {
+            "id": 14,
+            "name": "Lê Quốc Duy",
+            "phone": "0945637210",
+            "quantity": 36,
+            "email": "lequocduy@gmail.com",
+            "address": "285 Hoàng Văn Thụ, Quận Tân Bình, TP. Hồ Chí Minh",
+            "username": "duyvision",
+            "isBanned": "false" 
+        },
+        {
+            "id": 15,
+            "name": "Đoàn Thị Thao",
+            "phone": "0913456780",
+            "quantity": 11,
+            "email": "doanthithao@gmail.com",
+            "address": "396 Phạm Văn Đồng, Quận Gò Vấp, TP. Hồ Chí Minh",
+            "username": "thaowonder",
+            "isBanned": "false" 
+        },
+        {
+            "id": 16,
+            "name": "Trương Hữu Lợi",
+            "phone": "0924567891",
+            "quantity": 60,
+            "email": "truonghuuloi@gmail.com",
+            "address": "507 Xô Viết Nghệ Tĩnh, Quận Bình Thạnh, TP. Hồ Chí Minh",
+            "username": "loipower",
+            "isBanned": "false" 
+        },
+        {
+            "id": 17,
+            "name": "Phạm Thiên Quân",
+            "phone": "0935678901",
+            "quantity": 82,
+            "email": "phamthienquan@gmail.com",
+            "address": "618 Nguyễn Văn Cừ, Quận 1, TP. Hồ Chí Minh",
+            "username": "quanforce",
+            "isBanned": "false" 
+        },
+        {
+            "id": 18,
+            "name": "Nguyễn Tuấn Kiệt",
+            "phone": "0906789023",
+            "quantity": 48,
+            "email": "nguyentuanviet@gmail.com",
+            "address": "729 Cách Mạng Tháng Tám, Quận 10, TP. Hồ Chí Minh",
+            "username": "kietbright",
+            "isBanned": "false" 
+        },
+        {
+            "id": 19,
+            "name": "Vũ Quốc Bảo",
+            "phone": "0918901234",
+            "quantity": 37,
+            "email": "vuquocbao@gmail.com",
+            "address": "840 Bùi Thị Xuân, Quận 1, TP. Hồ Chí Minh",
+            "username": "baoace",
+            "isBanned": "false" 
+        },
+        {
+            "id": 20,
+            "name": "Phan Tiến Minh",
+            "phone": "0922345678",
+            "quantity": 90,
+            "email": "phantienminh@gmail.com",
+            "address": "951 Âu Cơ, Quận Tân Phú, TP. Hồ Chí Minh",
+            "username": "minhadvance",
+            "isBanned": "false" 
+        }
+    ]
