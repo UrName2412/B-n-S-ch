@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../asset/css/style.css">
     <link rel="stylesheet" href="../asset/css/function.css">
     <link rel="stylesheet" href="../vender/css/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="../asset/css/stylefilter.css">
     <title>Admin </title>
 </head>
 
@@ -74,16 +75,68 @@
                 </div>
                 <div class="grid-body" id="dataCarts">
                     <!-- JSON -->
-                </div>
+                </div>   
             </div>
 
 
             <!-- Tool Section -->
             <div class="tool">
                 <div class="search">
-                    <button type="button">
+                    <button type="button" id="showFilterButton">
                         <i class="fas fa-filter"></i>
                     </button>
+                    
+                    <!-- Bảng Tiêu Chí Lọc (ẩn mặc định) -->
+                    <div class="filter-section" id="filterSection" style="display: none;">
+                        <form id="filterForm">
+                            <h2 class="filter-title">Bộ Lọc</h2>
+                            
+                            <div class="filter-group">
+                                <label for="filterId">Mã đơn:</label>
+                                <input type="text" id="filterId" name="filterId" placeholder="Nhập mã đơn">
+                            </div>
+                            
+                            <div class="filter-group">
+                                <label for="filterName">Tên người dùng:</label>
+                                <input type="text" id="filterName" name="filterName" placeholder="Nhập tên">
+                            </div>
+                            
+                            <div class="filter-group">
+                                <label for="filterProvince">Tỉnh/Thành phố:</label>
+                                <select id="filterProvince" name="filterProvince">
+                                    <option value="">Tất cả</option>
+                                </select>
+                            
+                                <label for="filterDistrict">Quận/Huyện:</label>
+                                <select id="filterDistrict" name="filterDistrict" disabled>
+                                    <option value="">Chọn Quận/Huyện</option>
+                                </select>
+                            </div>
+                            
+                            
+                            <div class="filter-group">
+                                <label for="filterPhone">Số điện thoại:</label>
+                                <input type="text" id="filterPhone" name="filterPhone" placeholder="Nhập SĐT">
+                            </div>
+                            
+                            <div class="filter-group">
+                                <label for="filterStatus">Tình trạng:</label>
+                                <select id="filterStatus" name="filterStatus">
+                                    <option value="">Tất cả</option>
+                                    <option value="Chưa xử lý">Chưa xử lý</option>
+                                    <option value="Đã xác nhận">Đã xác nhận</option>
+                                    <option value="Đã giao">Đã giao</option>
+                                    <option value="Đã hủy">Đã hủy</option>
+                                </select>
+                            </div>
+                            <div class="filter-actions">
+                                <button type="submit" class="filter-btn">Lọc kết quả</button>   
+                                <button type="reset" class="filter-reset">Xóa bộ lọc</button>
+                            </div>                            
+                        </form>
+                    </div>
+
+             
                     <select name="cartFilter" id="cartFilter" onchange="cartFilter()">
                         <option value="allCarts">Tất cả đơn hàng</option>
                         <option value="cartsNotConfirm">Chưa xử lí</option>
@@ -99,8 +152,8 @@
                     </button>
                 </div>
             </div>
-        </div>
-
+        </div> 
+        
         <!-- Tool Menu -->
         <div class="tool-menu" style="display: none;"  id="tool-menu">
             <button type="button" class="menu-close" id="closeToolMenuButton">
@@ -148,6 +201,8 @@
     <script src="../asset/js/validator.js"></script>
     <script src="../asset/js/inputDataCart.js"></script>
     <script src="../asset/js/admin.js"></script>
+    
+    <script src="../asset/js/filter.js"></script>
 
 
     <script>
