@@ -1,173 +1,276 @@
-var productsAPI = '../data/JSON/sanpham.json';
-const person = document.querySelector('.person');
-const product = document.querySelector('.inventory');
-const listBlock = document.querySelector('#dataBlock');
-const headerContent = document.querySelector('.grid-header-product');
-let personInfo = [];
-let products = []; // Biến lưu dữ liệu sản phẩm
-// const headMenuMoblie = document.querySelector('.menuHeader-mobile');
-// const headAside = document.querySelector('aside')
-// const headMenu = document.querySelector('.menuHeader');
-// const headLogo = document.querySelector('.logo a');
-// const headSidebar = document.querySelector('.sidebar');
-// const headClosebtn = document.querySelector('.header .close');
-
-
-// headMenu.addEventListener('click', () => {
-//     headLogo.style.display = 'inline-flex';
-//     headSidebar.style.display = 'block';
-//     headMenu.style.display = 'none';
-//     headClosebtn.style.display = 'block';
-//     containerCss.style.gridTemplateColumns = '12rem 1fr';
-// })
-
-// headClosebtn.addEventListener('click', () => {
-//     headLogo.style.display = 'none';
-//     headSidebar.style.display = 'none';
-//     headMenu.style.display = 'block';
-//     headClosebtn.style.display = 'none';
-//     containerCss.style.gridTemplateColumns = '3.5rem 1fr';
-// })
-
-function start() {
-    // Tải dữ liệu sản phẩm và người dùng khi trang load
-    getProducts().then(() => {
-        renderProducts(products); // Render sản phẩm sau khi tải xong
-    });
-    getPersonList();
-}
-
-// Hàm lấy dữ liệu sản phẩm
-function getProducts() {
-    return fetch(productsAPI)
-        .then(response => response.json())
-        .then(data => {
-            products = data;
-            products.sort((a, b) => (b.quantity * b.total) - (a.quantity * a.total));
-        });
-}
-
-// Hàm render sản phẩm
-function renderProducts(products) {
-    listBlock.innerHTML = '';
-    products.forEach(function (product) {
-        if (typeof product.total !== 'string') {
-            product.total = product.total.toString();
-        }
-        product.total = parseFloat(product.total.replace(/\./g, ''));
-        var newProduct = document.createElement('div');
-        newProduct.className = 'grid-row-product';
-        newProduct.innerHTML = `
-            <span>${product.id}</span>
-            <span>${product.name}</span>
-            <span>${product.quantity}</span>
-            <span>${formatCurrency(product.total * product.quantity)}</span>
-        `;
-        listBlock.appendChild(newProduct);
-    });
-}
-
-// Hàm lấy dữ liệu người dùng
-function getPersonList() {
-    fetch('../data/JSON/nguoidung.json')
-        .then(response => response.json())
-        .then(data => {
-            personInfo = data;
-            personInfo.sort((a, b) => b.quantity - a.quantity);
-        });
-}
-
-// Hàm render thông tin người dùng
-function renderPerson(personInfo) {
-    listBlock.innerHTML = '';
-    personInfo.forEach(function (personDetail) {
-        var personItem = document.createElement('div');
-        personItem.className = 'grid-row-product';
-        personItem.innerHTML = `
-            <span>${personDetail.id}</span>
-            <span>${personDetail.name}</span>
-            <span>${personDetail.quantity}</span>
-            <span>${personDetail.email}</span>
-            <span>${personDetail.phone}</span>
-        `;
-        listBlock.appendChild(personItem);
-    });
-}
-
-// Thêm sự kiện click cho phần tử .person để hiển thị thông tin người dùng
-person.addEventListener('click', () => {
-    headerContent.innerHTML = `
-        <span>Mã người dùng</span>
-        <span>Tên người dùng</span>
-        <span>Số lượng mua</span>
-        <span>Email</span>
-        <span>Số điện thoại</span>`;
-    renderPerson(personInfo);
-});
-
-// Thêm sự kiện click cho phần tử .inventory để hiển thị sản phẩm
-product.addEventListener('click', () => {
-    headerContent.innerHTML = `
-        <span>Mã Sách</span>
-        <span>Tên Sách</span>
-        <span>Số lượng</span>
-        <span>Tổng tiền</span>`;
-    if (products.length > 0) {
-        renderProducts(products);
-        showInventory(products); // Hiển thị thống kê khi nhấn Inventory
-    } else {
-        alert('Dữ liệu sản phẩm chưa được tải.');
+const productsAPI = '../data/JSON/sanpham.json';
+const usersAPI = '../data/JSON/nguoidung.json';
+// Hàm tải dữ liệu người dùng
+async function loadUsers() {
+    try {
+        const response = await fetch(usersAPI);
+        const users = await response.json();
+        return users;
+    } catch (error) {
+        console.error("Lỗi khi tải dữ liệu người dùng:", error);
+        return [];
     }
+}
+
+// Hiển thị danh sách người dùng
+function hienThiNguoiDung(users) {
+    const userList = document.getElementById('userList');
+    userList.innerHTML = '';
+
+    users.forEach(user => {
+        const userItem = `
+            <div class="user-item" onclick="viewUserInvoices('${user.id}')">
+                <span>${user.name}</span>
+                <span>${user.quantity} sản phẩm</span>
+            </div>
+        `;
+        userList.innerHTML += userItem;
+    });
+}
+
+// Xem hóa đơn của người dùng
+async function viewUserInvoices(userId) {
+    try {
+        const response = await fetch(usersAPI);
+        const users = await response.json();
+        const user = users.find(u => u.id == userId);
+
+        if (!user) {
+            alert('Không tìm thấy người dùng.');
+            return;
+        }
+
+        const invoices = [
+            {
+                id: `${user.id}`,
+                total: parseFloat(user.quantity) * 100000 
+            }
+        ];
+
+        // Hiển thị modal với hóa đơn của người dùng
+        const modal = document.createElement('div');
+        modal.className = 'modal show';
+
+        modal.innerHTML = `
+            <div class="headModal">Hóa Đơn Của ${user.name}</div>
+            <div class="modal-body">
+                ${invoices.map(invoice => `
+                    <p><strong>id: </strong>${invoice.id}</p>
+                    <p><strong>Tổng Tiền: </strong>${formatCurrency(invoice.total)}</p>
+                    <hr>
+                `).join('')}
+            </div>
+            <div class="choiceModal">
+                <button class="cancel" onclick="closeModal()">Đóng</button>
+            </div>
+        `;
+
+        document.body.appendChild(modal);
+    } catch (error) {
+        console.error('Lỗi khi lấy hóa đơn:', error);
+        alert('Không thể tải hóa đơn. Vui lòng thử lại sau.');
+    }
+}
+
+function hienThiTop5KhachHang(users) {
+    // Sắp xếp người dùng theo số lượng sản phẩm giảm dần
+    const sortedUsers = users.sort((a, b) => b.quantity - a.quantity);
+
+    const top5Users = sortedUsers.slice(0, 5);
+
+    // Hiển thị top 5 khách hàng
+    const topCustomersBlock = document.getElementById('topCustomersByQuantity');
+    topCustomersBlock.innerHTML = '';
+
+    top5Users.forEach((user, index) => {
+        const customerItem = `
+            <div class="top-customer-item">
+                <span>${index + 1}. ${user.name}</span>
+                <span>${user.quantity} sản phẩm</span>
+            </div>
+        `;
+        topCustomersBlock.innerHTML += customerItem;
+    });
+}
+
+document.getElementById('filterButton').addEventListener('click', function() {
+    const startDate = document.getElementById('startDate').value;
+    const endDate = document.getElementById('endDate').value;
+
+    if (!startDate || !endDate) {
+        alert('Vui lòng chọn khoảng thời gian hợp lệ.');
+        return;
+    }
+
+    loadProducts().then(products => {
+        thongKeBanHang(products, startDate, endDate);
+    });
+
+    loadUsers().then(users => {
+        hienThiNguoiDung(users);
+        hienThiTop5KhachHang(users); 
+    });
 });
 
-function showInventory(products) {
-    var totalRevenue = 0;
-    var bestSelling = { name: '', quantity: 0 };
-    var worstSelling = { name: '', quantity: Infinity };
+// Tải dữ liệu ban đầu
+loadProducts().then(products => {
+    thongKeBanHang(products, "2023-01-01", "2023-12-31");
+});
 
-    products.forEach(function (product) {
-        var revenue = product.total * product.quantity;
+loadUsers().then(users => {
+    hienThiNguoiDung(users);
+    hienThiTop5KhachHang(users); // Hiển thị top 5 khách hàng ban đầu
+});
+
+// Hàm tải dữ liệu sp
+async function loadProducts() {
+    try {
+        const response = await fetch(productsAPI);
+        const products = await response.json();
+        return products;
+    } catch (error) {
+        console.error("Lỗi khi tải dữ liệu:", error);
+        return [];
+    }
+}
+
+// Hiển thị danh sách sản phẩm
+function hienThiSanPham(products) {
+    const productDataBlock = document.getElementById('dataProducts');
+    productDataBlock.innerHTML = '';
+
+    products.forEach(product => {
+        const productRow = `
+            <div class="grid-row">
+                <span>${product.id}</span>
+                <span>${product.name}</span>
+                <span>${product.quantity}</span>
+                <span>${formatCurrency(parseFloat(product.price.replace(/\./g, '')) * product.quantity)}</span>
+                <button onclick="viewInvoices('${product.id}')">Xem hóa đơn</button>
+            </div>
+        `;
+        productDataBlock.innerHTML += productRow;
+    });
+}
+
+// Tính toán tổng thu, mặt hàng bán chạy nhất và ít nhất
+function calculateStats(products) {
+    let totalRevenue = 0;
+    let bestSellingProduct = null;
+    let worstSellingProduct = null;
+
+    products.forEach(product => {
+        const revenue = parseFloat(product.price.replace(/\./g, '')) * product.quantity;
         totalRevenue += revenue;
 
-        if (product.quantity > bestSelling.quantity) {
-            bestSelling = { name: product.name, quantity: product.quantity };
+        if (!bestSellingProduct || product.quantity > bestSellingProduct.quantity) {
+            bestSellingProduct = product;
         }
-
-        if (product.quantity < worstSelling.quantity) {
-            worstSelling = { name: product.name, quantity: product.quantity };
+        if (!worstSellingProduct || product.quantity < worstSellingProduct.quantity) {
+            worstSellingProduct = product;
         }
     });
 
-    displayModal(totalRevenue, bestSelling, worstSelling);
+    document.getElementById('totalRevenue').textContent = formatCurrency(totalRevenue);
+
+    document.getElementById('bestSellingProduct').textContent = bestSellingProduct ? `${bestSellingProduct.name} (${bestSellingProduct.quantity} sản phẩm)` : 'Không có dữ liệu';
+    document.getElementById('worstSellingProduct').textContent = worstSellingProduct ? `${worstSellingProduct.name} (${worstSellingProduct.quantity} sản phẩm)` : 'Không có dữ liệu';
 }
 
-function displayModal(totalRevenue, bestSelling, worstSelling) {
-    var modal = document.createElement('div');
-    modal.className = 'modal show';
+// Lọc và thống kê sản phẩm đã bán theo khoảng thời gian
+function thongKeBanHang(products, startDate, endDate) {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
 
-    modal.innerHTML = `
-        <div class="headModal">Thống Kê Sản Phẩm</div>
-        <div class="modal-body">
-            <p><strong>Tổng thu: </strong>${totalRevenue.toLocaleString()} VNĐ</p>
-            <p><strong>Sản phẩm bán chạy nhất: </strong>${bestSelling.name} (Số lượng: ${bestSelling.quantity})</p>
-            <p><strong>Sản phẩm ít được quan tâm nhất: </strong>${worstSelling.name} (Số lượng: ${worstSelling.quantity})</p>
-        </div>
-        <div class="choiceModal">
-            <button class="cancel" onclick="closeModal()">Đóng</button>
-        </div>
-    `;
+    const sachBan = products.filter(product => {
+        const soldDate = new Date(product.soldDate);
+        return soldDate >= start && soldDate <= end;
+    });
 
-    document.body.appendChild(modal);
+    hienThiSanPham(sachBan);
+    calculateStats(sachBan);
 }
 
-function closeModal() {
-    var modal = document.querySelector('.modal');
-    modal.remove();
-}
-
+// Định dạng giá tiền
 function formatCurrency(amount) {
     return amount.toLocaleString('en-US').replace(/,/g, '.').concat(' VNĐ');
 }
 
-// Chạy hàm start khi trang load
-start();
+document.getElementById('filterButton').addEventListener('click', function() {
+    const startDate = document.getElementById('startDate').value;
+    const endDate = document.getElementById('endDate').value;
+
+    if (!startDate || !endDate) {
+        alert('Vui lòng chọn khoảng thời gian hợp lệ.');
+        return;
+    }
+
+    loadProducts().then(products => {
+        thongKeBanHang(products, startDate, endDate);
+    });
+});
+
+// Tải dữ liệu ban đầu
+loadProducts().then(products => {
+    thongKeBanHang(products, "2023-01-01", "2025-12-31");
+});
+
+// Xem hóa đơn của sản phẩm
+async function viewInvoices(productId) {
+    console.log(`Đang tải hóa đơn cho sản phẩm: ${productId}`);
+    try {
+        const response = await fetch(productsAPI);
+        console.log('Phản hồi từ API:', response);
+        const products = await response.json();
+        console.log('Dữ liệu sản phẩm:', products);
+
+        const product = products.find(p => p.id == productId);
+        if (!product) {
+            alert('Không tìm thấy sản phẩm.');
+            return;
+        }
+
+        const invoices = [
+            {
+                id: `HD${product.id}`,
+                date: product.soldDate,
+                quantity: product.quantity,
+                total: parseFloat(product.price.replace(/\./g, '')) * product.quantity
+            }
+        ];
+
+        console.log('Dữ liệu hóa đơn giả lập:', invoices);
+
+        const modal = document.createElement('div');
+        modal.className = 'modal show';
+
+        modal.innerHTML = `
+            <div class="headModal">Hóa Đơn Mặt Hàng ${product.name}</div>
+            <div class="modal-body">
+                ${invoices.map(invoice => `
+                    <p><strong>Mã Hóa Đơn: </strong>${invoice.id}</p>
+                    <p><strong>Ngày: </strong>${invoice.date}</p>
+                    <p><strong>Số Lượng: </strong>${invoice.quantity}</p>
+                    <p><strong>Tổng Tiền: </strong>${formatCurrency(invoice.total)}</p>
+                    <hr>
+                `).join('')}
+            </div>
+            <div class="choiceModal">
+                <button class="cancel" onclick="closeModal()">Đóng</button>
+            </div>
+        `;
+
+        document.body.appendChild(modal);
+        console.log('Modal đã được thêm vào DOM');
+    } catch (error) {
+        console.error('Lỗi khi lấy hóa đơn:', error);
+        alert('Không thể tải hóa đơn. Vui lòng thử lại sau.');
+    }
+}
+
+function closeModal() {
+    const modal = document.querySelector('.modal');
+    if (modal) {
+        modal.remove();
+    }
+}
