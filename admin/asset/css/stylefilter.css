@@ -1,0 +1,50 @@
+/* Tạo khoảng cách giữa các nhóm lọc */
+.filter-group {
+    margin-bottom: 10px;
+    width: 150%;
+}
+
+/* Đảm bảo tất cả input và select cùng chiều rộng */
+.filter-group input,
+.filter-group select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Căn chỉnh phần nút */
+.filter-actions {
+    display: flex;
+    justify-content: space-between; /* Cách đều 2 nút */
+    gap: 10px; /* Khoảng cách giữa hai nút */
+}
+
+/* Định dạng nút */
+.filter-btn, .filter-reset {
+    flex: 1; /* Cả hai nút có cùng chiều rộng */
+    padding: 25px;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 0px;
+}
+
+.filter-btn {
+    background-color: #28a745; 
+    color: white;
+}
+
+.filter-reset {
+    background-color: #dc3545; 
+    color: white;
+}
+
+.filter-btn:hover {
+    background-color: #0056b3;
+}
+
+.filter-reset:hover {
+    background-color: #b02a37;
+}
