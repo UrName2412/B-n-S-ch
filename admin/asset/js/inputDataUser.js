@@ -342,3 +342,7 @@ function bannedUsers(listUsersBlock) {
 }
 
 start();
+
+document.addEventListener("DOMContentLoaded", () => {
+    response768('.grid-row');
+});

@@ -59,21 +59,21 @@ img{
 
 h1{
     font-weight: 800;
-    font-size: 1.8rem;
+    font-size: clamp(1.5rem, 4vw, 2.2rem);
 }
 
 h2{
     font-weight: 600;
-    font-size: 1.4rem;
+    font-size: clamp(1.2rem, 3.5vw, 1.8rem);
 }
 
 h3{
     font-weight: 500;
-    font-size: 0.87rem;
+    font-size: clamp(0.8rem, 2.5vw, 1.2rem);
 }
 
 small{
-    font-size: 0.76rem;
+    font-size: clamp(0.7rem, 2vw, 0.9rem);
 }
 
 p{
@@ -105,8 +105,8 @@ b{
 }
 
 .icon{
-    height: 24px;
-    width: 24px;
+    height: clamp(20px, 3vw, 30px);
+    width: clamp(20px, 3vw, 30px);
 }
 
 .status{
@@ -115,7 +115,7 @@ b{
     border-radius: 15px;
     box-sizing: border-box;
     text-align: center;
-    font-size: 1.2rem;
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
 }
 
 .detailButton{
@@ -124,7 +124,7 @@ b{
     border-radius: 15px;
     box-sizing: border-box;
     text-align: center;
-    font-size: 1.2rem;
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
     background-color: var(--color-dark);
     color: white;
 }
@@ -338,17 +338,20 @@ a {
 
 .grid-row{
     display: grid;
-    grid-auto-flow: row;
     grid-template-columns: minmax(30px,0.5fr) repeat(2,minmax(90px,2fr)) minmax(120px,2.5fr) minmax(120px,3fr) minmax(50px,1.2fr);
     padding: 0.5rem 0;
     border-bottom: 1px solid var(--color-light);
     margin-top: 0.3rem;
     box-sizing: border-box;
 }
+.grid-row-cart.sm *:not(:nth-child(1),:nth-child(2)),
+.grid-row-product.sm *:not(:nth-child(1),:nth-child(2)),
+.grid-row.sm *:not(:nth-child(1),:nth-child(2)){
+    display: none;
+}
 
 .grid-row-product{
     display: grid;
-    grid-auto-flow: dense;
     grid-template-columns: minmax(30px,0.5fr) repeat(4,minmax(60px,2fr)) repeat(2,minmax(40px,1.2fr)) minmax(50px,1.2fr);
     padding: 0.5rem 0;
     border-bottom: 1px solid var(--color-light);
@@ -358,11 +361,17 @@ a {
 
 .grid-row-cart{
     display: grid;
-    grid-template-columns: minmax(30px,0.5fr) repeat(2,minmax(60px,2fr)) repeat(3,minmax(50px,1fr)) minmax(50px,1fr);
+    grid-template-columns: minmax(30px,0.5fr) repeat(2,minmax(60px,2fr)) repeat(2,minmax(50px,1fr)) minmax(100px,2fr);
     padding: 0.5rem 0;
     border-bottom: 1px solid var(--color-light);
     margin-top: 0.3rem;
     box-sizing: border-box;
+    gap: 5px;
+}
+.buttonCart{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     gap: 5px;
 }
 
@@ -374,7 +383,7 @@ a {
     border-left: 2px solid var(--color-light);
     width: 100%;
     resize: none;
-    font-size: 1.5vw;
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
 }
 
 .grid-row.banned,
@@ -456,7 +465,7 @@ button:hover{
 
 .tool button i{
     color: black;
-    font-size: 1.2rem;
+    font-size: clamp(1rem, 2vw, 1.2rem);
 }
 
 .tool button.add:hover {
@@ -566,7 +575,7 @@ button:hover{
 }
 
 .tool button span {
-    font-size: 2rem;
+    font-size: clamp(1.5rem, 3vw, 2rem);
 }
 
 .tool-menu{
@@ -643,7 +652,7 @@ button:hover{
     text-align: center;
     width: 100%;
     resize: none;
-    font-size: 1.5vw;
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
 }
 .grid-header-detail textarea:not(:first-child){
     border-left: 1px solid var(--color-light);
@@ -654,7 +663,7 @@ button:hover{
     text-align: center;
     width: 100%;
     resize: none;
-    font-size: 1.5vw;
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
 }
 .grid-row-detail textarea:not(:first-child){
     border-left: 1px solid var(--color-dark);
@@ -665,14 +674,14 @@ button:hover{
     text-align: center;
     width: 100%;
     resize: none;
-    font-size: 1.5vw;
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
 }
 .grid-footer-detail textarea:first-child{
     padding: 0.5rem;
     text-align: start;
     width: 100%;
     resize: none;
-    font-size: 1.5vw;
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
 }
 
 #order-status{
@@ -716,7 +725,7 @@ button:hover{
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
-    font-size: 14px;
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
     box-sizing: border-box;
 }
 
@@ -726,7 +735,7 @@ button:hover{
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
-    font-size: 14px;
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
     box-sizing: border-box;
     resize: none;
 }
@@ -743,7 +752,7 @@ button:hover{
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
-    font-size: 14px;
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
     box-sizing: border-box;
 }
 
@@ -766,7 +775,7 @@ button:hover{
     color: white;
     border: none;
     border-radius: 5px;
-    font-size: 16px;
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
     transition: background-color 0.3s ease;
 }
 
@@ -810,10 +819,6 @@ button:hover{
 }
 
 @media (max-width: 768px) {
-    body{
-        font-size: 1rem;
-    }
-
     aside{
         position: absolute;
         top: 0;
@@ -859,40 +864,31 @@ button:hover{
         grid-column: 1/3;
     }
 
+    .grid-header-cart,
     .grid-header-product,
     .grid-header{
         grid-template-columns: 2fr 4fr;
         gap: 20px;
         text-align: center;
-        /* position: sticky;
-        z-index: 1;
-        top: 0.5rem;
-        background-color: var(--color-background); */
     }
+    .grid-header-cart span,
     .grid-header-product span,
     .grid-header span{
         border-bottom: 1px solid var(--color-dark);
         margin-bottom: 5px;
-        /* display: none; */
     }
     
+    .grid-row-cart,
     .grid-row-product,
     .grid-row {
         grid-template-columns: 2fr 4fr;
         gap: 20px;
     }
+    .grid-row-cart span,
     .grid-row-product span,
     .grid-row span{
         margin-bottom: 5px;
-        display: none;
         text-align: center;
-    }
-    
-    .grid-row-product span:nth-child(1),
-    .grid-row-product span:nth-child(2),
-    .grid-row span:nth-child(1),
-    .grid-row span:nth-child(2) {
-        display: inline-block;
     }
 }
 
@@ -904,5 +900,4 @@ button:hover{
     aside .sidebar {
         display: block;
     }
-
 }
