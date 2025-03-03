@@ -399,3 +399,7 @@ function deletedProducts(listProductsBlock){
 }
 
 start();
+
+document.addEventListener("DOMContentLoaded", () => {
+    response768('.grid-row-product');
+});
