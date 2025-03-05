@@ -52,8 +52,8 @@ function resizeWindows(callback) {
 function response768(selector) {
     let gridRow = document.querySelectorAll(selector);
     function handleResize() {
-        console.log(3);
         if (window.innerWidth <= 768) {
+            console.log(3);
             gridRow.forEach((row) => {
                 if (!row.classList.contains('sm')) {
                     row.classList.add('sm');
@@ -72,6 +72,7 @@ function response768(selector) {
                 console.log(2);
             });
         }
+        console.log(1);
     }
 
     function toggleClass(){
@@ -85,3 +86,5 @@ function response768(selector) {
         }, 100);
     }
 }
+
+
