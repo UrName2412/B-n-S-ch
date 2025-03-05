@@ -448,6 +448,8 @@ a {
     border: 1px solid var(--color-dark);
     border-radius: var(--border-radius-2);
     box-shadow: var(--box-shadow);
+    position: absolute;
+    top: 9vh;
 }
 
 .menuFilter:hover{
@@ -469,8 +471,6 @@ a {
     gap: 3px;
 }
 .part input{
-    background-color: var(--color-dark);
-    color: white;
     border-radius: 5px;
     flex: 1;
     width: 100%;
@@ -510,13 +510,11 @@ a {
     width: 100%;
 }
 .addressFilter select{
-    background-color: var(--color-dark);
-    color: white;
     border-radius: 5px;
     width: 100%;
     height: 5vh;
     border-radius: 10px;
-    border: 1px solid black;
+    border: 2px solid var(--color-dark);
 }
 .addressFilter select:focus{
     border-color: #4CAF50;
@@ -525,7 +523,7 @@ a {
 }
 
 .tool {
-    height: fit-content;
+    height: 8vh;
     width: 100%;
     display: flex;
     justify-content: center;

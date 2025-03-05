@@ -126,8 +126,10 @@ function searchButton() {
                         <textarea placeholder="Nhập địa chỉ..." readonly>${cart.address}</textarea>
                         <textarea placeholder="Nhập số điện thoại..." readonly>${cart.phone}</textarea>
                         <textarea placeholder="Nhập tổng giá..." readonly>${cart.amount}</textarea>
-                        <button type="button" class="status">${cart.status}</button>
-                        <button type="button" class="detailButton">Chi tiết đơn hàng</button>
+                        <div class="buttonCart">
+                            <button type="button" class="status">${cart.status}</button>
+                            <button type="button" class="detailButton">Chi tiết đơn hàng</button>
+                        </div>
                     `;
                     listCartsBlock.appendChild(newCart);
                     break;
