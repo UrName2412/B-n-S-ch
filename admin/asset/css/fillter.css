@@ -1,0 +1,37 @@
+.menuFilter {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.menuFilter .timeFilter,
+.menuFilter .addressFilter {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.menuFilter button {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 16px;
+    border-radius: 20px;
+}
+
+.menuFilter #resetFilter {
+    background-color: #f44336;
+    color: white;
+    width: 80px;
+    transition: 0.3s;
+}
+
+.menuFilter #resetFilter:hover {
+    opacity: 0.8;
+}
+
+.menuFilter div {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}

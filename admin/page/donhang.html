@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../asset/css/style.css">
     <link rel="stylesheet" href="../asset/css/function.css">
     <link rel="stylesheet" href="../vender/css/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="../asset/css/fillter.css">
     <title>Admin </title>
 </head>
 
@@ -41,8 +42,7 @@
         </aside>
         <!--End of Sidebar Section-->
 
-        <!-- ASD -->
-
+        
         <!--Header-->
         <div class="header">
             <div class="toggle">
@@ -80,7 +80,7 @@
             </div>
 
             
-            <div class="menuFilter">
+            <div class="menuFilter" style="display: none;">
                 <div class="timeFilter">
                     <div class="part">
                         <label for="dateStart">Từ</label>
@@ -105,9 +105,11 @@
                         <option value="">Ví dụ</option>
                     </select>
                 </div>
-                <button type="button" id="acceptFilter">Lọc</button>
+                <div>
+                    <button type="button" id="acceptFilter">Lọc</button>
+                    <button type="button" id="resetFilter">Hủy</button>
+                </div>
             </div>
-            
 
             <!-- Tool Section -->
             <div class="tool">
@@ -143,7 +145,7 @@
     <script src="../asset/js/validator.js"></script>
     <script src="../asset/js/inputDataCart.js"></script>
     <script src="../asset/js/admin.js"></script>
-
+    <script src="../asset/js/filler.js"></script>
 
     <script>
         messageRequired = 'Vui lòng nhập thông tin.';
