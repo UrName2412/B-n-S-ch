@@ -7,7 +7,8 @@
         "quantity": 12,
         "amount": "1.500.000",
         "status": "Chưa xử lí",
-        "username": "truongvudeptry"
+        "username": "truongvudeptry",
+        "date": "07/03/2025"
     },
     {
         "id": "2",
@@ -17,7 +18,8 @@
         "quantity": 20,
         "amount": "3.000.000",
         "status": "Đã xác nhận",
-        "username": "tuanbright"
+        "username": "tuanbright",
+        "date": "07/11/2024"
     },
     {
         "id": "3",
@@ -27,7 +29,8 @@
         "quantity": 5,
         "amount": "200.000",
         "status": "Đã giao",
-        "username": "lanflower"
+        "username": "lanflower",
+        "date": "07/11/2024"
     },
     {
         "id": "4",
@@ -37,7 +40,8 @@
         "quantity": 16,
         "amount": "1.600.000",
         "status": "Chưa xử lí",
-        "username": "maipeace"
+        "username": "maipeace",
+        "date": "07/11/2024"
     },
     {
         "id": "5",
@@ -47,7 +51,8 @@
         "quantity": 20,
         "amount": "2.000.000",
         "status": "Đã hủy",
-        "username": "minhglory"
+        "username": "minhglory",
+        "date": "07/11/2024"
     },
     {
         "id": "6",
@@ -57,7 +62,8 @@
         "quantity": 2,
         "amount": "200.000",
         "status": "Đã hủy",
-        "username": "khanhhero"
+        "username": "khanhhero",
+        "date": "07/11/2024"
     },
     {
         "id": "7",
@@ -67,7 +73,8 @@
         "quantity": 7,
         "amount": "800.000",
         "status": "Chưa xử lí",
-        "username": "luudaisy"
+        "username": "luudaisy",
+        "date": "07/11/2024"
     },
     {
         "id": "8",
@@ -77,7 +84,8 @@
         "quantity": 5,
         "amount": "250.000",
         "status": "Đã xác nhận",
-        "username": "quanforce"
+        "username": "quanforce",
+        "date": "07/11/2024"
     },
     {
         "id": "9",
@@ -87,7 +95,8 @@
         "quantity": 5,
         "amount": "600.000",
         "status": "Đã giao",
-        "username": "chaustar"
+        "username": "chaustar",
+        "date": "07/11/2024"
     },
     {
         "id": "10",
@@ -97,6 +106,7 @@
         "quantity": 15,
         "amount": "1.200.000",
         "status": "Chưa xử lí",
-        "username": "chaustar"
+        "username": "chaustar",
+        "date": "07/11/2024"
     }
 ]

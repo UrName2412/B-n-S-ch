@@ -95,15 +95,17 @@
                     <label for="city">Thành phố</label>
                     <span>:</span>
                     <select name="city" id="city">
-                        <option value="">Thành phố Hồ Chí Minh</option>
+                        <option value="">Lựa chọn</option>
+                        <option value="TPHCM">Thành phố Hồ Chí Minh</option>
                     </select>
                     <label for="district">Quận</label>
                     <span>:</span>
                     <select name="district" id="district">
-                        <option value="">Ví dụ</option>
+                        <option value="">Lựa chọn</option>
+                        <option value="Quận 6">Quận 6</option>
                     </select>
                 </div>
-                <button type="button" id="acceptFilter">Lọc</button>
+                <button type="button" id="acceptFilter" onclick="handleFilter(dateStart.value,dateEnd.value,city.value,district.value)">Lọc</button>
             </div>
             
 
@@ -114,11 +116,11 @@
                         <i class="fas fa-filter"></i>
                     </button>
                     <select name="cartFilter" id="cartFilter" onchange="cartFilter()">
-                        <option value="allCarts">Tất cả đơn hàng</option>
-                        <option value="cartsNotConfirm">Chưa xử lí</option>
-                        <option value="cartsConfirm">Đã xác nhận</option>
-                        <option value="cartsDelivered">Đã giao</option>
-                        <option value="cartsCanceled">Đã hủy</option>
+                        <option value="Tất cả đơn hàng">Tất cả đơn hàng</option>
+                        <option value="Chưa xử lí">Chưa xử lí</option>
+                        <option value="Đã xác nhận">Đã xác nhận</option>
+                        <option value="Đã giao">Đã giao</option>
+                        <option value="Đã hủy">Đã hủy</option>
                     </select>
                     <input type="text" name="search" placeholder="Tìm kiếm..." id="searchInput">
                     <button type="button" id="searchButton" onclick="searchButton()">
