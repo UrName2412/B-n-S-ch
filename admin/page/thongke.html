@@ -70,7 +70,7 @@
                     <input type="date" id="endDate">
                     <button type="button" id="filterButton">Lọc</button>
                 </div>
-        
+
                 <!-- Thống kê tổng thu, mặt hàng bán chạy nhất và ế nhất -->
                 <div class="stats-container">
                     <div class="stat-block">
@@ -86,7 +86,7 @@
                         <p id="worstSellingProduct">Không có dữ liệu</p>
                     </div>
                 </div>
-        
+
                 <!-- Block hiển thị top 5 khách hàng dựa trên số lượng -->
                 <div class="stats-container">
                     <div class="stat-block">
@@ -95,8 +95,14 @@
                             <!-- Danh sách top 5 khách hàng sẽ được hiển thị ở đây -->
                         </div>
                     </div>
+                    <!-- Biểu đồ -->
+                    <div class="chart-container">
+                        <h3 class="thongKeHeader">Biểu đồ thống kê</h3>
+                        <canvas id="myChart">
+                            <!-- Biểu đồ sẽ được hiển thị ở đây -->
+                        </canvas>
+                    </div>
                 </div>
-        
                 <div class="split-layout">
                     <!--Danh sách sản phẩm -->
                     <div class="left-panel">
@@ -114,7 +120,7 @@
                             </div>
                         </div>
                     </div>
-        
+
                     <!-- Danh sách người dùng -->
                     <div class="right-panel">
                         <h3>Danh sách người dùng</h3>
@@ -127,9 +133,11 @@
         </div>
 
 
-    <script src="../asset/js/function.js"></script>
-    <script src="../asset/js/thongke.js"></script>
-    <script src="../asset/js/admin.js"></script>
+        <script src="../asset/js/function.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>    
+        <script src="../asset/js/thongke.js"></script>
+        <script src="../asset/js/admin.js"></script>
 </body>
 
 </html>

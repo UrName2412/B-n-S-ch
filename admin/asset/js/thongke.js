@@ -43,7 +43,7 @@ async function viewUserInvoices(userId) {
         const invoices = [
             {
                 id: `${user.id}`,
-                total: parseFloat(user.quantity) * 100000 
+                total: parseFloat(user.quantity) * 100000
             }
         ];
 
@@ -93,7 +93,7 @@ function hienThiTop5KhachHang(users) {
     });
 }
 
-document.getElementById('filterButton').addEventListener('click', function() {
+document.getElementById('filterButton').addEventListener('click', function () {
     const startDate = document.getElementById('startDate').value;
     const endDate = document.getElementById('endDate').value;
 
@@ -108,7 +108,7 @@ document.getElementById('filterButton').addEventListener('click', function() {
 
     loadUsers().then(users => {
         hienThiNguoiDung(users);
-        hienThiTop5KhachHang(users); 
+        hienThiTop5KhachHang(users);
     });
 });
 
@@ -196,7 +196,7 @@ function formatCurrency(amount) {
     return amount.toLocaleString('en-US').replace(/,/g, '.').concat(' VNĐ');
 }
 
-document.getElementById('filterButton').addEventListener('click', function() {
+document.getElementById('filterButton').addEventListener('click', function () {
     const startDate = document.getElementById('startDate').value;
     const endDate = document.getElementById('endDate').value;
 
@@ -274,3 +274,62 @@ function closeModal() {
         modal.remove();
     }
 }
+
+
+
+const labels = ["3/2025", "2/2025", "1/2025", "12/2024", "11/2024", "10/2024"];
+
+function getRandomData(min, max, length) {
+    return Array.from({ length }, () => (Math.floor(Math.random() * (max - min + 1)) + min) * 1000);
+}
+
+const data = {
+    labels: labels,
+    datasets: [
+        {
+            label: "VNĐ",
+            data: getRandomData(10000, 95000, labels.length),
+            borderColor: "#059bff",
+            backgroundColor: "#82cdff",
+            borderWidth: 2,
+            borderRadius: 10,
+            borderSkipped: false,
+        }
+    ]
+}
+
+new Chart("myChart", {
+    type: "bar",
+    data: data,
+    options: {
+        plugins: {
+            legend: { display: false },
+            title: {
+                display: true,
+                text: "Thống kê doanh thu trong 5 tháng gần nhất"
+            },
+            datalabels: {
+                anchor: "end",
+                align: "top",
+                formatter:(value) => value.toLocaleString("vi-VN")+ " VNĐ",
+                font: {
+                    weight: "bold",
+                    size: 10
+                },
+                color: "#000" // Màu chữ hiển thị
+            }
+        },
+        responsive: true,
+        maintainAspectRatio: true,
+        scales: {
+            y: {
+                ticks: {
+                    callback: function(value) {
+                        return value.toLocaleString("vi-VN") + " VNĐ"; // Hiển thị số trên trục Y có dấu chấm và đơn vị
+                    }
+                }
+            }
+        }
+    },
+    plugins: [ChartDataLabels]
+});
