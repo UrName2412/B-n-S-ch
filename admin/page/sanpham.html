@@ -78,12 +78,52 @@
             </div>
 
 
+            <div class="menuFilter" style="display: none;">
+                <div class="addressFilter">
+                    <label for="authorSearch">Tác giả</label>
+                    <span>:</span>
+                    <input type="text" name="authorSearch" id="authorSearch" placeholder="Nhập tên tác giả">
+                    <label for="categorySearch">Thể loại</label>
+                    <span>:</span>
+                    <select name="categorySearch" id="categorySearch">
+                        <option value="">Lựa chọn</option>
+                        <option value="Kỹ năng sống">Kỹ năng sống</option>
+                        <option value="Tiểu thuyết">Tiểu thuyết</option>
+                    </select>
+                    <label for="nxbSearch">Nhà xuất bản</label>
+                    <span>:</span>
+                    <select name="nxbSearch" id="nxbSearch">
+                        <option value="">Lựa chọn</option>
+                        <option value="Trẻ">Trẻ</option>
+                        <option value="Nhã Nam">Nhã Nam</option>
+                    </select>
+                    <label for="authorSearch">Giá tiền</label>
+                    <span>:</span>
+                    <div>
+                        <div class="timeFilter">
+                            <div class="part">
+                                <label for="priceStart">Từ</label>
+                                <input type="text" name="priceStart" id="priceStart">
+                            </div>
+                            <div class="part">
+                                <label for="priceEnd">Đến</label>
+                                <input type="text" name="priceEnd" id="priceEnd">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="acceptFilter" onclick="handleFilter(authorSearch.value,categorySearch.value,nxbSearch.value,priceStart.value,priceEnd.value)">Lọc</button>
+            </div>
+
             <!-- Tool Section -->
             <div class="tool">
-                <button type="button" class="add" id="add" onclick="openToolMenu('')">
+                <button type="button" class="add" id="addBtnProduct" onclick="openToolMenu('')">
                     <i class="fas fa-plus"></i>
                 </button>
                 <div class="search">
+                    <button type="button" id="filterBtnProduct">
+                        <i class="fas fa-filter"></i>
+                    </button>
                     <select name="productFilter" id="productFilter" onchange="productFilter()">
                         <option value="activeProducts">Sản phẩm hoạt động</option>
                         <option value="deletedProducts">Sản phẩm bị xóa</option>

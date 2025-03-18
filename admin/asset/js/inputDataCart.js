@@ -23,7 +23,8 @@ function renderCarts() {
 }
 
 
-function setStatusButtons(statusButtons, isAllCarts) {
+function setStatusButtons(isAllCarts) {
+    var statusButtons = document.querySelectorAll('.status');
     statusButtons.forEach((statusButton) => {
         setStatus(statusButton.innerHTML, statusButton);
         statusButton.addEventListener('click', (event) => {
@@ -53,7 +54,8 @@ function setStatusButtons(statusButtons, isAllCarts) {
     }
 }
 
-function setDetailButtons(detailButtons) {
+function setDetailButtons() {
+    var detailButtons = document.querySelectorAll('.detailButton');
     detailButtons.forEach(detailButton => {
         detailButton.addEventListener('click', (event) => {
             var gridRowCart = event.target.closest('.grid-row-cart');
@@ -105,19 +107,24 @@ function setDetailButtons(detailButtons) {
 }
 
 function searchButton() {
+    var flag = true;
     var input = document.getElementById('searchInput');
     var valueSearch = input.value.trim().toLowerCase();
+    const cartFilterValue = document.getElementById('cartFilter').value;
+    const keyCartSearch = "username";
     if (valueSearch == "") {
         cartFilter();
     } else {
         listCartsBlock.innerHTML = '';
         carts.forEach(cart => {
-            for (const value in cart) {
-                if (typeof (cart[value]) !== "string") {
-                    var data = String(cart[value]);
-                } else data = cart[value]
-                data = data.trim().toLowerCase();
-                if (data.includes(valueSearch) && !data.includes("gmail")) {
+            if (typeof (cart[keyCartSearch]) !== "string") {
+                var data = String(cart[keyCartSearch]);
+            } else data = cart[keyCartSearch]
+            data = data.trim().toLowerCase();
+            if (data.includes(valueSearch) && !data.includes("gmail")) {
+                console.log(cart.status);
+                if (cartFilterValue == "Tất cả đơn hàng" || cartFilterValue == cart.status) {
+                    flag = false;
                     var newCart = document.createElement('div');
                     newCart.className = 'grid-row-cart';
                     newCart.innerHTML = `
@@ -132,14 +139,16 @@ function searchButton() {
                         </div>
                     `;
                     listCartsBlock.appendChild(newCart);
-                    break;
                 }
             }
         })
-        var statusButtons = document.querySelectorAll('.status');
-        const detailButtons = document.querySelectorAll('.detailButton');
-        setStatusButtons(statusButtons, true);
-        setDetailButtons(detailButtons);
+        if (flag){
+            createAlert("Không tìm thấy đơn hàng.");
+            cartFilter();
+        } else{
+            setStatusButtons(true);
+            setDetailButtons();
+        }
     }
 }
 
@@ -161,10 +170,8 @@ function allCarts(listCartsBlock) {
         `;
         listCartsBlock.appendChild(newCart);
     });
-    var statusButtons = document.querySelectorAll('.status');
-    const detailButtons = document.querySelectorAll('.detailButton');
-    setStatusButtons(statusButtons, true);
-    setDetailButtons(detailButtons);
+    setStatusButtons(true);
+    setDetailButtons();
 }
 
 function statusCarts(listCartsBlock, status) {
@@ -187,10 +194,8 @@ function statusCarts(listCartsBlock, status) {
             listCartsBlock.appendChild(newCart);
         }
     });
-    var statusButtons = document.querySelectorAll('.status');
-    var detailButtons = document.querySelectorAll('.detailButton');
-    setStatusButtons(statusButtons, false);
-    setDetailButtons(detailButtons);
+    setStatusButtons(false);
+    setDetailButtons();
 }
 
 function cartFilter() {
@@ -202,9 +207,10 @@ function cartFilter() {
     else if (cartFilter.value == "Đã hủy") statusCarts(listCartsBlock, "Đã hủy");
 }
 
-let filterBtn = document.getElementById('filterBtn');
+let filterBtn = document.getElementById('filterBtnCart');
 let menuFilter = document.querySelector('.menuFilter');
-filterBtn.onclick = () => {
+filterBtn.onclick = (e) => {
+    e.stopPropagation();
     if (menuFilter.classList.contains('appear')) {
         menuFilter.style.display = 'none';
         menuFilter.classList.remove('appear');
@@ -213,10 +219,18 @@ filterBtn.onclick = () => {
         menuFilter.classList.add('appear');
     }
 }
+document.onclick = (e) => {
+    if (!menuFilter.contains(e.target) && e.target !== filterBtn) {
+        menuFilter.style.display = "none";
+        menuFilter.classList.remove('appear');
+    }
+}
 
 
 
 function handleFilter(dateStart, dateEnd, city, district) {
+    var flag = true;
+
     dateStart = (dateStart == "") ? null : new Date(dateStart);
     dateEnd = (dateEnd == "") ? null : new Date(dateEnd);
     city = (city == "") ? null : city.trim().toLowerCase();
@@ -226,7 +240,7 @@ function handleFilter(dateStart, dateEnd, city, district) {
     if (dateEnd && isNaN(dateEnd.getTime())) dateEnd = null;
 
     if (dateStart && dateEnd && dateStart > dateEnd) {
-        alert("Ngày kết thúc phải lớn hơn ngày bắt đầu");
+        createAlert("Ngày kết thúc phải lớn hơn ngày bắt đầu");
         return;
     }
     var cartFilterValue = document.getElementById('cartFilter').value;
@@ -239,17 +253,21 @@ function handleFilter(dateStart, dateEnd, city, district) {
     listCartsBlock.innerHTML = '';
 
     for (let i = 0; i < carts.length; i++) {
-        cartTime = new Date(carts[i].date);
+        cartTime = new Date(carts[i].date + "T07:00:00");
         if (carts[i].status == cartFilterValue || cartFilterValue == "Tất cả đơn hàng") {
-            
+
             var cityTemp = carts[i].address.split(",")[1].trim().toLowerCase();
-            var districtTemp = carts[i].address.split(",")[0].trim().toLowerCase(); 
+            var districtTemp = carts[i].address.split(",")[0].trim().toLowerCase();
+
+
 
             if (city && city !== cityTemp) continue;
             if (district && district !== districtTemp) continue;
 
             if (dateStart && cartTime < dateStart) continue;
             if (dateEnd && cartTime > dateEnd) continue;
+
+            flag = false;
 
             var newCart = document.createElement('div');
             newCart.className = 'grid-row-cart';
@@ -265,16 +283,20 @@ function handleFilter(dateStart, dateEnd, city, district) {
                 </div>
             `;
             listCartsBlock.appendChild(newCart);
-            console.log(newCart);
         }
     }
-    var statusButtons = document.querySelectorAll('.status');
-    var detailButtons = document.querySelectorAll('.detailButton');
-    if (cartFilterValue == "Tất cả đơn hàng") 
-        setStatusButtons(statusButtons, true);
-    else setStatusButtons(statusButtons, false);
-    setDetailButtons(detailButtons);
+    
+    if (flag){
+        createAlert("Không tìm thấy đơn hàng.");
+        cartFilter();
+    } else {
+        if (cartFilterValue == "Tất cả đơn hàng")
+            setStatusButtons(true);
+        else setStatusButtons(false);
+        setDetailButtons();
+    }
 }
+
 
 
 start();

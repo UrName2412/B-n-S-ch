@@ -123,7 +123,7 @@ function banButtonsAllUsers() {
     const stringAlert = 'Đã khóa.';
     banButtons.forEach((banButton) => {
         banButton.addEventListener('click', (event) => {
-            var confirm = openModal(stringModal, stringAlert).then((result) => {
+            openModal(stringModal, stringAlert).then((result) => {
                 if (result) {
                     if (banButton) {
                         var gridRow = event.target.closest('.grid-row');
@@ -144,7 +144,7 @@ function unlockButtons() {
     const stringAlert = 'Đã mở khóa.';
     unlockButtons.forEach((unlockButton) => {
         unlockButton.addEventListener('click', (event) => {
-            var confirm = openModal(stringModal, stringAlert).then((result) => {
+            openModal(stringModal, stringAlert).then((result) => {
                 if (result) {
                     if (unlockButton) {
                         var gridRow = event.target.closest('.grid-row');
@@ -164,7 +164,7 @@ function unlockButtonsAllUsers() {
     const stringAlert = 'Đã mở khóa.';
     unlockButtons.forEach((unlockButton) => {
         unlockButton.addEventListener('click', (event) => {
-            var confirm = openModal(stringModal, stringAlert).then((result) => {
+            openModal(stringModal, stringAlert).then((result) => {
                 if (result) {
                     if (unlockButton) {
                         var gridRow = event.target.closest('.grid-row');
@@ -180,25 +180,27 @@ function unlockButtonsAllUsers() {
 }
 
 function searchButton() {
+    var flag = true;
     var input = document.getElementById('searchInput');
     var valueSearch = input.value.trim().toLowerCase();
+    const userFilterValue = document.getElementById('userFilter').value;
+    const keyUserSearch = "username";
     if (valueSearch == "") {
         userFilter();
     } else {
         listUsersBlock.innerHTML = '';
         users.forEach(user => {
-            for (const value in user){
-                if (typeof(user[value]) !== "string"){
-                    var data = String(user[value]);
-                } else data = user[value]
-                data = data.trim().toLowerCase();
-                if (data.includes(valueSearch) && !data.includes("gmail")) {
-                    console.log(data)
-                    var newUser = document.createElement('div');
-                    newUser.className = 'grid-row';
-                    if (user.isBanned == "true") {
-                        newUser.classList.add('banned');
-                        newUser.innerHTML = `
+            if (typeof (user[keyUserSearch]) !== "string") {
+                var data = String(user[keyUserSearch]);
+            } else var data = user[keyUserSearch];
+            data = data.trim().toLowerCase();
+            if (data.includes(valueSearch) && !data.includes("gmail")) {
+                flag = false;
+                var newUser = document.createElement('div');
+                newUser.className = 'grid-row';
+                if (user.isBanned == "true" && userFilterValue != "activeUsers") {
+                    newUser.classList.add('banned');
+                    newUser.innerHTML = `
                             <textarea placeholder="Nhập id..." readonly>${user.id}</textarea>
                             <textarea placeholder="Nhập tên người dùng..." readonly>${user.username}</textarea>
                             <textarea placeholder="Nhập số điện thoại..." readonly>${user.phone}</textarea>
@@ -210,8 +212,10 @@ function searchButton() {
                                 </button>
                             </div>
                         `;
-                    } else if (user.isBanned == "false") {
-                        newUser.innerHTML = `
+                    listUsersBlock.appendChild(newUser);
+                }
+                if (user.isBanned == "false" && userFilterValue != "bannedUsers") {
+                    newUser.innerHTML = `
                             <textarea placeholder="Nhập id..." readonly>${user.id}</textarea>
                             <textarea placeholder="Nhập tên người dùng..." readonly>${user.username}</textarea>
                             <textarea placeholder="Nhập số điện thoại..." readonly>${user.phone}</textarea>
@@ -226,15 +230,18 @@ function searchButton() {
                                 </button>
                             </div>
                         `;
-                    }
                     listUsersBlock.appendChild(newUser);
-                    break;
                 }
             }
         })
-        fixButtons();
-        banButtonsAllUsers();
-        unlockButtonsAllUsers();
+        if (flag) {
+            createAlert("Không tìm thấy người dùng.");
+            userFilter();
+        } else {
+            fixButtons();
+            banButtonsAllUsers();
+            unlockButtonsAllUsers();
+        }
     }
 }
 
@@ -340,6 +347,111 @@ function bannedUsers(listUsersBlock) {
     });
     unlockButtons();
 }
+
+let filterBtn = document.getElementById('filterBtnUser');
+let menuFilter = document.querySelector('.menuFilter');
+filterBtn.onclick = (e) => {
+    e.stopPropagation();
+    if (menuFilter.classList.contains('appear')) {
+        menuFilter.style.display = 'none';
+        menuFilter.classList.remove('appear');
+    } else {
+        menuFilter.style.display = 'flex';
+        menuFilter.classList.add('appear');
+    }
+}
+document.onclick = (e) => {
+    if (!menuFilter.contains(e.target) && e.target !== filterBtn) {
+        menuFilter.style.display = "none";
+        menuFilter.classList.remove('appear');
+    }
+}
+
+function handleFilter(city, district, phone) {
+    var flag = true;
+
+    const stringBannedTrue = "bannedUsers";
+    const stringBannedFalse = "activeUsers";
+    city = (city == "") ? null : city.trim().toLowerCase();
+    district = (district == "") ? null : district.trim().toLowerCase();
+    if (phone && (!/^[0-9]+$/.test(phone.toString()))) {
+        createAlert("Vui lòng nhập số và không nhập kí tự lạ.");
+        return;
+    }
+
+
+    var userFilterValue = document.getElementById('userFilter').value;
+
+    if (!city && !district && !phone) {
+        listUsersBlock.innerHTML = '';
+        userFilter();
+        return;
+    }
+    listUsersBlock.innerHTML = '';
+
+
+    for (let i = 0; i < users.length; i++) {
+        if (((users[i].isBanned == "true") ? stringBannedTrue : stringBannedFalse) == userFilterValue || userFilterValue == "Tất cả người dùng") {
+
+            var cityTemp = users[i].address.split(",")[2].trim().toLowerCase();
+            var districtTemp = users[i].address.split(",")[1].trim().toLowerCase();
+            var phoneTemp = users[i].phone;
+
+
+
+            if (city && city.normalize("NFC") !== cityTemp.normalize("NFC")) continue;
+            if (district && district.normalize("NFC") !== districtTemp.normalize("NFC")) continue;
+            if (phone && !phoneTemp.includes(phone)) continue;
+
+            flag = false;
+
+            var newUser = document.createElement('div');
+            newUser.className = 'grid-row';
+            if (users[i].isBanned == "true") {
+                newUser.classList.add('banned');
+                newUser.innerHTML = `
+                <textarea placeholder="Nhập id..." readonly>${users[i].id}</textarea>
+                <textarea placeholder="Nhập tên người dùng..." readonly>${users[i].username}</textarea>
+                <textarea placeholder="Nhập số điện thoại..." readonly>${users[i].phone}</textarea>
+                <textarea placeholder="Nhập email..." readonly>${users[i].email}</textarea>
+                <textarea placeholder="Nhập nội dung..." readonly>${users[i].address}</textarea>
+                <div class="tool">
+                    <button type="button" class="unlock">
+                        <i class="fas fa-unlock"></i>
+                    </button>
+                </div>
+            `;
+            } else if (users[i].isBanned == "false") {
+                newUser.innerHTML = `
+                <textarea placeholder="Nhập id..." readonly>${users[i].id}</textarea>
+                <textarea placeholder="Nhập tên người dùng..." readonly>${users[i].username}</textarea>
+                <textarea placeholder="Nhập số điện thoại..." readonly>${users[i].phone}</textarea>
+                <textarea placeholder="Nhập email..." readonly>${users[i].email}</textarea>
+                <textarea placeholder="Nhập nội dung..." readonly>${users[i].address}</textarea>
+                <div class="tool">
+                    <button type="button" class="fix">
+                        <i class="fas fa-wrench"></i>
+                    </button>
+                    <button type="button" class="delete">
+                        <i class="fas fa-ban"></i>
+                    </button>
+                </div>
+            `;
+            }
+            listUsersBlock.appendChild(newUser);
+        }
+    }
+    if (flag) {
+        createAlert("Không tìm thấy người dùng.");
+        userFilter();
+    } else {
+        fixButtons();
+        banButtonsAllUsers();
+        unlockButtonsAllUsers();
+    }
+}
+
+
 
 start();
 

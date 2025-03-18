@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="../asset/css/style.css">
     <link rel="stylesheet" href="../asset/css/function.css">
     <link rel="stylesheet" href="../vender/css/fontawesome-free/css/all.min.css">
-    <link rel="stylesheet" href="../asset/css/fillter.css">
     <title>Admin </title>
 </head>
 
@@ -107,13 +106,13 @@
                         <option value="Quận 6">Quận 6</option>
                     </select>
                 </div>
-                <button type="button" id="acceptFilter" onclick="handleFilter(dateStart.value,dateEnd.value,city.value,district.value)">Lọc</button>
+                <button type="button" class="acceptFilter" onclick="handleFilter(dateStart.value,dateEnd.value,city.value,district.value)">Lọc</button>
             </div>
 
             <!-- Tool Section -->
             <div class="tool">
                 <div class="search">
-                    <button type="button" id="filterBtn">
+                    <button type="button" id="filterBtnCart">
                         <i class="fas fa-filter"></i>
                     </button>
                     <select name="cartFilter" id="cartFilter" onchange="cartFilter()">
@@ -144,7 +143,6 @@
     <script src="../asset/js/validator.js"></script>
     <script src="../asset/js/inputDataCart.js"></script>
     <script src="../asset/js/admin.js"></script>
-    <script src="../asset/js/filler.js"></script>
 
     <script>
         messageRequired = 'Vui lòng nhập thông tin.';

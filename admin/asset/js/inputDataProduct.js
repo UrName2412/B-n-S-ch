@@ -23,7 +23,7 @@ function renderProducts() {
     activeProducts(listProductsBlock);
 }
 
-function fixButtons(){
+function fixButtons() {
     var fixButtons = document.querySelectorAll('.fix');
     const toolMenu = document.querySelector('.tool-menu');
     const menuFix = document.createElement('div');
@@ -107,8 +107,8 @@ function fixButtons(){
                                 products[index][dataInput.id] = dataInput.value;
                             })
                             textareaGridRows = gridRow.querySelectorAll('textarea');
-                            const data = ['id','name','author','category','nxb','price','picture'];
-                            var count=0;
+                            const data = ['id', 'name', 'author', 'category', 'nxb', 'price', 'picture'];
+                            var count = 0;
                             textareaGridRows.forEach(textareaGridRow => {
                                 textareaGridRow.innerHTML = products[index][data[count]];
                                 count++;
@@ -125,7 +125,7 @@ function fixButtons(){
     // Mốt làm lại cái select
 }
 
-function deleteButtons(){
+function deleteButtons() {
     var deleteButtons = document.querySelectorAll('.delete');
     const stringModal = 'Bạn có chắc muốn xóa sản phẩm không?';
     const stringAlert = 'Đã xóa.';
@@ -145,7 +145,7 @@ function deleteButtons(){
         });
     })
 }
-function deleteButtonsAllProducts(){
+function deleteButtonsAllProducts() {
     var deleteButtons = document.querySelectorAll('.delete');
     const stringModal = 'Bạn có chắc muốn xóa sản phẩm không?';
     const stringAlert = 'Đã xóa.';
@@ -166,13 +166,13 @@ function deleteButtonsAllProducts(){
     })
 }
 
-function restoreButtons(){
+function restoreButtons() {
     var restoreButtons = document.querySelectorAll('.restore');
     const stringModal = 'Bạn có chắc muốn khôi phục sản phẩm không?';
     const stringAlert = 'Đã khôi phục.';
     restoreButtons.forEach((restoreButton) => {
         restoreButton.addEventListener('click', (event) => {
-            openModal(stringModal,stringAlert).then((result) => {
+            openModal(stringModal, stringAlert).then((result) => {
                 if (result) {
                     if (restoreButton) {
                         var gridRow = event.target.closest('.grid-row-product');
@@ -186,13 +186,13 @@ function restoreButtons(){
         })
     })
 }
-function restoreButtonsAllProducts(){
+function restoreButtonsAllProducts() {
     var restoreButtons = document.querySelectorAll('.restore');
     const stringModal = 'Bạn có chắc muốn khôi phục sản phẩm không?';
     const stringAlert = 'Đã khôi phục.';
     restoreButtons.forEach((restoreButton) => {
         restoreButton.addEventListener('click', (event) => {
-            openModal(stringModal,stringAlert).then((result) => {
+            openModal(stringModal, stringAlert).then((result) => {
                 if (result) {
                     if (restoreButton) {
                         var gridRow = event.target.closest('.grid-row-product');
@@ -208,25 +208,27 @@ function restoreButtonsAllProducts(){
 }
 
 function searchButton() {
+    var flag = true;
     var input = document.getElementById('searchInput');
     var valueSearch = input.value.trim().toLowerCase();
+    const productFilterValue = document.getElementById('productFilter').value;
+    const keyProductSearch = "name";
     if (valueSearch == "") {
         productFilter();
     } else {
         listProductsBlock.innerHTML = '';
         products.forEach(product => {
-            for (const value in product){
-                if (typeof(product[value]) !== "string"){
-                    var data = String(product[value]);
-                } else data = product[value]
-                data = data.trim().toLowerCase();
-                if (data.includes(valueSearch) && !data.includes("gmail")) {
-                    console.log(data)
-                    var newProduct = document.createElement('div');
-                    newProduct.className = 'grid-row-product';
-                    if (product.isDeleted == "true"){
-                        newProduct.classList.add('banned');
-                        newProduct.innerHTML = `
+            if (typeof (product[keyProductSearch]) !== "string") {
+                var data = String(product[keyProductSearch]);
+            } else data = product[keyProductSearch]
+            data = data.trim().toLowerCase();
+            if (data.includes(valueSearch) && !data.includes("gmail")) {
+                flag = false;
+                var newProduct = document.createElement('div');
+                newProduct.className = 'grid-row-product';
+                if (product.isDeleted == "true" && productFilterValue != "activeProducts") {
+                    newProduct.classList.add('banned');
+                    newProduct.innerHTML = `
                             <textarea placeholder="Nhập id..." readonly>${product.id}</textarea>
                             <textarea placeholder="Nhập tên sản phẩm..." readonly>${product.name}</textarea>
                             <textarea placeholder="Nhập tên tác giả..." readonly>${product.author}</textarea>
@@ -243,8 +245,10 @@ function searchButton() {
                                 </button>
                             </div>
                         `;
-                    } else if (product.isDeleted == "false"){
-                        newProduct.innerHTML = `
+                    listProductsBlock.appendChild(newProduct);
+                }
+                if (product.isDeleted == "false" && productFilterValue != "deletedProducts") {
+                    newProduct.innerHTML = `
                             <textarea placeholder="Nhập id..." readonly>${product.id}</textarea>
                             <textarea placeholder="Nhập tên sản phẩm..." readonly>${product.name}</textarea>
                             <textarea placeholder="Nhập tên tác giả..." readonly>${product.author}</textarea>
@@ -264,28 +268,31 @@ function searchButton() {
                                 </button>
                             </div>
                         `;
-                    }
                     listProductsBlock.appendChild(newProduct);
-                    break;
                 }
             }
-        })     
-        fixButtons();
-        deleteButtons();
+        })
+        if (flag){
+            createAlert("Không tìm thấy sản phẩm.");
+            productFilter();
+        } else {
+            fixButtons();
+            deleteButtons();
+        }
     }
 }
 
-function productFilter(){
+function productFilter() {
     const productFilter = document.getElementById('productFilter');
     if (productFilter.value == "activeProducts") activeProducts(listProductsBlock);
     else if (productFilter.value == "deletedProducts") deletedProducts(listProductsBlock);
     else if (productFilter.value == "allProducts") allProducts(listProductsBlock);
 }
 
-function activeProducts(listProductsBlock){
+function activeProducts(listProductsBlock) {
     listProductsBlock.innerHTML = '';
     products.forEach(function (product) {
-        if (product.isDeleted == "false"){
+        if (product.isDeleted == "false") {
             var newProduct = document.createElement('div');
             newProduct.className = 'grid-row-product';
             newProduct.innerHTML = `
@@ -309,18 +316,18 @@ function activeProducts(listProductsBlock){
                 </div>
             `;
             listProductsBlock.appendChild(newProduct);
-        }  
+        }
     });
     fixButtons();
     deleteButtons();
 }
 
-function allProducts(listProductsBlock){
+function allProducts(listProductsBlock) {
     listProductsBlock.innerHTML = '';
     products.forEach(function (product) {
         var newProduct = document.createElement('div');
         newProduct.className = 'grid-row-product';
-        if (product.isDeleted == "true"){
+        if (product.isDeleted == "true") {
             newProduct.classList.add('banned');
             newProduct.innerHTML = `
                 <textarea placeholder="Nhập id..." readonly>${product.id}</textarea>
@@ -339,7 +346,7 @@ function allProducts(listProductsBlock){
                     </button>
                 </div>
             `;
-        } else if (product.isDeleted == "false"){
+        } else if (product.isDeleted == "false") {
             newProduct.innerHTML = `
                 <textarea placeholder="Nhập id..." readonly>${product.id}</textarea>
                 <textarea placeholder="Nhập tên sản phẩm..." readonly>${product.name}</textarea>
@@ -361,17 +368,17 @@ function allProducts(listProductsBlock){
                 </div>
             `;
         }
-        listProductsBlock.appendChild(newProduct);  
+        listProductsBlock.appendChild(newProduct);
     });
     fixButtons();
     deleteButtonsAllProducts();
     restoreButtonsAllProducts();
 }
 
-function deletedProducts(listProductsBlock){
+function deletedProducts(listProductsBlock) {
     listProductsBlock.innerHTML = '';
     products.forEach(function (product) {
-        if (product.isDeleted == "true"){
+        if (product.isDeleted == "true") {
             var newProduct = document.createElement('div');
             newProduct.className = 'grid-row-product';
             newProduct.classList.add('banned');
@@ -393,10 +400,142 @@ function deletedProducts(listProductsBlock){
                 </div>
             `;
             listProductsBlock.appendChild(newProduct);
-        }  
+        }
     });
     restoreButtons();
 }
+
+let filterBtn = document.getElementById('filterBtnProduct');
+let menuFilter = document.querySelector('.menuFilter');
+filterBtn.onclick = (e) => {
+    e.stopPropagation();
+    if (menuFilter.classList.contains('appear')) {
+        menuFilter.style.display = 'none';
+        menuFilter.classList.remove('appear');
+    } else {
+        menuFilter.style.display = 'flex';
+        menuFilter.classList.add('appear');
+    }
+}
+document.onclick = (e) => {
+    if (!menuFilter.contains(e.target) && e.target !== filterBtn) {
+        menuFilter.style.display = "none";
+        menuFilter.classList.remove('appear');
+    }
+}
+
+
+function handleFilter(author, category, nxb, priceStart, priceEnd) {
+    var flag = true;
+
+    if (priceStart && (isNaN(priceStart) || priceStart <= 0 || !/^[1-9][0-9]{3,}$/.test(priceStart.toString()))) {
+        createAlert("Phải nhập số và số tiền phải lớn hơn 1.000");
+        return;
+    }
+    if (priceEnd && (isNaN(priceEnd) || priceEnd <= 0 || !/^[1-9][0-9]{3,}$/.test(priceEnd.toString()))) {
+        createAlert("Phải nhập số và số tiền phải lớn hơn 1.000");
+        return;
+    }
+    if (priceStart && priceEnd && priceStart > priceEnd){
+        createAlert("Giá tiền tối đa không được lớn hơn tối thiểu");
+        return;
+    }
+    const stringBannedTrue = "deletedProducts";
+    const stringBannedFalse = "activeProducts";
+    author = (author == "") ? null : author.trim().toLowerCase();
+    category = (category == "") ? null : category.trim().toLowerCase();
+    nxb = (nxb == "") ? null : nxb.trim().toLowerCase();
+    priceStart = parseInt(priceStart);
+    priceEnd = parseInt(priceEnd);
+    
+
+    var productFilterValue = document.getElementById('productFilter').value;
+
+    if (!author && !category && !nxb && !priceStart && !priceEnd) {
+        listProductsBlock.innerHTML = '';
+        productFilter();
+        return;
+    }
+    listProductsBlock.innerHTML = '';
+
+
+    for (let i = 0; i < products.length; i++) {
+        if (((products[i].isDeleted == "true") ? stringBannedTrue : stringBannedFalse) == productFilterValue || productFilterValue == "Tất cả sản phẩm") {
+
+            var authorTemp = products[i].author.trim().toLowerCase();
+            var categoryTemp = products[i].category.trim().toLowerCase();
+            var nxbTemp = products[i].nxb.trim().toLowerCase();
+            var priceTemp = parseInt(products[i].price.replace(/\./g, ''));
+
+
+
+            if (author && !authorTemp.includes(author)) continue;
+            if (category && category !== categoryTemp) continue;
+            if (nxb && nxb !== nxbTemp) continue;
+            if (priceStart && priceStart > priceTemp) continue
+            if (priceEnd && priceEnd < priceTemp) continue
+            console.log("Tìm:", author);
+            console.log("Trong:", authorTemp);
+            console.log("Kết quả:", authorTemp.includes(author));
+            
+            flag = false;
+
+            var newProduct = document.createElement('div');
+            newProduct.className = 'grid-row-product';
+            if (products[i].isDeleted == "true") {
+                newProduct.classList.add('banned');
+                newProduct.innerHTML = `
+                <textarea placeholder="Nhập id..." readonly>${products[i].id}</textarea>
+                <textarea placeholder="Nhập tên sản phẩm..." readonly>${products[i].name}</textarea>
+                <textarea placeholder="Nhập tên tác giả..." readonly>${products[i].author}</textarea>
+                <textarea placeholder="chọn thể loại..." readonly>${products[i].category}</textarea>
+                <textarea placeholder="Nhập nhà xuất bản..." readonly>${products[i].nxb}</textarea>
+                <textarea placeholder="Nhập giá tiền..." readonly>${products[i].price}</textarea>
+                <div class="input-picture">
+                    <input type="file" name="picture" class="picture" placeholder="Chọn ảnh" onchange="displayFileName()" style="display: none;">
+                    <textarea placeholder="Nhập nội dung..." class="file-name" readonly>${products[i].picture}</textarea>
+                </div>
+                <div class="tool">
+                    <button type="button" class="restore">
+                        <i class="fas fa-trash-restore"></i>
+                    </button>
+                </div>
+            `;
+            } else if (products[i].isDeleted == "false") {
+                newProduct.innerHTML = `
+                <textarea placeholder="Nhập id..." readonly>${products[i].id}</textarea>
+                <textarea placeholder="Nhập tên sản phẩm..." readonly>${products[i].name}</textarea>
+                <textarea placeholder="Nhập tên tác giả..." readonly>${products[i].author}</textarea>
+                <textarea placeholder="chọn thể loại..." readonly>${products[i].category}</textarea>
+                <textarea placeholder="Nhập nhà xuất bản..." readonly>${products[i].nxb}</textarea>
+                <textarea placeholder="Nhập giá tiền..." readonly>${products[i].price}</textarea>
+                <div class="input-picture">
+                    <input type="file" name="picture" class="picture" placeholder="Chọn ảnh" onchange="displayFileName()" style="display: none;">
+                    <textarea placeholder="Nhập nội dung..." class="file-name" readonly>${products[i].picture}</textarea>
+                </div>
+                <div class="tool">
+                    <button type="button" class="fix">
+                        <i class="fas fa-wrench"></i>
+                    </button>
+                    <button type="button" class="delete">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            `;
+            }
+            listProductsBlock.appendChild(newProduct);
+        }
+    }
+    if (flag){
+        createAlert("Không tìm thấy sản phẩm.");
+        productFilter();
+    } else{
+        fixButtons();
+        deleteButtonsAllProducts();
+        restoreButtonsAllProducts();
+    }
+}
+
 
 start();
 
