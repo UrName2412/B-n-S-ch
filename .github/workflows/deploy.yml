@@ -1,0 +1,29 @@
+name: 🚀 Deploy to InfinityFree
+
+on:
+  push:
+    branches:
+      - main  # Chạy khi có thay đổi trên nhánh main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Lấy mã nguồn từ GitHub
+        uses: actions/checkout@v3
+
+      - name: 🔧 Cài đặt LFTP
+        run: sudo apt-get install lftp
+
+      - name: 🚀 Upload code lên InfinityFree
+        run: |
+          lftp -e "
+            open -u $FTP_USERNAME,$FTP_PASSWORD $FTP_HOST
+            mirror --reverse --delete --verbose ./ htdocs/
+            bye
+          "
+        env:
+          FTP_HOST: ${{ secrets.FTP_HOST }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
