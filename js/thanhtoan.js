@@ -149,7 +149,7 @@ document.addEventListener("DOMContentLoaded", function () {
             localStorage.clear(); // Xóa giỏ hàng
             loadFromLocalStorage();
             setTimeout(() => {
-                window.location.href = "hoaDon.html";
+                window.location.href = "hoaDon.php";
             }, 3000); // Chờ 3 giây
         }
     });

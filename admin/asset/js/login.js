@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (valid) {
             if (username.value === "admin" && passwd.value === "12345678") {
-                window.location.replace("page/thongke.html");
+                window.location.replace("page/thongke.php");
             } else {
                 alert("Tên đăng nhập hoặc mật khẩu không đúng");
             }

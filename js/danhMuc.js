@@ -54,7 +54,7 @@ function loadProducts(category, minPrice = null, maxPrice = null, tenSach = null
             const productHTML = `
                     <div class="col-md-4 mb-4">
                     <div class="card" style="width: 100%;">
-                        <a href="../sanpham/chitietsanpham.html">
+                        <a href="../sanpham/chitietsanpham.php">
                             <img src="${product.img}" alt="${product.name}" class="card-img-top">
                         </a>
                         <div class="card-body">

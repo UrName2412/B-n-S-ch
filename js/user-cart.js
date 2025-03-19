@@ -123,7 +123,7 @@ const checkCart = () => {
         const emptyCart = new bootstrap.Modal(document.getElementById('empty'))
         emptyCart.show();
     }else{
-        window.location.href = "thanhtoan.html";
+        window.location.href = "thanhtoan.php";
     }
 }
 
