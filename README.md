@@ -1,7 +1,4 @@
 chú ý:
-    sửa đăng xuất
-    admin{
-        thống kê (Hiệp)
-        lọc đơn hàng (Tuấn)
-        tìm kiếm nâng cao (Ngoo Trường Zu~)
-    }
+    Admin sửa lại địa chỉ, xóa số điện thoại, thêm vai trò
+    Người dùng sửa lại địa chỉ, xóa số điện thoại
+    Chú ý khi render sản phẩm phải kiểm tra nó có bị ẩn hay không
