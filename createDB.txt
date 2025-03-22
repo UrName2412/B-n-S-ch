@@ -1,0 +1,96 @@
+CREATE TABLE sanPham
+(
+  maSach INT NOT NULL,
+  tenSach VARCHAR(50) NOT NULL,
+  nhaXuatBan VARCHAR(50) NOT NULL,
+  giaTien INT NOT NULL,
+  hinhAnh VARCHAR(50) NOT NULL,
+  moTa VARCHAR(300) NOT NULL,
+  trangThai BOOLEAN NOT NULL,
+  soLuongDaBan INT NOT NULL,
+  soLuong INT NOT NULL,
+  PRIMARY KEY (maSach)
+);
+
+CREATE TABLE donHang
+(
+  maDon INT NOT NULL,
+  tenNguoiDung VARCHAR(50) NOT NULL,
+  diaChi VARCHAR(50) NOT NULL,
+  soDienThoai VARCHAR(20) NOT NULL,
+  tongTien INT NOT NULL,
+  tinhTrang BOOLEAN NOT NULL,
+  PRIMARY KEY (maDon)
+);
+
+CREATE TABLE theLoai
+(
+  maTheLoai INT NOT NULL,
+  tenTheLoai VARCHAR(50) NOT NULL,
+  PRIMARY KEY (maTheLoai)
+);
+
+CREATE TABLE danhMuc
+(
+  maDanhMuc INT NOT NULL,
+  tenDanhMuc VARCHAR(50) NOT NULL,
+  maSach INT NOT NULL,
+  PRIMARY KEY (maDanhMuc),
+  FOREIGN KEY (maSach) REFERENCES sanPham(maSach)
+);
+
+CREATE TABLE baoGom
+(
+  giaTien INT NOT NULL,
+  soLuong INT NOT NULL,
+  maSach INT NOT NULL,
+  maDon INT NOT NULL,
+  PRIMARY KEY (maSach, maDon),
+  FOREIGN KEY (maSach) REFERENCES sanPham(maSach),
+  FOREIGN KEY (maDon) REFERENCES donHang(maDon)
+);
+
+CREATE TABLE sanPham_theLoai
+(
+  maSach INT NOT NULL,
+  maTheLoai INT NOT NULL,
+  PRIMARY KEY (maSach, maTheLoai),
+  FOREIGN KEY (maSach) REFERENCES sanPham(maSach),
+  FOREIGN KEY (maTheLoai) REFERENCES theLoai(maTheLoai)
+);
+
+CREATE TABLE sanPham_tacGia
+(
+  tacGia VARCHAR(50) NOT NULL,
+  maSach INT NOT NULL,
+  PRIMARY KEY (tacGia, maSach),
+  FOREIGN KEY (maSach) REFERENCES sanPham(maSach)
+);
+
+CREATE TABLE nguoiDung
+(
+  idNguoiDung INT NOT NULL,
+  tenNguoiDung VARCHAR(50) NOT NULL,
+  matKhau VARCHAR(50) NOT NULL,
+  vaiTro BOOLEAN NOT NULL,
+  trangThai BOOLEAN NOT NULL,
+  maDon INT NOT NULL,
+  PRIMARY KEY (idNguoiDung),
+  FOREIGN KEY (maDon) REFERENCES donHang(maDon)
+);
+
+CREATE TABLE nguoiDung_soDienThoai
+(
+  soDienThoai VARCHAR(50) NOT NULL,
+  idNguoiDung INT NOT NULL,
+  PRIMARY KEY (soDienThoai, idNguoiDung),
+  FOREIGN KEY (idNguoiDung) REFERENCES nguoiDung(idNguoiDung)
+);
+
+CREATE TABLE nguoiDung_diaChi
+(
+  diaChi VARCHAR(50) NOT NULL,
+  idNguoiDung INT NOT NULL,
+  PRIMARY KEY (diaChi, idNguoiDung),
+  FOREIGN KEY (idNguoiDung) REFERENCES nguoiDung(idNguoiDung)
+);
