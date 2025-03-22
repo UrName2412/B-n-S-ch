@@ -133,7 +133,8 @@ Validator.isEmail = function (selector, message){
     return {
         selector: selector,
         test: function (value){
-            var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            var regex = /^[a-zA-Z0-9]+([._-][a-zA-Z0-9]+)*@[a-zA-Z0-9]+([.-][a-zA-Z0-9]+)*\.[a-zA-Z]{2,}$/
+;
             return regex.test(value) ? undefined : message;
         }
     };

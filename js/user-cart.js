@@ -5,6 +5,14 @@ const listcartsProductHTML = document.getElementById('cart-items');
 const confirmDeleteModal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
 const confirmDeleteButton = document.getElementById("confirmDeleteButton");
 const emptyListMessage = document.getElementById("empty-cart-message");
+
+// Utility function to escape HTML special characters
+const escapeHTML = (str) => {
+    const div = document.createElement('div');
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
+};
+
 // Load cart from localStorage
 const loadFromLocalStorage = () => {
     const storedCart = localStorage.getItem('cart');
@@ -25,14 +33,14 @@ const renderCart = () => {
         newItem.innerHTML = `
             <div class="cart-item d-flex align-items-center justify-content-between mb-3 border p-4 border-3">
                 <div class="item-detail d-flex align-items-center">
-                    <img src="${item.image}" alt="Ảnh sách">
+                    <img src="${escapeHTML(item.image)}" alt="Ảnh sách">
                     <div class="ms-3">
-                        <p class="fw-bold">${item.productName}</p>
+                        <p class="fw-bold">${escapeHTML(item.productName)}</p>
                     </div>
                 </div>
                 <div class="d-flex align-items-center">
-                    <input type="number" class="form-control text-center" value="${item.quantity}" min="1" style="width: 60px;">
-                    <span class="ms-2 fw-bold">${item.productPrice}</span>
+                    <input type="number" class="form-control text-center" value="${escapeHTML(item.quantity)}" min="1" style="width: 60px;">
+                    <span class="ms-2 fw-bold">${escapeHTML(item.productPrice)}</span>
                 </div>
                 <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
                     <i class="fas fa-trash"></i>
