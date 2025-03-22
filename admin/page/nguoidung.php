@@ -130,12 +130,12 @@
             </button>
             <div class="menu-add">
                 <h2>Thêm Người Dùng</h2>
-                <form class="form" id="form-add">
-                    <div class="form-group">
+                <form class="form" id="form-add" method="POST" action="../handlers/themdulieu.php">
+                    <!-- <div class="form-group">
                         <label for="id">ID:</label>
                         <input type="text" name="id" id="id" placeholder="Nhập ID">
                         <span class="form-message"></span>
-                    </div>
+                    </div> -->
                     <div class="form-group">
                         <label for="username">Tên người dùng:</label>
                         <input type="text" name="username" id="username" placeholder="Nhập tên người dùng">
@@ -157,17 +157,21 @@
                         <span class="form-message"></span>
                     </div>
                     <div class="form-group">
-                        <label for="email">Email:</label>
-                        <input type="email" name="email" id="email" placeholder="Nhập email">
-                        <span class="form-message"></span>
-                    </div>
-                    <div class="form-group">
                         <label for="address">Địa chỉ:</label>
                         <input type="text" name="address" id="address" placeholder="Nhập địa chỉ">
                         <span class="form-message"></span>
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn-submit">Thêm</button>
+                        <label for="address">Vai trò:</label>
+                        <select name="role" id="role">
+                            <option value="">Lựa chọn</option>
+                            <option value="false">Người dùng</option>
+                            <option value="true">Người quản trị</option>
+                        </select>
+                        <span class="form-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Thêm" class="btn-submit">
                     </div>
                 </form>
             </div>
@@ -186,6 +190,7 @@
 
     <script>
         messageRequired = 'Vui lòng nhập thông tin.';
+        messageRequiredRole = 'Vui lòng chọn vai trò.';
         messageEmail = 'Vui lòng nhập đúng email.';
         messagePhone = 'Vui lòng nhập đúng số điện thoại.';
         messagePassword = 'Yêu cầu kí tự hoa, kí tự thường, số và ít nhất 7 kí tự.';
@@ -199,11 +204,11 @@
                 Validator.isRequired('#password', messageRequired),
                 Validator.isRequired('#confirmPassword', messageRequired),
                 Validator.isRequired('#address', messageRequired),
-                Validator.isEmail('#email', messageEmail),
+                Validator.isRequired('#role', messageRequiredRole),
                 Validator.isPhone('#phone', messagePhone),
                 Validator.minLength('#username', 6),
                 Validator.isPassword('#password',messagePassword),
-                Validator.comparePassword('#confirmPassword','#password',messageConfirmPassword),
+                Validator.comparePassword('#confirmPassword','password',messageConfirmPassword),
             ]
         })
     </script>
