@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const provinceSelect = document.getElementById("province");
-    const districtSelect = document.getElementById("district");
-    const wardSelect = document.getElementById("ward");
+    const provinceSelect = document.getElementById("tinhThanh");
+    const districtSelect = document.getElementById("quanHuyen");
+    const wardSelect = document.getElementById("xa");
 
     // Load danh sách tỉnh/thành phố
     async function loadProvinces() {

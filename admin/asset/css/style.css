@@ -837,13 +837,18 @@ button:hover{
 }
 
 .form-group select{
-    width: 30%;
+    width: 100%;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
     margin: 2px 0;
     font-size: clamp(0.9rem, 2vw, 1.1rem);
     box-sizing: border-box;
+}
+
+.address{
+    display: flex;
+    justify-content: space-between;
 }
 
 .form-group .address select{
