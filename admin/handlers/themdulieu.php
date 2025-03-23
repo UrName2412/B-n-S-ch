@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST"){
     $password = $_POST["password"];
     $phone = $_POST["phone"];
     $address = $_POST["address"];
-    $role = $_POST["role"];
+    $role = (bool)$_POST["role"];
     $status = true;
 
     $stmt = $database->prepare("INSERT INTO nguoidung(tenNguoiDung, matKhau, vaiTro, trangThai) VALUES (?,?,?,?)");

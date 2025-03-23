@@ -16,7 +16,7 @@
     <div class="container">
         <!--Sidebar Section-->
         <aside>
-           <div class="sidebar">
+            <div class="sidebar">
                 <a href="thongke.php">
                     <i class="fas fa-chart-line"></i>
                     <h3>Thống kê</h3>
@@ -37,7 +37,7 @@
                     <i class="fas fa-sign-out-alt"></i>
                     <h3>Đăng xuất</h3>
                 </a>
-            </div> 
+            </div>
         </aside>
         <!--End of Sidebar Section-->
 
@@ -104,7 +104,7 @@
                 <button type="button" class="add" id="addBtnUser" onclick="openToolMenu('')">
                     <i class="fas fa-plus"></i>
                 </button>
-                
+
                 <div class="search">
                     <button type="button" id="filterBtnUser">
                         <i class="fas fa-filter"></i>
@@ -157,8 +157,18 @@
                         <span class="form-message"></span>
                     </div>
                     <div class="form-group">
-                        <label for="address">Địa chỉ:</label>
-                        <input type="text" name="address" id="address" placeholder="Nhập địa chỉ">
+                        <label for="province">Địa chỉ:</label>
+                        <div class="address">
+                            <select name="province" id="province">
+                                <option value="">Chọn Tỉnh/Thành phố</option>
+                            </select>
+                            <select name="district" id="district">
+                                <option value="">Chọn Quận/Huyện</option>
+                            </select>
+                            <select name="ward" id="ward">
+                                <option value="">Chọn Xã/Phường</option>
+                            </select>
+                        </div>
                         <span class="form-message"></span>
                     </div>
                     <div class="form-group">
@@ -183,12 +193,13 @@
 
 
     <script src="../asset/js/function.js"></script>
-    <script src="../asset/js/validator.js"></script>
+    <!-- <script src="../asset/js/validator.js"></script> -->
     <script src="../asset/js/inputDataUser.js"></script>
     <script src="../asset/js/admin.js"></script>
+    <script src="../asset/js/apiAddress.js"></script>
 
 
-    <script>
+    <!-- <script>
         messageRequired = 'Vui lòng nhập thông tin.';
         messageRequiredRole = 'Vui lòng chọn vai trò.';
         messageEmail = 'Vui lòng nhập đúng email.';
@@ -211,7 +222,7 @@
                 Validator.comparePassword('#confirmPassword','password',messageConfirmPassword),
             ]
         })
-    </script>
+    </script> -->
 </body>
 
 </html>
