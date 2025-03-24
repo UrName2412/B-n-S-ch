@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
 
     $database->close();
-
+    
 
     echo 
     "<script>

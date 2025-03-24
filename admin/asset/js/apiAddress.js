@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const districtSelect = document.getElementById("quanHuyen");
     const wardSelect = document.getElementById("xa");
 
-    // Load danh sách tỉnh/thành phố
     async function loadProvinces() {
         let response = await fetch("https://provinces.open-api.vn/api/?depth=1");
         let data = await response.json();
@@ -13,7 +12,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Khi chọn tỉnh, load quận/huyện
     provinceSelect.addEventListener("change", async function () {
         districtSelect.innerHTML = '<option value="">Chọn Quận/Huyện</option>';
         wardSelect.innerHTML = '<option value="">Chọn Xã/Phường</option>';
@@ -29,7 +27,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    // Khi chọn quận, load xã/phường
     districtSelect.addEventListener("change", async function () {
         wardSelect.innerHTML = '<option value="">Chọn Xã/Phường</option>';
 
