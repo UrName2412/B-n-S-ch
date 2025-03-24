@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cửa hàng sách</title>
+    <title>Cửa hàng sách Vương Hạo</title>
+    <meta name="description" content="Cửa hàng sách Vương Hạo cung cấp toàn quốc.">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <!-- FONT AWESOME  -->
