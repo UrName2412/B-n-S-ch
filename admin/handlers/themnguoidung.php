@@ -1,6 +1,7 @@
 <?php
 
 require '../config/config.php';
+session_start();
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $tenNguoiDung = $_POST["tenNguoiDung"];
@@ -55,16 +56,17 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
 
     $database->close();
-    
 
-    echo 
-    "<script>
-        createAlert('Thêm người dùng thành công!');
-        setTimeout(function() {
-            window.location.href = '../page/nguoidung.php';
-        }, 2000); // Đợi 2 giây để alert hiện rồi mới chuyển
-    </script>";
-    exit(); // Đảm bảo không chạy tiếp PHP
+
+    if ($flag){
+        $_SESSION["ketQuaThem"]=true;
+    } else{
+        $_SESSION["ketQuaThem"]=false;
+    }
+    print_r($_SESSION);
+    // header('Location: ../page/nguoidung.php');
+    
+    // exit(); // = break
 
 
 }
