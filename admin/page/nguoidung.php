@@ -16,7 +16,7 @@
     <div class="container">
         <!--Sidebar Section-->
         <aside>
-           <div class="sidebar">
+            <div class="sidebar">
                 <a href="thongke.php">
                     <i class="fas fa-chart-line"></i>
                     <h3>Thống kê</h3>
@@ -37,7 +37,7 @@
                     <i class="fas fa-sign-out-alt"></i>
                     <h3>Đăng xuất</h3>
                 </a>
-            </div> 
+            </div>
         </aside>
         <!--End of Sidebar Section-->
 
@@ -104,7 +104,7 @@
                 <button type="button" class="add" id="addBtnUser" onclick="openToolMenu('')">
                     <i class="fas fa-plus"></i>
                 </button>
-                
+
                 <div class="search">
                     <button type="button" id="filterBtnUser">
                         <i class="fas fa-filter"></i>
@@ -131,39 +131,48 @@
             <div class="menu-add">
                 <h2>Thêm Người Dùng</h2>
                 <form class="form" id="form-add" method="POST" action="../handlers/themdulieu.php">
-                    <!-- <div class="form-group">
-                        <label for="id">ID:</label>
-                        <input type="text" name="id" id="id" placeholder="Nhập ID">
-                        <span class="form-message"></span>
-                    </div> -->
                     <div class="form-group">
-                        <label for="username">Tên người dùng:</label>
-                        <input type="text" name="username" id="username" placeholder="Nhập tên người dùng">
+                        <label for="tenNguoiDung">Tên người dùng:</label>
+                        <input type="text" name="tenNguoiDung" id="tenNguoiDung" placeholder="Nhập tên người dùng">
                         <span class="form-message"></span>
                     </div>
                     <div class="form-group">
-                        <label for="password">Mật khẩu:</label>
-                        <input type="password" name="password" id="password" placeholder="Nhập mật khẩu">
+                        <label for="matKhau">Mật khẩu:</label>
+                        <input type="password" name="matKhau" id="matKhau" placeholder="Nhập mật khẩu">
                         <span class="form-message"></span>
                     </div>
                     <div class="form-group">
-                        <label for="confirmPassword">Nhập lại mật khẩu:</label>
-                        <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Nhập mật khẩu">
+                        <label for="kiemTraMatKhau">Nhập lại mật khẩu:</label>
+                        <input type="password" name="kiemTraMatKhau" id="kiemTraMatKhau" placeholder="Nhập mật khẩu">
                         <span class="form-message"></span>
                     </div>
                     <div class="form-group">
-                        <label for="phone">Số điện thoại:</label>
-                        <input type="tel" name="phone" id="phone" placeholder="Nhập số điện thoại">
+                        <label for="soDienThoai">Số điện thoại:</label>
+                        <input type="tel" name="soDienThoai" id="soDienThoai" placeholder="Nhập số điện thoại">
                         <span class="form-message"></span>
                     </div>
                     <div class="form-group">
-                        <label for="address">Địa chỉ:</label>
-                        <input type="text" name="address" id="address" placeholder="Nhập địa chỉ">
+                        <label for="diaChi">Địa chỉ:</label>
+                        <div class="address">
+                            <select name="tinhThanh" id="tinhThanh">
+                                <option value="">Chọn Tỉnh/Thành phố</option>
+                            </select>
+                            <select name="quanHuyen" id="quanHuyen">
+                                <option value="">Chọn Quận/Huyện</option>
+                            </select>
+                            <select name="xa" id="xa">
+                                <option value="">Chọn Xã/Phường</option>
+                            </select>
+                        </div>
+                        <div>
+                        <label for="chiTiet">Đường/Số nhà:</label>
+                        <input type="text" id="chiTiet" name="chiTiet" placeholder="Số nhà, tên đường">
+                        </div>
                         <span class="form-message"></span>
                     </div>
                     <div class="form-group">
-                        <label for="address">Vai trò:</label>
-                        <select name="role" id="role">
+                        <label for="vaiTro">Vai trò:</label>
+                        <select name="vaiTro" id="vaiTro">
                             <option value="">Lựa chọn</option>
                             <option value="false">Người dùng</option>
                             <option value="true">Người quản trị</option>
@@ -183,9 +192,11 @@
 
 
     <script src="../asset/js/function.js"></script>
-    <script src="../asset/js/validator.js"></script>
+    <!-- <script src="../asset/js/validator.js"></script> -->
     <script src="../asset/js/inputDataUser.js"></script>
     <script src="../asset/js/admin.js"></script>
+    <script src="../asset/js/validator.js"></script>
+    <script src="../asset/js/apiAddress.js"></script>
 
 
     <script>
@@ -199,16 +210,14 @@
             form: '#form-add',
             errorSelector: '.form-message',
             rules: [
-                Validator.isRequired('#id', messageRequired),
-                Validator.isRequired('#username', messageRequired),
-                Validator.isRequired('#password', messageRequired),
-                Validator.isRequired('#confirmPassword', messageRequired),
-                Validator.isRequired('#address', messageRequired),
-                Validator.isRequired('#role', messageRequiredRole),
-                Validator.isPhone('#phone', messagePhone),
-                Validator.minLength('#username', 6),
-                Validator.isPassword('#password',messagePassword),
-                Validator.comparePassword('#confirmPassword','password',messageConfirmPassword),
+                Validator.isRequired('#tenNguoiDung', messageRequired),
+                Validator.isRequired('#matKhau', messageRequired),
+                Validator.isRequired('#kiemTraMatKhau', messageRequired),
+                Validator.isRequired('#vaiTro', messageRequiredRole),
+                Validator.isPhone('#soDienThoai', messagePhone),
+                Validator.minLength('#tenNguoiDung', 6),
+                Validator.isPassword('#matKhau',messagePassword),
+                Validator.comparePassword('#kiemTraMatKhau','matKhau',messageConfirmPassword),
             ]
         })
     </script>
