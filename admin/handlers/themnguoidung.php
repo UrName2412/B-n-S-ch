@@ -1,6 +1,7 @@
 <?php
 
 require '../config/config.php';
+session_start();
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $tenNguoiDung = $_POST["tenNguoiDung"];
@@ -62,9 +63,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     } else{
         $_SESSION["ketQuaThem"]=false;
     }
-    header('Location: ../page/nguoidung.php');
+    print_r($_SESSION);
+    // header('Location: ../page/nguoidung.php');
     
-    exit(); // = break
+    // exit(); // = break
 
 
 }

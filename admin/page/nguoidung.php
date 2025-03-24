@@ -1,3 +1,7 @@
+<?php
+    session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -192,10 +196,9 @@
 
 
     <script src="../asset/js/function.js"></script>
-    <!-- <script src="../asset/js/validator.js"></script> -->
-    <script src="../asset/js/inputDataUser.js"></script>
-    <script src="../asset/js/admin.js"></script>
     <script src="../asset/js/validator.js"></script>
+    <script src="../asset/js/inputDataUser.js"></script>
+    <script src="../asset/js/admin.js"></script>+
     <script src="../asset/js/apiAddress.js"></script>
 
     <script>
