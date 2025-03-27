@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cửa hàng sách Vương Hạo</title>
     <meta name="description" content="Cửa hàng sách Vương Hạo cung cấp toàn quốc.">
-    <link rel="icon" type="image/png" href="Images/favicon.png">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
