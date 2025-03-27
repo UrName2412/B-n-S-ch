@@ -40,56 +40,69 @@ function fixButtons() {
             <h2>Sửa sản phẩm</h2>
             <form class="form" id="form-fix">
                 <div class="form-group">
-                    <label for="name">Tên sách:</label>
-                    <input type="text" name="name" id="name" placeholder="Nhập tên sách" value="${products[index].name}">
+                    <label for="hinhAnh">Hình ảnh:</label>
+                    <input type="file" name="hinhAnh" id="hinhAnh" placeholder="Chọn ảnh">
                     <span class="form-message"></span>
                 </div>
                 <div class="form-group">
-                    <label for="author">Tác giả:</label>
-                    <input type="text" name="author" id="author" placeholder="Nhập tác giả" value="${products[index].author}">
+                    <label for="tenSach">Tên sách:</label>
+                    <input type="text" name="tenSach" id="tenSach" placeholder="Nhập tên sách">
                     <span class="form-message"></span>
                 </div>
                 <div class="form-group">
-                    <label for="category">Thể loại:</label>
-                    <select name="category" id="category">
+                    <label for="tacGia">Tác giả:</label>
+                    <input type="text" name="tacGia" id="tacGia" placeholder="Nhập tác giả">
+                    <span class="form-message"></span>
+                </div>
+                <div class="form-group">
+                    <label for="theLoai">Thể loại:</label>
+                    <select name="theLoai" id="theLoai">
                         <option value="">Lựa chọn:</option>
-                        <option value="thieunhi">Thiếu nhi</option>
-                        <option value="kynangsong">Kỹ năng sống</option>
-                        <option value="tieuthuyet">Tiểu thuyết</option>
-                        <option value="phatgiao">Phật giáo</option>
-                        <option value="vanhoc">Văn học</option>
-                        <option value="truyencamhung">Truyền cảm hứng</option>
-                        <option value="hoiky">Hồi ký</option>
-                        <option value="tamly">Tâm lý</option>
-                        <option value="khoahockithuat">Khoa học kĩ thuật</option>
-                        <option value="tongiao">Tôn giáo</option>
-                        <option value="trinhtham">Trinh thám</option>
-                        <option value="tanvan">Tản văn</option>
-                        <option value="kinhte">Kinh tế</option>
-                        <option value="giatuong">Giả tưởng</option>
-                        <option value="thieunhi">Thiếu nhi</option>
-                        <option value="giaotrinh">Giáo trình</option>
-                        <option value="tudien">Từ điển</option>
+                        <?php
+                            require '../config/config.php';
+                            $stmt = $database->prepare("SELECT * FROM theloai");
+                            $stmt->execute();
+                            $result = $stmt->get_result();
+                            while ($row = $result->fetch_assoc()) {
+                                echo "<option value='".$row['maTheLoai']."'>".$row['tenTheLoai']."</option>";
+                            }
+                        ?>
                     </select>
                     <span class="form-message"></span>
                 </div>
                 <div class="form-group">
-                    <label for="nxb">Nhà xuất bản:</label>
-                    <input type="text" name="nxb" id="nxb" placeholder="Nhập nhà xuất bản" value="${products[index].nxb}">
+                    <label for="nhaXuatBan">Nhà xuất bản:</label>
+                    <select name="nhaXuatBan" id="nhaXuatBan">
+                        <option value="">Lựa chọn:</option>
+                        <?php
+                            require '../config/config.php';
+                            $stmt = $database->prepare("SELECT * FROM nhaxuatban");
+                            $stmt->execute();
+                            $result = $stmt->get_result();
+                            while ($row = $result->fetch_assoc()) {
+                                echo "<option value='".$row['maNhaXuatBan']."'>".$row['tenNhaXuatBan']."</option>";
+                            }
+                        ?>
+                    </select>
                     <span class="form-message"></span>
                 </div>
                 <div class="form-group">
-                    <label for="price">Giá tiền:</label>
-                    <input type="text" name="price" id="price" placeholder="Nhập giá tiền"  value="${products[index].price}">
+                    <label for="giaBan">Giá bán:</label>
+                    <input type="text" name="giaBan" id="giaBan" placeholder="Nhập giá tiền">
                     <span class="form-message"></span>
                 </div>
                 <div class="form-group">
-                    <label for="description">Mô tả:</label>
-                    <textarea name="description"></textarea>
+                    <label for="soTrang">Số trang:</label>
+                    <input type="text" name="soTrang" id="soTrang" placeholder="Nhập số trang">
                     <span class="form-message"></span>
                 </div>
                 <div class="form-group">
-                    <button type="button" class="btn-submit">Xác nhận</button>
+                    <label for="moTa">Mô tả:</label>
+                    <textarea name="moTa"></textarea>
+                    <span class="form-message"></span>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn-submit">Thêm</button>
                 </div>
             </form>
             `;
@@ -272,7 +285,7 @@ function searchButton() {
                 }
             }
         })
-        if (flag){
+        if (flag) {
             createAlert("Không tìm thấy sản phẩm.");
             productFilter();
         } else {
@@ -436,7 +449,7 @@ function handleFilter(author, category, nxb, priceStart, priceEnd) {
         createAlert("Phải nhập số và số tiền phải lớn hơn 1.000");
         return;
     }
-    if (priceStart && priceEnd && priceStart > priceEnd){
+    if (priceStart && priceEnd && priceStart > priceEnd) {
         createAlert("Giá tiền tối đa không được lớn hơn tối thiểu");
         return;
     }
@@ -447,7 +460,7 @@ function handleFilter(author, category, nxb, priceStart, priceEnd) {
     nxb = (nxb == "") ? null : nxb.trim().toLowerCase();
     priceStart = parseInt(priceStart);
     priceEnd = parseInt(priceEnd);
-    
+
 
     var productFilterValue = document.getElementById('productFilter').value;
 
@@ -477,7 +490,7 @@ function handleFilter(author, category, nxb, priceStart, priceEnd) {
             console.log("Tìm:", author);
             console.log("Trong:", authorTemp);
             console.log("Kết quả:", authorTemp.includes(author));
-            
+
             flag = false;
 
             var newProduct = document.createElement('div');
@@ -526,10 +539,10 @@ function handleFilter(author, category, nxb, priceStart, priceEnd) {
             listProductsBlock.appendChild(newProduct);
         }
     }
-    if (flag){
+    if (flag) {
         createAlert("Không tìm thấy sản phẩm.");
         productFilter();
-    } else{
+    } else {
         fixButtons();
         deleteButtonsAllProducts();
         restoreButtonsAllProducts();

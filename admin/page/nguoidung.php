@@ -1,7 +1,3 @@
-<?php
-    session_start();
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -69,7 +65,7 @@
         <div class="container-content">
             <div class="content">
                 <div class="grid-header">
-                    <span>ID</span>
+                    <span>Vai trò</span>
                     <span>Tên người dùng</span>
                     <span>Số Điện Thoại</span>
                     <span>Email</span>
@@ -156,6 +152,11 @@
                         <span class="form-message"></span>
                     </div>
                     <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="tel" name="email" id="email" placeholder="Nhập số điện thoại">
+                        <span class="form-message"></span>
+                    </div>
+                    <div class="form-group">
                         <label for="diaChi">Địa chỉ:</label>
                         <div class="address">
                             <select name="tinhThanh" id="tinhThanh">
@@ -169,8 +170,8 @@
                             </select>
                         </div>
                         <div>
-                        <label for="chiTiet">Đường/Số nhà:</label>
-                        <input type="text" id="chiTiet" name="chiTiet" placeholder="Số nhà, tên đường">
+                            <label for="duong">Đường/Số nhà:</label>
+                            <input type="text" id="duong" name="duong" placeholder="Số nhà, tên đường">
                         </div>
                         <span class="form-message"></span>
                     </div>
@@ -178,8 +179,8 @@
                         <label for="vaiTro">Vai trò:</label>
                         <select name="vaiTro" id="vaiTro">
                             <option value="">Lựa chọn</option>
-                            <option value="false">Người dùng</option>
-                            <option value="true">Người quản trị</option>
+                            <option value="0">Người dùng</option>
+                            <option value="1">Người quản trị</option>
                         </select>
                         <span class="form-message"></span>
                     </div>
@@ -218,8 +219,8 @@
                 Validator.isRequired('#vaiTro', messageRequiredRole),
                 Validator.isPhone('#soDienThoai', messagePhone),
                 Validator.minLength('#tenNguoiDung', 6),
-                Validator.isPassword('#matKhau',messagePassword),
-                Validator.comparePassword('#kiemTraMatKhau','matKhau',messageConfirmPassword),
+                Validator.isPassword('#matKhau', messagePassword),
+                Validator.comparePassword('#kiemTraMatKhau', 'matKhau', messageConfirmPassword),
             ]
         })
     </script>

@@ -41,27 +41,52 @@ function fixButtons() {
             <h2>Sửa người dùng</h2>
             <form class="form" id="form-fix">
                 <div class="form-group">
-                    <label for="username">Tên người dùng:</label>
-                    <input type="text" name="username" id="username" placeholder="Nhập tên người dùng" value="${users[index].username}">
+                    <label for="matKhau">Mật khẩu:</label>
+                    <input type="password" name="matKhau" id="matKhau" placeholder="Nhập mật khẩu">
                     <span class="form-message"></span>
                 </div>
                 <div class="form-group">
-                    <label for="phone">Số điện thoại:</label>
-                    <input type="tel" name="phone" id="phone" placeholder="Nhập số điện thoại" value="${users[index].phone}">
+                    <label for="kiemTraMatKhau">Nhập lại mật khẩu:</label>
+                    <input type="password" name="kiemTraMatKhau" id="kiemTraMatKhau" placeholder="Nhập mật khẩu">
+                    <span class="form-message"></span>
+                </div>
+                <div class="form-group">
+                    <label for="soDienThoai">Số điện thoại:</label>
+                    <input type="tel" name="soDienThoai" id="soDienThoai" placeholder="Nhập số điện thoại">
                     <span class="form-message"></span>
                 </div>
                 <div class="form-group">
                     <label for="email">Email:</label>
-                    <input type="email" name="email" id="email" placeholder="Nhập email" value="${users[index].email}">
+                    <input type="tel" name="email" id="email" placeholder="Nhập số điện thoại">
                     <span class="form-message"></span>
                 </div>
                 <div class="form-group">
-                        <label for="address">Địa chỉ:</label>
-                        <input type="text" name="address" id="address" placeholder="Nhập địa chỉ" value="${users[index].address}">
-                        <span class="form-message"></span>
+                    <label for="diaChi">Địa chỉ:</label>
+                    <div class="address">
+                        <select name="tinhThanh" id="tinhThanh">
+                            <option value="">Chọn Tỉnh/Thành phố</option>
+                        </select>
+                        <select name="quanHuyen" id="quanHuyen">
+                            <option value="">Chọn Quận/Huyện</option>
+                        </select>
+                        <select name="xa" id="xa">
+                            <option value="">Chọn Xã/Phường</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="duong">Đường/Số nhà:</label>
+                        <input type="text" id="duong" name="duong" placeholder="Số nhà, tên đường">
+                    </div>
+                    <span class="form-message"></span>
                 </div>
                 <div class="form-group">
-                    <button type="button" class="btn-submit">Xác nhận</button>
+                    <label for="vaiTro">Vai trò:</label>
+                    <select name="vaiTro" id="vaiTro">
+                        <option value="">Lựa chọn</option>
+                        <option value="0">Người dùng</option>
+                        <option value="1">Người quản trị</option>
+                    </select>
+                    <span class="form-message"></span>
                 </div>
             </form>
             `;

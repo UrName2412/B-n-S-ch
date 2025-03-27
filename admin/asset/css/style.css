@@ -302,11 +302,12 @@ a {
 
 .grid-header{
     display: grid;
-    grid-template-columns: minmax(30px,0.5fr) repeat(2,minmax(90px,2fr)) minmax(120px,2.5fr) minmax(120px,3fr) minmax(50px,1.2fr);
+    grid-template-columns: minmax(60px,1fr) repeat(2,minmax(90px,2fr)) minmax(120px,2.5fr) minmax(120px,3fr) minmax(50px,1fr);
     font-weight: bold;
     border-bottom: 2px solid var(--color-dark);
     padding: 0.5rem 0;
     text-align: center;
+    grid-auto-flow: dense;
 }
 
 .grid-header-product{
@@ -339,11 +340,12 @@ a {
 
 .grid-row{
     display: grid;
-    grid-template-columns: minmax(30px,0.5fr) repeat(2,minmax(90px,2fr)) minmax(120px,2.5fr) minmax(120px,3fr) minmax(50px,1.2fr);
+    grid-template-columns: minmax(60px,1fr) repeat(2,minmax(90px,2fr)) minmax(120px,2.5fr) minmax(120px,3fr) minmax(50px,1fr);
     padding: 0.5rem 0;
     border-bottom: 1px solid var(--color-light);
     margin-top: 0.3rem;
     box-sizing: border-box;
+    grid-auto-flow: dense;
 }
 .grid-row-cart.sm *:not(:nth-child(1),:nth-child(2)),
 .grid-row-product.sm *:not(:nth-child(1),:nth-child(2)),

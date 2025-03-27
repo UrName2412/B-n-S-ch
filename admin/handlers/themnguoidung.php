@@ -5,7 +5,7 @@ session_start();
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $tenNguoiDung = $_POST["tenNguoiDung"];
-    $vaiTro = (int)((bool)$_POST["vaiTro"]);
+    $vaiTro = $_POST["vaiTro"];
 
     $stmt = $database->prepare("SELECT tenNguoiDung FROM nguoidung WHERE nguoidung.vaiTro = ?");
     $stmt->bind_param("i",$vaiTro);
@@ -27,25 +27,15 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if ($flag){
         $matKhau = $_POST["matKhau"];
         $soDienThoai = $_POST["soDienThoai"];
+        $email = $_POST["email"];
         $tinhThanh = $_POST["tinhThanh"];
         $quanHuyen = $_POST["quanHuyen"];
         $xa = $_POST["xa"];
-        $chiTiet = $_POST["chiTiet"];
-        $trangThai = true;
-
-        $stmt = $database->prepare("INSERT INTO nguoidung(tenNguoiDung, matKhau, vaiTro, trangThai) VALUES (?,?,?,?)");
-        $stmt->bind_param("ssii", $tenNguoiDung, $matKhau, $vaiTro, $trangThai);
-        $stmt->execute();
-        $lastId = $stmt->insert_id;
-        $stmt->close();
-
-        $stmt = $database->prepare("INSERT INTO nguoidung_diachi(tinhThanh, quanHuyen, xa, chiTiet, idNguoiDung) VALUES (?,?,?,?,?)");
-        $stmt->bind_param("ssssi", $tinhThanh, $quanHuyen, $xa, $chiTiet, $lastId);
-        $stmt->execute();
-        $stmt->close();
-
-        $stmt = $database->prepare("INSERT INTO nguoidung_sodienthoai(soDienThoai, idNguoiDung) VALUES (?,?)");
-        $stmt->bind_param("si", $soDienThoai, $lastId);
+        $duong = $_POST["duong"];
+        $trangThai = 1;
+        $stmt = $database->prepare("INSERT INTO nguoidung(tenNguoiDung, matKhau, soDienThoai, email, tinhThanh, quanHuyen, xa, duong, vaiTro, trangThai) 
+        VALUES (?,?,?,?,?,?,?,?,?,?)");
+        $stmt->bind_param("ssssssssii", $tenNguoiDung, $matKhau, $soDienThoai, $email, $tinhThanh, $quanHuyen, $xa, $duong, $vaiTro, $trangThai);
         $stmt->execute();
         $stmt->close();
     } else {

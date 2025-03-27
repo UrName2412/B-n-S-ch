@@ -145,64 +145,67 @@
             </button>
             <div class="menu-add">
                 <h2>Thêm Sản Phẩm</h2>
-                <form class="form" id="form-add">
+                <form class="form" id="form-add" method="POST" action="../handlers/themsanpham.php">
                     <div class="form-group">
-                        <label for="picture">Hình ảnh:</label>
-                        <input type="file" name="picture" id="picture" placeholder="Chọn ảnh">
+                        <label for="hinhAnh">Hình ảnh:</label>
+                        <input type="file" name="hinhAnh" id="hinhAnh" placeholder="Chọn ảnh">
                         <span class="form-message"></span>
                     </div>
                     <div class="form-group">
-                        <label for="id">Mã sách:</label>
-                        <input type="text" name="id" id="id" placeholder="Nhập mã sách">
+                        <label for="tenSach">Tên sách:</label>
+                        <input type="text" name="tenSach" id="tenSach" placeholder="Nhập tên sách">
                         <span class="form-message"></span>
                     </div>
                     <div class="form-group">
-                        <label for="name">Tên sách:</label>
-                        <input type="text" name="name" id="name" placeholder="Nhập tên sách">
+                        <label for="tacGia">Tác giả:</label>
+                        <input type="text" name="tacGia" id="tacGia" placeholder="Nhập tác giả">
                         <span class="form-message"></span>
                     </div>
                     <div class="form-group">
-                        <label for="author">Tác giả:</label>
-                        <input type="text" name="author" id="author" placeholder="Nhập tác giả">
-                        <span class="form-message"></span>
-                    </div>
-                    <div class="form-group">
-                        <label for="category">Thể loại:</label>
-                        <select name="category" id="category">
+                        <label for="theLoai">Thể loại:</label>
+                        <select name="theLoai" id="theLoai">
                             <option value="">Lựa chọn:</option>
-                            <option value="thieunhi">Thiếu nhi</option>
-                            <option value="kynangsong">Kỹ năng sống</option>
-                            <option value="tieuthuyet">Tiểu thuyết</option>
-                            <option value="phatgiao">Phật giáo</option>
-                            <option value="vanhoc">Văn học</option>
-                            <option value="truyencamhung">Truyền cảm hứng</option>
-                            <option value="hoiky">Hồi ký</option>
-                            <option value="tamly">Tâm lý</option>
-                            <option value="khoahockithuat">Khoa học kĩ thuật</option>
-                            <option value="tongiao">Tôn giáo</option>
-                            <option value="trinhtham">Trinh thám</option>
-                            <option value="tanvan">Tản văn</option>
-                            <option value="kinhte">Kinh tế</option>
-                            <option value="giatuong">Giả tưởng</option>
-                            <option value="thieunhi">Thiếu nhi</option>
-                            <option value="giaotrinh">Giáo trình</option>
-                            <option value="tudien">Từ điển</option>
+                            <?php
+                                require '../config/config.php';
+                                $stmt = $database->prepare("SELECT * FROM theloai");
+                                $stmt->execute();
+                                $result = $stmt->get_result();
+                                while ($row = $result->fetch_assoc()) {
+                                    echo "<option value='".$row['maTheLoai']."'>".$row['tenTheLoai']."</option>";
+                                }
+                            ?>
                         </select>
                         <span class="form-message"></span>
                     </div>
                     <div class="form-group">
-                        <label for="nxb">Nhà xuất bản:</label>
-                        <input type="text" name="nxb" id="nxb" placeholder="Nhập nhà xuất bản">
+                        <label for="nhaXuatBan">Nhà xuất bản:</label>
+                        <select name="nhaXuatBan" id="nhaXuatBan">
+                            <option value="">Lựa chọn:</option>
+                            <?php
+                                require '../config/config.php';
+                                $stmt = $database->prepare("SELECT * FROM nhaxuatban");
+                                $stmt->execute();
+                                $result = $stmt->get_result();
+                                while ($row = $result->fetch_assoc()) {
+                                    echo "<option value='".$row['maNhaXuatBan']."'>".$row['tenNhaXuatBan']."</option>";
+                                }
+                            ?>
+                        </select>
                         <span class="form-message"></span>
                     </div>
                     <div class="form-group">
-                        <label for="price">Giá tiền:</label>
-                        <input type="text" name="price" id="price" placeholder="Nhập giá tiền">
+                        <label for="giaBan">Giá bán:</label>
+                        <input type="text" name="giaBan" id="giaBan" placeholder="Nhập giá tiền">
                         <span class="form-message"></span>
                     </div>
                     <div class="form-group">
-                        <label for="description">Mô tả:</label>
-                        <textarea name="description"></textarea>
+                        <label for="soTrang">Số trang:</label>
+                        <input type="text" name="soTrang" id="soTrang" placeholder="Nhập số trang">
+                        <span class="form-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="moTa">Mô tả:</label>
+                        <textarea name="moTa"></textarea>
                         <span class="form-message"></span>
                     </div>
                     <div class="form-group">
@@ -228,12 +231,11 @@
             form: '#form-add',
             errorSelector: '.form-message',
             rules: [
-                Validator.isRequired('#id',messageRequired),
-                Validator.isRequired('#name',messageRequired),
-                Validator.isRequired('#author',messageRequired),
-                Validator.isRequired('#category','Vui lòng chọn thể loại'),
-                Validator.isRequired('#nxb',messageRequired),
-                Validator.isRequired('#price',messageRequired),
+                Validator.isRequired('#tenSach',messageRequired),
+                Validator.isRequired('#tacGia',messageRequired),
+                Validator.isRequired('#theLoai','Vui lòng chọn thể loại'),
+                Validator.isRequired('#nhaXuatBan',messageRequired),
+                Validator.isRequired('#giaBan',messageRequired),
             ]
         })
     </script>
