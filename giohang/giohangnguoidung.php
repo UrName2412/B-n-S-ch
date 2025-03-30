@@ -64,7 +64,8 @@
                         </li>
                         <li class="nav-item">
                             <div>
-                                <a href="../nguoidung/user.php"><i class="fas fa-user" id="avatar" style="color: black;"></i></a>
+                                <a href="../nguoidung/user.php"><i class="fas fa-user" id="avatar"
+                                        style="color: black;"></i></a>
                                 <span id="profile-name" style="top: 20px; padding: 2px; display: none;">Nguyễn Văn
                                     A</span>
                             </div>
@@ -91,18 +92,22 @@
         <div class="d-flex align-items-center">
             <!-- Section for Total and Checkout -->
             <section class="cart-total mt-4">
-                <div class="d-flex justify-content-between fw-bold">
-                    <span>Tổng cộng:</span>
-                    <span class="text-danger">đ</span>
-                </div>
-
-                <!-- Buttons -->
-                <div class="text-end d-flex justify-content-end mt-3">
-                    <a href="../sanpham/sanpham-user.php" class="btn btn-secondary me-2"> <i
-                            class="fas fa-arrow-left mr-2"></i> Tiếp tục mua sắm</a>
-                    <button id="thanhtoan" class="btn btn-success" onclick="checkCart()">Thanh toán</button>
+                <div class="w-100">
+                    <!-- Phần hiển thị tổng giá -->
+                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center fw-bold">
+                        <span>Tổng cộng:</span>
+                        <span class="text-danger h5 mb-0">đ</span>
+                    </div>
+                    <!-- Phần 2 nút hành động -->
+                    <div class="d-flex flex-column flex-md-row justify-content-end mt-3">
+                        <a href="../sanpham/sanpham-user.php" class="btn btn-secondary mb-2 mb-md-0 me-md-2">
+                            <i class="fas fa-arrow-left"></i> Tiếp tục mua sắm
+                        </a>
+                        <button id="thanhtoan" class="btn btn-success" onclick="checkCart()">Thanh toán</button>
+                    </div>
                 </div>
             </section>
+
         </div>
         <!--emptyc-cart-->
         <div id="empty-cart-message" class="cart_container align-items-center mt-4 mx-5"
@@ -177,8 +182,7 @@
         </div>
     </footer>
     <!--Modal-->
-    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" 
-        aria-hidden="true">
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -196,8 +200,7 @@
         </div>
     </div>
     <!-- Modal -->
-    <div class="modal fade" id="empty" tabindex="-1" 
-        aria-hidden="true">
+    <div class="modal fade" id="empty" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -208,7 +211,8 @@
                     Giỏ hàng của bạn hiện đang trống
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" onclick="window.location.href = '../sanpham/sanpham-user.php'">Mua sắm ngay</button>
+                    <button type="button" class="btn btn-primary"
+                        onclick="window.location.href = '../sanpham/sanpham-user.php'">Mua sắm ngay</button>
                 </div>
             </div>
         </div>

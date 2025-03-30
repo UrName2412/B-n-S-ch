@@ -6,6 +6,17 @@ const listProductHTML = document.querySelector('.listProduct');
 // Add event listeners for all add-to-cart buttons
 document.addEventListener('DOMContentLoaded', () => { })
 listProductHTML.addEventListener('click', addButton => {
+
+    const modal = document.getElementById('cartModal');
+
+    modal.addEventListener('show.bs.modal', function () {
+        modal.removeAttribute('inert'); // Gỡ bỏ inert khi mở modal
+    });
+
+    modal.addEventListener('hidden.bs.modal', function () {
+        modal.setAttribute('inert', ''); // Thêm inert khi modal đóng
+    });
+
     if (addButton.target.closest('.btn')) {
         const card = addButton.target.closest('.card');
         const productTitle = card.querySelector('.card-title').textContent;
