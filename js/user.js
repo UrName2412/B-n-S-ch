@@ -1,8 +1,8 @@
 const iconCartSpan = document.querySelector(".cart-icon span");
 let productCart = [];
 
-const loadFromLocalStorage = () => {
-    const storedCart = localStorage.getItem('cart');
+const loadFromsessionStorage = () => {
+    const storedCart = sessionStorage.getItem('cart');
     cart = storedCart ? JSON.parse(storedCart) : [];
 
     // Update cart icon with the total quantity on page load
@@ -18,4 +18,4 @@ const loadFromLocalStorage = () => {
     }
 };
 
-loadFromLocalStorage();
+loadFromsessionStorage();

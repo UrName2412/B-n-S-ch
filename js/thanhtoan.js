@@ -1,7 +1,7 @@
 let cartQuantity = [];
 const iconCartSpan = document.querySelector('.cart-icon span')
-const loadFromLocalStorage = () => {
-    const storedCart = localStorage.getItem('cart');
+const loadFromsessionStorage = () => {
+    const storedCart = sessionStorage.getItem('cart');
     cartQuantity = storedCart ? JSON.parse(storedCart) : [];
     updateTotal();
 };
@@ -10,7 +10,7 @@ const updateTotal = () => {
     const totalQuantity = cartQuantity.reduce((acc, item) => acc + item.quantity, 0);
     iconCartSpan.innerText = totalQuantity < 99 ? totalQuantity : '99+';
 };
-loadFromLocalStorage();
+loadFromsessionStorage();
 
 
 // Định nghĩa hàm Validator
@@ -146,8 +146,8 @@ document.addEventListener("DOMContentLoaded", function () {
             const successModal = new bootstrap.Modal(document.getElementById('successModal'));
             successModal.show();
             
-            localStorage.clear(); // Xóa giỏ hàng
-            loadFromLocalStorage();
+            sessionStorage.clear(); // Xóa giỏ hàng
+            loadFromsessionStorage();
             setTimeout(() => {
                 window.location.href = "hoaDon.php";
             }, 3000); // Chờ 3 giây
