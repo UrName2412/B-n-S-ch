@@ -12,11 +12,12 @@ function start() {
 
 //function
 function getProducts() {
-    return fetch(productsAPI)
+    return fetch('../handlers/laysanpham.php')
         .then(response => response.json())
         .then(data => {
             products = data;
-        });
+        })
+        .catch(error => console.error("Lỗi khi fetch dữ liệu:", error));
 }
 
 function renderProducts() {
@@ -34,75 +35,58 @@ function fixButtons() {
     fixButtons.forEach((fixButton) => {
         fixButton.addEventListener('click', (event) => {
             var gridRow = event.target.closest('.grid-row-product');
-            let id = gridRow.querySelector('.grid-row-product textarea[placeholder="Nhập id..."]').value;
-            let index = products.findIndex(product => product.id == id);
+            let maSach = gridRow.querySelector('.grid-row-product textarea[placeholder="Nhập mã sách..."]').value;
+            let index = products.findIndex(product => product.maSach == maSach);
             menuFix.innerHTML = `
             <h2>Sửa sản phẩm</h2>
             <form class="form" id="form-fix">
+                <input type="hidden" name="maSach" value="${maSach}">
                 <div class="form-group">
                     <label for="hinhAnh">Hình ảnh:</label>
-                    <input type="file" name="hinhAnh" id="hinhAnh" placeholder="Chọn ảnh">
+                    <input type="file" name="hinhAnh" placeholder="Chọn ảnh">
                     <span class="form-message"></span>
                 </div>
                 <div class="form-group">
                     <label for="tenSach">Tên sách:</label>
-                    <input type="text" name="tenSach" id="tenSach" placeholder="Nhập tên sách">
+                    <input type="text" name="tenSach" placeholder="Nhập tên sách" value="${products[index].tenSach}">
                     <span class="form-message"></span>
                 </div>
                 <div class="form-group">
                     <label for="tacGia">Tác giả:</label>
-                    <input type="text" name="tacGia" id="tacGia" placeholder="Nhập tác giả">
+                    <input type="text" name="tacGia" placeholder="Nhập tác giả" value="${products[index].tacGia}">
                     <span class="form-message"></span>
                 </div>
                 <div class="form-group">
                     <label for="theLoai">Thể loại:</label>
-                    <select name="theLoai" id="theLoai">
+                    <select name="theLoai" id="suaTheLoai">
                         <option value="">Lựa chọn:</option>
-                        <?php
-                            require '../config/config.php';
-                            $stmt = $database->prepare("SELECT * FROM theloai");
-                            $stmt->execute();
-                            $result = $stmt->get_result();
-                            while ($row = $result->fetch_assoc()) {
-                                echo "<option value='".$row['maTheLoai']."'>".$row['tenTheLoai']."</option>";
-                            }
-                        ?>
                     </select>
                     <span class="form-message"></span>
                 </div>
                 <div class="form-group">
                     <label for="nhaXuatBan">Nhà xuất bản:</label>
-                    <select name="nhaXuatBan" id="nhaXuatBan">
+                    <select name="nhaXuatBan" id="suaNhaXuatBan">
                         <option value="">Lựa chọn:</option>
-                        <?php
-                            require '../config/config.php';
-                            $stmt = $database->prepare("SELECT * FROM nhaxuatban");
-                            $stmt->execute();
-                            $result = $stmt->get_result();
-                            while ($row = $result->fetch_assoc()) {
-                                echo "<option value='".$row['maNhaXuatBan']."'>".$row['tenNhaXuatBan']."</option>";
-                            }
-                        ?>
                     </select>
                     <span class="form-message"></span>
                 </div>
                 <div class="form-group">
                     <label for="giaBan">Giá bán:</label>
-                    <input type="text" name="giaBan" id="giaBan" placeholder="Nhập giá tiền">
+                    <input type="text" name="giaBan" placeholder="Nhập giá tiền" value="${products[index].giaBan}">
                     <span class="form-message"></span>
                 </div>
                 <div class="form-group">
                     <label for="soTrang">Số trang:</label>
-                    <input type="text" name="soTrang" id="soTrang" placeholder="Nhập số trang">
+                    <input type="text" name="soTrang" placeholder="Nhập số trang" value="${products[index].soTrang}">
                     <span class="form-message"></span>
                 </div>
                 <div class="form-group">
                     <label for="moTa">Mô tả:</label>
-                    <textarea name="moTa"></textarea>
+                    <textarea name="moTa">${products[index].moTa}</textarea>
                     <span class="form-message"></span>
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn-submit">Thêm</button>
+                    <button type="submit" class="btn-submit">Xác nhận</button>
                 </div>
             </form>
             `;
@@ -110,32 +94,60 @@ function fixButtons() {
             openToolMenu('.menu-fix');
             behindMenu = document.querySelector('.behindMenu');
             submitButton = document.querySelector('#form-fix .btn-submit');
-
-            submitButton.addEventListener('click', () => {
-                openModal(stringModal, stringAlert).then((result) => {
-                    if (result) {
-                        if (submitButton) {
-                            dataInputs = document.querySelectorAll('#form-fix input');
-                            dataInputs.forEach(dataInput => {
-                                products[index][dataInput.id] = dataInput.value;
-                            })
-                            textareaGridRows = gridRow.querySelectorAll('textarea');
-                            const data = ['id', 'name', 'author', 'category', 'nxb', 'price', 'picture'];
-                            var count = 0;
-                            textareaGridRows.forEach(textareaGridRow => {
-                                textareaGridRow.innerHTML = products[index][data[count]];
-                                count++;
-                            })
-                            menuFix.remove();
-                            toolMenu.style.display = 'none';
-                            behindMenu.style.display = 'none';
+            behindMenu.style.display = 'block';
+            fetch("../handlers/laytheloai.php")
+                .then(response => response.json())
+                .then(data => {
+                    let selectTheLoai = document.querySelector('#suaTheLoai');
+                    data.forEach(theLoai => {
+                        let option = document.createElement("option");
+                        option.value = theLoai.maTheLoai;
+                        option.textContent = theLoai.tenTheLoai;
+                        if (theLoai.maTheLoai == products[index].maTheLoai) {
+                            option.selected = true;
                         }
-                    }
-                });
-            })
+                        selectTheLoai.appendChild(option);
+                    });
+                })
+            fetch("../handlers/laynhaxuatban.php")
+                .then(response => response.json())
+                .then(data => {
+                    let selectNhaXuatBan = document.querySelector('#suaNhaXuatBan');
+                    data.forEach(nhaXuatBan => {
+                        let option = document.createElement("option");
+                        option.value = nhaXuatBan.maNhaXuatBan;
+                        option.textContent = nhaXuatBan.tenNhaXuatBan;
+                        if (nhaXuatBan.maNhaXuatBan == products[index].maNhaXuatBan) {
+                            option.selected = true;
+                        }
+                        selectNhaXuatBan.appendChild(option);
+                    });
+                })
+
+            // submitButton.addEventListener('click', () => {
+            //     openModal(stringModal, stringAlert).then((result) => {
+            //         if (result) {
+            //             if (submitButton) {
+            //                 dataInputs = document.querySelectorAll('#form-fix input');
+            //                 dataInputs.forEach(dataInput => {
+            //                     products[index][dataInput.id] = dataInput.value;
+            //                 })
+            //                 textareaGridRows = gridRow.querySelectorAll('textarea');
+            //                 const data = ['id', 'name', 'tacGia', 'maTheLoai', 'maNhaXuatBan', 'price', 'picture']; //đợi fix
+            //                 var count = 0;
+            //                 textareaGridRows.forEach(textareaGridRow => {
+            //                     textareaGridRow.innerHTML = products[index][data[count]];
+            //                     count++;
+            //                 })
+            //                 menuFix.remove();
+            //                 toolMenu.style.display = 'none';
+            //                 behindMenu.style.display = 'none';
+            //             }
+            //         }
+            //     });
+            // })
         })
     })
-    // Mốt làm lại cái select
 }
 
 function deleteButtons() {
@@ -151,7 +163,7 @@ function deleteButtons() {
                         gridRow.remove();
                         let id = gridRow.querySelector('.grid-row-product textarea[placeholder="Nhập id..."]').value;
                         let index = products.findIndex(product => product.id == id);
-                        products[index].isDeleted = "true";
+                        products[index].trangThai = 0;
                     }
                 }
             });
@@ -170,7 +182,7 @@ function deleteButtonsAllProducts() {
                         var gridRow = event.target.closest('.grid-row-product');
                         let id = gridRow.querySelector('.grid-row-product textarea[placeholder="Nhập id..."]').value;
                         let index = products.findIndex(product => product.id == id);
-                        products[index].isDeleted = "true";
+                        products[index].trangThai = 0;
                         allProducts(listProductsBlock);
                     }
                 }
@@ -192,7 +204,7 @@ function restoreButtons() {
                         gridRow.remove();
                         let id = gridRow.querySelector('.grid-row-product textarea[placeholder="Nhập id..."]').value;
                         let index = products.findIndex(product => product.id == id);
-                        products[index].isDeleted = "false";
+                        products[index].trangThai = 1;
                     }
                 }
             })
@@ -211,7 +223,7 @@ function restoreButtonsAllProducts() {
                         var gridRow = event.target.closest('.grid-row-product');
                         let id = gridRow.querySelector('.grid-row-product textarea[placeholder="Nhập id..."]').value;
                         let index = products.findIndex(product => product.id == id);
-                        products[index].isDeleted = "false";
+                        products[index].trangThai = 1;
                         allProducts(listProductsBlock);
                     }
                 }
@@ -225,7 +237,7 @@ function searchButton() {
     var input = document.getElementById('searchInput');
     var valueSearch = input.value.trim().toLowerCase();
     const productFilterValue = document.getElementById('productFilter').value;
-    const keyProductSearch = "name";
+    const keyProductSearch = "tenSach";
     if (valueSearch == "") {
         productFilter();
     } else {
@@ -233,24 +245,24 @@ function searchButton() {
         products.forEach(product => {
             if (typeof (product[keyProductSearch]) !== "string") {
                 var data = String(product[keyProductSearch]);
-            } else data = product[keyProductSearch]
+            } else data = product[keyProductSearch];
             data = data.trim().toLowerCase();
-            if (data.includes(valueSearch) && !data.includes("gmail")) {
+            if (data.includes(valueSearch)){
                 flag = false;
                 var newProduct = document.createElement('div');
                 newProduct.className = 'grid-row-product';
-                if (product.isDeleted == "true" && productFilterValue != "activeProducts") {
+                if (!product.trangThai&& productFilterValue != "activeProducts") {
                     newProduct.classList.add('banned');
                     newProduct.innerHTML = `
-                            <textarea placeholder="Nhập id..." readonly>${product.id}</textarea>
-                            <textarea placeholder="Nhập tên sản phẩm..." readonly>${product.name}</textarea>
-                            <textarea placeholder="Nhập tên tác giả..." readonly>${product.author}</textarea>
-                            <textarea placeholder="chọn thể loại..." readonly>${product.category}</textarea>
-                            <textarea placeholder="Nhập nhà xuất bản..." readonly>${product.nxb}</textarea>
-                            <textarea placeholder="Nhập giá tiền..." readonly>${product.price}</textarea>
+                            <textarea placeholder="Nhập mã sách..." readonly>${product.maSach}</textarea>
+                            <textarea placeholder="Nhập tên sản phẩm..." readonly>${product.tenSach}</textarea>
+                            <textarea placeholder="Nhập tên tác giả..." readonly>${product.tacGia}</textarea>
+                            <textarea placeholder="chọn thể loại..." readonly>${product.tenTheLoai}</textarea>
+                            <textarea placeholder="Nhập nhà xuất bản..." readonly>${product.tenNhaXuatBan}</textarea>
+                            <textarea placeholder="Nhập giá tiền..." readonly>${product.giaBan}</textarea>
                             <div class="input-picture">
                                 <input type="file" name="picture" class="picture" placeholder="Chọn ảnh" onchange="displayFileName()" style="display: none;">
-                                <textarea placeholder="Nhập nội dung..." class="file-name" readonly>${product.picture}</textarea>
+                                <textarea placeholder="Nhập nội dung..." class="file-name" readonly>${product.hinhAnh}</textarea>
                             </div>
                             <div class="tool">
                                 <button type="button" class="restore">
@@ -260,17 +272,17 @@ function searchButton() {
                         `;
                     listProductsBlock.appendChild(newProduct);
                 }
-                if (product.isDeleted == "false" && productFilterValue != "deletedProducts") {
+                if (product.trangThai && productFilterValue != "hiddenProducts") {
                     newProduct.innerHTML = `
-                            <textarea placeholder="Nhập id..." readonly>${product.id}</textarea>
-                            <textarea placeholder="Nhập tên sản phẩm..." readonly>${product.name}</textarea>
-                            <textarea placeholder="Nhập tên tác giả..." readonly>${product.author}</textarea>
-                            <textarea placeholder="chọn thể loại..." readonly>${product.category}</textarea>
-                            <textarea placeholder="Nhập nhà xuất bản..." readonly>${product.nxb}</textarea>
-                            <textarea placeholder="Nhập giá tiền..." readonly>${product.price}</textarea>
+                            <textarea placeholder="Nhập mã sách..." readonly>${product.maSach}</textarea>
+                            <textarea placeholder="Nhập tên sản phẩm..." readonly>${product.tenSach}</textarea>
+                            <textarea placeholder="Nhập tên tác giả..." readonly>${product.tacGia}</textarea>
+                            <textarea placeholder="chọn thể loại..." readonly>${product.tenTheLoai}</textarea>
+                            <textarea placeholder="Nhập nhà xuất bản..." readonly>${product.tenNhaXuatBan}</textarea>
+                            <textarea placeholder="Nhập giá tiền..." readonly>${product.giaBan}</textarea>
                             <div class="input-picture">
                                 <input type="file" name="picture" class="picture" placeholder="Chọn ảnh" onchange="displayFileName()" style="display: none;">
-                                <textarea placeholder="Nhập nội dung..." class="file-name" readonly>${product.picture}</textarea>
+                                <textarea placeholder="Nhập nội dung..." class="file-name" readonly>${product.hinhAnh}</textarea>
                             </div>
                             <div class="tool">
                                 <button type="button" class="fix">
@@ -298,26 +310,26 @@ function searchButton() {
 function productFilter() {
     const productFilter = document.getElementById('productFilter');
     if (productFilter.value == "activeProducts") activeProducts(listProductsBlock);
-    else if (productFilter.value == "deletedProducts") deletedProducts(listProductsBlock);
+    else if (productFilter.value == "hiddenProducts") hiddenProducts(listProductsBlock);
     else if (productFilter.value == "allProducts") allProducts(listProductsBlock);
 }
 
 function activeProducts(listProductsBlock) {
     listProductsBlock.innerHTML = '';
     products.forEach(function (product) {
-        if (product.isDeleted == "false") {
+        if (product.trangThai){
             var newProduct = document.createElement('div');
             newProduct.className = 'grid-row-product';
             newProduct.innerHTML = `
-                <textarea placeholder="Nhập id..." readonly>${product.id}</textarea>
-                <textarea placeholder="Nhập tên sản phẩm..." readonly>${product.name}</textarea>
-                <textarea placeholder="Nhập tên tác giả..." readonly>${product.author}</textarea>
-                <textarea placeholder="chọn thể loại..." readonly>${product.category}</textarea>
-                <textarea placeholder="Nhập nhà xuất bản..." readonly>${product.nxb}</textarea>
-                <textarea placeholder="Nhập giá tiền..." readonly>${product.price}</textarea>
+                <textarea placeholder="Nhập mã sách..." readonly>${product.maSach}</textarea>
+                <textarea placeholder="Nhập tên sản phẩm..." readonly>${product.tenSach}</textarea>
+                <textarea placeholder="Nhập tên tác giả..." readonly>${product.tacGia}</textarea>
+                <textarea placeholder="chọn thể loại..." readonly>${product.tenTheLoai}</textarea>
+                <textarea placeholder="Nhập nhà xuất bản..." readonly>${product.tenNhaXuatBan}</textarea>
+                <textarea placeholder="Nhập giá tiền..." readonly>${product.giaBan}</textarea>
                 <div class="input-picture">
                     <input type="file" name="picture" class="picture" placeholder="Chọn ảnh" onchange="displayFileName()" style="display: none;">
-                    <textarea placeholder="Nhập nội dung..." class="file-name" readonly>${product.picture}</textarea>
+                    <textarea placeholder="Nhập nội dung..." class="file-name" readonly>${product.hinhAnh}</textarea>
                 </div>
                 <div class="tool">
                     <button type="button" class="fix">
@@ -340,18 +352,18 @@ function allProducts(listProductsBlock) {
     products.forEach(function (product) {
         var newProduct = document.createElement('div');
         newProduct.className = 'grid-row-product';
-        if (product.isDeleted == "true") {
+        if (!product.trangThai) {
             newProduct.classList.add('banned');
             newProduct.innerHTML = `
-                <textarea placeholder="Nhập id..." readonly>${product.id}</textarea>
-                <textarea placeholder="Nhập tên sản phẩm..." readonly>${product.name}</textarea>
-                <textarea placeholder="Nhập tên tác giả..." readonly>${product.author}</textarea>
-                <textarea placeholder="chọn thể loại..." readonly>${product.category}</textarea>
-                <textarea placeholder="Nhập nhà xuất bản..." readonly>${product.nxb}</textarea>
-                <textarea placeholder="Nhập giá tiền..." readonly>${product.price}</textarea>
+                <textarea placeholder="Nhập mã sách..." readonly>${product.maSach}</textarea>
+                <textarea placeholder="Nhập tên sản phẩm..." readonly>${product.tenSach}</textarea>
+                <textarea placeholder="Nhập tên tác giả..." readonly>${product.tacGia}</textarea>
+                <textarea placeholder="chọn thể loại..." readonly>${product.tenTheLoai}</textarea>
+                <textarea placeholder="Nhập nhà xuất bản..." readonly>${product.tenNhaXuatBan}</textarea>
+                <textarea placeholder="Nhập giá tiền..." readonly>${product.giaBan}</textarea>
                 <div class="input-picture">
                     <input type="file" name="picture" class="picture" placeholder="Chọn ảnh" onchange="displayFileName()" style="display: none;">
-                    <textarea placeholder="Nhập nội dung..." class="file-name" readonly>${product.picture}</textarea>
+                    <textarea placeholder="Nhập nội dung..." class="file-name" readonly>${product.hinhAnh}</textarea>
                 </div>
                 <div class="tool">
                     <button type="button" class="restore">
@@ -359,17 +371,17 @@ function allProducts(listProductsBlock) {
                     </button>
                 </div>
             `;
-        } else if (product.isDeleted == "false") {
+        } else if (product.trangThai) {
             newProduct.innerHTML = `
-                <textarea placeholder="Nhập id..." readonly>${product.id}</textarea>
-                <textarea placeholder="Nhập tên sản phẩm..." readonly>${product.name}</textarea>
-                <textarea placeholder="Nhập tên tác giả..." readonly>${product.author}</textarea>
-                <textarea placeholder="chọn thể loại..." readonly>${product.category}</textarea>
-                <textarea placeholder="Nhập nhà xuất bản..." readonly>${product.nxb}</textarea>
-                <textarea placeholder="Nhập giá tiền..." readonly>${product.price}</textarea>
+                <textarea placeholder="Nhập mã sách..." readonly>${product.maSach}</textarea>
+                <textarea placeholder="Nhập tên sản phẩm..." readonly>${product.tenSach}</textarea>
+                <textarea placeholder="Nhập tên tác giả..." readonly>${product.tacGia}</textarea>
+                <textarea placeholder="chọn thể loại..." readonly>${product.tenTheLoai}</textarea>
+                <textarea placeholder="Nhập nhà xuất bản..." readonly>${product.tenNhaXuatBan}</textarea>
+                <textarea placeholder="Nhập giá tiền..." readonly>${product.giaBan}</textarea>
                 <div class="input-picture">
                     <input type="file" name="picture" class="picture" placeholder="Chọn ảnh" onchange="displayFileName()" style="display: none;">
-                    <textarea placeholder="Nhập nội dung..." class="file-name" readonly>${product.picture}</textarea>
+                    <textarea placeholder="Nhập nội dung..." class="file-name" readonly>${product.hinhAnh}</textarea>
                 </div>
                 <div class="tool">
                     <button type="button" class="fix">
@@ -388,23 +400,23 @@ function allProducts(listProductsBlock) {
     restoreButtonsAllProducts();
 }
 
-function deletedProducts(listProductsBlock) {
+function hiddenProducts(listProductsBlock) {
     listProductsBlock.innerHTML = '';
     products.forEach(function (product) {
-        if (product.isDeleted == "true") {
+        if (!product.trangThai) {
             var newProduct = document.createElement('div');
             newProduct.className = 'grid-row-product';
             newProduct.classList.add('banned');
             newProduct.innerHTML = `
-                <textarea placeholder="Nhập id..." readonly>${product.id}</textarea>
-                <textarea placeholder="Nhập tên sản phẩm..." readonly>${product.name}</textarea>
-                <textarea placeholder="Nhập tên tác giả..." readonly>${product.author}</textarea>
-                <textarea placeholder="chọn thể loại..." readonly>${product.category}</textarea>
-                <textarea placeholder="Nhập nhà xuất bản..." readonly>${product.nxb}</textarea>
-                <textarea placeholder="Nhập giá tiền..." readonly>${product.price}</textarea>
+                <textarea placeholder="Nhập mã sách..." readonly>${product.maSach}</textarea>
+                <textarea placeholder="Nhập tên sản phẩm..." readonly>${product.tenSach}</textarea>
+                <textarea placeholder="Nhập tên tác giả..." readonly>${product.tacGia}</textarea>
+                <textarea placeholder="chọn thể loại..." readonly>${product.tenTheLoai}</textarea>
+                <textarea placeholder="Nhập nhà xuất bản..." readonly>${product.tenNhaXuatBan}</textarea>
+                <textarea placeholder="Nhập giá tiền..." readonly>${product.giaBan}</textarea>
                 <div class="input-picture">
                     <input type="file" name="picture" class="picture" placeholder="Chọn ảnh" onchange="displayFileName()" style="display: none;">
-                    <textarea placeholder="Nhập nội dung..." class="file-name" readonly>${product.picture}</textarea>
+                    <textarea placeholder="Nhập nội dung..." class="file-name" readonly>${product.hinhAnh}</textarea>
                 </div>
                 <div class="tool">
                     <button type="button" class="restore">
@@ -438,7 +450,7 @@ document.onclick = (e) => {
 }
 
 
-function handleFilter(author, category, nxb, priceStart, priceEnd) {
+function handleFilter(tacGia, maTheLoai, maNhaXuatBan, priceStart, priceEnd) {
     var flag = true;
 
     if (priceStart && (isNaN(priceStart) || priceStart <= 0 || !/^[1-9][0-9]{3,}$/.test(priceStart.toString()))) {
@@ -453,60 +465,54 @@ function handleFilter(author, category, nxb, priceStart, priceEnd) {
         createAlert("Giá tiền tối đa không được lớn hơn tối thiểu");
         return;
     }
-    const stringBannedTrue = "deletedProducts";
-    const stringBannedFalse = "activeProducts";
-    author = (author == "") ? null : author.trim().toLowerCase();
-    category = (category == "") ? null : category.trim().toLowerCase();
-    nxb = (nxb == "") ? null : nxb.trim().toLowerCase();
+    const stringHiddenTrue = "hiddenProducts";
+    const stringHiddenFalse = "activeProducts";
+    tacGia = (tacGia == "") ? null : tacGia.trim().toLowerCase();
+    maTheLoai = (maTheLoai == "") ? null : maTheLoai;
+    maNhaXuatBan = (maNhaXuatBan == "") ? null : maNhaXuatBan;
     priceStart = parseInt(priceStart);
     priceEnd = parseInt(priceEnd);
 
 
     var productFilterValue = document.getElementById('productFilter').value;
 
-    if (!author && !category && !nxb && !priceStart && !priceEnd) {
+    if (!tacGia && !maTheLoai && !maNhaXuatBan && !priceStart && !priceEnd) {
         listProductsBlock.innerHTML = '';
         productFilter();
         return;
     }
     listProductsBlock.innerHTML = '';
 
-
     for (let i = 0; i < products.length; i++) {
-        if (((products[i].isDeleted == "true") ? stringBannedTrue : stringBannedFalse) == productFilterValue || productFilterValue == "Tất cả sản phẩm") {
-
-            var authorTemp = products[i].author.trim().toLowerCase();
-            var categoryTemp = products[i].category.trim().toLowerCase();
-            var nxbTemp = products[i].nxb.trim().toLowerCase();
-            var priceTemp = parseInt(products[i].price.replace(/\./g, ''));
-
+        if ((products[i].trangThai ? stringHiddenFalse : stringHiddenTrue) == productFilterValue || productFilterValue == "allProducts") {
+            var tacGiaTemp = products[i].tacGia.trim().toLowerCase();
+            var maTheLoaiTemp = products[i].maTheLoai;
+            var maNhaXuatBanTemp = products[i].maNhaXuatBan;
+            var priceTemp = products[i].giaBan;
 
 
-            if (author && !authorTemp.includes(author)) continue;
-            if (category && category !== categoryTemp) continue;
-            if (nxb && nxb !== nxbTemp) continue;
+            if (tacGia && !tacGiaTemp.includes(tacGia)) continue;
+            if (maTheLoai && maTheLoai != maTheLoaiTemp) continue;
+            if (maNhaXuatBan && maNhaXuatBan != maNhaXuatBanTemp) continue;
             if (priceStart && priceStart > priceTemp) continue
             if (priceEnd && priceEnd < priceTemp) continue
-            console.log("Tìm:", author);
-            console.log("Trong:", authorTemp);
-            console.log("Kết quả:", authorTemp.includes(author));
 
             flag = false;
 
             var newProduct = document.createElement('div');
             newProduct.className = 'grid-row-product';
-            if (products[i].isDeleted == "true") {
+            if (!products[i].trangThai) {
                 newProduct.classList.add('banned');
                 newProduct.innerHTML = `
-                <textarea placeholder="Nhập id..." readonly>${products[i].id}</textarea>
-                <textarea placeholder="Nhập tên sản phẩm..." readonly>${products[i].name}</textarea>
-                <textarea placeholder="Nhập tên tác giả..." readonly>${products[i].author}</textarea>
-                <textarea placeholder="chọn thể loại..." readonly>${products[i].category}</textarea>
-                <textarea placeholder="Nhập nhà xuất bản..." readonly>${products[i].nxb}</textarea>
-                <textarea placeholder="Nhập giá tiền..." readonly>${products[i].price}</textarea>
+                <textarea placeholder="Nhập mã sách..." readonly>${products[i].maSach}</textarea>
+                <textarea placeholder="Nhập tên sản phẩm..." readonly>${products[i].tenSach}</textarea>
+                <textarea placeholder="Nhập tên tác giả..." readonly>${products[i].tacGia}</textarea>
+                <textarea placeholder="chọn thể loại..." readonly>${products[i].tenTheLoai}</textarea>
+                <textarea placeholder="Nhập nhà xuất bản..." readonly>${products[i].tenNhaXuatBan}</textarea>
+                <textarea placeholder="Nhập giá tiền..." readonly>${products[i].giaBan}</textarea>
                 <div class="input-picture">
                     <input type="file" name="picture" class="picture" placeholder="Chọn ảnh" onchange="displayFileName()" style="display: none;">
-                    <textarea placeholder="Nhập nội dung..." class="file-name" readonly>${products[i].picture}</textarea>
+                    <textarea placeholder="Nhập nội dung..." class="file-name" readonly>${products[i].hinhAnh}</textarea>
                 </div>
                 <div class="tool">
                     <button type="button" class="restore">
@@ -514,17 +520,17 @@ function handleFilter(author, category, nxb, priceStart, priceEnd) {
                     </button>
                 </div>
             `;
-            } else if (products[i].isDeleted == "false") {
+            } else if (products[i].trangThai) {
                 newProduct.innerHTML = `
-                <textarea placeholder="Nhập id..." readonly>${products[i].id}</textarea>
-                <textarea placeholder="Nhập tên sản phẩm..." readonly>${products[i].name}</textarea>
-                <textarea placeholder="Nhập tên tác giả..." readonly>${products[i].author}</textarea>
-                <textarea placeholder="chọn thể loại..." readonly>${products[i].category}</textarea>
-                <textarea placeholder="Nhập nhà xuất bản..." readonly>${products[i].nxb}</textarea>
-                <textarea placeholder="Nhập giá tiền..." readonly>${products[i].price}</textarea>
+                <textarea placeholder="Nhập mã sách..." readonly>${products[i].maSach}</textarea>
+                <textarea placeholder="Nhập tên sản phẩm..." readonly>${products[i].tenSach}</textarea>
+                <textarea placeholder="Nhập tên tác giả..." readonly>${products[i].tacGia}</textarea>
+                <textarea placeholder="chọn thể loại..." readonly>${products[i].tenTheLoai}</textarea>
+                <textarea placeholder="Nhập nhà xuất bản..." readonly>${products[i].tenNhaXuatBan}</textarea>
+                <textarea placeholder="Nhập giá tiền..." readonly>${products[i].giaBan}</textarea>
                 <div class="input-picture">
                     <input type="file" name="picture" class="picture" placeholder="Chọn ảnh" onchange="displayFileName()" style="display: none;">
-                    <textarea placeholder="Nhập nội dung..." class="file-name" readonly>${products[i].picture}</textarea>
+                    <textarea placeholder="Nhập nội dung..." class="file-name" readonly>${products[i].hinhAnh}</textarea>
                 </div>
                 <div class="tool">
                     <button type="button" class="fix">
@@ -549,9 +555,8 @@ function handleFilter(author, category, nxb, priceStart, priceEnd) {
     }
 }
 
-
-start();
-
 document.addEventListener("DOMContentLoaded", () => {
+    start();
     response768('.grid-row-product');
 });
+

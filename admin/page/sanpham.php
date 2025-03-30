@@ -1,3 +1,27 @@
+<?php
+require '../config/config.php';
+$stmt = $database->prepare("SELECT * FROM b01_theloai");
+$stmt->execute();
+$result = $stmt->get_result();
+$danhSachTheLoai = [];
+while ($row = $result->fetch_assoc()) {
+    $danhSachTheLoai[] = $row;
+}
+$result->close();
+$stmt->close();
+
+$stmt = $database->prepare("SELECT * FROM b01_nhaxuatban");
+$stmt->execute();
+$result = $stmt->get_result();
+$danhSachNhaXuatBan = [];
+while ($row = $result->fetch_assoc()) {
+    $danhSachNhaXuatBan[] = $row;
+}
+$result->close();
+$stmt->close();
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -42,7 +66,8 @@
         </aside>
         <!--End of Sidebar Section-->
 
-        <!--Header--><div class="header">
+        <!--Header-->
+        <div class="header">
             <div class="toggle">
                 <div class="logo">
                     <a href="nguoidung.php">
@@ -87,15 +112,21 @@
                     <span>:</span>
                     <select name="categorySearch" id="categorySearch">
                         <option value="">Lựa chọn</option>
-                        <option value="Kỹ năng sống">Kỹ năng sống</option>
-                        <option value="Tiểu thuyết">Tiểu thuyết</option>
+                        <?php
+                        foreach ($danhSachTheLoai as $theLoai) {
+                            echo "<option value='" . $theLoai['maTheLoai'] . "'>" . $theLoai['tenTheLoai'] . "</option>";
+                        }
+                        ?>
                     </select>
                     <label for="nxbSearch">Nhà xuất bản</label>
                     <span>:</span>
                     <select name="nxbSearch" id="nxbSearch">
                         <option value="">Lựa chọn</option>
-                        <option value="Trẻ">Trẻ</option>
-                        <option value="Nhã Nam">Nhã Nam</option>
+                        <?php
+                        foreach ($danhSachNhaXuatBan as $nhaXuatBan) {
+                            echo "<option value='" . $nhaXuatBan['maNhaXuatBan'] . "'>" . $nhaXuatBan['tenNhaXuatBan'] . "</option>";
+                        }
+                        ?>
                     </select>
                     <label for="authorSearch">Giá tiền</label>
                     <span>:</span>
@@ -126,7 +157,7 @@
                     </button>
                     <select name="productFilter" id="productFilter" onchange="productFilter()">
                         <option value="activeProducts">Sản phẩm hoạt động</option>
-                        <option value="deletedProducts">Sản phẩm bị xóa</option>
+                        <option value="hiddenProducts">Sản phẩm bị ẩn</option>
                         <option value="allProducts">Tất cả sản phẩm</option>
                     </select>
                     <input type="text" name="search" placeholder="Tìm kiếm..." id="searchInput">
@@ -166,13 +197,9 @@
                         <select name="theLoai" id="theLoai">
                             <option value="">Lựa chọn:</option>
                             <?php
-                                require '../config/config.php';
-                                $stmt = $database->prepare("SELECT * FROM theloai");
-                                $stmt->execute();
-                                $result = $stmt->get_result();
-                                while ($row = $result->fetch_assoc()) {
-                                    echo "<option value='".$row['maTheLoai']."'>".$row['tenTheLoai']."</option>";
-                                }
+                            foreach ($danhSachTheLoai as $theLoai) {
+                                echo "<option value='" . $theLoai['maTheLoai'] . "'>" . $theLoai['tenTheLoai'] . "</option>";
+                            }
                             ?>
                         </select>
                         <span class="form-message"></span>
@@ -182,13 +209,9 @@
                         <select name="nhaXuatBan" id="nhaXuatBan">
                             <option value="">Lựa chọn:</option>
                             <?php
-                                require '../config/config.php';
-                                $stmt = $database->prepare("SELECT * FROM nhaxuatban");
-                                $stmt->execute();
-                                $result = $stmt->get_result();
-                                while ($row = $result->fetch_assoc()) {
-                                    echo "<option value='".$row['maNhaXuatBan']."'>".$row['tenNhaXuatBan']."</option>";
-                                }
+                            foreach ($danhSachNhaXuatBan as $nhaXuatBan) {
+                                echo "<option value='" . $nhaXuatBan['maNhaXuatBan'] . "'>" . $nhaXuatBan['tenNhaXuatBan'] . "</option>";
+                            }
                             ?>
                         </select>
                         <span class="form-message"></span>
@@ -224,21 +247,26 @@
     <script src="../asset/js/validator.js"></script>
     <script src="../asset/js/inputDataProduct.js"></script>
     <script src="../asset/js/admin.js"></script>
-    
+
     <script>
         messageRequired = 'Vui lòng nhập thông tin.';
         Validator({
             form: '#form-add',
             errorSelector: '.form-message',
             rules: [
-                Validator.isRequired('#tenSach',messageRequired),
-                Validator.isRequired('#tacGia',messageRequired),
-                Validator.isRequired('#theLoai','Vui lòng chọn thể loại'),
-                Validator.isRequired('#nhaXuatBan',messageRequired),
-                Validator.isRequired('#giaBan',messageRequired),
+                Validator.isRequired('#tenSach', messageRequired),
+                Validator.isRequired('#tacGia', messageRequired),
+                Validator.isRequired('#theLoai', 'Vui lòng chọn thể loại'),
+                Validator.isRequired('#nhaXuatBan', messageRequired),
+                Validator.isRequired('#giaBan', messageRequired),
             ]
         })
     </script>
 </body>
 
 </html>
+
+<?php
+$database->close();
+?>
+

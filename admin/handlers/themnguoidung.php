@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $tenNguoiDung = $_POST["tenNguoiDung"];
     $vaiTro = $_POST["vaiTro"];
 
-    $stmt = $database->prepare("SELECT tenNguoiDung FROM nguoidung WHERE nguoidung.vaiTro = ?");
+    $stmt = $database->prepare("SELECT tenNguoiDung FROM b01_nguoidung WHERE nguoidung.vaiTro = ?");
     $stmt->bind_param("i",$vaiTro);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $xa = $_POST["xa"];
         $duong = $_POST["duong"];
         $trangThai = 1;
-        $stmt = $database->prepare("INSERT INTO nguoidung(tenNguoiDung, matKhau, soDienThoai, email, tinhThanh, quanHuyen, xa, duong, vaiTro, trangThai) 
+        $stmt = $database->prepare("INSERT INTO b01_nguoidung(tenNguoiDung, matKhau, soDienThoai, email, tinhThanh, quanHuyen, xa, duong, vaiTro, trangThai) 
         VALUES (?,?,?,?,?,?,?,?,?,?)");
         $stmt->bind_param("ssssssssii", $tenNguoiDung, $matKhau, $soDienThoai, $email, $tinhThanh, $quanHuyen, $xa, $duong, $vaiTro, $trangThai);
         $stmt->execute();
