@@ -3,7 +3,6 @@ let iconCartSpan = document.querySelector(".cart-icon span");
 const modalElement = document.getElementById('cartModal');
 
 const listProductHTML = document.querySelector('.listProduct');
-console.log(listProductHTML)
 // Add event listeners for all add-to-cart buttons
 document.addEventListener('DOMContentLoaded', () => { })
 listProductHTML.addEventListener('click', addButton => {
@@ -40,19 +39,19 @@ const addToCart = (productName, productPrice, imageUrl) => {
         cart[productThisPositionInCart].quantity += 1;
     }
 
-    // Save cart to localStorage and update cart icon
-    addToLocalStorage();
+    // Save cart to sessionStorage and update cart icon
+    addTosessionStorage();
 };
 
-// Function to save cart to localStorage and update the cart icon
-const addToLocalStorage = () => {
+// Function to save cart to sessionStorage and update the cart icon
+const addTosessionStorage = () => {
     let totalQuantity = 0;
     cart.forEach((cartItem) => {
         totalQuantity += cartItem.quantity;
     });
 
-    // Save cart to localStorage
-    localStorage.setItem('cart', JSON.stringify(cart));
+    // Save cart to sessionStorage
+    sessionStorage.setItem('cart', JSON.stringify(cart));
 
     // Update cart icon with the total quantity
     if (totalQuantity < 99) {
@@ -62,9 +61,9 @@ const addToLocalStorage = () => {
     }
 };
 
-// Function to load cart from localStorage
-const loadFromLocalStorage = () => {
-    const storedCart = localStorage.getItem('cart');
+// Function to load cart from sessionStorage
+const loadFromsessionStorage = () => {
+    const storedCart = sessionStorage.getItem('cart');
     cart = storedCart ? JSON.parse(storedCart) : [];
 
     // Update cart icon with the total quantity on page load
@@ -81,4 +80,4 @@ const loadFromLocalStorage = () => {
 };
 
 // Initialize the cart on page load
-loadFromLocalStorage();
+loadFromsessionStorage();

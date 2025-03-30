@@ -30,8 +30,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Tải lại giỏ hàng từ localStorage khi trang tải
-    loadFromLocalStorage();
+    // Tải lại giỏ hàng từ sessionStorage khi trang tải
+    loadFromsessionStorage();
 });
 
 // Hàm thêm sản phẩm vào giỏ hàng
@@ -49,29 +49,29 @@ const addToCart = (productName, productPrice, imageUrl, quantity) => {
         });
     }
 
-    // Cập nhật localStorage và biểu tượng giỏ hàng
-    updateLocalStorage();
+    // Cập nhật sessionStorage và biểu tượng giỏ hàng
+    updatesessionStorage();
 };
 
 
-// Hàm cập nhật localStorage và biểu tượng giỏ hàng
-const updateLocalStorage = () => {
+// Hàm cập nhật sessionStorage và biểu tượng giỏ hàng
+const updatesessionStorage = () => {
     let totalQuantity = 0;
 
     cart.forEach((item) => {
         totalQuantity += item.quantity;
     });
 
-    // Lưu vào localStorage
-    localStorage.setItem('cart', JSON.stringify(cart));
+    // Lưu vào sessionStorage
+    sessionStorage.setItem('cart', JSON.stringify(cart));
 
     // Cập nhật biểu tượng giỏ hàng
     iconCartSpan.textContent = totalQuantity <= 99 ? totalQuantity : '99+';
 };
 
-// Hàm tải giỏ hàng từ localStorage
-const loadFromLocalStorage = () => {
-    const savedCart = localStorage.getItem('cart');
+// Hàm tải giỏ hàng từ sessionStorage
+const loadFromsessionStorage = () => {
+    const savedCart = sessionStorage.getItem('cart');
     cart = savedCart ? JSON.parse(savedCart) : [];
 
     // Cập nhật biểu tượng giỏ hàng

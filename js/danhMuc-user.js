@@ -5,7 +5,7 @@ const Genre = document.querySelector(".active").innerHTML;  // Biến lưu trữ
 let allData = {};  // Biến lưu trữ dữ liệu của tất cả các danh mục
 
 // Hàm tải dữ liệu và hiển thị sản phẩm
-function loadProducts(category, minPrice = null, maxPrice = null) {
+function loadProducts(category, minPrice = null, maxPrice = null, tenSach = null, tacGia = null, nhaXuatBan = null, theloai = null) {
     const productList = document.getElementById('productList');
     productList.innerHTML = '';
 
@@ -16,14 +16,38 @@ function loadProducts(category, minPrice = null, maxPrice = null) {
 
     const filteredProducts = allData[category].filter(product => {
         const productPrice = product.price;
-
         // Lọc sản phẩm theo giá
         if ((minPrice && productPrice < minPrice) || (maxPrice && productPrice > maxPrice)) {
             return false;
         }
+        // Lọc theo tên sách
+        if (tenSach != null) {
+            if (!product.name.toLowerCase().normalize('NFC').includes(tenSach.toLowerCase())) {
+                return false;
+            }
+        }
+        // Lọc theo tác giả
+        if (tacGia != null) {
+            if (!product.author.toLowerCase().normalize('NFC').includes(tacGia.toLowerCase())) {
+                return false;
+            }
+        }
+
+        // Lọc sản phẩm theo nhà xuất bản
+        if(nhaXuatBan != null){
+            if (!product.publisher.toLowerCase().normalize('NFC').includes(nhaXuatBan.toLowerCase())) {
+                return false;
+            }
+        }
+
+        // Lọc sản phẩm theo thể loại
+        if(theloai != null){
+            if (!product.category.toLowerCase().normalize('NFC').includes(theloai.toLowerCase())) {
+                return false;
+            }
+        }
         return true;
     });
-
     if (filteredProducts.length === 0) {
         productList.innerHTML = '<p style="text-align:center; font-size:1.25rem; color:red;">Không có sản phẩm nào phù hợp với giá lọc.</p>';
     } else {
@@ -38,7 +62,7 @@ function loadProducts(category, minPrice = null, maxPrice = null) {
                             <h5 class="card-title">${product.name}</h5>
                             <p class="card-text">${product.category}</p>
                             <p class="card-text text-danger fw-bold">${formatPrice(product.price)} đ</p>
-                            <buttom href="${product.link}" class="btn" style="background-color: #336799; color: #ffffff;">Thêm vào giỏ hàng</buttom>
+                            <button href="${product.link}" class="btn" style="background-color: #336799; color: #ffffff;">Thêm vào giỏ hàng</button>
                        </div>
                     </div>
                 </div>`;

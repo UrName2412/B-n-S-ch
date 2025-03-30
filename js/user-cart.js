@@ -13,9 +13,9 @@ const escapeHTML = (str) => {
     return div.innerHTML;
 };
 
-// Load cart from localStorage
-const loadFromLocalStorage = () => {
-    const storedCart = localStorage.getItem('cart');
+// Load cart from sessionStorage
+const loadFromsessionStorage = () => {
+    const storedCart = sessionStorage.getItem('cart');
     productCart = storedCart ? JSON.parse(storedCart) : [];
     renderCart();
     updateTotal();
@@ -87,7 +87,7 @@ confirmDeleteButton.addEventListener("click", () => {
 
         if (productIndex !== -1) {
             productCart.splice(productIndex, 1);  // Xóa sản phẩm khỏi giỏ hàng
-            localStorage.setItem('cart', JSON.stringify(productCart));  // Lưu lại giỏ hàng vào localStorage
+            sessionStorage.setItem('cart', JSON.stringify(productCart));  // Lưu lại giỏ hàng vào sessionStorage
             itemToDelete.remove();  // Xóa sản phẩm khỏi DOM
             itemToDelete = null;  // Đặt lại itemToDelete để tránh xóa nhầm
             updateTotal();  // Cập nhật lại tổng giá trị và số lượng giỏ hàng
@@ -120,7 +120,7 @@ const changeQuantity = (productName, newQuantity) => {
     const productIndex = productCart.findIndex(product => product.productName === productName);
     if (productIndex !== -1) {
         productCart[productIndex].quantity = newQuantity;
-        localStorage.setItem('cart', JSON.stringify(productCart));
+        sessionStorage.setItem('cart', JSON.stringify(productCart));
         renderCart();
         updateTotal();
     }
@@ -136,4 +136,4 @@ const checkCart = () => {
 }
 
 // Initialize the cart on page load
-loadFromLocalStorage();
+loadFromsessionStorage();
