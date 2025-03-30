@@ -1,6 +1,6 @@
 <?php
 header("Content-Type: application/json");
-require '../config/config.php';
+require '../../config/config.php';
 
 $stmt = $database->prepare("SELECT * FROM b01_nhaXuatBan");
 $stmt->execute();

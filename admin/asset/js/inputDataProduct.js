@@ -12,7 +12,7 @@ function start() {
 
 //function
 function getProducts() {
-    return fetch('../handlers/laysanpham.php')
+    return fetch('../handlers/lay/laysanpham.php')
         .then(response => response.json())
         .then(data => {
             products = data;
@@ -39,21 +39,21 @@ function fixButtons() {
             let index = products.findIndex(product => product.maSach == maSach);
             menuFix.innerHTML = `
             <h2>Sửa sản phẩm</h2>
-            <form class="form" id="form-fix">
+            <form class="form" id="form-fix" method="POST" action="../handlers/sua/suasanpham.php">
                 <input type="hidden" name="maSach" value="${maSach}">
                 <div class="form-group">
                     <label for="hinhAnh">Hình ảnh:</label>
-                    <input type="file" name="hinhAnh" placeholder="Chọn ảnh">
+                    <input type="file" name="hinhAnh" id="suaHinhAnh" placeholder="Chọn ảnh" >
                     <span class="form-message"></span>
                 </div>
                 <div class="form-group">
                     <label for="tenSach">Tên sách:</label>
-                    <input type="text" name="tenSach" placeholder="Nhập tên sách" value="${products[index].tenSach}">
+                    <input type="text" name="tenSach" id="suaTenSach" placeholder="Nhập tên sách" value="${products[index].tenSach}">
                     <span class="form-message"></span>
                 </div>
                 <div class="form-group">
                     <label for="tacGia">Tác giả:</label>
-                    <input type="text" name="tacGia" placeholder="Nhập tác giả" value="${products[index].tacGia}">
+                    <input type="text" name="tacGia" id="suaTacGia" placeholder="Nhập tác giả" value="${products[index].tacGia}">
                     <span class="form-message"></span>
                 </div>
                 <div class="form-group">
@@ -72,21 +72,21 @@ function fixButtons() {
                 </div>
                 <div class="form-group">
                     <label for="giaBan">Giá bán:</label>
-                    <input type="text" name="giaBan" placeholder="Nhập giá tiền" value="${products[index].giaBan}">
+                    <input type="text" name="giaBan" id="suaGiaBan" placeholder="Nhập giá tiền" value="${products[index].giaBan}">
                     <span class="form-message"></span>
                 </div>
                 <div class="form-group">
                     <label for="soTrang">Số trang:</label>
-                    <input type="text" name="soTrang" placeholder="Nhập số trang" value="${products[index].soTrang}">
+                    <input type="text" name="soTrang" id="suaSoTrang" placeholder="Nhập số trang" value="${products[index].soTrang}">
                     <span class="form-message"></span>
                 </div>
                 <div class="form-group">
                     <label for="moTa">Mô tả:</label>
-                    <textarea name="moTa">${products[index].moTa}</textarea>
+                    <textarea name="moTa" id="suaMoTa">${products[index].moTa}</textarea>
                     <span class="form-message"></span>
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn-submit">Xác nhận</button>
+                    <input type="submit" value="Sửa" class="btn-submit">
                 </div>
             </form>
             `;
@@ -95,7 +95,7 @@ function fixButtons() {
             behindMenu = document.querySelector('.behindMenu');
             submitButton = document.querySelector('#form-fix .btn-submit');
             behindMenu.style.display = 'block';
-            fetch("../handlers/laytheloai.php")
+            fetch("../handlers/lay/laytheloai.php")
                 .then(response => response.json())
                 .then(data => {
                     let selectTheLoai = document.querySelector('#suaTheLoai');
@@ -109,7 +109,7 @@ function fixButtons() {
                         selectTheLoai.appendChild(option);
                     });
                 })
-            fetch("../handlers/laynhaxuatban.php")
+            fetch("../handlers/lay/laynhaxuatban.php")
                 .then(response => response.json())
                 .then(data => {
                     let selectNhaXuatBan = document.querySelector('#suaNhaXuatBan');
@@ -124,28 +124,33 @@ function fixButtons() {
                     });
                 })
 
-            // submitButton.addEventListener('click', () => {
-            //     openModal(stringModal, stringAlert).then((result) => {
-            //         if (result) {
-            //             if (submitButton) {
-            //                 dataInputs = document.querySelectorAll('#form-fix input');
-            //                 dataInputs.forEach(dataInput => {
-            //                     products[index][dataInput.id] = dataInput.value;
-            //                 })
-            //                 textareaGridRows = gridRow.querySelectorAll('textarea');
-            //                 const data = ['id', 'name', 'tacGia', 'maTheLoai', 'maNhaXuatBan', 'price', 'picture']; //đợi fix
-            //                 var count = 0;
-            //                 textareaGridRows.forEach(textareaGridRow => {
-            //                     textareaGridRow.innerHTML = products[index][data[count]];
-            //                     count++;
-            //                 })
-            //                 menuFix.remove();
-            //                 toolMenu.style.display = 'none';
-            //                 behindMenu.style.display = 'none';
-            //             }
-            //         }
-            //     });
-            // })
+            formFix = document.getElementById('form-fix');
+            formFix.addEventListener("submit", e => {
+                suaHinhAnh = document.getElementById('suaHinhAnh').value;
+                suaTenSach = document.getElementById('suaTenSach').value;
+                suaTacGia = document.getElementById('suaTacGia').value;
+                suaTheLoai = document.getElementById('suaTheLoai').value;
+                suaNhaXuatBan = document.getElementById('suaNhaXuatBan').value;
+                suaGiaBan = document.getElementById('suaGiaBan').value;
+                suaSoTrang = document.getElementById('suaSoTrang').value;
+                suaMoTa = document.getElementById('suaMoTa').value;
+
+                var flag = true;
+
+                if (suaHinhAnh != "") flag = false;
+                if (suaTenSach != products[index].tenSach) flag = false;
+                if (suaTacGia != products[index].tacGia) flag = false;
+                if (suaTheLoai != products[index].maTheLoai) flag = false;
+                if (suaNhaXuatBan != products[index].maNhaXuatBan) flag = false;
+                if (suaGiaBan != products[index].giaBan) flag = false;
+                if (suaSoTrang != products[index].soTrang) flag = false;
+                if (suaMoTa != products[index].moTa) flag = false;
+
+                if (flag) {
+                    e.preventDefault();
+                    createAlert("Không có thông tin nào cần sửa.");
+                }
+            })
         })
     })
 }
@@ -247,11 +252,11 @@ function searchButton() {
                 var data = String(product[keyProductSearch]);
             } else data = product[keyProductSearch];
             data = data.trim().toLowerCase();
-            if (data.includes(valueSearch)){
+            if (data.includes(valueSearch)) {
                 flag = false;
                 var newProduct = document.createElement('div');
                 newProduct.className = 'grid-row-product';
-                if (!product.trangThai&& productFilterValue != "activeProducts") {
+                if (!product.trangThai && productFilterValue != "activeProducts") {
                     newProduct.classList.add('banned');
                     newProduct.innerHTML = `
                             <textarea placeholder="Nhập mã sách..." readonly>${product.maSach}</textarea>
@@ -317,7 +322,7 @@ function productFilter() {
 function activeProducts(listProductsBlock) {
     listProductsBlock.innerHTML = '';
     products.forEach(function (product) {
-        if (product.trangThai){
+        if (product.trangThai) {
             var newProduct = document.createElement('div');
             newProduct.className = 'grid-row-product';
             newProduct.innerHTML = `

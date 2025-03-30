@@ -176,7 +176,7 @@ $stmt->close();
             </button>
             <div class="menu-add">
                 <h2>Thêm Sản Phẩm</h2>
-                <form class="form" id="form-add" method="POST" action="../handlers/themsanpham.php">
+                <form class="form" id="form-add" method="POST" action="../handlers/them/themsanpham.php">
                     <div class="form-group">
                         <label for="hinhAnh">Hình ảnh:</label>
                         <input type="file" name="hinhAnh" id="hinhAnh" placeholder="Chọn ảnh">
@@ -228,11 +228,11 @@ $stmt->close();
                     </div>
                     <div class="form-group">
                         <label for="moTa">Mô tả:</label>
-                        <textarea name="moTa"></textarea>
+                        <textarea name="moTa" id="moTa"></textarea>
                         <span class="form-message"></span>
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn-submit">Thêm</button>
+                        <input type="submit" value="Thêm" class="btn-submit">
                     </div>
                 </form>
             </div>
@@ -259,6 +259,13 @@ $stmt->close();
                 Validator.isRequired('#theLoai', 'Vui lòng chọn thể loại'),
                 Validator.isRequired('#nhaXuatBan', messageRequired),
                 Validator.isRequired('#giaBan', messageRequired),
+                Validator.isRequired('#soTrang', messageRequired),
+                Validator.isRequired('#hinhAnh', messageRequired),
+                Validator.isRequired('#moTa', messageRequired),
+                Validator.isNumber('#giaBan', 'Giá tiền không hợp lệ'),
+                Validator.isNumber('#soTrang', 'Số trang không hợp lệ'),
+                Validator.min('#giaBan', 1000, 'Giá tiền tối thiểu là 1000 VNĐ'),
+                Validator.min('#soTrang', 1, 'Số trang tối thiểu là 1 trang'),
             ]
         })
     </script>

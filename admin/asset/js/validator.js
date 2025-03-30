@@ -137,6 +137,24 @@ Validator.comparePassword = function (selector, passwordId, message) {
     };
 };
 
+Validator.min = function (selector, min, message) {
+    return {
+        selector: selector,
+        test: function (value) {
+            return value >= min ? undefined : message;
+        }
+    }
+}
+
+Validator.isNumber = function (selector, message) {
+    return {
+        selector: selector,
+        test: function (value) {
+            var regex = /^[0-9]+$/;
+            return regex.test(value) ? undefined : message;
+        }
+    }
+}
 
 
 

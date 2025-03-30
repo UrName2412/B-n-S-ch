@@ -130,7 +130,7 @@
             </button>
             <div class="menu-add">
                 <h2>Thêm Người Dùng</h2>
-                <form class="form" id="form-add" method="POST" action="../handlers/themnguoidung.php">
+                <form class="form" id="form-add" method="POST" action="../handlers/them/themnguoidung.php">
                     <div class="form-group">
                         <label for="tenNguoiDung">Tên người dùng:</label>
                         <input type="text" name="tenNguoiDung" id="tenNguoiDung" placeholder="Nhập tên người dùng">

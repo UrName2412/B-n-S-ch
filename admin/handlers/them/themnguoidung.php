@@ -1,6 +1,6 @@
 <?php
 
-require '../config/config.php';
+require '../../config/config.php';
 session_start();
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
@@ -54,9 +54,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $_SESSION["ketQuaThem"]=false;
     }
     print_r($_SESSION);
-    // header('Location: ../page/nguoidung.php');
-    
-    // exit(); // = break
-
-
 }
+
+
+header('Location: ../../page/nguoidung.php');
+exit();
+?>

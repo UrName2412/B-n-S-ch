@@ -1,6 +1,6 @@
 <?php
 
-require '../config/config.php';
+require '../../config/config.php';
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $hinhAnh = $_POST["hinhAnh"];
@@ -15,14 +15,15 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $daBan = 0;
 
     $stmt = $database->prepare("INSERT INTO b01_sanpham(hinhAnh, tenSach, tacGia, maTheLoai, maNhaXuatBan, giaBan, soTrang, moTa, trangThai, daBan) 
-    VALUES (?,?,?,?,?,?,?,?,?,?,?)");
+    VALUES (?,?,?,?,?,?,?,?,?,?)");
     $stmt->bind_param("sssiiiisii", $hinhAnh, $tenSach, $tacGia, $maTheLoai, $maNhaXuatBan, $giaBan, $soTrang, $moTa, $trangThai, $daBan);
     $stmt->execute();
     $stmt->close();
 
     $database->close();
     
-    // header('Location: ../page/sanpham.php');
-
-    // exit(); // = break
 }
+
+header('Location: ../../page/sanpham.php');
+exit(); // = break
+?>
