@@ -52,7 +52,8 @@
                         </li>
                         <li class="nav-item">
                             <div>
-                                <a href="../nguoidung/user.php"><i class="fas fa-user" id="avatar" style="color: black;"></i></a>
+                                <a href="../nguoidung/user.php"><i class="fas fa-user" id="avatar"
+                                        style="color: black;"></i></a>
                                 <span id="profile-name" style="top: 20px; padding: 2px; display: none;">Nguyễn Văn
                                     A</span>
                             </div>
@@ -70,7 +71,7 @@
     </header>
 
     <!-- Main Content -->
-     <div>
+    <div>
         <h1 class="d-flex justify-content-center">Thông tin đơn hàng</h1>
         <div>
             <div class="product_container">
@@ -102,7 +103,7 @@
                 </div>
             </div>
         </div>
-     </div>
+    </div>
     <!-- Footer -->
     <footer class="text-white py-4">
         <div class="container">

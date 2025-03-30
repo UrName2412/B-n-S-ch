@@ -31,17 +31,20 @@ const renderCart = () => {
         const newItem = document.createElement('div');
         newItem.classList.add('item');
         newItem.innerHTML = `
-            <div class="cart-item d-flex align-items-center justify-content-between mb-3 border p-4 border-3">
-                <div class="item-detail d-flex align-items-center">
+            <div class="cart-item">
+                <!-- Chi tiết sản phẩm -->
+                <div class="item-detail">
                     <img src="${escapeHTML(item.image)}" alt="Ảnh sách">
-                    <div class="ms-3">
+                    <div>
                         <p class="fw-bold">${escapeHTML(item.productName)}</p>
                     </div>
                 </div>
+                <!-- Số lượng và giá -->
                 <div class="d-flex align-items-center">
                     <input type="number" class="form-control text-center" value="${escapeHTML(item.quantity)}" min="1" style="width: 60px;">
                     <span class="ms-2 fw-bold">${escapeHTML(item.productPrice)}</span>
                 </div>
+                <!-- Nút xóa -->
                 <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
                     <i class="fas fa-trash"></i>
                 </button>
