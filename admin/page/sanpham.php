@@ -77,10 +77,10 @@ $stmt->close();
                 </div>
             </div>
             <button type="button" class="close" id="closeHeaderButton">
-                <img src="../image/close.png" alt="close" class="icon">
+                <i class="fas fa-times"></i>
             </button>
             <button type="button" class="menuHeader" id="menuHeaderButton">
-                <img src="../image/menu.png" alt="menu" class="icon">
+                <i class="fas fa-bars"></i>
             </button>
         </div>
         <!--End of Header-->

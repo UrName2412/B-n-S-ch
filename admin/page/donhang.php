@@ -53,10 +53,10 @@
                 </div>
             </div>
             <button type="button" class="close" id="closeHeaderButton">
-                <img src="../image/close.png" alt="close" class="icon">
+                <i class="fas fa-times"></i>
             </button>
             <button type="button" class="menuHeader" id="menuHeaderButton">
-                <img src="../image/menu.png" alt="menu" class="icon">
+                <i class="fas fa-bars"></i>
             </button>
         </div>
         <!--End of Header-->
@@ -97,13 +97,11 @@
                     <span>:</span>
                     <select name="city" id="city">
                         <option value="">Lựa chọn</option>
-                        <option value="TPHCM">Thành phố Hồ Chí Minh</option>
                     </select>
                     <label for="district">Quận</label>
                     <span>:</span>
                     <select name="district" id="district">
                         <option value="">Lựa chọn</option>
-                        <option value="Quận 6">Quận 6</option>
                     </select>
                 </div>
                 <button type="button" class="acceptFilter" onclick="handleFilter(dateStart.value,dateEnd.value,city.value,district.value)">Lọc</button>
@@ -143,6 +141,7 @@
     <script src="../asset/js/validator.js"></script>
     <script src="../asset/js/inputDataCart.js"></script>
     <script src="../asset/js/admin.js"></script>
+    <script src="../asset/js/apiAddress.js"></script>
 
     <script>
         messageRequired = 'Vui lòng nhập thông tin.';
@@ -163,6 +162,7 @@
             ]
         })
 
+        renderAddress('city', 'district', null);  
     </script>
 </body>
 

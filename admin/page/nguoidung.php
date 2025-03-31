@@ -52,10 +52,10 @@
                 </div>
             </div>
             <button type="button" class="close" id="closeHeaderButton">
-                <img src="../image/close.png" alt="close" class="icon">
+                <i class="fas fa-times"></i>
             </button>
             <button type="button" class="menuHeader" id="menuHeaderButton">
-                <img src="../image/menu.png" alt="menu" class="icon">
+                <i class="fas fa-bars"></i>
             </button>
             </button>
         </div>
@@ -78,18 +78,15 @@
 
             <div class="menuFilter" style="display: none;">
                 <div class="addressFilter">
-                    <label for="city">Thành phố</label>
+                    <label for="city">Tỉnh/Thành phố</label>
                     <span>:</span>
                     <select name="city" id="city">
                         <option value="">Lựa chọn</option>
-                        <option value="TPHCM">Thành phố Hồ Chí Minh</option>
                     </select>
-                    <label for="district">Quận</label>
+                    <label for="district">Quận/Huyện</label>
                     <span>:</span>
                     <select name="district" id="district">
                         <option value="">Lựa chọn</option>
-                        <option value="Quận 1">Quận 1</option>
-                        <option value="Quận 3">Quận 3</option>
                     </select>
                     <label for="phoneSearch">Số điện thoại</label>
                     <span>:</span>
@@ -199,7 +196,7 @@
     <script src="../asset/js/function.js"></script>
     <script src="../asset/js/validator.js"></script>
     <script src="../asset/js/inputDataUser.js"></script>
-    <script src="../asset/js/admin.js"></script>+
+    <script src="../asset/js/admin.js"></script>
     <script src="../asset/js/apiAddress.js"></script>
 
     <script>
@@ -223,6 +220,11 @@
                 Validator.comparePassword('#kiemTraMatKhau', 'matKhau', messageConfirmPassword),
             ]
         })
+
+        //địa chỉ
+        renderAddress('tinhThanh', 'quanHuyen', 'xa');
+        renderAddress('city','district');
+
     </script>
 </body>
 

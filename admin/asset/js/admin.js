@@ -75,15 +75,13 @@ function response768(selector) {
         console.log(1);
     }
 
-    function toggleClass(){
+    function toggleClass() {
         this.classList.toggle('sm');
     }
 
-    if (gridRow.length>0){
-        setTimeout( () => {
-            window.addEventListener('resize',handleResize);
-            handleResize();
-        }, 100);
+    if (gridRow.length > 0) {
+        window.addEventListener('resize', handleResize);
+        handleResize();
     }
 }
 

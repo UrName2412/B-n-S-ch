@@ -269,6 +269,11 @@ a {
     transition: transform 0.3s ease;
 }
 
+.close#closeHeaderButton{
+    width: 24px;
+    height: 24px;
+}
+
 .container-content{
     grid-column: 2/3;
     grid-row: 2/3;
