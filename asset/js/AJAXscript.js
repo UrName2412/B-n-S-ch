@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let nhaXuatBan = document.getElementById("nxb").value.trim().toLowerCase();
         let theloai = document.getElementById("theloai").value.trim().toLowerCase();
 
-        let url = `../fetch_product.php?category=${category}&min_price=${minPrice}&max_price=${maxPrice}`;
+        let url = `../handler/fetch_product.php?category=${category}&min_price=${minPrice}&max_price=${maxPrice}`;
 
         fetch(url)
             .then(response => response.json())

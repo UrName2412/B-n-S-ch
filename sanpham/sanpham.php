@@ -162,8 +162,8 @@
                                 while ($row = $result->fetch_assoc()) {
                                     echo "<div class=\"col-md-4 mb-4\">
                                         <div class=\"card\" style=\"width: 100%;\">
-                                        <a href=\"chitietsanpham.php?id={$row['maSach']}\">
-                                            <img src=\"../Images/demenphieuluuki.jpg\" alt=\"{$row['tenSach']}\" class=\"card-img-top\">
+                                        <a href=\"#\" class=\"view-detail\" data-id=\"{$row['maSach']}\">
+                                        <img src=\"../Images/demenphieuluuki.jpg\" alt=\"{$row['tenSach']}\" class=\"card-img-top\">
                                         </a>
                                         <div class=\"card-body\">
                                             <h5 class=\"card-title\">{$row['tenSach']}</h5>
@@ -266,6 +266,23 @@
             <div class="modal-content bg-success text-white">
                 <div class="modal-body text-center">
                     <p class="m-0">Đã thêm vào giỏ hàng!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="productDetailModal" tabindex="-1" aria-labelledby="productDetailLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="productDetailLabel">Chi tiết sản phẩm</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="productDetailContent">
+                        <!-- Nội dung sản phẩm sẽ được AJAX cập nhật tại đây -->
+                    </div>
                 </div>
             </div>
         </div>
