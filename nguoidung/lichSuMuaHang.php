@@ -6,13 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hồ sơ</title>
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../vender/css/bootstrap.min.css">
     <!-- FONT AWESOME  -->
-    <link rel="stylesheet" href="../css/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="../vender/css/bootstrap.min.css">
     <!-- CSS  -->
-    <link rel="stylesheet" href="../css/index-user.css">
-    <link rel="stylesheet" href="../css/user.css">
-    <link rel="stylesheet" href="../css/lichSuMuaHang.css">
+    <link rel="stylesheet" href="../asset/css/index-user.css">
+    <link rel="stylesheet" href="../asset/css/user.css">
+    <link rel="stylesheet" href="../asset/css/lichSuMuaHang.css">
 </head>
 
 <body>
@@ -284,7 +284,7 @@
         </div>
     </footer>
     <!-- Bootstrap JS -->
-    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../vender/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

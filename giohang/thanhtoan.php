@@ -6,12 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Đặt hàng</title>
   <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../vender/css/bootstrap.min.css">
   <!-- FONT AWESOME  -->
-  <link rel="stylesheet" href="../css/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="../vender/css/fontawesome-free/css/all.min.css">
   <!-- CSS  -->
-  <link rel="stylesheet" href="../css/sanpham.css">
-  <link rel="stylesheet" href="../css/thanhtoan.css">
+  <link rel="stylesheet" href="../asset/css/sanpham.css">
+  <link rel="stylesheet" href="../asset/css/hoaDon.css">
 </head>
 
 <body>
@@ -73,7 +73,8 @@
     <div class="payment__content row justify-content-center">
       <div class="payment__content__left col-12 col-md-8 col-lg-6 d-flex flex-column">
         <h3>Thông tin giao hàng</h3>
-        <form class="payment--form d-flex flex-column gap-3" id="form-add" method="post" onsubmit="return validateForm()">
+        <form class="payment--form d-flex flex-column gap-3" id="form-add" method="post"
+          onsubmit="return validateForm()">
           <fieldset>
             <legend>Thông tin giao hàng</legend>
             <!-- Sử dụng thông tin mặc định -->
@@ -85,25 +86,31 @@
             <!-- Họ tên -->
             <div>
               <label for="name-user"><i class="fas fa-user"></i> Họ tên <span style="color: red;">*</span></label>
-              <input type="text" id="name-user" name="name-user" value="Nguyễn Văn A" placeholder="Tên người nhận hàng" required>
+              <input type="text" id="name-user" name="name-user" value="Nguyễn Văn A" placeholder="Tên người nhận hàng"
+                required>
               <span class="form-message"></span>
             </div>
             <!-- Điện thoại -->
             <div>
-              <label for="phone-user"><i class="fas fa-phone-volume"></i> Điện thoại <span style="color: red;">*</span></label>
-              <input type="tel" id="phone-user" name="phone-user" value="+84 912 345 678" placeholder="Số điện thoại người nhận hàng" required>
+              <label for="phone-user"><i class="fas fa-phone-volume"></i> Điện thoại <span
+                  style="color: red;">*</span></label>
+              <input type="tel" id="phone-user" name="phone-user" value="+84 912 345 678"
+                placeholder="Số điện thoại người nhận hàng" required>
               <span class="form-message"></span>
             </div>
             <!-- Địa chỉ -->
             <div>
-              <label for="payment--adr"><i class="far fa-address-card"></i> Địa chỉ <span style="color: red;">*</span></label>
-              <input type="text" id="payment--adr" value="123 lê Lợi, Quận 1, TP Hồ Chí Minh" name="payment--adr" placeholder="Địa chỉ nhận hàng" required>
+              <label for="payment--adr"><i class="far fa-address-card"></i> Địa chỉ <span
+                  style="color: red;">*</span></label>
+              <input type="text" id="payment--adr" value="123 lê Lợi, Quận 1, TP Hồ Chí Minh" name="payment--adr"
+                placeholder="Địa chỉ nhận hàng" required>
               <span class="form-message"></span>
             </div>
             <!-- Ghi chú -->
             <div>
               <label for="payment--note"><i class="far fa-comment"></i> Ghi chú</label>
-              <textarea id="payment--note" name="payment--note" rows="3" placeholder="Ghi yêu cầu của bạn tại đây."></textarea>
+              <textarea id="payment--note" name="payment--note" rows="3"
+                placeholder="Ghi yêu cầu của bạn tại đây."></textarea>
               <span class="form-message"></span>
             </div>
           </fieldset>
@@ -173,8 +180,8 @@
   </footer>
 
   <!-- Liên kết file JS riêng -->
-  <script src="../js/thanhtoan.js"></script>
-  <script src="../js/bootstrap.bundle.min.js"></script>
+  <script src="../asset/js/thanhtoan.js"></script>
+  <script src="../vender/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
