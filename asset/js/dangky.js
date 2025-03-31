@@ -2,7 +2,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const form = document.getElementById("signupform");
     const username = document.getElementById("username");
     const addr = document.getElementById("address");
+    const email = document.getElementById("email");
     const phone = document.getElementById("phone");
+    const province = document.getElementById("province");
+    const district = document.getElementById("district");
+    const ward = document.getElementById("ward");
     const passwd = document.getElementById("pass");
     const passwdconf = document.getElementById("pass-confirm");
     const terms = document.getElementById("terms");
@@ -52,13 +56,26 @@ document.addEventListener("DOMContentLoaded", function () {
             hideError(username);
         }
 
-        // Kiểm tra địa chỉ
-        if (addr.value.trim() === "") {
-            showError(addr, "Địa chỉ không được để trống");
+        // Kiểm tra email
+        if (email.value.trim() === "") {
+            showError(email, "Email không được để trống");
             valid = false;
         }
-        else if (/[^a-zA-Z0-9ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễếệỉịọỏốồổỗộớờởỡợụủứừỬỮỰ\s,-\.\/]/.test(addr.value)) {
-            showError(addr, "Địa chỉ không hợp lệ");
+        else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
+            showError(email, "Email không hợp lệ");
+            valid = false;
+        }
+        else {
+            hideError(email);
+        }
+
+        // Kiểm tra địa chỉ
+        if (addr.value.trim() === "") {
+            showError(addr, "Địa chỉ nhà không được để trống");
+            valid = false;
+        }
+        else if (/[^a-zA-Z0-9À-ỹ\s,-\.\/]/.test(addr.value)) {
+            showError(addr, "Địa chỉ nhà không hợp lệ");
             valid = false;
         }
         else {
@@ -76,6 +93,27 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         else {
             hideError(phone);
+        }
+
+        if (province.value === "") {
+            showError(province, "Vui lòng chọn tỉnh/thành");
+            valid = false;
+        } else {
+            hideError(province);
+        }
+
+        if (district.value === "") {
+            showError(district, "Vui lòng chọn quận/huyện");
+            valid = false;
+        } else {
+            hideError(district);
+        }
+
+        if (ward.value === "") {
+            showError(ward, "Vui lòng chọn phường/xã");
+            valid = false;
+        } else {
+            hideError(ward);
         }
 
         // Kiểm tra mật khẩu
