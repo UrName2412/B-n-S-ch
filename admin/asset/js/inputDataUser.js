@@ -1,4 +1,5 @@
-var usersAPI = '../data/JSON/nguoidung.json';
+import { addressHandler } from './apiAddress.js';
+const addressHandler1 = new addressHandler('tinhThanh', 'quanHuyen', 'xa');
 
 let users = [];
 var listUsersBlock = document.querySelector('#dataUsers');
@@ -12,15 +13,15 @@ function start() {
 
 //function
 function getUsers() {
-    return fetch(usersAPI)
+    return fetch('../handlers/lay/laynguoidung.php')
         .then(response => response.json())
         .then(data => {
             users = data;
-        });
+        })
+        .catch(error => console.error("Lỗi khi fetch dữ liệu:", error));
 }
 
 function renderUsers() {
-    // Nội dung trong bảng
     activeUsers(listUsersBlock);
 }
 
@@ -40,6 +41,11 @@ function fixButtons() {
             menuFix.innerHTML = `
             <h2>Sửa người dùng</h2>
             <form class="form" id="form-fix">
+                <div class="form-group">
+                    <label for="tenNguoiDung">Tên người dùng:</label>
+                    <input type="text" name="tenNguoiDung" id="tenNguoiDung" placeholder="Nhập tên người dùng">
+                    <span class="form-message"></span>
+                </div>
                 <div class="form-group">
                     <label for="matKhau">Mật khẩu:</label>
                     <input type="password" name="matKhau" id="matKhau" placeholder="Nhập mật khẩu">
@@ -63,20 +69,30 @@ function fixButtons() {
                 <div class="form-group">
                     <label for="diaChi">Địa chỉ:</label>
                     <div class="address">
-                        <select name="tinhThanh" id="tinhThanh">
-                            <option value="">Chọn Tỉnh/Thành phố</option>
-                        </select>
-                        <select name="quanHuyen" id="quanHuyen">
-                            <option value="">Chọn Quận/Huyện</option>
-                        </select>
-                        <select name="xa" id="xa">
-                            <option value="">Chọn Xã/Phường</option>
-                        </select>
+                        <div class="form-group">
+                            <select name="tinhThanh" id="tinhThanh">
+                                <option value="">Chọn Tỉnh/Thành phố</option>
+                            </select>
+                            <span class="form-message"></span>
+                        </div>
+                        <div class="form-group">
+                            <select name="quanHuyen" id="quanHuyen">
+                                <option value="">Chọn Quận/Huyện</option>
+                            </select>
+                            <span class="form-message"></span>
+                        </div>
+                        <div class="form-group">
+                            <select name="xa" id="xa">
+                                <option value="">Chọn Xã/Phường</option>
+                            </select>
+                            <span class="form-message"></span>
+                        </div>
                     </div>
-                    <div>
-                        <label for="duong">Đường/Số nhà:</label>
-                        <input type="text" id="duong" name="duong" placeholder="Số nhà, tên đường">
-                    </div>
+                    <span class="form-message"></span>
+                </div>
+                <div class="form-group">
+                    <label for="duong">Đường/Số nhà:</label>
+                    <input type="text" id="duong" name="duong" placeholder="Số nhà, tên đường">
                     <span class="form-message"></span>
                 </div>
                 <div class="form-group">
@@ -88,36 +104,37 @@ function fixButtons() {
                     </select>
                     <span class="form-message"></span>
                 </div>
+                <div class="form-group">
+                    <input type="submit" value="Thêm" class="btn-submit">
+                </div>
             </form>
             `;
             toolMenu.appendChild(menuFix);
             openToolMenu('.menu-fix');
-            behindMenu = document.querySelector('.behindMenu');
-            submitButton = document.querySelector('#form-fix .btn-submit');
 
-            submitButton.addEventListener('click', () => {
-                openModal(stringModal, stringAlert).then((result) => {
-                    if (result) {
-                        if (submitButton) {
-                            dataInputs = document.querySelectorAll('#form-fix input');
-                            dataInputs.forEach(dataInput => {
-                                users[index][dataInput.id] = dataInput.value;
-                            })
-                            textareaGridRows = gridRow.querySelectorAll('textarea');
-                            const data = ['id', 'username', 'phone', 'email', 'address'];
-                            var count = 0;
-                            textareaGridRows.forEach(textareaGridRow => {
-                                textareaGridRow.innerHTML = users[index][data[count]];
-                                count++;
-                            })
-                            menuFix.remove();
-                            toolMenu.style.display = 'none';
-                            behindMenu.style.display = 'none';
+            // submitButton.addEventListener('click', () => {
+            //     openModal(stringModal, stringAlert).then((result) => {
+            //         if (result) {
+            //             if (submitButton) {
+            //                 dataInputs = document.querySelectorAll('#form-fix input');
+            //                 dataInputs.forEach(dataInput => {
+            //                     users[index][dataInput.id] = dataInput.value;
+            //                 })
+            //                 textareaGridRows = gridRow.querySelectorAll('textarea');
+            //                 const data = ['id', 'username', 'phone', 'email', 'address'];
+            //                 var count = 0;
+            //                 textareaGridRows.forEach(textareaGridRow => {
+            //                     textareaGridRow.innerHTML = users[index][data[count]];
+            //                     count++;
+            //                 })
+            //                 menuFix.remove();
+            //                 toolMenu.style.display = 'none';
+            //                 behindMenu.style.display = 'none';
 
-                        }
-                    }
-                });
-            })
+            //             }
+            //         }
+            //     });
+            // })
         })
     })
 }
@@ -277,18 +294,22 @@ function userFilter() {
     else if (userFilter.value == "allUsers") allUsers(listUsersBlock);
 }
 
-function activeUsers(listUsersBlock) {
+async function activeUsers(listUsersBlock) {
     listUsersBlock.innerHTML = '';
-    users.forEach(function (user) {
-        if (user.isBanned == "false") {
+    for (let user of users) {
+        if (user.trangThai) {
+            let vaiTro = user.vaiTro == "0" ? "Người dùng" : "Người quản trị";
+            let diaChi = await addressHandler1.concatenateAddress(user.tinhThanh, user.quanHuyen, user.xa);
+            if (user.duong != "") diaChi = diaChi.concat(", " + user.duong);
+            
             var newUser = document.createElement('div');
             newUser.className = 'grid-row';
             newUser.innerHTML = `
-                <textarea placeholder="Nhập id..." readonly>${user.id}</textarea>
-                <textarea placeholder="Nhập tên người dùng..." readonly>${user.username}</textarea>
-                <textarea placeholder="Nhập số điện thoại..." readonly>${user.phone}</textarea>
+                <textarea placeholder="Nhập id..." readonly>${vaiTro}</textarea>
+                <textarea placeholder="Nhập tên người dùng..." readonly>${user.tenNguoiDung}</textarea>
+                <textarea placeholder="Nhập số điện thoại..." readonly>${user.soDienThoai}</textarea>
                 <textarea placeholder="Nhập email..." readonly>${user.email}</textarea>
-                <textarea placeholder="Nhập nội dung..." readonly>${user.address}</textarea>
+                <textarea placeholder="Nhập nội dung..." readonly>${diaChi}</textarea>
                 <div class="tool">
                     <button type="button" class="fix">
                         <i class="fas fa-wrench"></i>
@@ -300,67 +321,79 @@ function activeUsers(listUsersBlock) {
             `;
             listUsersBlock.appendChild(newUser);
         }
-    });
+    }
+    
     fixButtons();
     banButtons();
 }
 
-function allUsers(listUsersBlock) {
+async function allUsers(listUsersBlock) {
     listUsersBlock.innerHTML = '';
-    users.forEach(function (user) {
+
+    for (let user of users) {
         var newUser = document.createElement('div');
         newUser.className = 'grid-row';
-        if (user.isBanned == "true") {
-            newUser.classList.add('banned');
+        let vaiTro = user.vaiTro == "0" ? "Người dùng" : "Người quản trị";
+        let diaChi = await addressHandler1.concatenateAddress(user.tinhThanh, user.quanHuyen, user.xa);
+        if (user.duong) diaChi += `, ${user.duong}`;
+
+        if (user.trangThai) {
             newUser.innerHTML = `
-                <textarea placeholder="Nhập id..." readonly>${user.id}</textarea>
-                <textarea placeholder="Nhập tên người dùng..." readonly>${user.username}</textarea>
-                <textarea placeholder="Nhập số điện thoại..." readonly>${user.phone}</textarea>
+                <textarea placeholder="Nhập vai trò..." readonly>${vaiTro}</textarea>
+                <textarea placeholder="Nhập tên người dùng..." readonly>${user.tenNguoiDung}</textarea>
+                <textarea placeholder="Nhập số điện thoại..." readonly>${user.soDienThoai}</textarea>
                 <textarea placeholder="Nhập email..." readonly>${user.email}</textarea>
-                <textarea placeholder="Nhập nội dung..." readonly>${user.address}</textarea>
-                <div class="tool">
-                    <button type="button" class="unlock">
-                        <i class="fas fa-unlock"></i>
-                    </button>
-                </div>
-            `;
-        } else if (user.isBanned == "false") {
-            newUser.innerHTML = `
-                <textarea placeholder="Nhập id..." readonly>${user.id}</textarea>
-                <textarea placeholder="Nhập tên người dùng..." readonly>${user.username}</textarea>
-                <textarea placeholder="Nhập số điện thoại..." readonly>${user.phone}</textarea>
-                <textarea placeholder="Nhập email..." readonly>${user.email}</textarea>
-                <textarea placeholder="Nhập nội dung..." readonly>${user.address}</textarea>
+                <textarea placeholder="Nhập nội dung..." readonly>${diaChi}</textarea>
                 <div class="tool">
                     <button type="button" class="fix">
                         <i class="fas fa-wrench"></i>
                     </button>
                     <button type="button" class="delete">
                         <i class="fas fa-ban"></i>
+                    </button>
+                </div>
+            `;
+        } else {
+            newUser.classList.add('banned');
+            newUser.innerHTML = `
+                <textarea placeholder="Nhập vai trò..." readonly>${vaiTro}</textarea>
+                <textarea placeholder="Nhập tên người dùng..." readonly>${user.tenNguoiDung}</textarea>
+                <textarea placeholder="Nhập số điện thoại..." readonly>${user.soDienThoai}</textarea>
+                <textarea placeholder="Nhập email..." readonly>${user.email}</textarea>
+                <textarea placeholder="Nhập nội dung..." readonly>${diaChi}</textarea>
+                <div class="tool">
+                    <button type="button" class="unlock">
+                        <i class="fas fa-unlock"></i>
                     </button>
                 </div>
             `;
         }
         listUsersBlock.appendChild(newUser);
-    });
+    }
+
     fixButtons();
     banButtonsAllUsers();
     unlockButtonsAllUsers();
 }
 
-function bannedUsers(listUsersBlock) {
+
+async function bannedUsers(listUsersBlock) {
     listUsersBlock.innerHTML = '';
-    users.forEach(function (user) {
-        if (user.isBanned == "true") {
+    for (let user of users) {
+        if (!user.trangThai) {
+            let vaiTro = user.vaiTro == "0" ? "Người dùng" : "Người quản trị";
+            let diaChi = await addressHandler1.concatenateAddress(user.tinhThanh, user.quanHuyen, user.xa);
+            if (user.duong != "") diaChi = diaChi.concat(", " + user.duong);
+            
             var newUser = document.createElement('div');
             newUser.className = 'grid-row';
             newUser.classList.add('banned');
             newUser.innerHTML = `
-                <textarea placeholder="Nhập id..." readonly>${user.id}</textarea>
-                <textarea placeholder="Nhập tên người dùng..." readonly>${user.username}</textarea>
-                <textarea placeholder="Nhập số điện thoại..." readonly>${user.phone}</textarea>
+                <textarea placeholder="Nhập id..." readonly>${vaiTro}</textarea>
+                <textarea placeholder="Nhập tên người dùng..." readonly>${user.tenNguoiDung}</textarea>
+                <textarea placeholder="Nhập số điện thoại..." readonly>${user.soDienThoai}</textarea>
                 <textarea placeholder="Nhập email..." readonly>${user.email}</textarea>
-                <textarea placeholder="Nhập nội dung..." readonly>${user.address}</textarea>
+                <textarea placeholder="Nhập nội dung..." readonly>${diaChi}</textarea>
                 <div class="tool">
                     <button type="button" class="unlock">
                         <i class="fas fa-unlock"></i>
@@ -369,7 +402,7 @@ function bannedUsers(listUsersBlock) {
             `;
             listUsersBlock.appendChild(newUser);
         }
-    });
+    }
     unlockButtons();
 }
 
@@ -479,6 +512,21 @@ function handleFilter(city, district, phone) {
 
 
 start();
+
+document.getElementById('filterButton').addEventListener('click', () =>{
+    let city = document.getElementById('city');
+    let district = document.getElementById('district');
+    let phoneSearch = document.getElementById('phoneSearch');
+    handleFilter(city.value,district.value,phoneSearch.value);
+})
+
+document.getElementById('userFilter').addEventListener('change', () =>{
+    userFilter();
+})
+
+document.getElementById('searchButton').addEventListener('click', () =>{
+    searchButton();
+})
 
 document.addEventListener("DOMContentLoaded", () => {
     response768('.grid-row');

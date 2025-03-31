@@ -809,6 +809,10 @@ button:hover{
     color: #333;
 }
 
+.form-group{
+    width: 100%;
+}
+
 
 .form-group label {
     display: block;
@@ -858,9 +862,6 @@ button:hover{
     justify-content: space-between;
 }
 
-.form-group .address select{
-    width: 30%!important;
-}
 
 .form-group.invalid textarea,
 .form-group.invalid select,

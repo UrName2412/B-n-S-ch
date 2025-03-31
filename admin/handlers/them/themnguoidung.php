@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $tenNguoiDung = $_POST["tenNguoiDung"];
     $vaiTro = $_POST["vaiTro"];
 
-    $stmt = $database->prepare("SELECT tenNguoiDung FROM b01_nguoidung WHERE nguoidung.vaiTro = ?");
+    $stmt = $database->prepare("SELECT tenNguoiDung FROM b01_nguoidung WHERE vaiTro = ?");
     $stmt->bind_param("i",$vaiTro);
     $stmt->execute();
     $result = $stmt->get_result();

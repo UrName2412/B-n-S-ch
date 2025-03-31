@@ -1,5 +1,3 @@
-var productsAPI = '../data/JSON/sanpham.json';
-
 let products = [];
 var listProductsBlock = document.querySelector('#dataProducts');
 
@@ -93,7 +91,6 @@ function fixButtons() {
             toolMenu.appendChild(menuFix);
             openToolMenu('.menu-fix');
             behindMenu = document.querySelector('.behindMenu');
-            submitButton = document.querySelector('#form-fix .btn-submit');
             fetch("../handlers/lay/laytheloai.php")
                 .then(response => response.json())
                 .then(data => {

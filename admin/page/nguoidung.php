@@ -10,8 +10,6 @@
     <title>Admin </title>
 </head>
 
-
-
 <body>
     <div class="container">
         <!--Sidebar Section-->
@@ -92,7 +90,7 @@
                     <span>:</span>
                     <input type="tel" name="phoneSearch" id="phoneSearch" placeholder="Nhập số điện thoại">
                 </div>
-                <button type="button" class="acceptFilter" onclick="handleFilter(city.value,district.value,phoneSearch.value)">Lọc</button>
+                <button type="button" class="acceptFilter" id="filterButton">Lọc</button>
             </div>
 
 
@@ -106,13 +104,13 @@
                     <button type="button" id="filterBtnUser">
                         <i class="fas fa-filter"></i>
                     </button>
-                    <select name="userFilter" id="userFilter" onchange="userFilter()">
+                    <select name="userFilter" id="userFilter">
                         <option value="activeUsers">Người dùng hoạt động</option>
                         <option value="bannedUsers">Người dùng bị khóa</option>
                         <option value="allUsers">Tất cả người dùng</option>
                     </select>
                     <input type="text" name="search" placeholder="Tìm kiếm..." id="searchInput">
-                    <button type="button" id="searchButton" onclick="searchButton()">
+                    <button type="button" id="searchButton">
                         <i class="fas fa-search"></i>
                     </button>
                 </div>
@@ -156,20 +154,30 @@
                     <div class="form-group">
                         <label for="diaChi">Địa chỉ:</label>
                         <div class="address">
-                            <select name="tinhThanh" id="tinhThanh">
-                                <option value="">Chọn Tỉnh/Thành phố</option>
-                            </select>
-                            <select name="quanHuyen" id="quanHuyen">
-                                <option value="">Chọn Quận/Huyện</option>
-                            </select>
-                            <select name="xa" id="xa">
-                                <option value="">Chọn Xã/Phường</option>
-                            </select>
+                            <div class="form-group">
+                                <select name="tinhThanh" id="tinhThanh">
+                                    <option value="">Chọn Tỉnh/Thành phố</option>
+                                </select>
+                                <span class="form-message"></span>
+                            </div>
+                            <div class="form-group">
+                                <select name="quanHuyen" id="quanHuyen">
+                                    <option value="">Chọn Quận/Huyện</option>
+                                </select>
+                                <span class="form-message"></span>
+                            </div>
+                            <div class="form-group">
+                                <select name="xa" id="xa">
+                                    <option value="">Chọn Xã/Phường</option>
+                                </select>
+                                <span class="form-message"></span>
+                            </div>
                         </div>
-                        <div>
-                            <label for="duong">Đường/Số nhà:</label>
-                            <input type="text" id="duong" name="duong" placeholder="Số nhà, tên đường">
-                        </div>
+                        <span class="form-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="duong">Đường/Số nhà:</label>
+                        <input type="text" id="duong" name="duong" placeholder="Số nhà, tên đường">
                         <span class="form-message"></span>
                     </div>
                     <div class="form-group">
@@ -195,9 +203,9 @@
 
     <script src="../asset/js/function.js"></script>
     <script src="../asset/js/validator.js"></script>
-    <script src="../asset/js/inputDataUser.js"></script>
+    <script type="module" src="../asset/js/inputDataUser.js"></script>
     <script src="../asset/js/admin.js"></script>
-    <script src="../asset/js/apiAddress.js"></script>
+    <script type="module" src="../asset/js/apiAddress.js"></script>
 
     <script>
         messageRequired = 'Vui lòng nhập thông tin.';
@@ -214,17 +222,30 @@
                 Validator.isRequired('#matKhau', messageRequired),
                 Validator.isRequired('#kiemTraMatKhau', messageRequired),
                 Validator.isRequired('#vaiTro', messageRequiredRole),
+                Validator.isRequired('#tinhThanh', 'Vui lòng chọn tỉnh thành.'),
+                Validator.isRequired('#quanHuyen', 'Vui lòng chọn quận huyện.</br>*Chọn tỉnh thành trước.'),
+                Validator.isRequired('#xa', 'Vui lòng chọn xã.</br>*Chọn tỉnh và quận huyện trước.'),
+                Validator.isRequired('#duong', messageRequired),
+                Validator.isEmail('#email', messageEmail),
                 Validator.isPhone('#soDienThoai', messagePhone),
                 Validator.minLength('#tenNguoiDung', 6),
                 Validator.isPassword('#matKhau', messagePassword),
                 Validator.comparePassword('#kiemTraMatKhau', 'matKhau', messageConfirmPassword),
             ]
         })
+    </script>
 
-        //địa chỉ
-        renderAddress('tinhThanh', 'quanHuyen', 'xa');
-        renderAddress('city','district');
+    <script type="module">
+        import {
+            addressHandler
+        } from '../asset/js/apiAddress.js';
+        document.addEventListener("DOMContentLoaded", () => {
+            const addressHandler1 = new addressHandler("tinhThanh", "quanHuyen", "xa");
+            const addressHandler2 = new addressHandler("city", "district");
 
+            addressHandler1.loadProvinces();
+            addressHandler2.loadProvinces();
+        });
     </script>
 </body>
 
