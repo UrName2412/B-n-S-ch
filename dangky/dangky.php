@@ -100,13 +100,13 @@
                             <div class="mb-3 d-flex gap-3">
                                 <div class="w-33">
                                     <label class="form-label" for="province">Tỉnh/Thành phố <span style="color: red;">*</span></label>
-                                    <select class="form-select" id="province" name="province">
+                                    <select class="form-select" id="province" name="province" onchange="loadDistricts()">
                                         <option selected>Chọn tỉnh/thành phố</option>
                                     </select>
                                 </div>
                                 <div class="w-33">
                                     <label class="form-label" for="district">Quận/Huyện <span style="color: red;">*</span></label>
-                                    <select class="form-select" id="district" name="district">
+                                    <select class="form-select" id="district" name="district" onchange="loadWards()">
                                         <option selected>Chọn quận/huyện</option>
                                     </select>
                                 </div>
