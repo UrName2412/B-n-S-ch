@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cửa hàng sách</title>
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../vender/css/bootstrap.min.css">
     <!-- FONT AWESOME  -->
-    <link rel="stylesheet" href="../css/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="../vender/css/fontawesome-free/css/all.min.css">
     <!-- CSS  -->
-    <link rel="stylesheet" href="../css/dangky.css">
+    <link rel="stylesheet" href="../asset/css/dangky.css">
 </head>
 
 <body>
@@ -195,8 +195,8 @@
     </footer>
 
     <!-- Bootstrap JS -->
-    <script src="../js/bootstrap.bundle.min.js"></script>
-    <script src="../js/quenmk.js"></script>
+    <script src="../vender/js/bootstrap.bundle.min.js"></script>
+    <script src="../asset/js/quenmk.js"></script>
 </body>
 
 </html>
