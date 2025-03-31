@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cửa hàng sách</title>
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../vender/css/bootstrap.min.css">
     <!-- FONT AWESOME  -->
-    <link rel="stylesheet" href="../css/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="../vender/css/fontawesome-free/css/all.min.css">
     <!-- CSS  -->
-    <link rel="stylesheet" href="../css/dangky.css">
+    <link rel="stylesheet" href="../asset/css/dangky.css">
 </head>
 
 <body>
@@ -100,13 +100,13 @@
                             <div class="mb-3 d-flex gap-3">
                                 <div class="w-33">
                                     <label class="form-label" for="province">Tỉnh/Thành phố <span style="color: red;">*</span></label>
-                                    <select class="form-select" id="province" name="province">
+                                    <select class="form-select" id="province" name="province" onchange="loadDistricts()">
                                         <option selected>Chọn tỉnh/thành phố</option>
                                     </select>
                                 </div>
                                 <div class="w-33">
                                     <label class="form-label" for="district">Quận/Huyện <span style="color: red;">*</span></label>
-                                    <select class="form-select" id="district" name="district">
+                                    <select class="form-select" id="district" name="district" onchange="loadWards()">
                                         <option selected>Chọn quận/huyện</option>
                                     </select>
                                 </div>
@@ -223,8 +223,8 @@
     </footer>
 
     <!-- Bootstrap JS -->
-    <script src="../js/bootstrap.bundle.min.js"></script>
-    <script src="../js/dangky.js"></script>
+    <script src="../vender/js/bootstrap.bundle.min.js"></script>
+    <script src="../asset/js/dangky.js"></script>
 </body>
 
 </html>

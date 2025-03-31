@@ -188,3 +188,40 @@ aside input {
         margin-bottom: 10px;
     }
 }
+
+/* Căn chỉnh modal hiển thị trong khung hình */
+#productDetailModal .modal-dialog {
+    max-width: 80vw; /* Giới hạn chiều rộng */
+    max-height: 80vh; /* Giới hạn chiều cao */
+}
+
+#productDetailModal .modal-content {
+    overflow: hidden;
+    border-radius: 10px; /* Bo góc cho đẹp */
+}
+
+#productDetailModal .modal-body {
+    max-height: 70vh; /* Giới hạn chiều cao nội dung */
+    overflow: auto; /* Tránh bị tràn nội dung */
+    padding: 15px; /* Thêm khoảng cách bên trong */
+}
+
+/* Responsive cho màn hình nhỏ */
+@media (max-width: 768px) {
+    #productDetailModal .modal-dialog {
+        max-width: 95vw; /* Chiếm toàn bộ màn hình trên điện thoại */
+        max-height: 90vh;
+    }
+    #productDetailModal .modal-body {
+        max-height: 75vh;
+    }
+}
+
+/* Responsive cho màn hình lớn */
+@media (min-width: 1200px) {
+    #productDetailModal .modal-dialog {
+        max-width: 60vw;
+        max-height: 75vh;
+    }
+}
+

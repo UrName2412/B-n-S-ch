@@ -6,12 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Giỏ hàng</title>
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../vender/css/bootstrap.min.css">
     <!-- FONT AWESOME  -->
-    <link rel="stylesheet" href="../css/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="../vender/css/fontawesome-free/css/all.min.css">
     <!-- CSS  -->
-    <link rel="stylesheet" href="../css/sanpham.css">
-    <link rel="stylesheet" href="../css/user-cart.css">
+    <link rel="stylesheet" href="../asset/css/sanpham.css">
+    <link rel="stylesheet" href="../asset/css/user-cart.css">
 </head>
 
 <body>
@@ -218,8 +218,8 @@
         </div>
     </div>
     <!-- Bootstrap JS -->
-    <script src="../js/bootstrap.bundle.min.js"></script>
-    <script src="../js/user-cart.js"></script>
+    <script src="../vender/js/bootstrap.bundle.min.js"></script>
+    <script src="../asset/js/user-cart.js"></script>
 </body>
 
 </html>

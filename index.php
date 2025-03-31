@@ -8,11 +8,11 @@
     <meta name="description" content="Cửa hàng sách Vương Hạo cung cấp toàn quốc.">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="vender/css/bootstrap.min.css">
     <!-- FONT AWESOME  -->
-    <link rel="stylesheet" href="css/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="vender/css/fontawesome-free/css/all.min.css">
     <!-- CSS  -->
-    <link rel="stylesheet" href="css/index-user.css">
+    <link rel="stylesheet" href="asset/css/index-user.css">
 </head>
 
 <body>
@@ -185,35 +185,31 @@
                 <div class="rounded text-dark p-4" style="border: 1px solid black;">
                     <h5 class="fw-bold text-center">TÌM KIẾM</h5>
                     <ul class="list-group">
-                        <form>
-                            <li class="list-group-item">
-                                <input type="text" class="form-control" id="tensach" placeholder="Tên sách">
-                            </li>
-                            <li class="list-group-item">
-                                <input type="text" class="form-control" id="tentacgia" placeholder="Tên tác giả">
-                            </li>
-                            <li class="list-group-item">
-                                <input type="text" class="form-control" id="nxb" placeholder="Nhà xuất bản">
-                            </li>
-                            <li class="list-group-item">
-                                <input type="text" class="form-control" id="theloai" placeholder="Thể loại">
-                            </li>
-                            <li class="list-group-item">
-                                <div class="input-group">
-                                    <input class="form-control" type="number" id="minPrice" placeholder="Từ (VNĐ)"
-                                        min="0">
-                                    <input class="form-control" type="number" id="maxPrice" placeholder="Đến (VNĐ)"
-                                        min="0">
-                                </div>
-                            </li>
-                            <li class="list-group-item">
-                                <div class="d-grid justify-content-md-end d-md-flex gap-2">
-                                    <button type="button" class="btn btn-outline-dark" id="resetFilter">Xóa bộ
-                                        lọc</button>
-                                    <button type="submit" class="btn btn-outline-dark">Tìm</button>
-                                </div>
-                            </li>
-                        </form>
+                        <li class="list-group-item">
+                            <input type="text" class="form-control" id="tensach" placeholder="Tên sách">
+                        </li>
+                        <li class="list-group-item">
+                            <input type="text" class="form-control" id="tentacgia" placeholder="Tên tác giả">
+                        </li>
+                        <li class="list-group-item">
+                            <input type="text" class="form-control" id="nxb" placeholder="Nhà xuất bản">
+                        </li>
+                        <li class="list-group-item">
+                            <input type="text" class="form-control" id="theloai" placeholder="Thể loại">
+                        </li>
+                        <li class="list-group-item">
+                            <div class="input-group">
+                                <input class="form-control" type="number" id="minPrice" placeholder="Từ (VNĐ)" min="0">
+                                <input class="form-control" type="number" id="maxPrice" placeholder="Đến (VNĐ)" min="0">
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="d-grid justify-content-md-end d-md-flex gap-2">
+                                <button type="button" class="btn btn-outline-dark" id="resetFilter">Xóa bộ
+                                    lọc</button>
+                                <button type="submit" class="btn btn-outline-dark">Tìm</button>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </aside>
@@ -465,8 +461,8 @@
     </div>
 
     <!-- Bootstrap JS -->
-    <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="js/sanpham.js"></script>
+    <script src="vender/js/bootstrap.bundle.min.js"></script>
+    <script src="asset/js/sanpham.js"></script>
 
     <script>
         function adjustSidebar() {  // Hàm điều khiển sidebar khi cuộn

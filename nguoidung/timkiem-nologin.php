@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tìm Kiếm</title>
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../vender/css/bootstrap.min.css">
     <!-- FONT AWESOME  -->
-    <link rel="stylesheet" href="../css/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="../vender/css/bootstrap.min.css">
     <!-- CSS  -->
-    <link rel="stylesheet" href="../css/index-user.css">
+    <link rel="stylesheet" href="../asset/css/index-user.css">
 </head>
 
 <body>
@@ -322,9 +322,9 @@
     <a href="#top" id="backToTop">&#8593;</a>
 
     <!-- Bootstrap JS -->
-    <script src="../js/bootstrap.bundle.min.js"></script>
-    <script src="../js/sanpham.js"></script>
-    <script src="../js/timkiem.js"></script>
+    <script src="../vender/js/bootstrap.bundle.min.js"></script>
+    <script src="../asset/js/sanpham.js"></script>
+    <script src="../asset/js/timkiem.js"></script>
 
     <script>
         function adjustSidebar() {  // Hàm điều khiển sidebar khi cuộn
