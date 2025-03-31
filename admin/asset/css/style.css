@@ -857,7 +857,7 @@ button:hover{
     width: 30%!important;
 }
 
-
+.form-group.invalid textarea,
 .form-group.invalid select,
 .form-group.invalid input {
     border: 2px solid red;

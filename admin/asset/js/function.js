@@ -96,18 +96,18 @@ function openModal(stringModal, stringAlert) {
 
         canceled.addEventListener('click', () => {
             closeModal();
-            resolve(false); // Trả về false khi hủy
+            resolve(false);
         });
 
         confirm.addEventListener('click', () => {
-            createAlert(stringAlert);
+            // createAlert(stringAlert);
             closeModal();
-            resolve(true); // Trả về true khi xác nhận
+            resolve(true);
         });
 
         behindMenu.addEventListener('click', () => {
             closeModal();
-            resolve(false); // Trả về false khi hủy
+            resolve(false);
         });
 
         function closeModal() {

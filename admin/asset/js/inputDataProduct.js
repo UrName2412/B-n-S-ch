@@ -94,7 +94,6 @@ function fixButtons() {
             openToolMenu('.menu-fix');
             behindMenu = document.querySelector('.behindMenu');
             submitButton = document.querySelector('#form-fix .btn-submit');
-            behindMenu.style.display = 'block';
             fetch("../handlers/lay/laytheloai.php")
                 .then(response => response.json())
                 .then(data => {
@@ -126,6 +125,8 @@ function fixButtons() {
 
             formFix = document.getElementById('form-fix');
             formFix.addEventListener("submit", e => {
+                e.preventDefault();
+
                 suaHinhAnh = document.getElementById('suaHinhAnh').value;
                 suaTenSach = document.getElementById('suaTenSach').value;
                 suaTacGia = document.getElementById('suaTacGia').value;
@@ -147,8 +148,18 @@ function fixButtons() {
                 if (suaMoTa != products[index].moTa) flag = false;
 
                 if (flag) {
-                    e.preventDefault();
                     createAlert("Không có thông tin nào cần sửa.");
+                } else{
+                    openModal(stringModal, stringAlert).then((result) => {
+                        if (result) {
+                            formFix.submit();
+                            menuFix.remove();
+                            behindMenu.style.display = 'none';
+                            getProducts().then(() => {
+                                renderProducts();
+                            });
+                        }
+                    });
                 }
             })
         })
@@ -157,18 +168,25 @@ function fixButtons() {
 
 function deleteButtons() {
     var deleteButtons = document.querySelectorAll('.delete');
-    const stringModal = 'Bạn có chắc muốn xóa sản phẩm không?';
-    const stringAlert = 'Đã xóa.';
     deleteButtons.forEach((deleteButton) => {
         deleteButton.addEventListener('click', (event) => {
+            var gridRow = event.target.closest('.grid-row-product');
+            let maSach = gridRow.querySelector('.grid-row-product textarea[placeholder="Nhập mã sách..."]').value;
+            let index = products.findIndex(product => product.maSach == maSach);     
+            const stringModal = (products[index].daBan) ? 'Sản phẩm đã được bán, bạn muốn ẩn sản phẩm không?' : 'Bạn có chắc muốn xóa sản phẩm không?';
+            const stringAlert = (products[index].daBan) ? 'Đã ẩn.' : 'Đã xóa.';
             openModal(stringModal, stringAlert).then((result) => {
                 if (result) {
                     if (deleteButton) {
-                        var gridRow = event.target.closest('.grid-row-product');
                         gridRow.remove();
-                        let id = gridRow.querySelector('.grid-row-product textarea[placeholder="Nhập id..."]').value;
-                        let index = products.findIndex(product => product.id == id);
-                        products[index].trangThai = 0;
+                        xuLySanPham(maSach).then((response) => {
+                            if (response.status === "success") {
+                                getProducts().then(() => {
+                                    productFilter();
+                                });
+                            }
+                            createAlert(response.message);
+                        });
                     }
                 }
             });
@@ -177,18 +195,24 @@ function deleteButtons() {
 }
 function deleteButtonsAllProducts() {
     var deleteButtons = document.querySelectorAll('.delete');
-    const stringModal = 'Bạn có chắc muốn xóa sản phẩm không?';
-    const stringAlert = 'Đã xóa.';
     deleteButtons.forEach((deleteButton) => {
         deleteButton.addEventListener('click', (event) => {
+            var gridRow = event.target.closest('.grid-row-product');
+            let maSach = gridRow.querySelector('.grid-row-product textarea[placeholder="Nhập mã sách..."]').value;
+            let index = products.findIndex(product => product.maSach == maSach);
+            const stringModal = (products[index].daBan) ? 'Sản phẩm đã được bán, bạn muốn ẩn sản phẩm không?' : 'Bạn có chắc muốn xóa sản phẩm không?';
+            const stringAlert = (products[index].daBan) ? 'Đã ẩn.' : 'Đã xóa.';
             openModal(stringModal, stringAlert).then((result) => {
                 if (result) {
                     if (deleteButton) {
-                        var gridRow = event.target.closest('.grid-row-product');
-                        let id = gridRow.querySelector('.grid-row-product textarea[placeholder="Nhập id..."]').value;
-                        let index = products.findIndex(product => product.id == id);
-                        products[index].trangThai = 0;
-                        allProducts(listProductsBlock);
+                        xuLySanPham(maSach).then((response) => {
+                            if (response.status === "success") {
+                                getProducts().then(() => {
+                                    productFilter();
+                                });
+                            }
+                            createAlert(response.message);
+                        });
                     }
                 }
             });
@@ -198,18 +222,24 @@ function deleteButtonsAllProducts() {
 
 function restoreButtons() {
     var restoreButtons = document.querySelectorAll('.restore');
-    const stringModal = 'Bạn có chắc muốn khôi phục sản phẩm không?';
-    const stringAlert = 'Đã khôi phục.';
     restoreButtons.forEach((restoreButton) => {
         restoreButton.addEventListener('click', (event) => {
+            var gridRow = event.target.closest('.grid-row-product');
+            let maSach = gridRow.querySelector('.grid-row-product textarea[placeholder="Nhập mã sách..."]').value;
+            const stringModal = 'Bạn có chắc muốn khôi phục sản phẩm không?';
+            const stringAlert = 'Đã khôi phục.';
             openModal(stringModal, stringAlert).then((result) => {
                 if (result) {
                     if (restoreButton) {
-                        var gridRow = event.target.closest('.grid-row-product');
                         gridRow.remove();
-                        let id = gridRow.querySelector('.grid-row-product textarea[placeholder="Nhập id..."]').value;
-                        let index = products.findIndex(product => product.id == id);
-                        products[index].trangThai = 1;
+                        xuLySanPham(maSach).then((response) => {
+                            if (response.status === "success") {
+                                getProducts().then(() => {
+                                    productFilter();
+                                });
+                            }
+                            createAlert(response.message);
+                        });
                     }
                 }
             })
@@ -218,24 +248,49 @@ function restoreButtons() {
 }
 function restoreButtonsAllProducts() {
     var restoreButtons = document.querySelectorAll('.restore');
-    const stringModal = 'Bạn có chắc muốn khôi phục sản phẩm không?';
-    const stringAlert = 'Đã khôi phục.';
     restoreButtons.forEach((restoreButton) => {
         restoreButton.addEventListener('click', (event) => {
+            const stringModal = 'Bạn có chắc muốn khôi phục sản phẩm không?';
+            const stringAlert = 'Đã khôi phục.';
+            var gridRow = event.target.closest('.grid-row-product');
+            let maSach = gridRow.querySelector('.grid-row-product textarea[placeholder="Nhập mã sách..."]').value;
             openModal(stringModal, stringAlert).then((result) => {
                 if (result) {
                     if (restoreButton) {
-                        var gridRow = event.target.closest('.grid-row-product');
-                        let id = gridRow.querySelector('.grid-row-product textarea[placeholder="Nhập id..."]').value;
-                        let index = products.findIndex(product => product.id == id);
-                        products[index].trangThai = 1;
-                        allProducts(listProductsBlock);
+                        xuLySanPham(maSach).then((response) => {
+                            if (response.status === "success") {
+                                getProducts().then(() => {
+                                    productFilter();
+                                });
+                            }
+                            createAlert(response.message);
+                        });
                     }
                 }
             })
         })
     })
 }
+
+function xuLySanPham(maSach) {
+    return new Promise((resolve, reject) => {
+        fetch(`../handlers/xoa/xoasanpham.php?maSach=${maSach}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === "success") {
+                resolve(data);
+            } else {
+                console.error("Lỗi:", data.message);
+                reject(new Error(data.message));
+            }
+        })
+        .catch(error => {
+            console.error("Lỗi:", error);
+            reject(error);
+        });
+    });
+}
+
 
 function searchButton() {
     var flag = true;
