@@ -1,3 +1,35 @@
+<?php
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Lấy dữ liệu từ form
+    $name = $_POST['name-user'];
+    $phone = $_POST['phone-user'];
+    $address = $_POST['payment--adr'];
+    $note = $_POST['payment--note'];
+
+    if (empty($name) || empty($phone) || empty($address)) {
+        echo "Vui lòng điền đầy đủ thông tin.";
+        exit;
+    }
+
+    if (!preg_match("/^\+84\d{9,10}$/", $phone)) {
+        echo "Số điện thoại không hợp lệ.";
+        exit;
+    }
+
+    include('../admin/config/config.php');
+
+    $sql = "INSERT INTO orders (name, phone, address, note) VALUES ('$name', '$phone', '$address', '$note')";
+    if (mysqli_query($conn, $sql)) {
+        header("Location: confirm_order.php?status=success");
+        exit;
+    } else {
+        echo "Lỗi khi lưu đơn hàng: " . mysqli_error($conn);
+    }
+
+    mysqli_close($conn);
+}
+?>
+
 <!DOCTYPE html>
 <html lang="vi">
 
