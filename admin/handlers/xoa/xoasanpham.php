@@ -18,8 +18,8 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
     $sanPham = $result->fetch_assoc();
     $stmt->close();
 
-    if ($sanPham['daBan'] == 1) {
-        $newTrangThai = ($sanPham['trangThai'] == 1) ? 0 : 1;
+    if ($sanPham['daBan']) {
+        $newTrangThai = ($sanPham['trangThai']) ? 0 : 1;
         $stmt = $database->prepare("UPDATE b01_sanpham SET trangThai = ? WHERE maSach = ?");
         $stmt->bind_param("ii", $newTrangThai, $maSach);
         $stmt->execute();

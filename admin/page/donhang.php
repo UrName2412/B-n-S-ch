@@ -104,7 +104,10 @@
                         <option value="">Lựa chọn</option>
                     </select>
                 </div>
-                <button type="button" class="acceptFilter" onclick="handleFilter(dateStart.value,dateEnd.value,city.value,district.value)">Lọc</button>
+                <div class="buttons">
+                    <button type="button" class="clearFilter" id="clearButton" onclick="clearFilter()">Bỏ lọc</button>
+                    <button type="button" class="acceptFilter" onclick="handleFilter(dateStart.value,dateEnd.value,city.value,district.value)">Lọc</button>
+                </div>
             </div>
 
             <!-- Tool Section -->

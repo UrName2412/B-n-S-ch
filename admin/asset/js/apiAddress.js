@@ -94,4 +94,28 @@ export class addressHandler {
         if (wardCode) address += this.getWardName(wardCode) + ", ";
         return address.slice(0, -2);
     }
+
+    async setSelectedValues(provinceCode = null, districtCode = null, wardCode = null) {
+        if (this.provinces.length === 0 || this.districts.length === 0 || this.wards.length === 0) {
+            await this.loadProvinces();
+        }
+
+        if (provinceCode && this.provinceSelect) {
+            this.provinceSelect.value = provinceCode;
+            this.updateDistricts();
+        }
+
+        setTimeout(() => {
+            if (districtCode && this.districtSelect) {
+                this.districtSelect.value = districtCode;
+                this.updateWards(); 
+            }
+            setTimeout(() => {
+                if (wardCode && this.wardSelect) {
+                    this.wardSelect.value = wardCode;
+                }
+            }, 100);
+        }, 100);
+    }
+
 }
