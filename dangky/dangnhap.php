@@ -1,3 +1,31 @@
+<?php
+session_start();
+include '../admin/config/config.php';
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = $_POST["username"];
+    $password = $_POST["pass"];
+
+    $sql = "SELECT * FROM users WHERE username = ? AND password = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ss", $username, $password);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows == 1) {
+        $user = $result->fetch_assoc();
+        $_SESSION['id'] = $user['user_id'];
+        $_SESSION['username'] = $user['username'];
+        $_SESSION['email'] = $user['email'];
+        $_SESSION['sdt'] = $user['sdt'];
+        $_SESSION['diachi'] = $user['diachi'];
+
+        header("Location: ../nguoidung/indexuser.php");;
+    } else {
+        echo "<script>alert('Sai tài khoản hoặc mật khẩu!'); window.location.href='dangnhap.php';</script>";
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="vi">
 
