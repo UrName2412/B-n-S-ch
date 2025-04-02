@@ -1,5 +1,3 @@
-var productsAPI = '../data/JSON/sanpham.json';
-
 let products = [];
 var listProductsBlock = document.querySelector('#dataProducts');
 
@@ -93,8 +91,6 @@ function fixButtons() {
             toolMenu.appendChild(menuFix);
             openToolMenu('.menu-fix');
             behindMenu = document.querySelector('.behindMenu');
-            submitButton = document.querySelector('#form-fix .btn-submit');
-            behindMenu.style.display = 'block';
             fetch("../handlers/lay/laytheloai.php")
                 .then(response => response.json())
                 .then(data => {
@@ -124,16 +120,18 @@ function fixButtons() {
                     });
                 })
 
-            formFix = document.getElementById('form-fix');
+            var formFix = document.getElementById('form-fix');
             formFix.addEventListener("submit", e => {
-                suaHinhAnh = document.getElementById('suaHinhAnh').value;
-                suaTenSach = document.getElementById('suaTenSach').value;
-                suaTacGia = document.getElementById('suaTacGia').value;
-                suaTheLoai = document.getElementById('suaTheLoai').value;
-                suaNhaXuatBan = document.getElementById('suaNhaXuatBan').value;
-                suaGiaBan = document.getElementById('suaGiaBan').value;
-                suaSoTrang = document.getElementById('suaSoTrang').value;
-                suaMoTa = document.getElementById('suaMoTa').value;
+                e.preventDefault();
+
+                var suaHinhAnh = document.getElementById('suaHinhAnh').value;
+                var suaTenSach = document.getElementById('suaTenSach').value;
+                var suaTacGia = document.getElementById('suaTacGia').value;
+                var suaTheLoai = document.getElementById('suaTheLoai').value;
+                var suaNhaXuatBan = document.getElementById('suaNhaXuatBan').value;
+                var suaGiaBan = document.getElementById('suaGiaBan').value;
+                var suaSoTrang = document.getElementById('suaSoTrang').value;
+                var suaMoTa = document.getElementById('suaMoTa').value;
 
                 var flag = true;
 
@@ -147,8 +145,16 @@ function fixButtons() {
                 if (suaMoTa != products[index].moTa) flag = false;
 
                 if (flag) {
-                    e.preventDefault();
                     createAlert("Không có thông tin nào cần sửa.");
+                } else{
+                    openModal(stringModal, stringAlert).then((result) => {
+                        if (result) {
+                            formFix.submit();
+                            menuFix.remove();
+                            behindMenu.style.display = 'none';
+                            productFilter();
+                        }
+                    });
                 }
             })
         })
@@ -157,38 +163,24 @@ function fixButtons() {
 
 function deleteButtons() {
     var deleteButtons = document.querySelectorAll('.delete');
-    const stringModal = 'Bạn có chắc muốn xóa sản phẩm không?';
-    const stringAlert = 'Đã xóa.';
     deleteButtons.forEach((deleteButton) => {
         deleteButton.addEventListener('click', (event) => {
+            var gridRow = event.target.closest('.grid-row-product');
+            let maSach = gridRow.querySelector('.grid-row-product textarea[placeholder="Nhập mã sách..."]').value;
+            let index = products.findIndex(product => product.maSach == maSach);     
+            const stringModal = (products[index].daBan) ? 'Sản phẩm đã được bán, bạn muốn ẩn sản phẩm không?' : 'Bạn có chắc muốn xóa sản phẩm không?';
+            const stringAlert = (products[index].daBan) ? 'Đã ẩn.' : 'Đã xóa.';
             openModal(stringModal, stringAlert).then((result) => {
                 if (result) {
                     if (deleteButton) {
-                        var gridRow = event.target.closest('.grid-row-product');
-                        gridRow.remove();
-                        let id = gridRow.querySelector('.grid-row-product textarea[placeholder="Nhập id..."]').value;
-                        let index = products.findIndex(product => product.id == id);
-                        products[index].trangThai = 0;
-                    }
-                }
-            });
-        });
-    })
-}
-function deleteButtonsAllProducts() {
-    var deleteButtons = document.querySelectorAll('.delete');
-    const stringModal = 'Bạn có chắc muốn xóa sản phẩm không?';
-    const stringAlert = 'Đã xóa.';
-    deleteButtons.forEach((deleteButton) => {
-        deleteButton.addEventListener('click', (event) => {
-            openModal(stringModal, stringAlert).then((result) => {
-                if (result) {
-                    if (deleteButton) {
-                        var gridRow = event.target.closest('.grid-row-product');
-                        let id = gridRow.querySelector('.grid-row-product textarea[placeholder="Nhập id..."]').value;
-                        let index = products.findIndex(product => product.id == id);
-                        products[index].trangThai = 0;
-                        allProducts(listProductsBlock);
+                        xuLiSanPham(maSach).then((response) => {
+                            if (response.status === "success") {
+                                getProducts().then(() => {
+                                    productFilter();
+                                });
+                            }
+                            createAlert(response.message);
+                        });
                     }
                 }
             });
@@ -198,44 +190,49 @@ function deleteButtonsAllProducts() {
 
 function restoreButtons() {
     var restoreButtons = document.querySelectorAll('.restore');
-    const stringModal = 'Bạn có chắc muốn khôi phục sản phẩm không?';
-    const stringAlert = 'Đã khôi phục.';
     restoreButtons.forEach((restoreButton) => {
         restoreButton.addEventListener('click', (event) => {
+            var gridRow = event.target.closest('.grid-row-product');
+            let maSach = gridRow.querySelector('.grid-row-product textarea[placeholder="Nhập mã sách..."]').value;
+            const stringModal = 'Bạn có chắc muốn khôi phục sản phẩm không?';
+            const stringAlert = 'Đã khôi phục.';
             openModal(stringModal, stringAlert).then((result) => {
                 if (result) {
                     if (restoreButton) {
-                        var gridRow = event.target.closest('.grid-row-product');
-                        gridRow.remove();
-                        let id = gridRow.querySelector('.grid-row-product textarea[placeholder="Nhập id..."]').value;
-                        let index = products.findIndex(product => product.id == id);
-                        products[index].trangThai = 1;
+                        xuLiSanPham(maSach).then((response) => {
+                            if (response.status === "success") {
+                                getProducts().then(() => {
+                                    productFilter();
+                                });
+                            }
+                            createAlert(response.message);
+                        });
                     }
                 }
             })
         })
     })
 }
-function restoreButtonsAllProducts() {
-    var restoreButtons = document.querySelectorAll('.restore');
-    const stringModal = 'Bạn có chắc muốn khôi phục sản phẩm không?';
-    const stringAlert = 'Đã khôi phục.';
-    restoreButtons.forEach((restoreButton) => {
-        restoreButton.addEventListener('click', (event) => {
-            openModal(stringModal, stringAlert).then((result) => {
-                if (result) {
-                    if (restoreButton) {
-                        var gridRow = event.target.closest('.grid-row-product');
-                        let id = gridRow.querySelector('.grid-row-product textarea[placeholder="Nhập id..."]').value;
-                        let index = products.findIndex(product => product.id == id);
-                        products[index].trangThai = 1;
-                        allProducts(listProductsBlock);
-                    }
-                }
-            })
+
+function xuLiSanPham(maSach) {
+    return new Promise((resolve, reject) => {
+        fetch(`../handlers/xoa/xoasanpham.php?maSach=${maSach}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === "success") {
+                resolve(data);
+            } else {
+                console.error("Lỗi:", data.message);
+                reject(new Error(data.message));
+            }
         })
-    })
+        .catch(error => {
+            console.error("Lỗi:", error);
+            reject(error);
+        });
+    });
 }
+
 
 function searchButton() {
     var flag = true;
@@ -401,8 +398,8 @@ function allProducts(listProductsBlock) {
         listProductsBlock.appendChild(newProduct);
     });
     fixButtons();
-    deleteButtonsAllProducts();
-    restoreButtonsAllProducts();
+    deleteButtons();
+    restoreButtons();
 }
 
 function hiddenProducts(listProductsBlock) {
@@ -551,14 +548,25 @@ function handleFilter(tacGia, maTheLoai, maNhaXuatBan, priceStart, priceEnd) {
         }
     }
     if (flag) {
+        clearFilter();
         createAlert("Không tìm thấy sản phẩm.");
-        productFilter();
     } else {
         fixButtons();
-        deleteButtonsAllProducts();
-        restoreButtonsAllProducts();
+        deleteButtons();
+        restoreButtons();
     }
 }
+
+function clearFilter() {
+    productFilter();
+    const ids = ['authorSearch', 'categorySearch', 'nxbSearchSearch', 'priceStart','priceEnd'];
+
+    ids.forEach(id => {
+        const element = document.getElementById(id);
+        if (element) element.value = "";
+    });
+}
+
 
 document.addEventListener("DOMContentLoaded", () => {
     start();

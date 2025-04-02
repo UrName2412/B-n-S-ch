@@ -1,46 +1,121 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const provinceSelect = document.getElementById("tinhThanh");
-    const districtSelect = document.getElementById("quanHuyen");
-    const wardSelect = document.getElementById("xa");
-
-    async function loadProvinces() {
-        let response = await fetch("https://provinces.open-api.vn/api/?depth=1");
-        let data = await response.json();
-        data.forEach(province => {
-            let option = new Option(province.name, province.code);
-            provinceSelect.add(option);
-        });
+export class addressHandler {
+    provinces = [];
+    districts = [];
+    wards = [];
+    constructor(provinceId = null, districtId = null, wardId = null) {
+        this.provinces = [];
+        this.districts = [];
+        this.wards = [];
+        
+        this.provinceSelect = provinceId ? document.getElementById(provinceId) : null;
+        this.districtSelect = districtId ? document.getElementById(districtId) : null;
+        this.wardSelect = wardId ? document.getElementById(wardId) : null;
+        
+        this.loadProvinces();
+        this.addEventListeners();
     }
 
-    provinceSelect.addEventListener("change", async function () {
-        districtSelect.innerHTML = '<option value="">Chọn Quận/Huyện</option>';
-        wardSelect.innerHTML = '<option value="">Chọn Xã/Phường</option>';
+    async loadProvinces() {
+        try {
+            this.provinces = await fetch("../vender/apiAddress/province.json").then(res => res.json());
+            this.districts = await fetch("../vender/apiAddress/district.json").then(res => res.json());
+            this.wards = await fetch("../vender/apiAddress/ward.json").then(res => res.json());
+            
+            if (this.provinceSelect) {
+                this.provinceSelect.innerHTML = '<option value="">Chọn tỉnh/thành</option>';
+                this.provinces.forEach(province => {
+                    let option = new Option(province.name, province.code);
+                    this.provinceSelect.add(option);
+                });
+            }
+        } catch (error) {
+            console.error("Lỗi tải dữ liệu địa chỉ:", error);
+        }
+    }
 
-        let provinceCode = this.value;
-        if (!provinceCode) return;
+    addEventListeners() {
+        if (this.provinceSelect && this.districtSelect) {
+            this.provinceSelect.addEventListener("change", () => this.updateDistricts());
+        }
+        if (this.districtSelect && this.wardSelect) {
+            this.districtSelect.addEventListener("change", () => this.updateWards());
+        }
+    }
 
-        let response = await fetch(`https://provinces.open-api.vn/api/p/${provinceCode}?depth=2`);
-        let data = await response.json();
-        data.districts.forEach(district => {
-            let option = new Option(district.name, district.code);
-            districtSelect.add(option);
-        });
-    });
+    updateDistricts() {
+        let provinceCode = this.provinceSelect.value;
+        this.districtSelect.innerHTML = '<option value="">Chọn quận/huyện</option>';
+        if (this.wardSelect) {
+            this.wardSelect.innerHTML = '<option value="">Chọn Xã/Phường</option>';
+        }
 
-    districtSelect.addEventListener("change", async function () {
-        wardSelect.innerHTML = '<option value="">Chọn Xã/Phường</option>';
+        this.districts
+            .filter(d => d.province_code == provinceCode)
+            .forEach(district => {
+                let option = new Option(district.name, district.code);
+                this.districtSelect.add(option);
+            });
+    }
 
-        let districtCode = this.value;
-        if (!districtCode) return;
+    updateWards() {
+        let districtCode = this.districtSelect.value;
+        this.wardSelect.innerHTML = '<option value="">Chọn Xã/Phường</option>';
 
-        let response = await fetch(`https://provinces.open-api.vn/api/d/${districtCode}?depth=2`);
-        let data = await response.json();
-        data.wards.forEach(ward => {
-            let option = new Option(ward.name, ward.code);
-            wardSelect.add(option);
-        });
-    });
+        this.wards
+            .filter(w => w.district_code == districtCode)
+            .forEach(ward => {
+                let option = new Option(ward.name, ward.code);
+                this.wardSelect.add(option);
+            });
+    }
 
-    // Gọi hàm load tỉnh ngay khi trang tải
-    loadProvinces();
-});
+    getProvinceName(provinceCode) {
+        let province = this.provinces.find(p => p.code == provinceCode);
+        return province ? province.name : "Không tìm thấy";
+    }
+
+    getDistrictName(districtCode) {
+        let district = this.districts.find(d => d.code == districtCode);
+        return district ? district.name : "Không tìm thấy";
+    }
+
+    getWardName(wardCode) {
+        let ward = this.wards.find(w => w.code == wardCode);
+        return ward ? ward.name : "Không tìm thấy";
+    }
+
+    async concatenateAddress(provinceCode = null, districtCode = null, wardCode = null) {
+        if (this.provinces.length == 0 || this.districts.length == 0 || this.wards.length == 0) {
+            await this.loadProvinces();
+        }
+        let address = "";
+        if (provinceCode) address += this.getProvinceName(provinceCode) + ", ";
+        if (districtCode) address += this.getDistrictName(districtCode) + ", ";
+        if (wardCode) address += this.getWardName(wardCode) + ", ";
+        return address.slice(0, -2);
+    }
+
+    async setSelectedValues(provinceCode = null, districtCode = null, wardCode = null) {
+        if (this.provinces.length === 0 || this.districts.length === 0 || this.wards.length === 0) {
+            await this.loadProvinces();
+        }
+
+        if (provinceCode && this.provinceSelect) {
+            this.provinceSelect.value = provinceCode;
+            this.updateDistricts();
+        }
+
+        setTimeout(() => {
+            if (districtCode && this.districtSelect) {
+                this.districtSelect.value = districtCode;
+                this.updateWards(); 
+            }
+            setTimeout(() => {
+                if (wardCode && this.wardSelect) {
+                    this.wardSelect.value = wardCode;
+                }
+            }, 100);
+        }, 100);
+    }
+
+}

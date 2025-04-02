@@ -269,6 +269,11 @@ a {
     transition: transform 0.3s ease;
 }
 
+.close#closeHeaderButton{
+    width: 24px;
+    height: 24px;
+}
+
 .container-content{
     grid-column: 2/3;
     grid-row: 2/3;
@@ -458,6 +463,14 @@ a {
     box-shadow: none;
 }
 
+
+.menuFilter .buttons{
+    display: flex;
+    gap: 5px;
+    padding: 5px;
+    align-self: end;
+}
+
 .timeFilter{
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -485,14 +498,12 @@ a {
 .acceptFilter{
     background-color: var(--color-dark);
     color: white;
-    align-self: end;
     width: 80px;
     height: 5vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    border: none;
-    margin: 0 1.5rem;
+    border: 1px solid var(--color-dark);
     border-radius: var(--border-radius-2);
     box-shadow: var(--box-shadow);
     transition: transform 0.3s ease, background-color 0.3s ease;
@@ -500,7 +511,23 @@ a {
 .acceptFilter:hover{
     background-color: var(--color-background);
     color: black;
-    border: 1px solid var(--color-dark);
+}
+.clearFilter{
+    background-color: #B22222;
+    color: white;
+    width: 80px;
+    height: 5vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #B22222;
+    border-radius: var(--border-radius-2);
+    box-shadow: var(--box-shadow);
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+.clearFilter:hover{
+    background-color: white;
+    color: #B22222;
 }
 .addressFilter{
     padding: 5px;
@@ -804,6 +831,10 @@ button:hover{
     color: #333;
 }
 
+.form-group{
+    width: 100%;
+}
+
 
 .form-group label {
     display: block;
@@ -853,11 +884,8 @@ button:hover{
     justify-content: space-between;
 }
 
-.form-group .address select{
-    width: 30%!important;
-}
 
-
+.form-group.invalid textarea,
 .form-group.invalid select,
 .form-group.invalid input {
     border: 2px solid red;

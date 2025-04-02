@@ -101,6 +101,7 @@
                 </div>
             </section>
         </div>
+        
         <!--emptyc-cart-->
         <div id="empty-cart-message" class="cart_container align-items-center mt-4 mx-5"
             style="min-height: 100vh; display: none;">

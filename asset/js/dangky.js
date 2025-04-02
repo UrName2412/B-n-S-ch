@@ -170,9 +170,9 @@ let districts = {};
 let wards = {};
 
 async function loadData() {
-    provinces = await fetch("province.json").then(res => res.json());
-    districts = await fetch("district.json").then(res => res.json());
-    wards = await fetch("ward.json").then(res => res.json());
+    provinces = await fetch("../vender/apiAddress/province.json").then(res => res.json());
+    districts = await fetch("../vender/apiAddress/district.json").then(res => res.json());
+    wards = await fetch("../vender/apiAddress/ward.json").then(res => res.json());
 
     let provinceSelect = document.getElementById("province");
     provinces.forEach(province => {

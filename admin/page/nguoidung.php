@@ -10,8 +10,6 @@
     <title>Admin </title>
 </head>
 
-
-
 <body>
     <div class="container">
         <!--Sidebar Section-->
@@ -52,10 +50,10 @@
                 </div>
             </div>
             <button type="button" class="close" id="closeHeaderButton">
-                <img src="../image/close.png" alt="close" class="icon">
+                <i class="fas fa-times"></i>
             </button>
             <button type="button" class="menuHeader" id="menuHeaderButton">
-                <img src="../image/menu.png" alt="menu" class="icon">
+                <i class="fas fa-bars"></i>
             </button>
             </button>
         </div>
@@ -78,24 +76,31 @@
 
             <div class="menuFilter" style="display: none;">
                 <div class="addressFilter">
-                    <label for="city">Thành phố</label>
+                    <label for="vaiTroTimKiem">Vai trò</label>
                     <span>:</span>
-                    <select name="city" id="city">
+                    <select name="vaiTroTimKiem" id="vaiTroTimKiem">
                         <option value="">Lựa chọn</option>
-                        <option value="TPHCM">Thành phố Hồ Chí Minh</option>
+                        <option value="0">Người dùng</option>
+                        <option value="1">Người quản trị</option>
                     </select>
-                    <label for="district">Quận</label>
+                    <label for="tinhThanhTimKiem">Tỉnh/Thành phố</label>
                     <span>:</span>
-                    <select name="district" id="district">
+                    <select name="tinhThanhTimKiem" id="tinhThanhTimKiem">
                         <option value="">Lựa chọn</option>
-                        <option value="Quận 1">Quận 1</option>
-                        <option value="Quận 3">Quận 3</option>
                     </select>
-                    <label for="phoneSearch">Số điện thoại</label>
+                    <label for="quanHuyenTimKiem">Quận/Huyện</label>
                     <span>:</span>
-                    <input type="tel" name="phoneSearch" id="phoneSearch" placeholder="Nhập số điện thoại">
+                    <select name="quanHuyenTimKiem" id="quanHuyenTimKiem">
+                        <option value="">Lựa chọn</option>
+                    </select>
+                    <label for="soDienThoaiTimKiem">Số điện thoại</label>
+                    <span>:</span>
+                    <input type="tel" name="soDienThoaiTimKiem" id="soDienThoaiTimKiem" placeholder="Nhập số điện thoại">
                 </div>
-                <button type="button" class="acceptFilter" onclick="handleFilter(city.value,district.value,phoneSearch.value)">Lọc</button>
+                <div class="buttons">
+                    <button type="button" class="clearFilter" id="clearButton">Bỏ lọc</button>
+                    <button type="button" class="acceptFilter" id="filterButton">Lọc</button>
+                </div>
             </div>
 
 
@@ -109,13 +114,13 @@
                     <button type="button" id="filterBtnUser">
                         <i class="fas fa-filter"></i>
                     </button>
-                    <select name="userFilter" id="userFilter" onchange="userFilter()">
+                    <select name="userFilter" id="userFilter">
                         <option value="activeUsers">Người dùng hoạt động</option>
                         <option value="bannedUsers">Người dùng bị khóa</option>
                         <option value="allUsers">Tất cả người dùng</option>
                     </select>
                     <input type="text" name="search" placeholder="Tìm kiếm..." id="searchInput">
-                    <button type="button" id="searchButton" onclick="searchButton()">
+                    <button type="button" id="searchButton">
                         <i class="fas fa-search"></i>
                     </button>
                 </div>
@@ -153,26 +158,36 @@
                     </div>
                     <div class="form-group">
                         <label for="email">Email:</label>
-                        <input type="tel" name="email" id="email" placeholder="Nhập số điện thoại">
+                        <input type="email" name="email" id="email" placeholder="Nhập email">
                         <span class="form-message"></span>
                     </div>
                     <div class="form-group">
                         <label for="diaChi">Địa chỉ:</label>
                         <div class="address">
-                            <select name="tinhThanh" id="tinhThanh">
-                                <option value="">Chọn Tỉnh/Thành phố</option>
-                            </select>
-                            <select name="quanHuyen" id="quanHuyen">
-                                <option value="">Chọn Quận/Huyện</option>
-                            </select>
-                            <select name="xa" id="xa">
-                                <option value="">Chọn Xã/Phường</option>
-                            </select>
+                            <div class="form-group">
+                                <select name="tinhThanh" id="tinhThanh">
+                                    <option value="">Chọn Tỉnh/Thành phố</option>
+                                </select>
+                                <span class="form-message"></span>
+                            </div>
+                            <div class="form-group">
+                                <select name="quanHuyen" id="quanHuyen">
+                                    <option value="">Chọn Quận/Huyện</option>
+                                </select>
+                                <span class="form-message"></span>
+                            </div>
+                            <div class="form-group">
+                                <select name="xa" id="xa">
+                                    <option value="">Chọn Xã/Phường</option>
+                                </select>
+                                <span class="form-message"></span>
+                            </div>
                         </div>
-                        <div>
-                            <label for="duong">Đường/Số nhà:</label>
-                            <input type="text" id="duong" name="duong" placeholder="Số nhà, tên đường">
-                        </div>
+                        <span class="form-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="duong">Đường/Số nhà:</label>
+                        <input type="text" id="duong" name="duong" placeholder="Số nhà, tên đường">
                         <span class="form-message"></span>
                     </div>
                     <div class="form-group">
@@ -198,9 +213,9 @@
 
     <script src="../asset/js/function.js"></script>
     <script src="../asset/js/validator.js"></script>
-    <script src="../asset/js/inputDataUser.js"></script>
-    <script src="../asset/js/admin.js"></script>+
-    <script src="../asset/js/apiAddress.js"></script>
+    <script type="module" src="../asset/js/inputDataUser.js"></script>
+    <script src="../asset/js/admin.js"></script>
+    <script type="module" src="../asset/js/apiAddress.js"></script>
 
     <script>
         messageRequired = 'Vui lòng nhập thông tin.';
@@ -217,12 +232,30 @@
                 Validator.isRequired('#matKhau', messageRequired),
                 Validator.isRequired('#kiemTraMatKhau', messageRequired),
                 Validator.isRequired('#vaiTro', messageRequiredRole),
+                Validator.isRequired('#tinhThanh', 'Vui lòng chọn tỉnh thành.'),
+                Validator.isRequired('#quanHuyen', 'Vui lòng chọn quận huyện.</br>*Chọn tỉnh thành trước.'),
+                Validator.isRequired('#xa', 'Vui lòng chọn xã.</br>*Chọn tỉnh và quận huyện trước.'),
+                Validator.isRequired('#duong', messageRequired),
+                Validator.isEmail('#email', messageEmail),
                 Validator.isPhone('#soDienThoai', messagePhone),
                 Validator.minLength('#tenNguoiDung', 6),
                 Validator.isPassword('#matKhau', messagePassword),
                 Validator.comparePassword('#kiemTraMatKhau', 'matKhau', messageConfirmPassword),
             ]
         })
+    </script>
+
+    <script type="module">
+        import {
+            addressHandler
+        } from '../asset/js/apiAddress.js';
+        document.addEventListener("DOMContentLoaded", () => {
+            const addressHandler1 = new addressHandler("tinhThanh", "quanHuyen", "xa");
+            const addressHandler2 = new addressHandler("tinhThanhTimKiem", "quanHuyenTimKiem");
+
+            addressHandler1.loadProvinces();
+            addressHandler2.loadProvinces();
+        });
     </script>
 </body>
 
