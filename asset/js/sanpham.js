@@ -16,8 +16,9 @@ document.addEventListener("DOMContentLoaded", () => {
             const imageUrl = card.querySelector(".card-img-top").src;
 
             // Hiển thị modal thông báo thêm sản phẩm thành công
-            let notification = new bootstrap.Modal(modalElement);
+            let notification = new bootstrap.Modal(modalElement, { backdrop: true, keyboard: true });
             notification.show();
+            modalElement.removeAttribute("inert");
 
             addToCart(productTitle, productPrice, imageUrl);
         }
@@ -38,8 +39,27 @@ document.addEventListener("DOMContentLoaded", () => {
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById("productDetailContent").innerHTML = data;
-                    let modal = new bootstrap.Modal(document.getElementById("productDetailModal"));
+                    let modal = new bootstrap.Modal(document.getElementById("productDetailModal"), { backdrop: true, keyboard: true });
                     modal.show();
+                    document.getElementById("productDetailModal").removeAttribute("inert");
+
+                    // Add event listener for "Thêm vào giỏ hàng" button in the modal
+                    const addToCartButton = document.querySelector("#productDetailContent .btn-success");
+                    addToCartButton.addEventListener("click", () => {
+                        const productName = document.querySelector("#productDetailContent h5").textContent;
+                        const productPrice = document.querySelector("#productDetailContent p:nth-of-type(4)").textContent.split(":")[1].trim();
+                        const imageUrl = document.querySelector("#productDetailContent img").src;
+
+                        addToCart(productName, productPrice, imageUrl);
+
+                        // Hiển thị modal thông báo thêm sản phẩm thành công
+                        let notification = new bootstrap.Modal(document.getElementById("cartModal"), { backdrop: true, keyboard: true });
+                        notification.show();
+                        document.getElementById("cartModal").removeAttribute("inert");
+
+                        modal.hide();
+                        document.getElementById("productDetailModal").setAttribute("inert", "");
+                    });
                 });
         });
     });
