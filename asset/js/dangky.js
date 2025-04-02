@@ -11,7 +11,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const passwdconf = document.getElementById("pass-confirm");
     const terms = document.getElementById("terms");
     const modal = document.getElementById("successModal");
-    const closeModal = document.getElementById("closeModal");
 
     // Hiển thị thông báo lỗi
     function showError(input, message) {
@@ -35,19 +34,25 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     form.addEventListener("submit", function (event) {
-        let valid = true; // Mặc định là hợp lệ
+        // Ngăn việc gửi form để kiểm tra thông tin
+        event.preventDefault();
+
+        let valid = true;
 
         // Kiểm tra tên đăng nhập
         if (username.value.trim() === "") {
             showError(username, "Tên đăng nhập không được để trống");
             valid = false;
-        } else if (!/^[a-zA-Z0-9_ ]+$/.test(username.value)) {
+        }
+        else if (!/^[a-zA-Z0-9_ ]+$/.test(username.value)) {
             showError(username, "Tên đăng nhập không được chứa các kí tự đặc biệt");
             valid = false;
-        } else if (username.value.length < 5) {
+        }
+        else if (username.value.length < 5) {
             showError(username, "Tên đăng nhập phải có ít nhất 5 kí tự");
             valid = false;
-        } else {
+        }
+        else {
             hideError(username);
         }
 
@@ -55,21 +60,25 @@ document.addEventListener("DOMContentLoaded", function () {
         if (email.value.trim() === "") {
             showError(email, "Email không được để trống");
             valid = false;
-        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
+        }
+        else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
             showError(email, "Email không hợp lệ");
             valid = false;
-        } else {
+        }
+        else {
             hideError(email);
         }
 
         // Kiểm tra địa chỉ
         if (addr.value.trim() === "") {
-            showError(addr, "Địa chỉ không được để trống");
+            showError(addr, "Địa chỉ nhà không được để trống");
             valid = false;
-        } else if (/[^a-zA-Z0-9À-ỹ\s,-\.\/]/.test(addr.value)) {
-            showError(addr, "Địa chỉ không hợp lệ");
+        }
+        else if (/[^a-zA-Z0-9À-ỹ\s,-\.\/]/.test(addr.value)) {
+            showError(addr, "Địa chỉ nhà không hợp lệ");
             valid = false;
-        } else {
+        }
+        else {
             hideError(addr);
         }
 
@@ -77,15 +86,16 @@ document.addEventListener("DOMContentLoaded", function () {
         if (phone.value.trim() === "") {
             showError(phone, "Số điện thoại không được để trống");
             valid = false;
-        } else if (!/(03|05|07|08|09)+(\d{8})\b/.test(phone.value)) {
-            showError(phone, "Số điện thoại phải gồm 10 số với đầu số hợp lệ");
+        }
+        else if (!/(03|05|07|08|09)+(\d{8})\b/.test(phone.value)) {
+            showError(phone, "Số điện thoại phải bao gồm 10 số với các đầu số từ Việt Nam");
             valid = false;
-        } else {
+        }
+        else {
             hideError(phone);
         }
 
-        // Kiểm tra tỉnh/thành phố, quận/huyện, phường/xã
-        if (province.value === "") {
+        if (!province.value || province.value === "Chọn tỉnh/thành phố") {
             showError(province, "Vui lòng chọn tỉnh/thành");
             valid = false;
         } else {
@@ -110,10 +120,12 @@ document.addEventListener("DOMContentLoaded", function () {
         if (passwd.value.trim() === "") {
             showError(passwd, "Mật khẩu không được để trống");
             valid = false;
-        } else if (passwd.value.length < 8) {
+        }
+        else if (passwd.value.length < 8) {
             showError(passwd, "Mật khẩu phải có ít nhất 8 kí tự");
             valid = false;
-        } else {
+        }
+        else {
             hideError(passwd);
         }
 
@@ -121,95 +133,67 @@ document.addEventListener("DOMContentLoaded", function () {
         if (passwdconf.value.trim() === "") {
             showError(passwdconf, "Xác nhận mật khẩu không được để trống");
             valid = false;
-        } else if (passwdconf.value !== passwd.value) {
-            showError(passwdconf, "Mật khẩu xác nhận phải khớp với mật khẩu");
+        }
+        else if (passwdconf.value != passwd.value) {
+            showError(passwdconf, "Mật khẩu xác nhận phải khớp với mật khẩu vừa nhập");
             valid = false;
-        } else {
+        }
+        else {
             hideError(passwdconf);
         }
 
         // Kiểm tra điều khoản
         if (!terms.checked) {
-            showError(terms, "Bạn phải đồng ý với điều khoản");
+            showError(terms, "Bạn phải đồng ý với điều khoản và chính sách của nhà sách");
             valid = false;
-        } else {
+        }
+        else {
             hideError(terms);
         }
 
-        // Nếu có lỗi, chặn form gửi đi
-        if (!valid) {
-            event.preventDefault();
-        } else {
-            // Hiện modal và tự động gửi form sau 2 giây
-            modal.classList.add("active");
-            setTimeout(() => {
-                form.submit();
-            }, 2000);
+        // Kiểm tra form hợp lệ
+        if (valid) {
+            form.submit();
         }
     });
-
-    // Khi nhấn đóng modal, gửi form
-    closeModal.addEventListener("click", function () {
-        modal.classList.remove("active");
-        form.submit();
-    });
-
-    // ===== TẢI DỮ LIỆU TỈNH/THÀNH, QUẬN/HUYỆN, PHƯỜNG/XÃ =====
-    let provinces = {};
-    let districts = {};
-    let wards = {};
-
-    async function loadData() {
-        try {
-            provinces = await fetch("../vender/apiAddress/province.json").then(res => res.json());
-            districts = await fetch("../vender/apiAddress/district.json").then(res => res.json());
-            wards = await fetch("../vender/apiAddress/ward.json").then(res => res.json());
-
-            let provinceSelect = document.getElementById("province");
-            provinces.forEach(province => {
-                let option = new Option(province.name, province.code);
-                provinceSelect.add(option);
-            });
-
-            console.log("Dữ liệu tỉnh/thành đã tải xong");
-        } catch (error) {
-            console.error("Lỗi tải dữ liệu:", error);
-        }
-    }
-
-    function loadDistricts() {
-        let provinceCode = document.getElementById("province").value;
-        let districtSelect = document.getElementById("district");
-        districtSelect.innerHTML = '<option value="">Chọn quận/huyện</option>';
-
-        let filteredDistricts = districts.filter(d => d.province_code == provinceCode);
-        if (filteredDistricts.length === 0) {
-            console.error("Không tìm thấy quận/huyện cho mã tỉnh:", provinceCode);
-            return;
-        }
-
-        filteredDistricts.forEach(district => {
-            let option = new Option(district.name, district.code);
-            districtSelect.add(option);
-        });
-    }
-
-    function loadWards() {
-        let districtCode = document.getElementById("district").value;
-        let wardSelect = document.getElementById("ward");
-        wardSelect.innerHTML = '<option value="">Chọn phường/xã</option>';
-
-        let filteredWards = wards.filter(w => w.district_code == districtCode);
-        if (filteredWards.length === 0) {
-            console.error("Không tìm thấy phường/xã cho mã quận:", districtCode);
-            return;
-        }
-
-        filteredWards.forEach(ward => {
-            let option = new Option(ward.name, ward.code);
-            wardSelect.add(option);
-        });
-    }
-
-    window.onload = loadData;
 });
+
+let provinces = {};
+let districts = {};
+let wards = {};
+
+async function loadData() {
+    provinces = await fetch("../vender/apiAddress/province.json").then(res => res.json());
+    districts = await fetch("../vender/apiAddress/district.json").then(res => res.json());
+    wards = await fetch("../vender/apiAddress/ward.json").then(res => res.json());
+
+    let provinceSelect = document.getElementById("province");
+    provinces.forEach(province => {
+        let option = new Option(province.name, province.code);
+        provinceSelect.add(option);
+    });
+}
+
+function loadDistricts() {
+    let provinceCode = document.getElementById("province").value;
+    let districtSelect = document.getElementById("district");
+    districtSelect.innerHTML = '<option value="">Chọn quận/huyện</option>';
+
+    districts.filter(d => d.province_code == provinceCode).forEach(district => {
+        let option = new Option(district.name, district.code);
+        districtSelect.add(option);
+    });
+}
+
+function loadWards() {
+    let districtCode = document.getElementById("district").value;
+    let wardSelect = document.getElementById("ward");
+    wardSelect.innerHTML = '<option value="">Chọn phường/xã</option>';
+
+    wards.filter(w => w.district_code == districtCode).forEach(ward => {
+        let option = new Option(ward.name, ward.code);
+        wardSelect.add(option);
+    });
+}
+
+window.onload = loadData;
