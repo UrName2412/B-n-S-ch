@@ -143,7 +143,11 @@ $stmt->close();
                         </div>
                     </div>
                 </div>
-                <button type="button" class="acceptFilter" onclick="handleFilter(authorSearch.value,categorySearch.value,nxbSearch.value,priceStart.value,priceEnd.value)">Lọc</button>
+                <div class="buttons">
+                    <button type="button" class="clearFilter" id="clearButton" onclick="clearFilter()">Bỏ lọc</button>
+                    <button type="button" class="acceptFilter" onclick="handleFilter(authorSearch.value,categorySearch.value,nxbSearch.value,priceStart.value,priceEnd.value)">Lọc</button>
+                </div>
+                
             </div>
 
             <!-- Tool Section -->
@@ -267,7 +271,7 @@ $stmt->close();
                 Validator.min('#giaBan', 1000, 'Giá tiền tối thiểu là 1000 VNĐ'),
                 Validator.min('#soTrang', 1, 'Số trang tối thiểu là 1 trang'),
             ]
-        })
+        });
     </script>
 </body>
 
@@ -276,4 +280,3 @@ $stmt->close();
 <?php
 $database->close();
 ?>
-

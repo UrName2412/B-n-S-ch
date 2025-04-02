@@ -76,21 +76,31 @@
 
             <div class="menuFilter" style="display: none;">
                 <div class="addressFilter">
-                    <label for="city">Tỉnh/Thành phố</label>
+                    <label for="vaiTroTimKiem">Vai trò</label>
                     <span>:</span>
-                    <select name="city" id="city">
+                    <select name="vaiTroTimKiem" id="vaiTroTimKiem">
+                        <option value="">Lựa chọn</option>
+                        <option value="0">Người dùng</option>
+                        <option value="1">Người quản trị</option>
+                    </select>
+                    <label for="tinhThanhTimKiem">Tỉnh/Thành phố</label>
+                    <span>:</span>
+                    <select name="tinhThanhTimKiem" id="tinhThanhTimKiem">
                         <option value="">Lựa chọn</option>
                     </select>
-                    <label for="district">Quận/Huyện</label>
+                    <label for="quanHuyenTimKiem">Quận/Huyện</label>
                     <span>:</span>
-                    <select name="district" id="district">
+                    <select name="quanHuyenTimKiem" id="quanHuyenTimKiem">
                         <option value="">Lựa chọn</option>
                     </select>
-                    <label for="phoneSearch">Số điện thoại</label>
+                    <label for="soDienThoaiTimKiem">Số điện thoại</label>
                     <span>:</span>
-                    <input type="tel" name="phoneSearch" id="phoneSearch" placeholder="Nhập số điện thoại">
+                    <input type="tel" name="soDienThoaiTimKiem" id="soDienThoaiTimKiem" placeholder="Nhập số điện thoại">
                 </div>
-                <button type="button" class="acceptFilter" id="filterButton">Lọc</button>
+                <div class="buttons">
+                    <button type="button" class="clearFilter" id="clearButton">Bỏ lọc</button>
+                    <button type="button" class="acceptFilter" id="filterButton">Lọc</button>
+                </div>
             </div>
 
 
@@ -148,7 +158,7 @@
                     </div>
                     <div class="form-group">
                         <label for="email">Email:</label>
-                        <input type="tel" name="email" id="email" placeholder="Nhập số điện thoại">
+                        <input type="email" name="email" id="email" placeholder="Nhập email">
                         <span class="form-message"></span>
                     </div>
                     <div class="form-group">
@@ -241,7 +251,7 @@
         } from '../asset/js/apiAddress.js';
         document.addEventListener("DOMContentLoaded", () => {
             const addressHandler1 = new addressHandler("tinhThanh", "quanHuyen", "xa");
-            const addressHandler2 = new addressHandler("city", "district");
+            const addressHandler2 = new addressHandler("tinhThanhTimKiem", "quanHuyenTimKiem");
 
             addressHandler1.loadProvinces();
             addressHandler2.loadProvinces();

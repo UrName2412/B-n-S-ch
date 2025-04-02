@@ -287,8 +287,8 @@ function handleFilter(dateStart, dateEnd, city, district) {
     }
     
     if (flag){
+        clearFilter();
         createAlert("Không tìm thấy đơn hàng.");
-        cartFilter();
     } else {
         if (cartFilterValue == "Tất cả đơn hàng")
             setStatusButtons(true);
@@ -297,7 +297,14 @@ function handleFilter(dateStart, dateEnd, city, district) {
     }
 }
 
-
+function clearFilter(){
+    userFilter();
+    const ids = ['dateStart','dateEbd','city','district'];
+    ids.forEach(id =>{
+        const Element = document.getElementById(id);
+        if (Element) Element.value = "";
+    })
+}
 
 start();
 
