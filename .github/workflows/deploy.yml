@@ -18,13 +18,13 @@ jobs:
       - name: 🔧 Cài đặt LFTP
         run: sudo apt-get install -y lftp
 
-      - name: 🚀 Upload code lên InfinityFree (Chỉ cập nhật file mới)
+      - name: 🚀 Xóa toàn bộ file trên InfinityFree và upload lại từ đầu
         run: |
           lftp -e "
             open -u $FTP_USERNAME,$FTP_PASSWORD $FTP_HOST
             set ftp:passive-mode yes
             set xfer:fail-exit true
-            mirror --reverse --verbose --only-newer ./ htdocs/
+            mirror --reverse --verbose --delete --parallel=5 ./ htdocs/
             bye
           "
         env:
