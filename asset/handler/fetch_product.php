@@ -13,7 +13,7 @@ $max_price = isset($_GET['max_price']) ? $_GET['max_price'] : "";
 $min_price = isset($_GET['min_price']) ? $_GET['min_price'] : "";
 
 // Xây dựng truy vấn SQL
-$sql = "SELECT * FROM b01_sanpham WHERE 1=1";
+$sql = "SELECT * FROM b01_sanPham WHERE 1=1";
 
 if (!empty($category)) {
     $sql .= " AND maTheLoai = '" . $database->real_escape_string($category) . "'";

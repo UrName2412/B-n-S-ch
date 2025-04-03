@@ -4,8 +4,8 @@ include '../../admin/config/config.php';
 if (isset($_POST['id'])) {
     $id = intval($_POST['id']);
 
-    $sql = "SELECT sp.*, tl.tenTheLoai, nxb.tenNhaXuatBan FROM `b01_sanpham` sp 
-            JOIN `b01_theloai` tl ON sp.maTheLoai = tl.maTheLoai 
+    $sql = "SELECT sp.*, tl.tenTheLoai, nxb.tenNhaXuatBan FROM `b01_sanPham` sp 
+            JOIN `b01_theLoai` tl ON sp.maTheLoai = tl.maTheLoai 
             JOIN `b01_nhaxuatban` nxb ON nxb.`maNhaXuatBan` = sp.`maNhaXuatBan`
             WHERE sp.maSach = $id";
     $result = $database->query($sql);

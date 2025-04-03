@@ -232,7 +232,7 @@
                     </div>
                     <?php
                     // Pagination calculation
-                    $sqlTotal = "SELECT COUNT(*) AS total FROM `b01_sanpham`";
+                    $sqlTotal = "SELECT COUNT(*) AS total FROM `b01_sanPham`";
                     $resultTotal = $database->query($sqlTotal);
                     $rowTotal = $resultTotal->fetch_assoc();
                     $totalProducts = $rowTotal['total'];

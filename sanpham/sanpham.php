@@ -182,7 +182,7 @@
                     </div>
                     <?php
                     // Tính tổng số sản phẩm để tạo phân trang
-                    $sqlTotal = "SELECT COUNT(*) AS total FROM `b01_sanpham`";
+                    $sqlTotal = "SELECT COUNT(*) AS total FROM `b01_sanPham`";
                     $resultTotal = $database->query($sqlTotal);
                     $rowTotal = $resultTotal->fetch_assoc();
                     $totalProducts = $rowTotal['total'];

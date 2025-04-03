@@ -24,8 +24,8 @@ if (!empty($_POST['maxPrice'])) {
 $whereClause = !empty($conditions) ? "WHERE " . implode(" AND ", $conditions) : "";
 
 $sql = "SELECT sp.*, tl.tenTheLoai 
-        FROM `b01_sanpham` sp 
-        JOIN `b01_theloai` tl ON sp.maTheLoai = tl.maTheLoai 
+        FROM `b01_sanPham` sp 
+        JOIN `b01_theLoai` tl ON sp.maTheLoai = tl.maTheLoai 
         $whereClause 
         LIMIT 6";
 $result = $database->query($sql);
