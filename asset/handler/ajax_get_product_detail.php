@@ -12,22 +12,19 @@ if (isset($_POST['id'])) {
 
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
-        echo "<div class='container-fluid'>
-                <div class='row'>
-                    <div class='col-md-6'>
-                        <img src='../Images/demenphieuluuki.jpg' class='img-fluid rounded' alt='{$row['tenSach']}' />
-                    </div>
-                    <div class='col-md-6'>
-                        <h5 class='fw-bold'>{$row['tenSach']}</h5>
-                        <p><b>Thể loại:</b> {$row['tenTheLoai']}</p>
-                        <p><b>Tác giả:</b> {$row['tacGia']}</p>
-                        <p><b>Nhà xuất bản:</b> {$row['tenNhaXuatBan']}</p>
-                        <p><b>Giá bán:</b> <span class='text-danger fw-bold'>" . number_format($row['giaBan'], 0, ',', '.') . " đ</span></p>
-                        <p><b>Mô tả:</b> {$row['moTa']}</p>
-                        <button class='btn btn-success add-to-cart-detail w-100'>Thêm vào giỏ hàng</button>
-                    </div>
-                </div>
-              </div>";
+        echo "<div class=\"col-md-4 mb-4\">
+            <div class=\"card\" style=\"width: 100%;\">
+            <a href=\"#\" class=\"view-detail\" data-id=\"{$row['maSach']}\">
+            <img src=\"Images/demenphieuluuki.jpg\" alt=\"{$row['tenSach']}\" class=\"card-img-top\">
+            </a>
+            <div class=\"card-body\">
+                <h5 class=\"card-title\">{$row['tenSach']}</h5>
+                <p class=\"card-text\">Thể loại: {$row['tenTheLoai']}</p>
+                <p class=\"card-text text-danger fw-bold\">" . number_format($row['giaBan'], 0, ',', '.') . " đ</p>
+                <button class=\"btn\" style=\"background-color: #336799; color: #ffffff;\">Thêm vào giỏ hàng</button>
+            </div>
+            </div>
+        </div>";
     } else {
         echo "<p>Không tìm thấy sản phẩm.</p>";
     }
