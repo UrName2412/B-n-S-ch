@@ -205,8 +205,10 @@
                         </li>
                         <li class="list-group-item">
                             <div class="input-group">
-                                <input class="form-control" type="number" name="minPrice" placeholder="Từ (VNĐ)" min="0">
-                                <input class="form-control" type="number" name="maxPrice" placeholder="Đến (VNĐ)" min="0">
+                                <input class="form-control" type="number" name="minPrice" placeholder="Từ (VNĐ)"
+                                    min="0">
+                                <input class="form-control" type="number" name="maxPrice" placeholder="Đến (VNĐ)"
+                                    min="0">
                             </div>
                         </li>
                         <li class="list-group-item">
@@ -239,7 +241,7 @@
 
                     // Define $productsPerPage with a default value if not already set
                     $productsPerPage = $productsPerPage ?? 10; // Default to 10 products per page
-
+                    
                     if ($productsPerPage == 0) {
                         throw new Exception("Không có sản phẩm nào trong danh sách.");
                     }
@@ -248,7 +250,7 @@
                     $totalPages = ceil($totalProducts / $productsPerPage);
 
                     // Define $currentPage with a default value if not already set
-                    $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+                    $currentPage = isset($_GET['page']) ? (int) $_GET['page'] : 1;
 
                     // Ensure $currentPage is at least 1
                     if ($currentPage < 1) {
@@ -338,6 +340,22 @@
         </div>
     </div>
 
+    <div class="modal fade" id="productDetailModal" tabindex="-1" aria-labelledby="productDetailLabel" inert>
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="productDetailLabel">Chi tiết sản phẩm</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="productDetailContent">
+                        <!-- Nội dung sản phẩm sẽ được AJAX cập nhật tại đây -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Bootstrap JS -->
     <script src="vender/js/bootstrap.bundle.min.js"></script>
     <script src="asset/js/sanpham.js"></script>
@@ -365,11 +383,11 @@
                 method: 'POST',
                 body: formData
             })
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('listProduct').innerHTML = data;
-            })
-            .catch(error => console.error('Error:', error));
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('listProduct').innerHTML = data;
+                })
+                .catch(error => console.error('Error:', error));
         });
     </script>
 </body>

@@ -39,6 +39,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById("productDetailContent").innerHTML = data;
+                    console.log(document.getElementById("productDetailContent").innerHTML);
+                    
                     let modal = new bootstrap.Modal(document.getElementById("productDetailModal"), { backdrop: true, keyboard: true });
                     modal.show();
                     document.getElementById("productDetailModal").removeAttribute("inert");
