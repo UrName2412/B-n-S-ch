@@ -22,4 +22,5 @@ $database = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
 if ($database->connect_error){
     die("Lỗi: không kết nối được database. " . $database->connect_error);
 }
+$database->set_charset("utf8mb4");
 ?>
