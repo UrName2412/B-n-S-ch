@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
         exit();
     }
 
-    $stmt = $database->prepare("SELECT trangThai FROM b01_nguoidung WHERE tenNguoiDung = ? AND vaiTro = ?");
+    $stmt = $database->prepare("SELECT trangThai FROM b01_nguoiDung WHERE tenNguoiDung = ? AND vaiTro = ?");
     $stmt->bind_param("si", $tenNguoiDung,$vaiTro);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
     $stmt->close();
 
     $newTrangThai = ($nguoiDung['trangThai']) ? 0 : 1;
-    $stmt = $database->prepare("UPDATE b01_nguoidung SET trangThai = ? WHERE tenNguoiDung = ? AND vaiTro = ?");
+    $stmt = $database->prepare("UPDATE b01_nguoiDung SET trangThai = ? WHERE tenNguoiDung = ? AND vaiTro = ?");
     $stmt->bind_param("isi", $newTrangThai, $tenNguoiDung, $vaiTro);
     $stmt->execute();
     $stmt->close();

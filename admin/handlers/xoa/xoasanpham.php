@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
         exit();
     }
 
-    $stmt = $database->prepare("SELECT trangThai, daBan FROM b01_sanpham WHERE maSach = ?");
+    $stmt = $database->prepare("SELECT trangThai, daBan FROM b01_sanPham WHERE maSach = ?");
     $stmt->bind_param("i", $maSach);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -20,13 +20,13 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
 
     if ($sanPham['daBan']) {
         $newTrangThai = ($sanPham['trangThai']) ? 0 : 1;
-        $stmt = $database->prepare("UPDATE b01_sanpham SET trangThai = ? WHERE maSach = ?");
+        $stmt = $database->prepare("UPDATE b01_sanPham SET trangThai = ? WHERE maSach = ?");
         $stmt->bind_param("ii", $newTrangThai, $maSach);
         $stmt->execute();
         $stmt->close();
         echo json_encode(["status" => "success", "message" => ($newTrangThai) ? "Đã khôi phục sản phẩm." : "Đã ẩn sản phẩm.", "trangThai" => $newTrangThai]);
     } else {
-        $stmt = $database->prepare("DELETE FROM b01_sanpham WHERE maSach = ?");
+        $stmt = $database->prepare("DELETE FROM b01_sanPham WHERE maSach = ?");
         $stmt->bind_param("i", $maSach);
         $stmt->execute();
         $stmt->close();

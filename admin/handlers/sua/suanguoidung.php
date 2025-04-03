@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     $tenNguoiDung = $_POST['tenNguoiDung'];
     $vaiTro = $_POST['vaiTro'];
-    $stmt = $database->prepare("SELECT * FROM b01_nguoidung where tenNguoiDung = ? AND vaiTro = ?");
+    $stmt = $database->prepare("SELECT * FROM b01_nguoiDung where tenNguoiDung = ? AND vaiTro = ?");
     $stmt->bind_param("si",$tenNguoiDung,$vaiTro);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     
     
     if (!empty($updates)) {
-        $sql = "UPDATE b01_nguoidung SET " . implode(", ", $updates) . " WHERE tenNguoiDung = ? AND vaiTro = ?";
+        $sql = "UPDATE b01_nguoiDung SET " . implode(", ", $updates) . " WHERE tenNguoiDung = ? AND vaiTro = ?";
         $stmt = $database->prepare($sql);
         
         $values[] = $tenNguoiDung;

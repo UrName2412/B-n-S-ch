@@ -1,6 +1,6 @@
 <?php
 require '../config/config.php';
-$stmt = $database->prepare("SELECT * FROM b01_theloai");
+$stmt = $database->prepare("SELECT * FROM b01_theLoai");
 $stmt->execute();
 $result = $stmt->get_result();
 $danhSachTheLoai = [];
@@ -10,7 +10,7 @@ while ($row = $result->fetch_assoc()) {
 $result->close();
 $stmt->close();
 
-$stmt = $database->prepare("SELECT * FROM b01_nhaxuatban");
+$stmt = $database->prepare("SELECT * FROM b01_nhaXuatBan");
 $stmt->execute();
 $result = $stmt->get_result();
 $danhSachNhaXuatBan = [];

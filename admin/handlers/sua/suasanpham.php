@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $types = "";
 
     $maSach = $_POST['maSach'];
-    $stmt = $database->prepare("SELECT * FROM b01_sanpham where maSach = ?");
+    $stmt = $database->prepare("SELECT * FROM b01_sanPham where maSach = ?");
     $stmt->bind_param("i", $maSach);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
     
     if (!empty($updates)) {
-        $sql = "UPDATE b01_sanpham SET " . implode(", ", $updates) . " WHERE maSach = ?";
+        $sql = "UPDATE b01_sanPham SET " . implode(", ", $updates) . " WHERE maSach = ?";
         $stmt = $database->prepare($sql);
         
         $values[] = $maSach;

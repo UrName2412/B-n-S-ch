@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $trangThai = 1;
     $daBan = 0;
 
-    $stmt = $database->prepare("INSERT INTO b01_sanpham(hinhAnh, tenSach, tacGia, maTheLoai, maNhaXuatBan, giaBan, soTrang, moTa, trangThai, daBan) 
+    $stmt = $database->prepare("INSERT INTO b01_sanPham(hinhAnh, tenSach, tacGia, maTheLoai, maNhaXuatBan, giaBan, soTrang, moTa, trangThai, daBan) 
     VALUES (?,?,?,?,?,?,?,?,?,?)");
     $stmt->bind_param("sssiiiisii", $hinhAnh, $tenSach, $tacGia, $maTheLoai, $maNhaXuatBan, $giaBan, $soTrang, $moTa, $trangThai, $daBan);
     $stmt->execute();
