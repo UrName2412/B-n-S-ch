@@ -1,3 +1,46 @@
+<?php
+require "../admin/config/config.php";
+require "../asset/handler/user_handle.php";
+
+function test_input($data)
+{
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+
+$usrerror = $mailerror = "";
+
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    $username = test_input($_POST['username']);
+    $email = test_input($_POST['email']);
+    $password = test_input($_POST['pass']);
+    $address = test_input($_POST['address']);
+    $phone = test_input($_POST['phone']);
+    $province = test_input($_POST['province']);
+    $district = test_input($_POST['district']);
+    $ward = test_input($_POST['ward']);
+
+    $checkUser = getUsername($database, $username);
+    $checkEmail = getEmail($database, $email);
+
+    if (!empty($checkUser)) {
+        $usrerror = "Tên đăng nhập đã tồn tại. Vui lòng chọn tên khác.";
+    } elseif (!empty($checkEmail)) {
+        $mailerror = "Email đã được sử dụng. Vui lòng nhập email khác.";
+    } else {
+        $result = addUser($database, $username, $email, $password, $address, $phone, $province, $district, $ward);
+
+        if ($result) {
+            $success = true;
+        } else {
+            $success = false;
+        }
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="vi">
 
@@ -84,53 +127,87 @@
                         <div class="text-center mb-4">
                             <h4 class="fw-bold">ĐĂNG KÝ</h4>
                         </div>
-                        <form action="" name="signupform" id="signupform">
+                        <form action="dangky.php" method="post" name="signupform" id="signupform">
                             <div class="mb-3">
                                 <label class="form-label" for="username">Tên đăng nhập <span style="color: red;">*</span></label>
-                                <input class="form-control" type="text" name="username" id="username" placeholder="Nhập tên đăng nhập" autocomplete="off">
+                                <input class="form-control" type="text" name="username" id="username" placeholder="Nhập tên đăng nhập" autocomplete="off" value="<?php echo isset($username) ? $username : ''; ?>">
+                                <span class="text-danger"> <?php echo $usrerror; ?> </span>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="phone">Số điện thoại <span style="color: red;">*</span></label>
-                                <input class="form-control" type="text" name="phone" id="phone" placeholder="Nhập số điện thoại" autocomplete="off">
+                                <input class="form-control" type="text" name="phone" id="phone" placeholder="Nhập số điện thoại" autocomplete="off" value="<?php echo isset($phone) ? $phone : ''; ?>">
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="email">Email <span style="color: red;">*</span></label>
-                                <input class="form-control" type="text" name="email" id="email" placeholder="Nhập email" autocomplete="off">
+                                <input class="form-control" type="text" name="email" id="email" placeholder="Nhập email" autocomplete="off" value="<?php echo isset($email) ? $email : ''; ?>">
+                                <span class="text-danger"> <?php echo $mailerror; ?> </span>
                             </div>
                             <div class="mb-3 d-flex gap-3">
                                 <div class="w-33">
                                     <label class="form-label" for="province">Tỉnh/Thành phố <span style="color: red;">*</span></label>
                                     <select class="form-select" id="province" name="province" onchange="loadDistricts()">
-                                        <option selected>Chọn tỉnh/thành phố</option>
+                                        <option value="">Chọn tỉnh/thành phố</option>
+                                        <?php
+                                        $jsonProvinces = file_get_contents("../vender/apiAddress/province.json");
+                                        $provinces = json_decode($jsonProvinces, true);
+                                        foreach ($provinces as $prov) {
+                                            $selected = (isset($province) && $province == $prov['code']) ? "selected" : "";
+                                            echo "<option value='{$prov['code']}' $selected>{$prov['name']}</option>";
+                                        }
+                                        ?>
                                     </select>
                                 </div>
                                 <div class="w-33">
                                     <label class="form-label" for="district">Quận/Huyện <span style="color: red;">*</span></label>
                                     <select class="form-select" id="district" name="district" onchange="loadWards()">
-                                        <option selected>Chọn quận/huyện</option>
+                                        <option value="">Chọn quận/huyện</option>
+                                        <?php
+                                        if (!empty($province)) {
+                                            $jsonDistricts = file_get_contents("../vender/apiAddress/district.json");
+                                            $districts = json_decode($jsonDistricts, true);
+                                            foreach ($districts as $dist) {
+                                                if ($dist['province_code'] == $province) {
+                                                    $selected = ($district == $dist['code']) ? "selected" : "";
+                                                    echo "<option value='{$dist['code']}' $selected>{$dist['name']}</option>";
+                                                }
+                                            }
+                                        }
+                                        ?>
                                     </select>
                                 </div>
                                 <div class="w-33">
                                     <label class="form-label" for="ward">Xã/Phường <span style="color: red;">*</span></label>
                                     <select class="form-select" id="ward" name="ward">
-                                        <option selected>Chọn xã/phường</option>
+                                        <option value="">Chọn xã/phường</option>
+                                        <?php
+                                        if (!empty($district)) {
+                                            $jsonWards = file_get_contents("../vender/apiAddress/ward.json");
+                                            $wards = json_decode($jsonWards, true);
+                                            foreach ($wards as $wardItem) {
+                                                if ($wardItem['district_code'] == $district) {
+                                                    $selected = ($ward == $wardItem['code']) ? "selected" : "";
+                                                    echo "<option value='{$wardItem['code']}' $selected>{$wardItem['name']}</option>";
+                                                }
+                                            }
+                                        }
+                                        ?>
                                     </select>
                                 </div>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="address">Địa chỉ nhà <span style="color: red;">*</span></label>
-                                <input class="form-control" type="text" name="address" id="address" placeholder="Nhập số nhà và tên đường" autocomplete="off">
+                                <input class="form-control" type="text" name="address" id="address" placeholder="Nhập số nhà và tên đường" autocomplete="off" value="<?php echo isset($address) ? $address : ''; ?>">
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="pass">Mật khẩu <span style="color: red;">*</span></label>
-                                <input class="form-control" type="password" name="pass" id="pass" placeholder="Nhập mật khẩu" autocomplete="off">
+                                <input class="form-control" type="password" name="pass" id="pass" placeholder="Nhập mật khẩu" autocomplete="off" value="<?php echo isset($password) ? $password : ''; ?>">
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="pass-confirm">Xác nhận mật khẩu <span style="color: red;">*</span></label>
-                                <input class="form-control" type="password" name="pass-confirm" id="pass-confirm" placeholder="Xác nhận mật khẩu" autocomplete="off">
+                                <input class="form-control" type="password" name="pass-confirm" id="pass-confirm" placeholder="Xác nhận mật khẩu" autocomplete="off" value="<?php echo isset($password) ? $password : ''; ?>">
                             </div>
                             <div class="mb-3">
-                                <input type="checkbox" class="form-check-input" id="terms" name="terms">
+                                <input type="checkbox" class="form-check-input" id="terms" name="terms" <?php echo isset($_POST['terms']) ? 'checked' : ''; ?>>
                                 <label class="form-check-label" for="terms">Tôi đồng ý với <a href="#"> điều khoản và chính sách</a> của nhà sách.</label>
                             </div>
                             <button type="submit" class="btn text-white w-100" style="background-color: #336799;">Đăng Ký</button>
@@ -225,6 +302,15 @@
     <!-- Bootstrap JS -->
     <script src="../vender/js/bootstrap.bundle.min.js"></script>
     <script src="../asset/js/dangky.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            <?php if ($success): ?>
+                var successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                successModal.show();
+            <?php endif; ?>
+        });
+    </script>
 </body>
 
 </html>

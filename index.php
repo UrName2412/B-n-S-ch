@@ -1,3 +1,4 @@
+<?php include 'admin/config/config.php'; ?>
 <!DOCTYPE html>
 <html lang="vi">
 
@@ -6,12 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cửa hàng sách Vương Hạo</title>
     <meta name="description" content="Cửa hàng sách Vương Hạo cung cấp toàn quốc.">
-
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="vender/css/bootstrap.min.css">
-    <!-- FONT AWESOME  -->
+    <!-- FONT AWESOME -->
     <link rel="stylesheet" href="vender/css/fontawesome-free/css/all.min.css">
-    <!-- CSS  -->
+    <!-- CSS -->
     <link rel="stylesheet" href="asset/css/index-user.css">
 </head>
 
@@ -101,6 +101,8 @@
             </li>
         </ul>
     </div>
+
+    <!-- Banner Section -->
     <div class="container my-4">
         <div class="slider">
             <div class="slide">
@@ -179,217 +181,95 @@
                 setTimeout(showSlides, 3000);
             }
         </script>
+    </div>
+
+    <!-- Product Section with Pagination -->
+    <div class="container my-4">
         <div class="row mt-4">
             <!-- Sidebar -->
             <aside class="col-lg-3">
-                <div class="rounded text-dark p-4" style="border: 1px solid black;">
+                <form id="filterForm" class="rounded text-dark p-4" style="border: 1px solid black;">
                     <h5 class="fw-bold text-center">TÌM KIẾM</h5>
                     <ul class="list-group">
                         <li class="list-group-item">
-                            <input type="text" class="form-control" id="tensach" placeholder="Tên sách">
+                            <input type="text" class="form-control" name="tensach" placeholder="Tên sách">
                         </li>
                         <li class="list-group-item">
-                            <input type="text" class="form-control" id="tentacgia" placeholder="Tên tác giả">
+                            <input type="text" class="form-control" name="tentacgia" placeholder="Tên tác giả">
                         </li>
                         <li class="list-group-item">
-                            <input type="text" class="form-control" id="nxb" placeholder="Nhà xuất bản">
+                            <input type="text" class="form-control" name="nxb" placeholder="Nhà xuất bản">
                         </li>
                         <li class="list-group-item">
-                            <input type="text" class="form-control" id="theloai" placeholder="Thể loại">
+                            <input type="text" class="form-control" name="theloai" placeholder="Thể loại">
                         </li>
                         <li class="list-group-item">
                             <div class="input-group">
-                                <input class="form-control" type="number" id="minPrice" placeholder="Từ (VNĐ)" min="0">
-                                <input class="form-control" type="number" id="maxPrice" placeholder="Đến (VNĐ)" min="0">
+                                <input class="form-control" type="number" name="minPrice" placeholder="Từ (VNĐ)"
+                                    min="0">
+                                <input class="form-control" type="number" name="maxPrice" placeholder="Đến (VNĐ)"
+                                    min="0">
                             </div>
                         </li>
                         <li class="list-group-item">
                             <div class="d-grid justify-content-md-end d-md-flex gap-2">
-                                <button type="button" class="btn btn-outline-dark" id="resetFilter">Xóa bộ
-                                    lọc</button>
+                                <button type="reset" class="btn btn-outline-dark">Xóa bộ lọc</button>
                                 <button type="submit" class="btn btn-outline-dark">Tìm</button>
                             </div>
                         </li>
                     </ul>
-                </div>
+                </form>
             </aside>
+
             <!-- Main content -->
             <div class="col-lg-9">
                 <div class="border p-5">
                     <div class="container my-4">
-                        <div class="listProduct row">
-                            <!--Benner-->
-                            <div class="benner" style="background-image: url(Images/background.jpg);">
-                                <ul>
-                                    <li>
-                                        <p>"Tư duy mở không chỉ là sự thay đổi trong cách nhìn nhận mà còn là sự dám thử
-                                            nghiệm những điều mới mẻ, dám đối mặt với những thách thức chưa từng gặp."
-                                            <br> Nguyễn Anh Dũng
-                                        </p>
-                                    </li>
-                                    <li>
-                                        <img src="Images/tuduymo.jpg" alt="Ảnh 1" class="benner img">
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="benner" style="background-image: url(Images/background\(1\).jpg);">
-                                <ul>
-                                    <li>
-                                        <p>"Tâm trí của bạn là công cụ mạnh mẽ nhất của bạn; đừng để nó trở thành kẻ thù
-                                            lớn nhất." <br> Chase Hill, Scott Sharp</p>
-                                    </li>
-                                    <li>
-                                        <img src="Images/stopoverthinking.jpg" alt="Ảnh 1" class="benner img">
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="benner" style="background-image: url(Images/background\(2\).jpg);">
-                                <ul>
-                                    <li>
-                                        <p>"Không có chiến lược sinh tồn nào là hoàn hảo, nhưng có những nguyên tắc cơ
-                                            bản có thể giúp bạn vượt qua hầu hết các tình huống." <br> Clint Emerson</p>
-                                    </li>
-                                    <li>
-                                        <img src="Images/100kinangsinhton.jpg" alt="Ảnh 1" class="benner img">
-                                    </li>
-                                </ul>
-                            </div>
-                            <h3><a href="#" class="fw-bold text-dark" style="text-decoration: none;">Sách Bán Chạy: </a>
-                            </h3>
-                            <div class="col-md-4 mb-4">
-                                <div class="card" style="width: 100%;">
-                                    <a href="sanpham/chitietsanpham.php">
-                                        <img src="Images/tuduynguoc.jpg" alt="Ảnh 1" class="card-img-top">
-                                    </a>
-                                    <div class="card-body">
-                                        <h5 class="card-title">Tư duy ngược</h5>
-                                        <p class="card-text">Tác giả: Nguyễn Anh Dũng</p>
-                                        <p class="card-text text-danger fw-bold">80.000 đ</p>
-                                        <button class="btn" style="background-color: #336799; color: #ffffff; ">Thêm vào
-                                            giỏ hàng</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-4">
-                                <div class="card" style="width: 100%;">
-                                    <a href="sanpham/chitietsanpham.php">
-                                        <img src="Images/stopoverthinking.jpg" alt="Ảnh 2" class="card-img-top">
-                                    </a>
-                                    <div class="card-body">
-                                        <h5 class="card-title">Stop Overthinking</h5>
-                                        <p class="card-text">Tác giả: Chase Hill, Scott Sharp</p>
-                                        <p class="card-text text-danger fw-bold">85.000 đ</p>
-                                        <button class="btn" style="background-color: #336799; color: #ffffff; ">Thêm vào
-                                            giỏ hàng</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-4">
-                                <div class="card" style="width: 100%;">
-                                    <a href="sanpham/chitietsanpham.php">
-                                        <img src="Images/tuduymo.jpg" alt="Ảnh 3" class="card-img-top">
-                                    </a>
-                                    <div class="card-body">
-                                        <h5 class="card-title">Tư duy mở</h5>
-                                        <p class="card-text">Tác giả: Nguyễn Anh Dũng</p>
-                                        <p class="card-text text-danger fw-bold">80.000 đ</p>
-                                        <button class="btn" style="background-color: #336799; color: #ffffff; ">Thêm
-                                            vào giỏ hàng</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-4">
-                                <div class="card" style="width: 100%;">
-                                    <a href="sanpham/chitietsanpham.php">
-                                        <img src="Images/conduongchangmayaidi.jpg" alt="Ảnh 4" class="card-img-top">
-                                    </a>
-                                    <div class="card-body">
-                                        <h5 class="card-title">Con đường chẳng mấy ai đi</h5>
-                                        <p class="card-text">Tác giả: M. Scott Peck</p>
-                                        <p class="card-text text-danger fw-bold">90.000 đ</p>
-                                        <button class="btn" style="background-color: #336799; color: #ffffff; ">Thêm
-                                            vào giỏ hàng</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-4">
-                                <div class="card" style="width: 100%;">
-                                    <a href="sanpham/chitietsanpham.php">
-                                        <img src="Images/saochungtalaingu.jpg" alt="Ảnh 5" class="card-img-top">
-                                    </a>
-                                    <div class="card-body">
-                                        <h5 class="card-title">Sao chúng ta lại ngủ</h5>
-                                        <p class="card-text">Tác giả: Matthew Walker</p>
-                                        <p class="card-text text-danger fw-bold">195.000 đ</p>
-                                        <button class="btn" style="background-color: #336799; color: #ffffff; ">Thêm
-                                            vào giỏ hàng</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-4">
-                                <div class="card" style="width: 100%;">
-                                    <a href="sanpham/chitietsanpham.php">
-                                        <img src="Images/muonkiepnhansinh.jpg" alt="Ảnh 6" class="card-img-top">
-                                    </a>
-                                    <div class="card-body">
-                                        <h5 class="card-title">Muôn kiếp nhân sinh</h5>
-                                        <p class="card-text">Tác giả: Nguyên Phong</p>
-                                        <p class="card-text text-danger fw-bold">125.000 đ</p>
-                                        <button class="btn" style="background-color: #336799; color: #ffffff; ">Thêm
-                                            vào giỏ hàng</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <h3><a href="#" class="fw-bold text-dark" style="text-decoration: none;">Sách Ưu Đãi: </a>
-                            </h3>
-                            <div class="col-md-4 mb-4">
-                                <div class="card" style="width: 100%;">
-                                    <a href="sanpham/chitietsanpham.php">
-                                        <img src="Images/cuoccachmangglucose.jpg" alt="Ảnh 2" class="card-img-top">
-                                    </a>
-                                    <div class="card-body">
-                                        <h5 class="card-title">Cuộc cách mạng Glucose</h5>
-                                        <p class="card-text">Tác giả: Jessie Inchauspé</p>
-                                        <p class="card-text text-danger fw-bold">120.000 đ</p>
-                                        <button class="btn" style="background-color: #336799; color: #ffffff; ">Thêm
-                                            vào giỏ hàng</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-4">
-                                <div class="card" style="width: 100%;">
-                                    <a href="sanpham/chitietsanpham.php">
-                                        <img src="Images/100kinangsinhton.jpg" alt="Ảnh 3" class="card-img-top">
-                                    </a>
-                                    <div class="card-body">
-                                        <h5 class="card-title">100 kĩ năng sinh tồn</h5>
-                                        <p class="card-text">Tác giả: Clint Emerson</p>
-                                        <p class="card-text text-danger fw-bold">70.000 đ</p>
-                                        <button class="btn" style="background-color: #336799; color: #ffffff; ">Thêm vào
-                                            giỏ hàng</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-4">
-                                <div class="card" style="width: 100%;">
-                                    <a href="sanpham/chitietsanpham.php">
-                                        <img src="Images/ghichepphapy.jpg" alt="Ảnh 4" class="card-img-top">
-                                    </a>
-                                    <div class="card-body">
-                                        <h5 class="card-title">Ghi chép pháp y</h5>
-                                        <p class="card-text">Tác giả: Lưu Bát Bách</p>
-                                        <p class="card-text text-danger fw-bold">95.000 đ</p>
-                                        <button class="btn" style="background-color: #336799; color: #ffffff; ">Thêm vào
-                                            giỏ hàng</button>
-                                    </div>
-                                </div>
-                            </div>
+                        <div id="listProduct" class="listProduct row">
+                            <?php
+                            // Move the PHP product fetching logic into a separate file (e.g., fetch_products.php)
+                            include 'fetch_products.php';
+                            ?>
                         </div>
                     </div>
+                    <?php
+                    // Pagination calculation
+                    $sqlTotal = "SELECT COUNT(*) AS total FROM `b01_sanPham`";
+                    $resultTotal = $database->query($sqlTotal);
+                    $rowTotal = $resultTotal->fetch_assoc();
+                    $totalProducts = $rowTotal['total'];
+
+                    // Define $productsPerPage with a default value if not already set
+                    $productsPerPage = $productsPerPage ?? 10; // Default to 10 products per page
+                    
+                    if ($productsPerPage == 0) {
+                        throw new Exception("Không có sản phẩm nào trong danh sách.");
+                    }
+
+                    // Ensure the division operation is safe
+                    $totalPages = ceil($totalProducts / $productsPerPage);
+
+                    // Define $currentPage with a default value if not already set
+                    $currentPage = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+
+                    // Ensure $currentPage is at least 1
+                    if ($currentPage < 1) {
+                        $currentPage = 1;
+                    }
+                    ?>
+                    <nav class="pagination-container mt-4" aria-label="Page navigation">
+                        <ul class="pagination justify-content-center">
+                            <?php for ($i = 1; $i <= $totalPages; $i++) {
+                                $active = ($i == $currentPage) ? "active" : "";
+                                echo "<li class='page-item $active'><a class='page-link' href='?page=$i'>$i</a></li>";
+                            } ?>
+                        </ul>
+                    </nav>
                 </div>
             </div>
         </div>
     </div>
+
     <!-- Footer -->
     <footer class="text-white py-4">
         <div class="container">
@@ -460,6 +340,22 @@
         </div>
     </div>
 
+    <div class="modal fade" id="productDetailModal" tabindex="-1" aria-labelledby="productDetailLabel" inert>
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="productDetailLabel">Chi tiết sản phẩm</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="productDetailContent">
+                        <!-- Nội dung sản phẩm sẽ được AJAX cập nhật tại đây -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Bootstrap JS -->
     <script src="vender/js/bootstrap.bundle.min.js"></script>
     <script src="asset/js/sanpham.js"></script>
@@ -478,6 +374,21 @@
         // Gọi hàm khi tải trang và khi thay đổi kích thước
         window.addEventListener("load", adjustSidebar);
         window.addEventListener("resize", adjustSidebar);
+
+        document.getElementById('filterForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+
+            fetch('fetch_products.php', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('listProduct').innerHTML = data;
+                })
+                .catch(error => console.error('Error:', error));
+        });
     </script>
 </body>
 

@@ -2,7 +2,7 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-include 'admin/config/config.php';
+include '../../admin/config/config.php';
 
 if (!isset($database)) {
     die(json_encode(["error" => "Lỗi kết nối cơ sở dữ liệu."]));

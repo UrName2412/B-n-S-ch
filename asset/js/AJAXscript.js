@@ -4,6 +4,33 @@ document.addEventListener("DOMContentLoaded", function () {
     let currentPage = 1;
     let products = [];
 
+    // Function to attach event listeners to "view-detail" links
+    function attachViewDetailListeners() {
+        document.querySelectorAll(".view-detail").forEach(link => {
+            link.addEventListener("click", function (e) {
+                e.preventDefault();
+                const productId = this.getAttribute("data-id");
+                fetchProductDetail(productId);
+            });
+        });
+    }
+
+    // Function to fetch product details via AJAX
+    function fetchProductDetail(productId) {
+        fetch("../asset/handler/ajax_get_product_detail.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: `id=${productId}`
+        })
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById("productDetailContent").innerHTML = data;
+            const productDetailModal = new bootstrap.Modal(document.getElementById("productDetailModal"));
+            productDetailModal.show();
+        })
+        .catch(error => console.error("Error fetching product details:", error));
+    }
+
     // Hàm hiển thị sản phẩm theo trang
     function showPage(page) {
         const start = (page - 1) * productsPerPage;
@@ -14,6 +41,8 @@ document.addEventListener("DOMContentLoaded", function () {
         products.slice(start, end).forEach(productHTML => {
             document.getElementById("listProduct").innerHTML += productHTML;
         });
+
+        attachViewDetailListeners(); // Reattach event listeners after rendering
     }
 
     // Hàm tạo phân trang
@@ -54,7 +83,20 @@ document.addEventListener("DOMContentLoaded", function () {
         let nhaXuatBan = document.getElementById("nxb").value.trim().toLowerCase();
         let theloai = document.getElementById("theloai").value.trim().toLowerCase();
 
-        let url = `../handler/fetch_product.php?category=${category}&min_price=${minPrice}&max_price=${maxPrice}`;
+        let url = `../asset/handler/fetch_product.php?category=${category}&min_price=${minPrice}&max_price=${maxPrice}`;
+
+        fetch(url)
+            .then(response => response.text()) // Đọc phản hồi dưới dạng text
+            .then(data => {
+                console.log("Phản hồi từ server:", data); // Ghi lại dữ liệu nhận được
+                try {
+                    return JSON.parse(data); // Thử parse JSON
+                } catch (error) {
+                    console.error("Lỗi khi parse JSON:", error);
+                    throw new Error("Server không trả về JSON hợp lệ");
+                }
+            })
+            .catch(error => console.log("Lỗi khi tải sản phẩm:", error));
 
         fetch(url)
             .then(response => response.json())
@@ -90,20 +132,17 @@ document.addEventListener("DOMContentLoaded", function () {
                 products = filteredProducts.map(product => `
                     <div class="col-md-4 mb-4">
                         <div class="card" style="width: 100%;">
-                            <a href="chitietsanpham.php?id=${product.maSach}">
-                                <img src="../Images/${product.hinhAnh}" alt="${product.tenSach}" class="card-img-top">
+                            <a href="#" class="view-detail" data-id="${product.maSach}">
+                                <img src="../Images/demenphieuluuki.jpg" alt="${product.tenSach}" class="card-img-top">
                             </a>
                             <div class="card-body">
                                 <h5 class="card-title">${product.tenSach}</h5>
-                                <p class="card-text">Tác giả: ${product.tacGia}</p>
-                                <p class="card-text">Nhà xuất bản: ${product.maNhaXuatBan}</p>
-                                <p class="card-text">Thể loại: ${product.maTheLoai}</p>
+                                <p class="card-text">Thể loại: ${product.tenTheLoai}</p>
                                 <p class="card-text text-danger fw-bold">${formatPrice(product.giaBan)} đ</p>
                                 <button class="btn" style="background-color: #336799; color: #ffffff;">Thêm vào giỏ hàng</button>
                             </div>
                         </div>
-                    </div>
-                `);
+                    </div>`);
 
                 // Reset lại trang hiện tại khi lọc
                 currentPage = 1;

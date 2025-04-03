@@ -225,3 +225,46 @@ aside input {
     }
 }
 
+#productDetailModal img {
+    max-height: 300px;
+    object-fit: cover;
+}
+
+.pagination .page-item .page-link {
+    color: white;
+    background-color: #336799;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #28527a;
+    color: white;
+}
+
+#productDetailModal .modal-body {
+    padding: 20px;
+}
+
+#productDetailModal h5 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+#productDetailModal p {
+    margin-bottom: 10px;
+}
+
+#productDetailModal .btn-success {
+    margin-top: 20px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    #productDetailModal img {
+        max-height: 200px;
+    }
+
+    #productDetailModal h5 {
+        font-size: 1.25rem;
+    }
+}
+

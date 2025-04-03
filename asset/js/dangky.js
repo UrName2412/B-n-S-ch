@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", function () {
             hideError(phone);
         }
 
-        if (province.value === "") {
+        if (!province.value || province.value === "Chọn tỉnh/thành phố") {
             showError(province, "Vui lòng chọn tỉnh/thành");
             valid = false;
         } else {
@@ -153,15 +153,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Kiểm tra form hợp lệ
         if (valid) {
-            modal.classList.add("active");
+            form.submit();
         }
-    });
-
-    const closeModal = document.getElementById("closeModal");
-    closeModal.addEventListener("click", function () {
-        // Sau khi đóng thông báo thì gửi form
-        modal.classList.remove("active");
-        form.submit();
     });
 });
 
