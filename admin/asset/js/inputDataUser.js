@@ -33,8 +33,6 @@ function fixButtons() {
     const stringModal = 'Bạn có chắc muốn sửa người dùng không?';
     const stringAlert = 'Đã sửa.';
 
-    var chuoiVaiTro = ["Người dùng","Người quản trị"];
-
     fixButtons.forEach((fixButton) => {
         fixButton.addEventListener('click', (event) => {
             var gridRow = event.target.closest('.grid-row');
