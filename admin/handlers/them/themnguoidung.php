@@ -25,8 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
 
     if ($flag){
-        $matKhau = $_POST["matKhau"];
-        $matKhau = password_hash($matKhau, PASSWORD_DEFAULT);
+        $matKhau = password_hash($_POST["matKhau"], PASSWORD_DEFAULT);
         $soDienThoai = $_POST["soDienThoai"];
         $email = $_POST["email"];
         $tinhThanh = $_POST["tinhThanh"];
