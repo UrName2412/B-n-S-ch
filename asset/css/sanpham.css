@@ -189,42 +189,6 @@ aside input {
     }
 }
 
-/* Căn chỉnh modal hiển thị trong khung hình */
-#productDetailModal .modal-dialog {
-    max-width: 80vw; /* Giới hạn chiều rộng */
-    max-height: 80vh; /* Giới hạn chiều cao */
-}
-
-#productDetailModal .modal-content {
-    overflow: hidden;
-    border-radius: 10px; /* Bo góc cho đẹp */
-}
-
-#productDetailModal .modal-body {
-    max-height: 70vh; /* Giới hạn chiều cao nội dung */
-    overflow: auto; /* Tránh bị tràn nội dung */
-    padding: 15px; /* Thêm khoảng cách bên trong */
-}
-
-/* Responsive cho màn hình nhỏ */
-@media (max-width: 768px) {
-    #productDetailModal .modal-dialog {
-        max-width: 95vw; /* Chiếm toàn bộ màn hình trên điện thoại */
-        max-height: 90vh;
-    }
-    #productDetailModal .modal-body {
-        max-height: 75vh;
-    }
-}
-
-/* Responsive cho màn hình lớn */
-@media (min-width: 1200px) {
-    #productDetailModal .modal-dialog {
-        max-width: 60vw;
-        max-height: 75vh;
-    }
-}
-
 .pagination .page-item .page-link {
     color: white;
     background-color: #336799;
@@ -233,33 +197,5 @@ aside input {
 .pagination .page-item.active .page-link {
     background-color: #28527a;
     color: white;
-}
-
-#productDetailModal .modal-body {
-    padding: 20px;
-}
-
-#productDetailModal h5 {
-    font-size: 1.5rem;
-    margin-bottom: 15px;
-}
-
-#productDetailModal p {
-    margin-bottom: 10px;
-}
-
-#productDetailModal .btn-success {
-    margin-top: 20px;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    #productDetailModal img {
-        max-height: 200px;
-    }
-
-    #productDetailModal h5 {
-        font-size: 1.25rem;
-    }
 }
 

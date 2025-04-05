@@ -188,37 +188,35 @@
         <div class="row mt-4">
             <!-- Sidebar -->
             <aside class="col-lg-3">
-                <form id="filterForm" class="rounded text-dark p-4" style="border: 1px solid black;">
+                <div class="rounded text-dark p-4" style="border: 1px solid black;">
                     <h5 class="fw-bold text-center">TÌM KIẾM</h5>
                     <ul class="list-group">
                         <li class="list-group-item">
-                            <input type="text" class="form-control" name="tensach" placeholder="Tên sách">
+                            <input type="text" class="form-control" id="tensach" placeholder="Tên sách">
                         </li>
                         <li class="list-group-item">
-                            <input type="text" class="form-control" name="tentacgia" placeholder="Tên tác giả">
+                            <input type="text" class="form-control" id="tentacgia" placeholder="Tên tác giả">
                         </li>
                         <li class="list-group-item">
-                            <input type="text" class="form-control" name="nxb" placeholder="Nhà xuất bản">
+                            <input type="text" class="form-control" id="nxb" placeholder="Nhà xuất bản">
                         </li>
                         <li class="list-group-item">
-                            <input type="text" class="form-control" name="theloai" placeholder="Thể loại">
+                            <input type="text" class="form-control" id="theloai" placeholder="Thể loại">
                         </li>
                         <li class="list-group-item">
                             <div class="input-group">
-                                <input class="form-control" type="number" name="minPrice" placeholder="Từ (VNĐ)"
-                                    min="0">
-                                <input class="form-control" type="number" name="maxPrice" placeholder="Đến (VNĐ)"
-                                    min="0">
+                                <input class="form-control" type="number" id="minPrice" placeholder="Từ (VNĐ)" min="0">
+                                <input class="form-control" type="number" id="maxPrice" placeholder="Đến (VNĐ)" min="0">
                             </div>
                         </li>
                         <li class="list-group-item">
                             <div class="d-grid justify-content-md-end d-md-flex gap-2">
-                                <button type="reset" class="btn btn-outline-dark">Xóa bộ lọc</button>
-                                <button type="submit" class="btn btn-outline-dark">Tìm</button>
+                                <button type="button" class="btn btn-outline-dark" id="resetFilter">Xóa bộ lọc</button>
+                                <button type="button" class="btn btn-outline-dark" id="filterBtn">Tìm</button>
                             </div>
                         </li>
                     </ul>
-                </form>
+                </div>
             </aside>
 
             <!-- Main content -->
@@ -226,43 +224,12 @@
                 <div class="border p-5">
                     <div class="container my-4">
                         <div id="listProduct" class="listProduct row">
-                            <?php
-                            // Move the PHP product fetching logic into a separate file (e.g., fetch_products.php)
-                            include 'fetch_products.php';
-                            ?>
+
                         </div>
                     </div>
-                    <?php
-                    // Pagination calculation
-                    $sqlTotal = "SELECT COUNT(*) AS total FROM `b01_sanPham`";
-                    $resultTotal = $database->query($sqlTotal);
-                    $rowTotal = $resultTotal->fetch_assoc();
-                    $totalProducts = $rowTotal['total'];
-
-                    // Define $productsPerPage with a default value if not already set
-                    $productsPerPage = $productsPerPage ?? 10; // Default to 10 products per page
-                    
-                    if ($productsPerPage == 0) {
-                        throw new Exception("Không có sản phẩm nào trong danh sách.");
-                    }
-
-                    // Ensure the division operation is safe
-                    $totalPages = ceil($totalProducts / $productsPerPage);
-
-                    // Define $currentPage with a default value if not already set
-                    $currentPage = isset($_GET['page']) ? (int) $_GET['page'] : 1;
-
-                    // Ensure $currentPage is at least 1
-                    if ($currentPage < 1) {
-                        $currentPage = 1;
-                    }
-                    ?>
                     <nav class="pagination-container mt-4" aria-label="Page navigation">
-                        <ul class="pagination justify-content-center">
-                            <?php for ($i = 1; $i <= $totalPages; $i++) {
-                                $active = ($i == $currentPage) ? "active" : "";
-                                echo "<li class='page-item $active'><a class='page-link' href='?page=$i'>$i</a></li>";
-                            } ?>
+                        <ul id="pagination" class="pagination justify-content-center">
+
                         </ul>
                     </nav>
                 </div>
@@ -359,9 +326,9 @@
     <!-- Bootstrap JS -->
     <script src="vender/js/bootstrap.bundle.min.js"></script>
     <script src="asset/js/sanpham.js"></script>
-
+    <script src="asset/js/AJAXscript.js"></script>
     <script>
-        function adjustSidebar() {  // Hàm điều khiển sidebar khi cuộn
+        function adjustSidebar() { // Hàm điều khiển sidebar khi cuộn
             const sidebar = document.querySelector("aside");
             if (window.innerWidth > 991) {
                 sidebar.style.position = "sticky";
@@ -370,25 +337,9 @@
                 sidebar.style.position = "static";
             }
         }
-
         // Gọi hàm khi tải trang và khi thay đổi kích thước
         window.addEventListener("load", adjustSidebar);
         window.addEventListener("resize", adjustSidebar);
-
-        document.getElementById('filterForm').addEventListener('submit', function (event) {
-            event.preventDefault();
-            const formData = new FormData(this);
-
-            fetch('fetch_products.php', {
-                method: 'POST',
-                body: formData
-            })
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('listProduct').innerHTML = data;
-                })
-                .catch(error => console.error('Error:', error));
-        });
     </script>
 </body>
 

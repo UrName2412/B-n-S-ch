@@ -80,31 +80,7 @@
             </nav>
         </div>
     </header>
-
-    <!-- Main Content -->
-    <div class="container mt-3">
-        <ul class="nav nav-tabs">
-            <li class="nav-item">
-                <a class="nav-link" href="../danhmuc/sachthieunhi.php">Sách thiếu nhi</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="../danhmuc/sachgiaokhoa.php">Sách giáo khoa</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="../danhmuc/sachkinhte.php">Sách kinh tế</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="../danhmuc/sachlichsu.php">Sách lịch sử</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="../danhmuc/sachngoaingu.php">Sách ngoại ngữ</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="../danhmuc/sachkhoahoc.php">Sách khoa học</a>
-            </li>
-        </ul>
-    </div>
-
+    <!-- Main content -->
     <div class="container my-4">
         <div class="row mt-4">
             <!-- Sidebar -->
@@ -132,8 +108,9 @@
                         </li>
                         <li class="list-group-item">
                             <div class="d-grid justify-content-md-end d-md-flex gap-2">
-                                <button type="button" class="btn btn-outline-dark" id="resetFilter">Xóa bộ lọc</button>
-                                <button type="button" id="filterBtn" class="btn btn-outline-dark">Tìm</button>
+                                <button type="button" class="btn btn-outline-dark" id="resetFilter">Xóa bộ
+                                    lọc</button>
+                                <button type="button" class="btn btn-outline-dark" id="filterBtn">Tìm</button>
                             </div>
                         </li>
                     </ul>
@@ -145,58 +122,12 @@
                 <div class="border p-5">
                     <div class="container my-4">
                         <div id="listProduct" class="listProduct row">
-                            <?php
-                            // Phân trang bằng PHP
-                            $productsPerPage = 6;
-                            $currentPage = isset($_GET['page']) ? intval($_GET['page']) : 1;
-                            if ($currentPage < 1) {
-                                $currentPage = 1;
-                            }
-                            $offset = ($currentPage - 1) * $productsPerPage;
 
-                            // Truy vấn sản phẩm với LIMIT và OFFSET
-                            $sql = "SELECT sp.*, tl.tenTheLoai 
-                                    FROM `b01_sanPham` sp 
-                                    JOIN `b01_theLoai` tl ON sp.maTheLoai = tl.maTheLoai 
-                                    LIMIT $productsPerPage OFFSET $offset";
-                            $result = $database->query($sql);
-
-                            if ($result->num_rows > 0) {
-                                while ($row = $result->fetch_assoc()) {
-                                    echo "<div class=\"col-md-4 mb-4\">
-                                        <div class=\"card\" style=\"width: 100%;\">
-                                        <a href=\"#\" class=\"view-detail\" data-id=\"{$row['maSach']}\">
-                                        <img src=\"../Images/demenphieuluuki.jpg\" alt=\"{$row['tenSach']}\" class=\"card-img-top\">
-                                        </a>
-                                        <div class=\"card-body\">
-                                            <h5 class=\"card-title\">{$row['tenSach']}</h5>
-                                            <p class=\"card-text\">Thể loại: {$row['tenTheLoai']}</p>
-                                            <p class=\"card-text text-danger fw-bold\">" . number_format($row['giaBan'], 0, ',', '.') . " đ</p>
-                                            <button class=\"btn\" style=\"background-color: #336799; color: #ffffff;\">Thêm vào giỏ hàng</button>
-                                        </div>
-                                        </div>
-                                    </div>";
-                                }
-                            } else {
-                                echo "<p>Không có sản phẩm nào.</p>";
-                            }
-                            ?>
                         </div>
                     </div>
-                    <?php
-                    // Tính tổng số sản phẩm để tạo phân trang
-                    $sqlTotal = "SELECT COUNT(*) AS total FROM `b01_sanPham`";
-                    $resultTotal = $database->query($sqlTotal);
-                    $rowTotal = $resultTotal->fetch_assoc();
-                    $totalProducts = $rowTotal['total'];
-                    $totalPages = ceil($totalProducts / $productsPerPage);
-                    ?>
                     <nav class="pagination-container mt-4" aria-label="Page navigation">
-                        <ul class="pagination justify-content-center">
-                            <?php for ($i = 1; $i <= $totalPages; $i++) {
-                                $active = ($i == $currentPage) ? "active" : "";
-                                echo "<li class='page-item $active'><a class='page-link' href='?page=$i'>$i</a></li>";
-                            } ?>
+                        <ul id="pagination" class="pagination justify-content-center">
+
                         </ul>
                     </nav>
                 </div>
@@ -224,7 +155,7 @@
             <div class="row d-flex justify-content-center align-items-center footer__bar">
                 <div class="col-md-4">
                     <div class="logo">
-                        <a href="../index.php" class="d-flex align-items-center">
+                        <a href="index.php" class="d-flex align-items-center">
                             <img src="../Images/LogoSach.png" alt="logo" width="100" height="57">
                         </a>
                     </div>
@@ -254,7 +185,8 @@
                 <div class="col-md-12">
                     <ul class="list-unstyled">
                         <li>Chi nhánh 1: 273 An Dương Vương, Phường 3, Quận 5, TP. Hồ Chí Minh</li>
-                        <li>Chi nhánh 2: 105 Bà Huyện Thanh Quan, Phường Võ Thị Sáu, Quận 3, TP. Hồ Chí Minh</li>
+                        <li>Chi nhánh 2: 105 Bà Huyện Thanh Quan, Phường Võ Thị Sáu, Quận 3, TP. Hồ Chí Minh
+                        </li>
                         <li>Chi nhánh 3: 4 Tôn Đức Thắng, Phường Bến Nghé, Quận 1, TP. Hồ Chí Minh</li>
                     </ul>
                 </div>
@@ -264,7 +196,7 @@
 
     <a href="#top" id="backToTop">&#8593;</a>
 
-    <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel">
+    <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" inert>
         <div class="modal-dialog modal-sm position-absolute" style="top: 10%; left: 10%;">
             <div class="modal-content bg-success text-white">
                 <div class="modal-body text-center">
@@ -274,8 +206,8 @@
         </div>
     </div>
 
-    <div class="modal fade" id="productDetailModal" tabindex="-1" aria-labelledby="productDetailLabel">
-        <div class="modal-dialog">
+    <div class="modal fade" id="productDetailModal" tabindex="-1" aria-labelledby="productDetailLabel" inert>
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="productDetailLabel">Chi tiết sản phẩm</h5>
