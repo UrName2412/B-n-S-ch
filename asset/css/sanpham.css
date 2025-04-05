@@ -225,11 +225,6 @@ aside input {
     }
 }
 
-#productDetailModal img {
-    max-height: 300px;
-    object-fit: cover;
-}
-
 .pagination .page-item .page-link {
     color: white;
     background-color: #336799;
