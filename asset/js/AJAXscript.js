@@ -175,7 +175,6 @@ function loadProducts(page = 1) {
 
             // Hiển thị sản phẩm mới
             products.forEach(function (product) {
-                console.log(product);
                 let productDiv = document.createElement('div');
                 productDiv.classList.add('col-md-4', 'mb-4');
                 productDiv.innerHTML = `
