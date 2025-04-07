@@ -12,11 +12,11 @@ if (isset($_SESSION['username'])) {
     if (checkLogin($database, $username, $password)) {
         $_SESSION['username'] = $username;
     } else {
-        header("Location: ../dangky/dangnhap.php");
+        header("Location: ../index.php");
         exit();
     }
 } else {
-    header("Location: ../dangky/dangnhap.php");
+    header("Location: ../index.php");
     exit();
 }
 ?>

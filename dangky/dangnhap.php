@@ -1,6 +1,8 @@
 <?php
 require "../admin/config/config.php";
 require "../asset/handler/user_handle.php";
+session_start();
+
 function test_input($data)
 {
     $data = trim($data);

@@ -1,5 +1,6 @@
 <?php
-function getUsername($database, $username) {
+function getUsername($database, $username)
+{
     $stmt = $database->prepare("SELECT * FROM b01_nguoidung WHERE tenNguoiDung = ?");
     if ($stmt === false) {
         die('MySQL prepare error: ' . $database->error);
@@ -15,7 +16,8 @@ function getUsername($database, $username) {
     return array();
 }
 
-function getEmail($database, $email) {
+function getEmail($database, $email)
+{
     $stmt = $database->prepare("SELECT * FROM b01_nguoidung WHERE email = ?");
     if ($stmt === false) {
         die('MySQL prepare error: ' . $database->error);
@@ -31,7 +33,8 @@ function getEmail($database, $email) {
     return array();
 }
 
-function addUser($database, $username, $email, $password, $address, $phone, $province, $district, $ward) {
+function addUser($database, $username, $email, $password, $address, $phone, $province, $district, $ward)
+{
     $role = false;
     $status = true;
 
@@ -46,4 +49,29 @@ function addUser($database, $username, $email, $password, $address, $phone, $pro
     $stmt->close();
 
     return $success;
+}
+
+function checkLogin($database, $username, $password)
+{
+    $stmt = $database->prepare("SELECT * FROM b01_nguoidung WHERE tenNguoiDung = ?");
+    if ($stmt === false) {
+        die('MySQL prepare error: ' . $database->error);
+    }
+
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        $user = $result->fetch_assoc();
+        if (password_verify($password, $user['matKhau'])) {
+            return $user;
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
+
+    $stmt->close();
 }
