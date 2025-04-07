@@ -63,21 +63,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // Kiểm tra tài khoản
         if(valid) {
-            if(username.value === "user123" && passwd.value === "12345678") {
-                hideError(username);
-                hideError(passwd);
-                modalSuccess.classList.add("active");
-            } else {
-                showError(username, "Tên đăng nhập hoặc mật khẩu không đúng");
-                showError(passwd, "Tên đăng nhập hoặc mật khẩu không đúng");
-            }
+            form.submit();
         }
-    });
-
-    const closeModal = document.getElementById("closeModal");
-    closeModal.addEventListener("click", function() {
-        // Sau khi đóng thông báo thì gửi form
-        modalSuccess.classList.remove("active");
-        form.submit();
     });
 });
