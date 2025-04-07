@@ -12,11 +12,11 @@ if (isset($_SESSION['username'])) {
     if (checkLogin($database, $username, $password)) {
         $_SESSION['username'] = $username;
     } else {
-        header("Location: ../index.php");
+        echo "<script>alert('Bạn chưa đăng nhập!'); window.location.href='../dangky/dangnhap.php';</script>";
         exit();
     }
 } else {
-    header("Location: ../index.php");
+    echo "<script>alert('Bạn chưa đăng nhập!'); window.location.href='../dangky/dangnhap.php';</script>";
     exit();
 }
 ?>
@@ -83,7 +83,7 @@ if (isset($_SESSION['username'])) {
                     <ul class="navbar-nav me-auto">
                         <?php if (isset($_SESSION['username'])): ?>
                             <li class="nav-item">
-                                <a href="../dangky/dangxuat.php" class="nav-link fw-bold text-white">ĐĂNG XUẤT</a>
+                                <a href="../index.php" class="nav-link fw-bold text-white">ĐĂNG XUẤT</a>
                             </li>
                         <?php endif; ?>
                         <li class="nav-item">

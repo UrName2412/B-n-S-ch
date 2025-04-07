@@ -1,3 +1,14 @@
+<?php
+require "../admin/config/config.php";
+
+session_start();
+
+if (isset($_SESSION['username']) || isset($_COOKIE['username'])) {
+    header("Location: ../nguoidung/indexuser.php");
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="vi">
 
@@ -47,7 +58,7 @@
                         </button>
                     </form>
                     <script>
-                        document.getElementById('searchForm').addEventListener('submit', function (event) {
+                        document.getElementById('searchForm').addEventListener('submit', function(event) {
                             event.preventDefault();
                             const inputValue = document.getElementById('timkiem').value.trim();
 
@@ -101,7 +112,7 @@
                 </div>
             </section>
         </div>
-        
+
         <!--emptyc-cart-->
         <div id="empty-cart-message" class="cart_container align-items-center mt-4 mx-5"
             style="min-height: 100vh; display: none;">

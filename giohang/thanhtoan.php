@@ -1,32 +1,52 @@
 <?php
+require '../asset/handler/user_handle.php';
+session_start();
+
+if (isset($_SESSION['username'])) {
+  $username = $_SESSION['username'];
+} elseif (isset($_COOKIE['username']) && isset($_COOKIE['pass'])) {
+  $username = $_COOKIE['username'];
+  $password = $_COOKIE['pass'];
+
+  if (checkLogin($database, $username, $password)) {
+    $_SESSION['username'] = $username;
+  } else {
+    echo "<script>alert('Bạn chưa đăng nhập!'); window.location.href='../dangky/dangnhap.php';</script>";
+    exit();
+  }
+} else {
+  echo "<script>alert('Bạn chưa đăng nhập!'); window.location.href='../dangky/dangnhap.php';</script>";
+  exit();
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Lấy dữ liệu từ form
-    $name = $_POST['name-user'];
-    $phone = $_POST['phone-user'];
-    $address = $_POST['payment--adr'];
-    $note = $_POST['payment--note'];
+  // Lấy dữ liệu từ form
+  $name = $_POST['name-user'];
+  $phone = $_POST['phone-user'];
+  $address = $_POST['payment--adr'];
+  $note = $_POST['payment--note'];
 
-    if (empty($name) || empty($phone) || empty($address)) {
-        echo "Vui lòng điền đầy đủ thông tin.";
-        exit;
-    }
+  if (empty($name) || empty($phone) || empty($address)) {
+    echo "Vui lòng điền đầy đủ thông tin.";
+    exit;
+  }
 
-    if (!preg_match("/^\+84\d{9,10}$/", $phone)) {
-        echo "Số điện thoại không hợp lệ.";
-        exit;
-    }
+  if (!preg_match("/^\+84\d{9,10}$/", $phone)) {
+    echo "Số điện thoại không hợp lệ.";
+    exit;
+  }
 
-    include('../admin/config/config.php');
+  include('../admin/config/config.php');
 
-    $sql = "INSERT INTO orders (name, phone, address, note) VALUES ('$name', '$phone', '$address', '$note')";
-    if (mysqli_query($conn, $sql)) {
-        header("Location: confirm_order.php?status=success");
-        exit;
-    } else {
-        echo "Lỗi khi lưu đơn hàng: " . mysqli_error($conn);
-    }
+  $sql = "INSERT INTO orders (name, phone, address, note) VALUES ('$name', '$phone', '$address', '$note')";
+  if (mysqli_query($conn, $sql)) {
+    header("Location: confirm_order.php?status=success");
+    exit;
+  } else {
+    echo "Lỗi khi lưu đơn hàng: " . mysqli_error($conn);
+  }
 
-    mysqli_close($conn);
+  mysqli_close($conn);
 }
 ?>
 
@@ -79,9 +99,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </button>
           </form>
           <ul class="navbar-nav me-auto">
-            <li class="nav-item">
-              <a href="../index.php" class="nav-link fw-bold text-white">ĐĂNG XUẤT</a>
-            </li>
+            <?php if (isset($_SESSION['username'])): ?>
+              <li class="nav-item">
+                <a href="../index.php" class="nav-link fw-bold text-white">ĐĂNG XUẤT</a>
+              </li>
+            <?php endif; ?>
             <li class="nav-item">
               <div>
                 <a href="../nguoidung/user.php"><i class="fas fa-user" id="avatar" style="color: black;"></i></a>

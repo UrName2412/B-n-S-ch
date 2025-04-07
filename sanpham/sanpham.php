@@ -1,4 +1,14 @@
-<?php include '../admin/config/config.php'; ?>
+<?php 
+include '../admin/config/config.php'; 
+
+session_start();
+
+if (isset($_SESSION['username']) || isset($_COOKIE['username'])) {
+    header("Location: sanpham-user.php");
+    exit();
+}
+
+?>
 <!DOCTYPE html>
 <html lang="vi">
 
