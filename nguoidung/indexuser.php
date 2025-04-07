@@ -1,16 +1,24 @@
 <?php
+require '../admin/config/config.php';
+require '../asset/handler/user_handle.php';
 session_start();
-if (!isset($_SESSION['username'])) {
-echo "<script>alert('Bạn chưa đăng nhập!'); window.location.href='../dangky/dangnhap.php';</script>";
-exit();
-} else {
-echo "Xin chào, " . $_SESSION['username'] . "!";
-}
 
-$username = $_SESSION['username'];
-$email = $_SESSION['email'];
-$sdt = $_SESSION['sdt'];
-$diachi = $_SESSION['diachi'];
+if (isset($_SESSION['username'])) {
+    $username = $_SESSION['username'];
+} elseif (isset($_COOKIE['username']) && isset($_COOKIE['pass'])) {
+    $username = $_COOKIE['username'];
+    $password = $_COOKIE['pass'];
+
+    if (checkLogin($database, $username, $password)) {
+        $_SESSION['username'] = $username;
+    } else {
+        header("Location: ../dangky/dangnhap.php");
+        exit();
+    }
+} else {
+    header("Location: ../dangky/dangnhap.php");
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -23,34 +31,12 @@ $diachi = $_SESSION['diachi'];
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="../vender/css/bootstrap.min.css">
     <!-- FONT AWESOME  -->
-    <link rel="stylesheet" href="../vender/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../vender/css/fontawesome-free/css/all.min.css">
     <!-- CSS  -->
     <link rel="stylesheet" href="../asset/css/index-user.css">
 </head>
 
 <body>
-    <div class="container mt-5">
-        <h2>Thông tin tài khoản</h2>
-        <table class="table table-bordered">
-            <tr>
-                <th>Tên đăng nhập:</th>
-                <td><?php echo $username; ?></td>
-            </tr>
-            <tr>
-                <th>Email:</th>
-                <td><?php echo $email; ?></td>
-            </tr>
-            <tr>
-                <th>Số điện thoại:</th>
-                <td><?php echo $sdt; ?></td>
-            </tr>
-            <tr>
-                <th>Địa chỉ:</th>
-                <td><?php echo $diachi; ?></td>
-            </tr>
-        </table>
-        <a href="logout.php" class="btn btn-danger">Đăng xuất</a>
-    </div>
     <!-- Header -->
     <header class="text-white py-3" id="top">
         <div class="container">
@@ -83,7 +69,7 @@ $diachi = $_SESSION['diachi'];
                         </button>
                     </form>
                     <script>
-                        document.getElementById('searchForm').addEventListener('submit', function (event) {
+                        document.getElementById('searchForm').addEventListener('submit', function(event) {
                             event.preventDefault();
                             const inputValue = document.getElementById('timkiem').value.trim();
 
@@ -95,9 +81,11 @@ $diachi = $_SESSION['diachi'];
                         });
                     </script>
                     <ul class="navbar-nav me-auto">
-                        <li class="nav-item">
-                            <a href="../index.php" class="nav-link fw-bold text-white">ĐĂNG XUẤT</a>
-                        </li>
+                        <?php if (isset($_SESSION['username'])): ?>
+                            <li class="nav-item">
+                                <a href="../dangky/dangxuat.php" class="nav-link fw-bold text-white">ĐĂNG XUẤT</a>
+                            </li>
+                        <?php endif; ?>
                         <li class="nav-item">
                             <div>
                                 <a href="user.php"><i class="fas fa-user" id="avatar" style="color: black;"></i></a>
@@ -190,7 +178,9 @@ $diachi = $_SESSION['diachi'];
                 for (let i = 0; i < slides.length; i++) {
                     slides[i].style.display = "none";
                 }
-                if (slideIndex > slides.length) { slideIndex = 1 }
+                if (slideIndex > slides.length) {
+                    slideIndex = 1
+                }
                 slides[slideIndex - 1].style.display = "block";
                 slideIndex++;
                 setTimeout(showSlides, 3000);

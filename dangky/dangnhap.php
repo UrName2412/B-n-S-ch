@@ -1,27 +1,55 @@
 <?php
-session_start();
-include '../admin/config/config.php';
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST["username"];
-    $password = $_POST["pass"];
+require "../admin/config/config.php";
+require "../asset/handler/user_handle.php";
+function test_input($data)
+{
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
 
-    $sql = "SELECT * FROM users WHERE username = ? AND password = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ss", $username, $password);
-    $stmt->execute();
-    $result = $stmt->get_result();
+$usererror = $passerror = "";
+$success = false;
 
-    if ($result->num_rows == 1) {
-        $user = $result->fetch_assoc();
-        $_SESSION['id'] = $user['user_id'];
-        $_SESSION['username'] = $user['username'];
-        $_SESSION['email'] = $user['email'];
-        $_SESSION['sdt'] = $user['sdt'];
-        $_SESSION['diachi'] = $user['diachi'];
+if (isset($_COOKIE['username']) && isset($_COOKIE['pass'])) {
+    $username = $_COOKIE['username'];
+    $password = $_COOKIE['pass'];
 
-        header("Location: ../nguoidung/indexuser.php");;
-    } else {
-        echo "<script>alert('Sai tài khoản hoặc mật khẩu!'); window.location.href='dangnhap.php';</script>";
+    $result = checkLogin($database, $username, $password);
+    if ($result) {
+        $_SESSION['username'] = $username;
+        header("Location: ../nguoidung/indexuser.php");
+        exit();
+    }
+} else {
+    if (isset($_POST['action']) && $_POST['action'] == 'do-login') {
+        if ($_SERVER['REQUEST_METHOD'] === "POST") {
+            $username = test_input($_POST['username']);
+            $password = test_input($_POST['pass']);
+
+            $result = checkLogin($database, $username, $password);
+            if (!$result) {
+                $usererror = "Tên đăng nhập hoặc mật khẩu không đúng";
+                $passerror = "Tên đăng nhập hoặc mật khẩu không đúng";
+            } else {
+                $success = true;
+                $_SESSION['username'] = $username;
+
+                // Lưu thông tin vào cookie nếu người dùng chọn "Ghi nhớ mật khẩu"
+                if (isset($_POST['remember'])) {
+                    setcookie('username', $username, time() + 30 * 24 * 60 * 60, "/"); //Lưu cookie 30 ngày
+                    setcookie('pass', $password, time() + 30 * 24 * 60 * 60, "/");
+                } else {
+                    // Xóa cookie nếu không chọn "Ghi nhớ mật khẩu"
+                    setcookie('username', '', time() - 3600, "/");
+                    setcookie('pass', '', time() - 3600, "/");
+                }
+                // error_log("Cookie đã được set cho username = $username");
+                // // header("Location: ../nguoidung/indexuser.php");
+                // // exit();
+            }
+        }
     }
 }
 ?>
@@ -112,15 +140,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="text-center mb-4">
                             <h4 class="fw-bold">ĐĂNG NHẬP</h4>
                         </div>
-                        <form action="" name="signinform" id="signinform">
+                        <form action="dangnhap.php" method="post" name="signinform" id="signinform">
                             <div class="mb-3">
                                 <label class="form-label" for="username">Tên đăng nhập <span style="color: red;">*</span></label>
-                                <input class="form-control" type="text" name="username" id="username" placeholder="Nhập tên đăng nhập">
+                                <input class="form-control" type="text" name="username" id="username" placeholder="Nhập tên đăng nhập" value="<?php echo isset($username) ? $username : ''; ?>">
+                                <span class="text-danger"> <?php echo $usererror; ?> </span>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="pass">Mật khẩu <span style="color: red;">*</span></label>
-                                <input class="form-control" type="password" name="pass" id="pass" placeholder="Nhập mật khẩu">
+                                <input class="form-control" type="password" name="pass" id="pass" placeholder="Nhập mật khẩu" value="<?php echo isset($password) ? $password : ''; ?>">
+                                <span class="text-danger"> <?php echo $passerror; ?> </span>
                             </div>
+                            <input type="hidden" name="action" value="do-login">
                             <button type="submit" class="btn text-white w-100" style="background-color: #336799;">Đăng Nhập</button>
                             <div class="mt-3 d-flex justify-content-between">
                                 <div>
@@ -220,6 +251,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- Bootstrap JS -->
     <script src="../vender/js/bootstrap.bundle.min.js"></script>
     <script src="../asset/js/dangnhap.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            <?php if ($success): ?>
+                var successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                successModal.show();
+            <?php endif; ?>
+        });
+    </script>
 </body>
 
 </html>
