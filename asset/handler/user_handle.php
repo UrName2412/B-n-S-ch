@@ -16,6 +16,25 @@ function getUsername($database, $username)
     return array();
 }
 
+function getUserInfoByUsername($database, $username)
+{
+    $stmt = $database->prepare("SELECT * FROM b01_nguoidung WHERE tenNguoiDung = ?");
+    if ($stmt === false) {
+        die('MySQL prepare error: ' . $database->error);
+    }
+
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        return $result->fetch_assoc();
+    }
+
+    return null;
+}
+
+
 function getEmail($database, $email)
 {
     $stmt = $database->prepare("SELECT * FROM b01_nguoidung WHERE email = ?");
