@@ -31,6 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 ?>
 
+
 <!DOCTYPE html>
 <html lang="vi">
 
@@ -80,9 +81,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </button>
           </form>
           <ul class="navbar-nav me-auto">
-            <li class="nav-item">
-              <a href="../index.php" class="nav-link fw-bold text-white">ĐĂNG XUẤT</a>
-            </li>
+            <?php if (isset($_SESSION['username'])): ?>
+              <li class="nav-item">
+                <a href="../dangky/dangxuat.php" class="nav-link fw-bold text-white">ĐĂNG XUẤT</a>
+              </li>
+            <?php endif; ?>
             <li class="nav-item">
               <div>
                 <a href="../nguoidung/user.php"><i class="fas fa-user" id="avatar" style="color: black;"></i></a>

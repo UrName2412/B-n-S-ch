@@ -3,6 +3,11 @@ require "../admin/config/config.php";
 require "../asset/handler/user_handle.php";
 session_start();
 
+if (isset($_SESSION['username']) || isset($_COOKIE['username'])) {
+    header("Location: ../nguoidung/indexuser.php");
+    exit();
+}
+
 function test_input($data)
 {
     return htmlspecialchars(stripslashes(trim($data)));
@@ -157,7 +162,6 @@ if (isset($_POST['action']) && $_POST['action'] == 'do-login') {
                                     <input type="checkbox" class="form-check-input" id="remember" name="remember">
                                     <label class="form-check-label" for="remember">Ghi nhớ mật khẩu</label>
                                 </div>
-                                <a href="quenmk.php" class="forgotpwd">Quên mật khẩu</a>
                             </div>
                         </form>
                         <div class="mt-3 d-flex justify-content-center">

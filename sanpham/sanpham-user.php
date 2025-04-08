@@ -1,4 +1,25 @@
-<?php include '../admin/config/config.php'; ?>
+<?php
+require '../admin/config/config.php';
+require '../asset/handler/user_handle.php';
+session_start();
+
+if (isset($_SESSION['username'])) {
+    $username = $_SESSION['username'];
+} elseif (isset($_COOKIE['username']) && isset($_COOKIE['pass'])) {
+    $username = $_COOKIE['username'];
+    $password = $_COOKIE['pass'];
+
+    if (checkLogin($database, $username, $password)) {
+        $_SESSION['username'] = $username;
+    } else {
+        echo "<script>alert('Bạn chưa đăng nhập!'); window.location.href='../dangky/dangnhap.php';</script>";
+        exit();
+    }
+} else {
+    echo "<script>alert('Bạn chưa đăng nhập!'); window.location.href='../dangky/dangnhap.php';</script>";
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="vi">
 
@@ -47,7 +68,7 @@
                         </button>
                     </form>
                     <script>
-                        document.getElementById('searchForm').addEventListener('submit', function (event) {
+                        document.getElementById('searchForm').addEventListener('submit', function(event) {
                             event.preventDefault();
                             const inputValue = document.getElementById('timkiem').value.trim();
                             if (inputValue) {
@@ -58,9 +79,11 @@
                         });
                     </script>
                     <ul class="navbar-nav me-auto">
-                        <li class="nav-item">
-                            <a href="../index.php" class="nav-link fw-bold text-white">ĐĂNG XUẤT</a>
-                        </li>
+                        <?php if (isset($_SESSION['username'])): ?>
+                            <li class="nav-item">
+                                <a href="../dangky/dangxuat.php" class="nav-link fw-bold text-white">ĐĂNG XUẤT</a>
+                            </li>
+                        <?php endif; ?>
                         <li class="nav-item">
                             <div>
                                 <a href="../nguoidung/user.php"><i class="fas fa-user" id="avatar"
@@ -98,7 +121,18 @@
                             <input type="text" class="form-control" id="nxb" placeholder="Nhà xuất bản">
                         </li>
                         <li class="list-group-item">
-                            <input type="text" class="form-control" id="theloai" placeholder="Thể loại">
+                            <select class="form-select" id="theloai">
+                                <option value="">-- Chọn thể loại --</option>
+                                <?php
+                                $sql = "SELECT * FROM b01_theLoai";
+                                $result = $database->query($sql);
+                                if ($result->num_rows > 0) {
+                                    while ($row = $result->fetch_assoc()) {
+                                        echo '<option value="' . $row["maTheLoai"] . '">' . $row["tenTheLoai"] . '</option>';
+                                    }
+                                }
+                                ?>
+                            </select>
                         </li>
                         <li class="list-group-item">
                             <div class="input-group">

@@ -2,6 +2,13 @@
 require "../admin/config/config.php";
 require "../asset/handler/user_handle.php";
 
+session_start();
+
+if (isset($_SESSION['username']) || isset($_COOKIE['username'])) {
+    header("Location: ../nguoidung/indexuser.php");
+    exit();
+}
+
 function test_input($data)
 {
     $data = trim($data);

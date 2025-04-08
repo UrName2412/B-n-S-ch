@@ -1,3 +1,26 @@
+<?php
+require '../admin/config/config.php';
+require '../asset/handler/user_handle.php';
+session_start();
+
+if (isset($_SESSION['username'])) {
+  $username = $_SESSION['username'];
+} elseif (isset($_COOKIE['username']) && isset($_COOKIE['pass'])) {
+  $username = $_COOKIE['username'];
+  $password = $_COOKIE['pass'];
+
+  if (checkLogin($database, $username, $password)) {
+    $_SESSION['username'] = $username;
+  } else {
+    echo "<script>alert('Bạn chưa đăng nhập!'); window.location.href='../dangky/dangnhap.php';</script>";
+    exit();
+  }
+} else {
+  echo "<script>alert('Bạn chưa đăng nhập!'); window.location.href='../dangky/dangnhap.php';</script>";
+  exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="vi">
 
@@ -47,9 +70,11 @@
             </button>
           </form>
           <ul class="navbar-nav me-auto">
-            <li class="nav-item">
-              <a href="../index.php" class="nav-link fw-bold text-white">ĐĂNG XUẤT</a>
-            </li>
+            <?php if (isset($_SESSION['username'])): ?>
+              <li class="nav-item">
+                <a href="../dangky/dangxuat.php" class="nav-link fw-bold text-white">ĐĂNG XUẤT</a>
+              </li>
+            <?php endif; ?>
             <li class="nav-item">
               <div>
                 <a href="../nguoidung/user.php"><i class="fas fa-user" id="avatar" style="color: black;"></i></a>
@@ -263,15 +288,15 @@
     }
 
     // Xử lý hiển thị form chi tiết theo lựa chọn
-    document.getElementById('btnradio1').addEventListener('change', function () {
+    document.getElementById('btnradio1').addEventListener('change', function() {
       document.getElementById('visa-form').style.display = 'block';
       document.getElementById('momo-form').style.display = 'none';
     });
-    document.getElementById('btnradio2').addEventListener('change', function () {
+    document.getElementById('btnradio2').addEventListener('change', function() {
       document.getElementById('visa-form').style.display = 'none';
       document.getElementById('momo-form').style.display = 'block';
     });
-    document.getElementById('btnradio3').addEventListener('change', function () {
+    document.getElementById('btnradio3').addEventListener('change', function() {
       document.getElementById('visa-form').style.display = 'none';
       document.getElementById('momo-form').style.display = 'none';
     });

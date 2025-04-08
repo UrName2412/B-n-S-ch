@@ -1,23 +1,30 @@
 <?php
+require '../admin/config/config.php';
+require '../asset/handler/user_handle.php';
 session_start();
 
-if (!isset($_SESSION['username'])) {
-    echo "<script>alert('Bạn cần đăng nhập để xem giỏ hàng!'); window.location.href='../dangky/dangnhap.php';</script>";
+if (isset($_SESSION['username'])) {
+    $username = $_SESSION['username'];
+} elseif (isset($_COOKIE['username']) && isset($_COOKIE['pass'])) {
+    $username = $_COOKIE['username'];
+    $password = $_COOKIE['pass'];
+
+    if (checkLogin($database, $username, $password)) {
+        $_SESSION['username'] = $username;
+    } else {
+        echo "<script>alert('Bạn chưa đăng nhập!'); window.location.href='../dangky/dangnhap.php';</script>";
+        exit();
+    }
+} else {
+    echo "<script>alert('Bạn chưa đăng nhập!'); window.location.href='../dangky/dangnhap.php';</script>";
     exit();
 }
 
-
 // Lấy thông tin người dùng từ session
-$ten_user = $_SESSION['user']['tenNguoiDung']; 
-$email_user = $_SESSION['user']['email'];
-$sdt = $_SESSION['user']['soDienThoai'];
-
-// Gộp địa chỉ 
-$diachi = $_SESSION['user']['duong'] . ', ' . 
-          $_SESSION['user']['xa'] . ', ' . 
-          $_SESSION['user']['quanHuyen'] . ', ' . 
-          $_SESSION['user']['tinhThanh'];
-
+$ten_user = $_SESSION['username']; 
+$email_user = $_SESSION['email'];
+$sdt = $_SESSION['sdt'];
+$diachi = $_SESSION['diachi'];
 ?>
 
 <!DOCTYPE html>
@@ -69,7 +76,7 @@ $diachi = $_SESSION['user']['duong'] . ', ' .
                         </button>
                     </form>
                     <script>
-                        document.getElementById('searchForm').addEventListener('submit', function (event) {
+                        document.getElementById('searchForm').addEventListener('submit', function(event) {
                             event.preventDefault();
                             const inputValue = document.getElementById('timkiem').value.trim();
 
@@ -81,9 +88,11 @@ $diachi = $_SESSION['user']['duong'] . ', ' .
                         });
                     </script>
                     <ul class="navbar-nav me-auto">
-                        <li class="nav-item">
-                            <a href="../index.php" class="nav-link fw-bold text-white">ĐĂNG XUẤT</a>
-                        </li>
+                        <?php if (isset($_SESSION['username'])): ?>
+                            <li class="nav-item">
+                                <a href="../dangky/dangxuat.php" class="nav-link fw-bold text-white">ĐĂNG XUẤT</a>
+                            </li>
+                        <?php endif; ?>
                         <li class="nav-item">
                             <div>
                                 <a href="../nguoidung/user.php"><i class="fas fa-user" id="avatar"
@@ -173,7 +182,7 @@ if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
         </div>
 
         <!-- Section for Address -->
-        <section class="cart-address mt-4">
+<section class="cart-address mt-4">
     <h4 class="fw-bold">Chọn địa chỉ giao hàng</h4>
     <!-- Chọn địa chỉ đã lưu -->
     <div>
@@ -181,24 +190,27 @@ if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
         <select name="address_select" id="address_select" class="form-control">
             <option value="">-- Chọn địa chỉ --</option>
             <?php
-            if (isset($_SESSION['user'])) {
-                $user = $_SESSION['user'];
-                // Gộp địa chỉ từ các trường
-                $full_address = $user['duong'] . ', ' . $user['xa'] . ', ' . $user['quanHuyen'] . ', ' . $user['tinhThanh'];
-                echo "<option value='" . htmlspecialchars($full_address) . "' selected>" . htmlspecialchars($full_address) . "</option>";
-            } else {
-                echo "<option disabled>Không tìm thấy địa chỉ người dùng</option>";
+            // Lấy địa chỉ đã lưu của người dùng
+            include('../config/config.php');
+            $user_id = $_SESSION['user_id'];
+            $query = "SELECT * FROM addresses WHERE user_id = ?";
+            $stmt = $mysqli->prepare($query);
+            $stmt->bind_param("i", $user_id);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            while ($address = $result->fetch_assoc()) {
+                echo "<option value='" . $address['id'] . "'>" . $address['address'] . "</option>";
             }
             ?>
         </select>
     </div>
 
-    <!-- Nhập địa chỉ mới -->
-    <div class="mt-3">
-        <label for="new_address">Hoặc nhập địa chỉ mới:</label>
-        <textarea name="new_address" id="new_address" class="form-control" placeholder="Nhập địa chỉ mới" rows="3"></textarea>
-    </div>
-</section>
+            <!-- Nhập địa chỉ mới -->
+            <div class="mt-3">
+                <label for="new_address">Hoặc nhập địa chỉ mới:</label>
+                <textarea name="new_address" id="new_address" class="form-control" placeholder="Nhập địa chỉ mới" rows="3"></textarea>
+            </div>
+        </section>
 
         <!--emptyc-cart-->
         <div id="empty-cart-message" class="cart_container align-items-center mt-4 mx-5"

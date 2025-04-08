@@ -9,19 +9,22 @@ $category = isset($_GET['category']) ? $_GET['category'] : "";
 $max_price = isset($_GET['max_price']) ? $_GET['max_price'] : "";
 $min_price = isset($_GET['min_price']) ? $_GET['min_price'] : "";
 
-// Xây dựng truy vấn SQL
-$sql = "SELECT * FROM b01_sanPham WHERE 1=1";
+// Xây dựng truy vấn SQL với JOIN
+$sql = "SELECT sp.*, tl.tenTheLoai 
+        FROM b01_sanPham sp 
+        LEFT JOIN b01_theLoai tl ON sp.maTheLoai = tl.maTheLoai 
+        WHERE 1=1";
 
 if (!empty($category)) {
-    $sql .= " AND maTheLoai = '" . $database->real_escape_string($category) . "'";
+    $sql .= " AND sp.maTheLoai = '" . $database->real_escape_string($category) . "'";
 }
 
 if (!empty($min_price)) {
-    $sql .= " AND giaBan >= " . intval($min_price);
+    $sql .= " AND sp.giaBan >= " . intval($min_price);
 }
 
 if (!empty($max_price)) {
-    $sql .= " AND giaBan <= " . intval($max_price);
+    $sql .= " AND sp.giaBan <= " . intval($max_price);
 }
 
 $result = $database->query($sql);

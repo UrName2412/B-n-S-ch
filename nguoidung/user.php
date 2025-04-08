@@ -47,7 +47,7 @@
                         </button>
                     </form>
                     <script>
-                        document.getElementById('searchForm').addEventListener('submit', function (event) {
+                        document.getElementById('searchForm').addEventListener('submit', function(event) {
                             event.preventDefault();
                             const inputValue = document.getElementById('timkiem').value.trim();
 
@@ -59,9 +59,11 @@
                         });
                     </script>
                     <ul class="navbar-nav me-auto">
-                        <li class="nav-item">
-                            <a href="../index.php" class="nav-link fw-bold text-white">ĐĂNG XUẤT</a>
-                        </li>
+                        <?php if (isset($_SESSION['username'])): ?>
+                            <li class="nav-item">
+                                <a href="../dangky/dangxuat.php" class="nav-link fw-bold text-white">ĐĂNG XUẤT</a>
+                            </li>
+                        <?php endif; ?>
                         <li class="nav-item">
                             <div>
                                 <a href="user.php"><i class="fas fa-user" id="avatar" style="color: black;"></i></a>
@@ -86,8 +88,12 @@
             <!-- Main profile -->
             <div class="list col-3">
                 <ul class="list-unstyled">
-                    <a href="user.php"><li class="list-item" style="background-color: #DFE1E5;">Hồ sơ</li></a>
-                    <a href="lichSuMuaHang.php"><li class="list-item">Lịch sử mua hàng</li></a>
+                    <a href="user.php">
+                        <li class="list-item" style="background-color: #DFE1E5;">Hồ sơ</li>
+                    </a>
+                    <a href="lichSuMuaHang.php">
+                        <li class="list-item">Lịch sử mua hàng</li>
+                    </a>
                 </ul>
             </div>
             <div class="Info col-9">

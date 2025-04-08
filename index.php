@@ -56,7 +56,7 @@ if (isset($_SESSION['username']) || isset($_COOKIE['username'])) {
                         </button>
                     </form>
                     <script>
-                        document.getElementById('searchForm').addEventListener('submit', function(event) {
+                        document.getElementById('searchForm').addEventListener('submit', function (event) {
                             event.preventDefault();
                             const inputValue = document.getElementById('timkiem').value.trim();
 
@@ -85,30 +85,6 @@ if (isset($_SESSION['username']) || isset($_COOKIE['username'])) {
             </nav>
         </div>
     </header>
-
-    <!-- Main -->
-    <div class="container mt-3">
-        <ul class="nav nav-tabs">
-            <li class="nav-item">
-                <a class="nav-link" href="danhmuc/sachthieunhi-nologin.php">Sách thiếu nhi</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="danhmuc/sachgiaokhoa-nologin.php">Sách giáo khoa</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="danhmuc/sachkinhte-nologin.php">Sách kinh tế</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="danhmuc/sachlichsu-nologin.php">Sách lịch sử</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="danhmuc/sachngoaingu-nologin.php">Sách ngoại ngữ</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="danhmuc/sachkhoahoc-nologin.php">Sách khoa học</a>
-            </li>
-        </ul>
-    </div>
 
     <!-- Banner Section -->
     <div class="container my-4">
@@ -198,37 +174,51 @@ if (isset($_SESSION['username']) || isset($_COOKIE['username'])) {
         <div class="row mt-4">
             <!-- Sidebar -->
             <aside class="col-lg-3">
-                <form id="filterForm" class="rounded text-dark p-4" style="border: 1px solid black;">
+                <div class="rounded text-dark p-4" style="border: 1px solid black;">
                     <h5 class="fw-bold text-center">TÌM KIẾM</h5>
                     <ul class="list-group">
                         <li class="list-group-item">
-                            <input type="text" class="form-control" name="tensach" placeholder="Tên sách">
+                            <input type="text" class="form-control" id="tensach" placeholder="Tên sách">
                         </li>
                         <li class="list-group-item">
-                            <input type="text" class="form-control" name="tentacgia" placeholder="Tên tác giả">
+                            <input type="text" class="form-control" id="tentacgia" placeholder="Tên tác giả">
                         </li>
                         <li class="list-group-item">
-                            <input type="text" class="form-control" name="nxb" placeholder="Nhà xuất bản">
+                            <input type="text" class="form-control" id="nxb" placeholder="Nhà xuất bản">
                         </li>
                         <li class="list-group-item">
-                            <input type="text" class="form-control" name="theloai" placeholder="Thể loại">
+                            <!-- Thêm ô tìm kiếm thể loại -->
+                            <input type="text" class="form-control mb-2" id="searchTheLoai"
+                                placeholder="Tìm thể loại...">
+
+                            <!-- Danh sách thể loại -->
+                            <select class="form-select" id="theloai">
+                                <option value="">-- Chọn thể loại --</option>
+                                <?php
+                                $sql = "SELECT * FROM b01_theLoai";
+                                $result = $database->query($sql);
+                                if ($result->num_rows > 0) {
+                                    while ($row = $result->fetch_assoc()) {
+                                        echo '<option value="' . $row["maTheLoai"] . '">' . $row["tenTheLoai"] . '</option>';
+                                    }
+                                }
+                                ?>
+                            </select>
                         </li>
                         <li class="list-group-item">
                             <div class="input-group">
-                                <input class="form-control" type="number" name="minPrice" placeholder="Từ (VNĐ)"
-                                    min="0">
-                                <input class="form-control" type="number" name="maxPrice" placeholder="Đến (VNĐ)"
-                                    min="0">
+                                <input class="form-control" type="number" id="minPrice" placeholder="Từ (VNĐ)" min="0">
+                                <input class="form-control" type="number" id="maxPrice" placeholder="Đến (VNĐ)" min="0">
                             </div>
                         </li>
                         <li class="list-group-item">
                             <div class="d-grid justify-content-md-end d-md-flex gap-2">
-                                <button type="reset" class="btn btn-outline-dark">Xóa bộ lọc</button>
-                                <button type="submit" class="btn btn-outline-dark">Tìm</button>
+                                <button type="button" class="btn btn-outline-dark" id="resetFilter">Xóa bộ lọc</button>
+                                <button type="button" class="btn btn-outline-dark" id="filterBtn">Tìm</button>
                             </div>
                         </li>
                     </ul>
-                </form>
+                </div>
             </aside>
 
             <!-- Main content -->
@@ -236,43 +226,12 @@ if (isset($_SESSION['username']) || isset($_COOKIE['username'])) {
                 <div class="border p-5">
                     <div class="container my-4">
                         <div id="listProduct" class="listProduct row">
-                            <?php
-                            // Move the PHP product fetching logic into a separate file (e.g., fetch_products.php)
-                            include 'fetch_products.php';
-                            ?>
+
                         </div>
                     </div>
-                    <?php
-                    // Pagination calculation
-                    $sqlTotal = "SELECT COUNT(*) AS total FROM `b01_sanPham`";
-                    $resultTotal = $database->query($sqlTotal);
-                    $rowTotal = $resultTotal->fetch_assoc();
-                    $totalProducts = $rowTotal['total'];
-
-                    // Define $productsPerPage with a default value if not already set
-                    $productsPerPage = $productsPerPage ?? 10; // Default to 10 products per page
-
-                    if ($productsPerPage == 0) {
-                        throw new Exception("Không có sản phẩm nào trong danh sách.");
-                    }
-
-                    // Ensure the division operation is safe
-                    $totalPages = ceil($totalProducts / $productsPerPage);
-
-                    // Define $currentPage with a default value if not already set
-                    $currentPage = isset($_GET['page']) ? (int) $_GET['page'] : 1;
-
-                    // Ensure $currentPage is at least 1
-                    if ($currentPage < 1) {
-                        $currentPage = 1;
-                    }
-                    ?>
                     <nav class="pagination-container mt-4" aria-label="Page navigation">
-                        <ul class="pagination justify-content-center">
-                            <?php for ($i = 1; $i <= $totalPages; $i++) {
-                                $active = ($i == $currentPage) ? "active" : "";
-                                echo "<li class='page-item $active'><a class='page-link' href='?page=$i'>$i</a></li>";
-                            } ?>
+                        <ul id="pagination" class="pagination justify-content-center">
+
                         </ul>
                     </nav>
                 </div>
@@ -340,6 +299,7 @@ if (isset($_SESSION['username']) || isset($_COOKIE['username'])) {
 
     <a href="#top" id="backToTop">&#8593;</a>
 
+    <!-- Modal thông báo thêm vào giỏ hàng -->
     <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" inert>
         <div class="modal-dialog modal-sm position-absolute" style="top: 10%; left: 10%;">
             <div class="modal-content bg-success text-white">
@@ -350,6 +310,7 @@ if (isset($_SESSION['username']) || isset($_COOKIE['username'])) {
         </div>
     </div>
 
+    <!-- Modal chi tiết sản phẩm -->
     <div class="modal fade" id="productDetailModal" tabindex="-1" aria-labelledby="productDetailLabel" inert>
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -369,7 +330,7 @@ if (isset($_SESSION['username']) || isset($_COOKIE['username'])) {
     <!-- Bootstrap JS -->
     <script src="vender/js/bootstrap.bundle.min.js"></script>
     <script src="asset/js/sanpham.js"></script>
-
+    <script src="asset/js/AJAXscript.js"></script>
     <script>
         function adjustSidebar() { // Hàm điều khiển sidebar khi cuộn
             const sidebar = document.querySelector("aside");
@@ -380,25 +341,9 @@ if (isset($_SESSION['username']) || isset($_COOKIE['username'])) {
                 sidebar.style.position = "static";
             }
         }
-
-        // Gọi hàm khi tải trang và khi thay đổi kích thước
+        // Gọi hàm khi tải trang và khi thay đổi kích thước màn hình
         window.addEventListener("load", adjustSidebar);
         window.addEventListener("resize", adjustSidebar);
-
-        document.getElementById('filterForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const formData = new FormData(this);
-
-            fetch('fetch_products.php', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('listProduct').innerHTML = data;
-                })
-                .catch(error => console.error('Error:', error));
-        });
     </script>
     
     <script>

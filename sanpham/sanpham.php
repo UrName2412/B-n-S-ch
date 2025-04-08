@@ -1,4 +1,14 @@
-<?php include '../admin/config/config.php'; ?>
+<?php 
+include '../admin/config/config.php'; 
+
+session_start();
+
+if (isset($_SESSION['username']) || isset($_COOKIE['username'])) {
+    header("Location: sanpham-user.php");
+    exit();
+}
+
+?>
 <!DOCTYPE html>
 <html lang="vi">
 
@@ -77,30 +87,6 @@
         </div>
     </header>
 
-    <!-- Main -->
-    <div class="container mt-3">
-        <ul class="nav nav-tabs">
-            <li class="nav-item">
-                <a class="nav-link" href="../danhmuc/sachthieunhi-nologin.php">Sách thiếu nhi</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="../danhmuc/sachgiaokhoa-nologin.php">Sách giáo khoa</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="../danhmuc/sachkinhte-nologin.php">Sách kinh tế</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="../danhmuc/sachlichsu-nologin.php">Sách lịch sử</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="../danhmuc/sachngoaingu-nologin.php">Sách ngoại ngữ</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="../danhmuc/sachkhoahoc-nologin.php">Sách khoa học</a>
-            </li>
-        </ul>
-    </div>
-
     <!-- Product Section with Pagination -->
     <!-- Main content -->
     <div class="container my-4">
@@ -120,7 +106,18 @@
                             <input type="text" class="form-control" id="nxb" placeholder="Nhà xuất bản">
                         </li>
                         <li class="list-group-item">
-                            <input type="text" class="form-control" id="theloai" placeholder="Thể loại">
+                            <select class="form-select" id="theloai">
+                                <option value="">-- Chọn thể loại --</option>
+                                <?php
+                                $sql = "SELECT * FROM b01_theLoai";
+                                $result = $database->query($sql);
+                                if ($result->num_rows > 0) {
+                                    while ($row = $result->fetch_assoc()) {
+                                        echo '<option value="' . $row["maTheLoai"] . '">' . $row["tenTheLoai"] . '</option>';
+                                    }
+                                }
+                                ?>
+                            </select>
                         </li>
                         <li class="list-group-item">
                             <div class="input-group">
