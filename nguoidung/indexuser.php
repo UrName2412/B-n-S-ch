@@ -206,7 +206,23 @@ if (isset($_SESSION['username'])) {
                             <input type="text" class="form-control" id="nxb" placeholder="Nhà xuất bản">
                         </li>
                         <li class="list-group-item">
-                            <input type="text" class="form-control" id="theloai" placeholder="Thể loại">
+                            <!-- Thêm ô tìm kiếm thể loại -->
+                            <input type="text" class="form-control mb-2" id="searchTheLoai"
+                                placeholder="Tìm thể loại...">
+
+                            <!-- Danh sách thể loại -->
+                            <select class="form-select" id="theloai">
+                                <option value="">-- Chọn thể loại --</option>
+                                <?php
+                                $sql = "SELECT * FROM b01_theLoai";
+                                $result = $database->query($sql);
+                                if ($result->num_rows > 0) {
+                                    while ($row = $result->fetch_assoc()) {
+                                        echo '<option value="' . $row["maTheLoai"] . '">' . $row["tenTheLoai"] . '</option>';
+                                    }
+                                }
+                                ?>
+                            </select>
                         </li>
                         <li class="list-group-item">
                             <div class="input-group">

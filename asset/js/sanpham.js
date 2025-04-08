@@ -69,6 +69,23 @@ document.addEventListener("DOMContentLoaded", () => {
                 .catch(error => console.error("Error fetching product details:", error));
         }
     });
+    const searchInput = document.getElementById("searchTheLoai");
+    const select = document.getElementById("theloai");
+
+    // Lưu toàn bộ option gốc (trừ option đầu tiên)
+    const originalOptions = Array.from(select.options).slice(1);
+
+    searchInput.addEventListener("input", function () {
+        const keyword = this.value.toLowerCase();
+
+        // Giữ lại option đầu tiên
+        select.innerHTML = '<option value="">-- Chọn thể loại --</option>';
+
+        // Lọc và thêm lại các option phù hợp
+        originalOptions
+            .filter(option => option.text.toLowerCase().includes(keyword))
+            .forEach(option => select.appendChild(option));
+    });
 });
 
 // Thêm sản phẩm vào giỏ hàng
