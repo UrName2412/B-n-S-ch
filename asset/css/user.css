@@ -47,7 +47,7 @@
 
 /* Styles cho form */
 #edit-form {
-    position: fixed;
+    position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -60%) scale(0.95);
