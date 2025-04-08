@@ -20,16 +20,18 @@ if (isset($_SESSION['username'])) {
     exit();
 }
 
+$user = getUserInfoByUsername($database, $username);
+
 // Lấy thông tin người dùng từ session
-$ten_user = $_SESSION['user']['tenNguoiDung']; 
+$ten_user = $_SESSION['user']['tenNguoiDung'];
 $email_user = $_SESSION['user']['email'];
 $sdt = $_SESSION['user']['soDienThoai'];
 
 // Gộp địa chỉ 
-$diachi = $_SESSION['user']['duong'] . ', ' . 
-          $_SESSION['user']['xa'] . ', ' . 
-          $_SESSION['user']['quanHuyen'] . ', ' . 
-          $_SESSION['user']['tinhThanh'];
+$diachi = $_SESSION['user']['duong'] . ', ' .
+    $_SESSION['user']['xa'] . ', ' .
+    $_SESSION['user']['quanHuyen'] . ', ' .
+    $_SESSION['user']['tinhThanh'];
 
 ?>
 
@@ -47,6 +49,7 @@ $diachi = $_SESSION['user']['duong'] . ', ' .
     <!-- CSS  -->
     <link rel="stylesheet" href="../asset/css/sanpham.css">
     <link rel="stylesheet" href="../asset/css/user-cart.css">
+    <link rel="stylesheet" href="../asset/css/index-user.css">
 </head>
 
 <body>
@@ -82,7 +85,7 @@ $diachi = $_SESSION['user']['duong'] . ', ' .
                         </button>
                     </form>
                     <script>
-                        document.getElementById('searchForm').addEventListener('submit', function (event) {
+                        document.getElementById('searchForm').addEventListener('submit', function(event) {
                             event.preventDefault();
                             const inputValue = document.getElementById('timkiem').value.trim();
 
@@ -95,15 +98,18 @@ $diachi = $_SESSION['user']['duong'] . ', ' .
                     </script>
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a href="../index.php" class="nav-link fw-bold text-white">ĐĂNG XUẤT</a>
-                        </li>
-                        <li class="nav-item">
-                            <div>
-                                <a href="../nguoidung/user.php"><i class="fas fa-user" id="avatar"
-                                        style="color: black;"></i></a>
-                                <span id="profile-name" style="top: 20px; padding: 2px;">
-                                    <?php echo $ten_user; ?>
-                                </span>
+                            <div class="d-flex gap-2">
+                                <a href="../nguoidung/user.php" class="mt-2"><i class="fas fa-user" id="avatar" style="color: black;"></i></a>
+                                <span class="mt-1" id="profile-name" style="top: 20px; padding: 2px;"><?php echo $user['tenNguoiDung']; ?></span>
+                                <div class="dropdown">
+                                    <button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                                    <ul class="dropdown-menu">
+                                        <li class="dropdownList"><a class="dropdown-item" href="../nguoidung/user.php">Thông tin tài khoản</a></li>
+                                        <?php if (isset($_SESSION['username'])): ?>
+                                            <li class="dropdownList"><a href="../dangky/dangxuat.php" class="dropdown-item">Đăng xuất</a></li>
+                                        <?php endif; ?>
+                                    </ul>
+                                </div>
                             </div>
                         </li>
                     </ul>
@@ -124,14 +130,14 @@ $diachi = $_SESSION['user']['duong'] . ', ' .
             <div class="col-12" id="cart-items">
                 <!--Danh sách sản phẩm-->
                 <?php
-if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
-    echo "<script>document.getElementById('cart-items').style.display = 'none'; document.getElementById('empty-cart-message').style.display = 'flex';</script>";
-} else {
-    $tongCong = 0;
-    foreach ($_SESSION['cart'] as $item) {
-        $tong = $item['giaBan'] * $item['soLuong'];
-        $tongCong += $tong;
-        echo '
+                if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
+                    echo "<script>document.getElementById('cart-items').style.display = 'none'; document.getElementById('empty-cart-message').style.display = 'flex';</script>";
+                } else {
+                    $tongCong = 0;
+                    foreach ($_SESSION['cart'] as $item) {
+                        $tong = $item['giaBan'] * $item['soLuong'];
+                        $tongCong += $tong;
+                        echo '
         <div class="card mb-3 shadow-sm">
             <div class="row g-0">
                 <div class="col-md-2">
@@ -155,13 +161,13 @@ if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
                 </div>
             </div>
         </div>';
-    }
+                    }
 
-    echo '<script>
+                    echo '<script>
         document.querySelector(".cart-total .text-danger.h5").innerText = "' . number_format($tongCong, 0, ',', '.') . 'đ";
     </script>';
-}
-?>
+                }
+                ?>
             </div>
         </div>
         <div class="d-flex align-items-center">
@@ -187,32 +193,32 @@ if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
 
         <!-- Section for Address -->
         <section class="cart-address mt-4">
-    <h4 class="fw-bold">Chọn địa chỉ giao hàng</h4>
-    <!-- Chọn địa chỉ đã lưu -->
-    <div>
-        <label for="address_select">Chọn địa chỉ có sẵn:</label>
-        <select name="address_select" id="address_select" class="form-control">
-            <option value="">-- Chọn địa chỉ --</option>
-            <?php
-            if (isset($_SESSION['user'])) {
-                $user = $_SESSION['user'];
-                // Gộp địa chỉ từ các trường
-                $full_address = $user['duong'] . ', ' . $user['xa'] . ', ' . $user['quanHuyen'] . ', ' . $user['tinhThanh'];
-                echo "<option value='" . htmlspecialchars($full_address) . "' selected>" . htmlspecialchars($full_address) . "</option>";
-            } else {
-                echo "<option disabled>Không tìm thấy địa chỉ người dùng</option>";
-            }
-            ?>
-        </select>
-    </div>
+            <h4 class="fw-bold">Chọn địa chỉ giao hàng</h4>
+            <!-- Chọn địa chỉ đã lưu -->
+            <div>
+                <label for="address_select">Chọn địa chỉ có sẵn:</label>
+                <select name="address_select" id="address_select" class="form-control">
+                    <option value="">-- Chọn địa chỉ --</option>
+                    <?php
+                    if (isset($_SESSION['user'])) {
+                        $user = $_SESSION['user'];
+                        // Gộp địa chỉ từ các trường
+                        $full_address = $user['duong'] . ', ' . $user['xa'] . ', ' . $user['quanHuyen'] . ', ' . $user['tinhThanh'];
+                        echo "<option value='" . htmlspecialchars($full_address) . "' selected>" . htmlspecialchars($full_address) . "</option>";
+                    } else {
+                        echo "<option disabled>Không tìm thấy địa chỉ người dùng</option>";
+                    }
+                    ?>
+                </select>
+            </div>
 
 
-    <!-- Nhập địa chỉ mới -->
-    <div class="mt-3">
-        <label for="new_address">Hoặc nhập địa chỉ mới:</label>
-        <textarea name="new_address" id="new_address" class="form-control" placeholder="Nhập địa chỉ mới" rows="3"></textarea>
-    </div>
-</section>
+            <!-- Nhập địa chỉ mới -->
+            <div class="mt-3">
+                <label for="new_address">Hoặc nhập địa chỉ mới:</label>
+                <textarea name="new_address" id="new_address" class="form-control" placeholder="Nhập địa chỉ mới" rows="3"></textarea>
+            </div>
+        </section>
 
         <!--emptyc-cart-->
         <div id="empty-cart-message" class="cart_container align-items-center mt-4 mx-5"

@@ -1,39 +1,53 @@
 <?php
+require '../admin/config/config.php';
+require '../asset/handler/user_handle.php';
 session_start();
-$user = $_SESSION['user'] ?? [];
 
-if (!isset($_SESSION['username'])) {
-  echo "<script>alert('Bạn chưa đăng nhập!'); window.location.href='../dangky/dangnhap.php';</script>";
-  exit;
+if (isset($_SESSION['username'])) {
+  $username = $_SESSION['username'];
+} elseif (isset($_COOKIE['username']) && isset($_COOKIE['pass'])) {
+  $username = $_COOKIE['username'];
+  $password = $_COOKIE['pass'];
+
+  if (checkLogin($database, $username, $password)) {
+    $_SESSION['username'] = $username;
+  } else {
+    echo "<script>alert('Bạn cần đăng nhập để tiếp tục thanh toán!'); window.location.href='../dangky/dangnhap.php';</script>";
+    exit();
+  }
+} else {
+  echo "<script>alert('Bạn cần đăng nhập để tiếp tục thanh toán!'); window.location.href='../dangky/dangnhap.php';</script>";
+  exit();
 }
 
+$user = getUserInfoByUsername($database, $username);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Lấy dữ liệu từ form
-    $name = trim($_POST['name-user']);
-    $phone = trim($_POST['phone-user']);
-    $address = trim($_POST['payment--adr']);
-    $note = trim($_POST['payment--note']);
+  // Lấy dữ liệu từ form
+  $name = trim($_POST['name-user']);
+  $phone = trim($_POST['phone-user']);
+  $address = trim($_POST['payment--adr']);
+  $note = trim($_POST['payment--note']);
 
-    if (empty($name) || empty($phone) || empty($address)) {
-        echo "Vui lòng điền đầy đủ thông tin.";
-        exit;
-    }
-
-    if (!preg_match("/^(\+84|0)\d{9,10}$/", $phone)) {
-        echo "Số điện thoại không hợp lệ.";
-        exit;
-    }
-
-    $_SESSION['order_info'] = [
-        'tenNguoiNhan' => $name,
-        'soDienThoai' => $phone,
-        'diaChi' => $address,
-        'ghiChu' => $note,
-    ];
-
-    header("Location: confirm_order.php");
+  if (empty($name) || empty($phone) || empty($address)) {
+    echo "Vui lòng điền đầy đủ thông tin.";
     exit;
+  }
+
+  if (!preg_match("/^(\+84|0)\d{9,10}$/", $phone)) {
+    echo "Số điện thoại không hợp lệ.";
+    exit;
+  }
+
+  $_SESSION['order_info'] = [
+    'tenNguoiNhan' => $name,
+    'soDienThoai' => $phone,
+    'diaChi' => $address,
+    'ghiChu' => $note,
+  ];
+
+  header("Location: confirm_order.php");
+  exit;
 }
 ?>
 
@@ -52,6 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   <!-- CSS  -->
   <link rel="stylesheet" href="../asset/css/sanpham.css">
   <link rel="stylesheet" href="../asset/css/hoaDon.css">
+  <link rel="stylesheet" href="../asset/css/index-user.css">
 </head>
 
 <body>
@@ -87,15 +102,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </button>
           </form>
           <ul class="navbar-nav me-auto">
-            <?php if (isset($_SESSION['username'])): ?>
-              <li class="nav-item">
-                <a href="../dangky/dangxuat.php" class="nav-link fw-bold text-white">ĐĂNG XUẤT</a>
-              </li>
-            <?php endif; ?>
             <li class="nav-item">
-              <div>
-                <a href="../nguoidung/user.php"><i class="fas fa-user" id="avatar" style="color: black;"></i></a>
-                <span id="profile-name" style="top: 20px; padding: 2px; display: none;">Nguyễn Văn A</span>
+              <div class="d-flex gap-2">
+                <a href="../nguoidung/user.php" class="mt-2"><i class="fas fa-user" id="avatar" style="color: black;"></i></a>
+                <span class="mt-1" id="profile-name" style="top: 20px; padding: 2px;"><?php echo $user['tenNguoiDung']; ?></span>
+                <div class="dropdown">
+                  <button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                  <ul class="dropdown-menu">
+                    <li class="dropdownList"><a class="dropdown-item" href="../nguoidung/user.php">Thông tin tài khoản</a></li>
+                    <?php if (isset($_SESSION['username'])): ?>
+                      <li class="dropdownList"><a href="../dangky/dangxuat.php" class="dropdown-item">Đăng xuất</a></li>
+                    <?php endif; ?>
+                  </ul>
+                </div>
               </div>
             </li>
           </ul>
@@ -112,7 +131,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
   <!-- PHẦN NHẬP THÔNG TIN ĐẶT HÀNG (GIAO HÀNG) -->
   <section class="payment_container my-4">
-    <div class="payment__content row justify-content-center"> 
+    <div class="payment__content row justify-content-center">
       <div class="payment__content__left col-12 col-md-8 col-lg-6 d-flex flex-column">
         <h3>Thông tin giao hàng</h3>
         <form class="payment--form d-flex flex-column gap-3" id="form-add" method="post"
@@ -225,32 +244,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   <script src="../asset/js/thanhtoan.js"></script>
   <script src="../vender/js/bootstrap.bundle.min.js"></script>
   <script>
-  function toggleDefaultInfo() {
-    const defaultCheckbox = document.getElementById('default-info-checkbox');
-    if (!defaultCheckbox) return;
-    const isChecked = defaultCheckbox.checked;
-    const nameUser = document.getElementById('name-user');
-    const phoneUser = document.getElementById('phone-user');
-    const paymentAdr = document.getElementById('payment--adr');
-    const paymentNote = document.getElementById('payment--note');
+    function toggleDefaultInfo() {
+      const defaultCheckbox = document.getElementById('default-info-checkbox');
+      if (!defaultCheckbox) return;
+      const isChecked = defaultCheckbox.checked;
+      const nameUser = document.getElementById('name-user');
+      const phoneUser = document.getElementById('phone-user');
+      const paymentAdr = document.getElementById('payment--adr');
+      const paymentNote = document.getElementById('payment--note');
 
-    nameUser.disabled = isChecked;
-    phoneUser.disabled = isChecked;
-    paymentAdr.disabled = isChecked;
+      nameUser.disabled = isChecked;
+      phoneUser.disabled = isChecked;
+      paymentAdr.disabled = isChecked;
 
-    if (!isChecked) {
-      nameUser.value = '';
-      phoneUser.value = '';
-      paymentAdr.value = '';
-      paymentNote.value = '';
-    } else {
-      nameUser.value = "<?= htmlspecialchars($user['tenNguoiDung'] ?? '') ?>";
-      phoneUser.value = "<?= htmlspecialchars($user['soDienThoai'] ?? '') ?>";
-      paymentAdr.value = "<?= htmlspecialchars($user['duong'] ?? '') ?>, <?= htmlspecialchars($user['xa'] ?? '') ?>, <?= htmlspecialchars($user['quanHuyen'] ?? '') ?>, <?= htmlspecialchars($user['tinhThanh'] ?? '') ?>";
+      if (!isChecked) {
+        nameUser.value = '';
+        phoneUser.value = '';
+        paymentAdr.value = '';
+        paymentNote.value = '';
+      } else {
+        nameUser.value = "<?= htmlspecialchars($user['tenNguoiDung'] ?? '') ?>";
+        phoneUser.value = "<?= htmlspecialchars($user['soDienThoai'] ?? '') ?>";
+        paymentAdr.value = "<?= htmlspecialchars($user['duong'] ?? '') ?>, <?= htmlspecialchars($user['xa'] ?? '') ?>, <?= htmlspecialchars($user['quanHuyen'] ?? '') ?>, <?= htmlspecialchars($user['tinhThanh'] ?? '') ?>";
+      }
     }
-  }
-  window.toggleDefaultInfo = toggleDefaultInfo;
-</script>
+    window.toggleDefaultInfo = toggleDefaultInfo;
+  </script>
 </body>
 
 </html>

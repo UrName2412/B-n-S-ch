@@ -19,6 +19,8 @@ if (isset($_SESSION['username'])) {
     echo "<script>alert('Bạn chưa đăng nhập!'); window.location.href='../dangky/dangnhap.php';</script>";
     exit();
 }
+
+$user = getUserInfoByUsername($database, $username);
 ?>
 
 <!DOCTYPE html>
@@ -81,16 +83,19 @@ if (isset($_SESSION['username'])) {
                         });
                     </script>
                     <ul class="navbar-nav me-auto">
-                        <?php if (isset($_SESSION['username'])): ?>
-                            <li class="nav-item">
-                                <a href="../dangky/dangxuat.php" class="nav-link fw-bold text-white">ĐĂNG XUẤT</a>
-                            </li>
-                        <?php endif; ?>
                         <li class="nav-item">
-                            <div>
-                                <a href="user.php"><i class="fas fa-user" id="avatar" style="color: black;"></i></a>
-                                <span id="profile-name" style="top: 20px; padding: 2px; display: none;">Nguyễn Văn
-                                    A</span>
+                            <div class="d-flex gap-2">
+                                <a href="user.php" class="mt-2"><i class="fas fa-user" id="avatar" style="color: black;"></i></a>
+                                <span class="mt-1" id="profile-name" style="top: 20px; padding: 2px;"><?php echo $user['tenNguoiDung']; ?></span>
+                                <div class="dropdown">
+                                    <button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                                    <ul class="dropdown-menu">
+                                        <li class="dropdownList"><a class="dropdown-item" href="user.php">Thông tin tài khoản</a></li>
+                                        <?php if (isset($_SESSION['username'])): ?>
+                                            <li class="dropdownList"><a href="../dangky/dangxuat.php" class="dropdown-item">Đăng xuất</a></li>
+                                        <?php endif; ?>
+                                    </ul>
+                                </div>
                             </div>
                         </li>
                     </ul>
