@@ -25,13 +25,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Xử lý sự kiện xem chi tiết sản phẩm
-    let productDetail = document.querySelectorAll(".view-detail");
-    productDetail.forEach(item => {
-        item.addEventListener("click", function (event) {
+    listProductHTML.addEventListener("click", function (event) {
+        if (event.target.closest(".view-detail")) {
             event.preventDefault();
-            let productId = this.getAttribute("data-id");
+            const productId = event.target.closest(".view-detail").getAttribute("data-id");
 
-            fetch("../asset/handler/ajax_get_product_detail.php", {
+            fetch("/B-n-S-ch/asset/handler/ajax_get_product_detail.php", {
                 method: "POST",
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 body: "id=" + productId
@@ -39,8 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById("productDetailContent").innerHTML = data;
-                    console.log(document.getElementById("productDetailContent").innerHTML);
-                    
+
                     let modal = new bootstrap.Modal(document.getElementById("productDetailModal"), { backdrop: true, keyboard: true });
                     modal.show();
                     document.getElementById("productDetailModal").removeAttribute("inert");
@@ -62,8 +60,14 @@ document.addEventListener("DOMContentLoaded", () => {
                         modal.hide();
                         document.getElementById("productDetailModal").setAttribute("inert", "");
                     });
-                });
-        });
+
+                    // Ensure modal is properly hidden after filtering
+                    document.getElementById("productDetailModal").addEventListener("hidden.bs.modal", () => {
+                        document.getElementById("productDetailContent").innerHTML = ""; // Reset modal content
+                    });
+                })
+                .catch(error => console.error("Error fetching product details:", error));
+        }
     });
 });
 

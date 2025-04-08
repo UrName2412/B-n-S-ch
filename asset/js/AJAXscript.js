@@ -10,7 +10,34 @@ document.addEventListener("DOMContentLoaded", function () {
             link.addEventListener("click", function (e) {
                 e.preventDefault();
                 const productId = this.getAttribute("data-id");
-                fetchProductDetail(productId);
+
+                fetch("/B-n-S-ch/asset/handler/ajax_get_product_detail.php", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                    body: `id=${productId}`
+                })
+                    .then(response => response.text())
+                    .then(data => {
+                        const modalElement = document.getElementById("productDetailModal");
+                        const productDetailContent = document.getElementById("productDetailContent");
+                        productDetailContent.innerHTML = data;
+
+                        const productDetailModal = new bootstrap.Modal(modalElement);
+                        modalElement.removeAttribute("inert");
+                        productDetailModal.show();
+
+                        // Handle modal hidden event
+                        modalElement.addEventListener("hidden.bs.modal", function () {
+                            productDetailContent.innerHTML = "";
+                            modalElement.setAttribute("inert", "");
+                            document.body.classList.remove("modal-open");
+                            const backdrop = document.querySelector(".modal-backdrop");
+                            if (backdrop) {
+                                backdrop.remove();
+                            }
+                        });
+                    })
+                    .catch(error => console.error("Error fetching product details:", error));
             });
         });
     }
@@ -133,7 +160,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <div class="col-md-4 mb-4">
                         <div class="card" style="width: 100%;">
                             <a href="#" class="view-detail" data-id="${product.maSach}">
-                                <img src="/B-n-S-ch/Images/${product.hinhAnh}" alt="${product.tenSach}" class="card-img-top">
+                                <img src="/B-n-S-ch/Images/demenphieuluuky.jpg" alt="${product.tenSach}" class="card-img-top">
                             </a>
                             <div class="card-body">
                                 <h5 class="card-title">${product.tenSach}</h5>
@@ -180,7 +207,7 @@ function loadProducts(page = 1) {
                 productDiv.innerHTML = `
                     <div class="card" style="width: 100%;">
                         <a href="#" class="view-detail" data-id="${product.maSach}">
-                            <img src="/B-n-S-ch/Images/${product.hinhAnh}" alt="${product.tenSach}" class="card-img-top">
+                            <img src="/B-n-S-ch/Images/demenphieuluuky.jpg" alt="${product.tenSach}" class="card-img-top">
                         </a>
                         <div class="card-body">
                             <h5 class="card-title">${product.tenSach}</h5>
@@ -211,4 +238,3 @@ function loadProducts(page = 1) {
 document.addEventListener('DOMContentLoaded', function () {
     loadProducts();  // Mặc định tải trang 1
 });
-
