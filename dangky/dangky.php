@@ -18,6 +18,7 @@ function test_input($data)
 }
 
 $usrerror = $mailerror = "";
+$valid = true;
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $username = test_input($_POST['username']);
@@ -33,10 +34,20 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $checkEmail = getEmail($database, $email);
 
     if (!empty($checkUser)) {
-        $usrerror = "Tên đăng nhập đã tồn tại. Vui lòng chọn tên khác.";
-    } elseif (!empty($checkEmail)) {
-        $mailerror = "Email đã được sử dụng. Vui lòng nhập email khác.";
+        // $usrerror = "Tên đăng nhập đã tồn tại. Vui lòng chọn tên khác.";
+        echo "<script>alert('Tên đăng nhập đã tồn tại. Vui lòng chọn tên khác.');</script>";
+        $valid = false;
     } else {
+        $usrerror = "";
+    }
+    if (!empty($checkEmail)) {
+        // $mailerror = "Email đã được sử dụng. Vui lòng nhập email khác.";
+        echo "<script>alert('Email đã được sử dụng. Vui lòng nhập email khác.');</script>";
+        $valid = false;
+    } else {
+        $mailerror = "";
+    }
+    if ($valid) {
         $result = addUser($database, $username, $email, $password, $address, $phone, $province, $district, $ward);
 
         if ($result) {

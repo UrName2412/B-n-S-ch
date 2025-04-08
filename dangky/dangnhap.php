@@ -38,8 +38,9 @@ if (isset($_POST['action']) && $_POST['action'] == 'do-login') {
         $user = checkLogin($database, $username, $password);
 
         if (!$user) {
-            $usererror = "Tên đăng nhập hoặc mật khẩu không đúng";
-            $passerror = "Tên đăng nhập hoặc mật khẩu không đúng";
+            // $usererror = "Tên đăng nhập hoặc mật khẩu không đúng";
+            // $passerror = "Tên đăng nhập hoặc mật khẩu không đúng";
+            echo "<script>alert('Tên đăng nhập hoặc mật khẩu không đúng');</script>";
         } else {
             $_SESSION['username'] = $user['tenNguoiDung'];
             $_SESSION['user'] = $user;
