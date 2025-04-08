@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 e.preventDefault();
                 const productId = this.getAttribute("data-id");
 
-                fetch("/B-n-S-ch/asset/handler/ajax_get_product_detail.php", {
+                fetch("/asset/handler/ajax_get_product_detail.php", {
                     method: "POST",
                     headers: { "Content-Type": "application/x-www-form-urlencoded" },
                     body: `id=${productId}`
@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Function to fetch product details via AJAX
     function fetchProductDetail(productId) {
-        fetch("/B-n-S-ch/asset/handler/ajax_get_product_detail.php", {
+        fetch("/asset/handler/ajax_get_product_detail.php", {
             method: "POST",
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
             body: `id=${productId}`
@@ -110,7 +110,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let nhaXuatBan = document.getElementById("nxb").value.trim().toLowerCase();
         let theloai = document.getElementById("theloai").value.trim().toLowerCase();
 
-        let url = `/B-n-S-ch/asset/handler/fetch_product.php?category=${category}&min_price=${minPrice}&max_price=${maxPrice}`;
+        let url = `/asset/handler/fetch_product.php?category=${category}&min_price=${minPrice}&max_price=${maxPrice}`;
 
         fetch(url)
             .then(response => response.text()) // Đọc phản hồi dưới dạng text
@@ -160,7 +160,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <div class="col-md-4 mb-4">
                         <div class="card" style="width: 100%;">
                             <a href="#" class="view-detail" data-id="${product.maSach}">
-                                <img src="/B-n-S-ch/Images/demenphieuluuky.jpg" alt="${product.tenSach}" class="card-img-top">
+                                <img src="/Images/demenphieuluuky.jpg" alt="${product.tenSach}" class="card-img-top">
                             </a>
                             <div class="card-body">
                                 <h5 class="card-title">${product.tenSach}</h5>
@@ -189,7 +189,7 @@ function loadProducts(page = 1) {
         return new Intl.NumberFormat('vi-VN').format(price);
     }
     // Sử dụng Fetch API thay vì jQuery.ajax
-    fetch('/B-n-S-ch/asset/handler/pagination.php?page=' + page)
+    fetch('/asset/handler/pagination.php?page=' + page)
         .then(response => response.json())
         .then(data => {
             // Xử lý dữ liệu sản phẩm
@@ -207,7 +207,7 @@ function loadProducts(page = 1) {
                 productDiv.innerHTML = `
                     <div class="card" style="width: 100%;">
                         <a href="#" class="view-detail" data-id="${product.maSach}">
-                            <img src="/B-n-S-ch/Images/demenphieuluuky.jpg" alt="${product.tenSach}" class="card-img-top">
+                            <img src="/Images/demenphieuluuky.jpg" alt="${product.tenSach}" class="card-img-top">
                         </a>
                         <div class="card-body">
                             <h5 class="card-title">${product.tenSach}</h5>
