@@ -1,7 +1,7 @@
 <?php
 function getUsername($database, $username)
 {
-    $stmt = $database->prepare("SELECT * FROM b01_nguoidung WHERE tenNguoiDung = ?");
+    $stmt = $database->prepare("SELECT * FROM b01_nguoiDung WHERE tenNguoiDung = ?");
     if ($stmt === false) {
         die('MySQL prepare error: ' . $database->error);
     }
@@ -18,7 +18,7 @@ function getUsername($database, $username)
 
 function getUserInfoByUsername($database, $username)
 {
-    $stmt = $database->prepare("SELECT * FROM b01_nguoidung WHERE tenNguoiDung = ?");
+    $stmt = $database->prepare("SELECT * FROM b01_nguoiDung WHERE tenNguoiDung = ?");
     if ($stmt === false) {
         die('MySQL prepare error: ' . $database->error);
     }
@@ -37,7 +37,7 @@ function getUserInfoByUsername($database, $username)
 
 function getEmail($database, $email)
 {
-    $stmt = $database->prepare("SELECT * FROM b01_nguoidung WHERE email = ?");
+    $stmt = $database->prepare("SELECT * FROM b01_nguoiDung WHERE email = ?");
     if ($stmt === false) {
         die('MySQL prepare error: ' . $database->error);
     }
@@ -59,7 +59,7 @@ function addUser($database, $username, $email, $password, $address, $phone, $pro
 
     $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
-    $stmt = $database->prepare("INSERT INTO b01_nguoidung (tenNguoiDung, matKhau, soDienThoai, email, tinhThanh, quanHuyen, xa, duong, vaiTro, trangThai) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt = $database->prepare("INSERT INTO b01_nguoiDung (tenNguoiDung, matKhau, soDienThoai, email, tinhThanh, quanHuyen, xa, duong, vaiTro, trangThai) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
     $stmt->bind_param("ssssssssii", $username, $hashedPassword, $phone, $email, $province, $district, $ward, $address, $role, $status);
 
@@ -72,7 +72,7 @@ function addUser($database, $username, $email, $password, $address, $phone, $pro
 
 function checkLogin($database, $username, $password)
 {
-    $stmt = $database->prepare("SELECT * FROM b01_nguoidung WHERE tenNguoiDung = ?");
+    $stmt = $database->prepare("SELECT * FROM b01_nguoiDung WHERE tenNguoiDung = ?");
     if ($stmt === false) {
         die('MySQL prepare error: ' . $database->error);
     }
