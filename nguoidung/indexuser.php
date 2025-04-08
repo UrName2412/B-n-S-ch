@@ -83,7 +83,7 @@ if (isset($_SESSION['username'])) {
                     <ul class="navbar-nav me-auto">
                         <?php if (isset($_SESSION['username'])): ?>
                             <li class="nav-item">
-                                <a href="../index.php" class="nav-link fw-bold text-white">ĐĂNG XUẤT</a>
+                                <a href="../dangky/dangxuat.php" class="nav-link fw-bold text-white">ĐĂNG XUẤT</a>
                             </li>
                         <?php endif; ?>
                         <li class="nav-item">
