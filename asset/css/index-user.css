@@ -320,14 +320,20 @@ aside input {
     border: none !important;
 }
 
-@media (max-width: 768px) {
+.dropdown-item:hover {
+    background-color: #336799;
+    color: white;
+    text-decoration: none;
+}
+
+/* @media (max-width: 768px) {
     #profile-name{
         display: block!important;
     }
     #avatar{
         margin-bottom: 10px;
     }
-}
+} */
 
 @media (max-width: 430px) or (max-width: 693px) or (max-width: 768px){
     .benner img,.slider {
