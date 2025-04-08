@@ -1,11 +1,27 @@
 <?php
+require '../admin/config/config.php';
+require '../asset/handler/user_handle.php';
 session_start();
 
+if (isset($_SESSION['username'])) {
+    $username = $_SESSION['username'];
+} elseif (isset($_COOKIE['username']) && isset($_COOKIE['pass'])) {
+    $username = $_COOKIE['username'];
+    $password = $_COOKIE['pass'];
+
+    if (checkLogin($database, $username, $password)) {
+        $_SESSION['username'] = $username;
+    } else {
+        echo "<script>alert('Bạn chưa đăng nhập!'); window.location.href='../dangky/dangnhap.php';</script>";
+        exit();
+    }
+} else {
+    echo "<script>alert('Bạn chưa đăng nhập!'); window.location.href='../dangky/dangnhap.php';</script>";
 if (!isset($_SESSION['username'])) {
     echo "<script>alert('Bạn cần đăng nhập để xem giỏ hàng!'); window.location.href='../dangky/dangnhap.php';</script>";
     exit();
 }
-
+}
 
 // Lấy thông tin người dùng từ session
 $ten_user = $_SESSION['user']['tenNguoiDung']; 
