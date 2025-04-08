@@ -1,32 +1,33 @@
 <?php
+session_start();
+$user = $_SESSION['user'] ?? [];
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Lấy dữ liệu từ form
-    $name = $_POST['name-user'];
-    $phone = $_POST['phone-user'];
-    $address = $_POST['payment--adr'];
-    $note = $_POST['payment--note'];
+    $name = trim($_POST['name-user']);
+    $phone = trim($_POST['phone-user']);
+    $address = trim($_POST['payment--adr']);
+    $note = trim($_POST['payment--note']);
 
     if (empty($name) || empty($phone) || empty($address)) {
         echo "Vui lòng điền đầy đủ thông tin.";
         exit;
     }
 
-    if (!preg_match("/^\+84\d{9,10}$/", $phone)) {
+    if (!preg_match("/^(\+84|0)\d{9,10}$/", $phone)) {
         echo "Số điện thoại không hợp lệ.";
         exit;
     }
 
-    include('../admin/config/config.php');
+    $_SESSION['order_info'] = [
+        'tenNguoiNhan' => $name,
+        'soDienThoai' => $phone,
+        'diaChi' => $address,
+        'ghiChu' => $note,
+    ];
 
-    $sql = "INSERT INTO orders (name, phone, address, note) VALUES ('$name', '$phone', '$address', '$note')";
-    if (mysqli_query($conn, $sql)) {
-        header("Location: confirm_order.php?status=success");
-        exit;
-    } else {
-        echo "Lỗi khi lưu đơn hàng: " . mysqli_error($conn);
-    }
-
-    mysqli_close($conn);
+    header("Location: confirm_order.php");
+    exit;
 }
 ?>
 
@@ -102,7 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
   <!-- PHẦN NHẬP THÔNG TIN ĐẶT HÀNG (GIAO HÀNG) -->
   <section class="payment_container my-4">
-    <div class="payment__content row justify-content-center">
+    <div class="payment__content row justify-content-center"> 
       <div class="payment__content__left col-12 col-md-8 col-lg-6 d-flex flex-column">
         <h3>Thông tin giao hàng</h3>
         <form class="payment--form d-flex flex-column gap-3" id="form-add" method="post"
@@ -118,7 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <!-- Họ tên -->
             <div>
               <label for="name-user"><i class="fas fa-user"></i> Họ tên <span style="color: red;">*</span></label>
-              <input type="text" id="name-user" name="name-user" value="Nguyễn Văn A" placeholder="Tên người nhận hàng"
+              <input type="text" id="name-user" name="name-user" class="user-info" value="<?= htmlspecialchars($user['tenNguoiDung'] ?? '') ?>" placeholder="Tên người nhận hàng"
                 required>
               <span class="form-message"></span>
             </div>
@@ -126,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div>
               <label for="phone-user"><i class="fas fa-phone-volume"></i> Điện thoại <span
                   style="color: red;">*</span></label>
-              <input type="tel" id="phone-user" name="phone-user" value="+84 912 345 678"
+              <input type="tel" id="phone-user" name="phone-user" class="user-info" value="<?= htmlspecialchars($user['soDienThoai'] ?? '') ?>"
                 placeholder="Số điện thoại người nhận hàng" required>
               <span class="form-message"></span>
             </div>
@@ -134,7 +135,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div>
               <label for="payment--adr"><i class="far fa-address-card"></i> Địa chỉ <span
                   style="color: red;">*</span></label>
-              <input type="text" id="payment--adr" value="123 lê Lợi, Quận 1, TP Hồ Chí Minh" name="payment--adr"
+              <input type="text" id="payment--adr" class="user-info" value="<?= htmlspecialchars($user['duong'] ?? '') ?>, <?= htmlspecialchars($user['xa'] ?? '') ?>, <?= htmlspecialchars($user['quanHuyen'] ?? '') ?>, <?= htmlspecialchars($user['tinhThanh'] ?? '') ?>" name="payment--adr"
                 placeholder="Địa chỉ nhận hàng" required>
               <span class="form-message"></span>
             </div>
@@ -214,6 +215,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   <!-- Liên kết file JS riêng -->
   <script src="../asset/js/thanhtoan.js"></script>
   <script src="../vender/js/bootstrap.bundle.min.js"></script>
+  <script>
+  function toggleDefaultInfo() {
+    const defaultCheckbox = document.getElementById('default-info-checkbox');
+    if (!defaultCheckbox) return;
+    const isChecked = defaultCheckbox.checked;
+    const nameUser = document.getElementById('name-user');
+    const phoneUser = document.getElementById('phone-user');
+    const paymentAdr = document.getElementById('payment--adr');
+    const paymentNote = document.getElementById('payment--note');
+
+    nameUser.disabled = isChecked;
+    phoneUser.disabled = isChecked;
+    paymentAdr.disabled = isChecked;
+
+    if (!isChecked) {
+      nameUser.value = '';
+      phoneUser.value = '';
+      paymentAdr.value = '';
+      paymentNote.value = '';
+    } else {
+      nameUser.value = "<?= htmlspecialchars($user['tenNguoiDung'] ?? '') ?>";
+      phoneUser.value = "<?= htmlspecialchars($user['soDienThoai'] ?? '') ?>";
+      paymentAdr.value = "<?= htmlspecialchars($user['duong'] ?? '') ?>, <?= htmlspecialchars($user['xa'] ?? '') ?>, <?= htmlspecialchars($user['quanHuyen'] ?? '') ?>, <?= htmlspecialchars($user['tinhThanh'] ?? '') ?>";
+    }
+  }
+  window.toggleDefaultInfo = toggleDefaultInfo;
+</script>
 </body>
 
 </html>

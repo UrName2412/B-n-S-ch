@@ -49,8 +49,8 @@ if (isset($_SESSION['username']) || isset($_COOKIE['username'])) {
                             <a href="sanpham/sanpham.php" class="nav-link fw-bold text-white">SẢN PHẨM</a>
                         </li>
                     </ul>
-                    <form id="searchForm" class="d-flex me-auto">
-                        <input class="form-control me-2" type="text" id="timkiem" placeholder="Tìm sách">
+                    <form id="searchForm" class="d-flex me-auto" method="GET" action="nguoidung/timkiem-nologin.php">
+                        <input class="form-control me-2" type="text" id="timkiem" name="tenSach" placeholder="Tìm sách">
                         <button class="btn btn-outline-light" type="submit">
                             <i class="fas fa-search"></i>
                         </button>
@@ -399,6 +399,20 @@ if (isset($_SESSION['username']) || isset($_COOKIE['username'])) {
                 })
                 .catch(error => console.error('Error:', error));
         });
+    </script>
+    
+    <script>
+        document.getElementById('searchForm').addEventListener('submit', function (event) {
+    event.preventDefault();
+    const inputValue = document.getElementById('timkiem').value.trim();
+
+    if (inputValue) {
+        window.location.href = '../bansach/nguoidung/timkiem-nologin.php?tenSach=' + encodeURIComponent(inputValue);
+    } else {
+        alert('Vui lòng nhập nội dung tìm kiếm!');
+    }
+});
+
     </script>
 </body>
 

@@ -5,56 +5,53 @@ session_start();
 
 function test_input($data)
 {
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
+    return htmlspecialchars(stripslashes(trim($data)));
 }
 
 $usererror = $passerror = "";
 $success = false;
+$username = "";
+$password = "";
 
 if (isset($_COOKIE['username']) && isset($_COOKIE['pass'])) {
     $username = $_COOKIE['username'];
     $password = $_COOKIE['pass'];
 
-    $result = checkLogin($database, $username, $password);
-    if ($result) {
-        $_SESSION['username'] = $username;
-        header("Location: ../nguoidung/indexuser.php");
-        exit();
+    $user = checkLogin($database, $username, $password);
+    if ($user) {
+        $_SESSION['username'] = $user['tenNguoiDung'];
+        $_SESSION['user'] = $user;
+        $success = true; 
     }
-} else {
-    if (isset($_POST['action']) && $_POST['action'] == 'do-login') {
-        if ($_SERVER['REQUEST_METHOD'] === "POST") {
-            $username = test_input($_POST['username']);
-            $password = test_input($_POST['pass']);
+}
 
-            $result = checkLogin($database, $username, $password);
-            if (!$result) {
-                $usererror = "Tên đăng nhập hoặc mật khẩu không đúng";
-                $passerror = "Tên đăng nhập hoặc mật khẩu không đúng";
+if (isset($_POST['action']) && $_POST['action'] == 'do-login') {
+    if ($_SERVER['REQUEST_METHOD'] === "POST") {
+        $username = test_input($_POST['username']);
+        $password = test_input($_POST['pass']);
+
+        $user = checkLogin($database, $username, $password);
+
+        if (!$user) {
+            $usererror = "Tên đăng nhập hoặc mật khẩu không đúng";
+            $passerror = "Tên đăng nhập hoặc mật khẩu không đúng";
+        } else {
+            $_SESSION['username'] = $user['tenNguoiDung'];
+            $_SESSION['user'] = $user;
+            $success = true;
+
+            if (isset($_POST['remember'])) {
+                setcookie('username', $username, time() + 30 * 24 * 60 * 60, "/");
+                setcookie('pass', $password, time() + 30 * 24 * 60 * 60, "/");
             } else {
-                $success = true;
-                $_SESSION['username'] = $username;
-
-                // Lưu thông tin vào cookie nếu người dùng chọn "Ghi nhớ mật khẩu"
-                if (isset($_POST['remember'])) {
-                    setcookie('username', $username, time() + 30 * 24 * 60 * 60, "/"); //Lưu cookie 30 ngày
-                    setcookie('pass', $password, time() + 30 * 24 * 60 * 60, "/");
-                } else {
-                    // Xóa cookie nếu không chọn "Ghi nhớ mật khẩu"
-                    setcookie('username', '', time() - 3600, "/");
-                    setcookie('pass', '', time() - 3600, "/");
-                }
-                // error_log("Cookie đã được set cho username = $username");
-                // // header("Location: ../nguoidung/indexuser.php");
-                // // exit();
+                setcookie('username', '', time() - 3600, "/");
+                setcookie('pass', '', time() - 3600, "/");
             }
         }
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="vi">
@@ -253,14 +250,20 @@ if (isset($_COOKIE['username']) && isset($_COOKIE['pass'])) {
     <!-- Bootstrap JS -->
     <script src="../vender/js/bootstrap.bundle.min.js"></script>
     <script src="../asset/js/dangnhap.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            <?php if ($success): ?>
-                var successModal = new bootstrap.Modal(document.getElementById('successModal'));
-                successModal.show();
-            <?php endif; ?>
-        });
-    </script>
+    <?php if ($success): ?>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var successModal = new bootstrap.Modal(document.getElementById('successModal'));
+        successModal.show();
+
+        setTimeout(function () {
+            window.location.href = "../nguoidung/indexuser.php";
+        }, 2000);
+    });
+</script>
+<?php endif; ?>
+
+    
 </body>
 
 </html>

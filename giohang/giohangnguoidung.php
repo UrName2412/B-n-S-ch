@@ -6,11 +6,18 @@ if (!isset($_SESSION['username'])) {
     exit();
 }
 
+
 // Lấy thông tin người dùng từ session
-$ten_user = $_SESSION['username']; 
-$email_user = $_SESSION['email'];
-$sdt = $_SESSION['sdt'];
-$diachi = $_SESSION['diachi'];
+$ten_user = $_SESSION['user']['tenNguoiDung']; 
+$email_user = $_SESSION['user']['email'];
+$sdt = $_SESSION['user']['soDienThoai'];
+
+// Gộp địa chỉ 
+$diachi = $_SESSION['user']['duong'] . ', ' . 
+          $_SESSION['user']['xa'] . ', ' . 
+          $_SESSION['user']['quanHuyen'] . ', ' . 
+          $_SESSION['user']['tinhThanh'];
+
 ?>
 
 <!DOCTYPE html>
@@ -103,6 +110,45 @@ $diachi = $_SESSION['diachi'];
         <div class="row">
             <div class="col-12" id="cart-items">
                 <!--Danh sách sản phẩm-->
+                <?php
+if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
+    echo "<script>document.getElementById('cart-items').style.display = 'none'; document.getElementById('empty-cart-message').style.display = 'flex';</script>";
+} else {
+    $tongCong = 0;
+    foreach ($_SESSION['cart'] as $item) {
+        $tong = $item['giaBan'] * $item['soLuong'];
+        $tongCong += $tong;
+        echo '
+        <div class="card mb-3 shadow-sm">
+            <div class="row g-0">
+                <div class="col-md-2">
+                    <img src="' . $item['hinhAnh'] . '" class="img-fluid rounded-start" alt="' . $item['tenSach'] . '">
+                </div>
+                <div class="col-md-10">
+                    <div class="card-body d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="card-title">' . $item['tenSach'] . '</h5>
+                            <p class="card-text mb-1">Giá: <strong>' . number_format($item['giaBan'], 0, ',', '.') . 'đ</strong></p>
+                            <p class="card-text">Số lượng: <strong>' . $item['soLuong'] . '</strong></p>
+                        </div>
+                        <div>
+                            <p class="text-end fw-bold text-danger">' . number_format($tong, 0, ',', '.') . 'đ</p>
+                            <form method="post" action="xoagiohang.php" onsubmit="return confirm(\'Xóa sản phẩm này khỏi giỏ hàng?\')">
+                                <input type="hidden" name="maSach" value="' . $item['maSach'] . '">
+                                <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>';
+    }
+
+    echo '<script>
+        document.querySelector(".cart-total .text-danger.h5").innerText = "' . number_format($tongCong, 0, ',', '.') . 'đ";
+    </script>';
+}
+?>
             </div>
         </div>
         <div class="d-flex align-items-center">
@@ -127,7 +173,7 @@ $diachi = $_SESSION['diachi'];
         </div>
 
         <!-- Section for Address -->
-<section class="cart-address mt-4">
+        <section class="cart-address mt-4">
     <h4 class="fw-bold">Chọn địa chỉ giao hàng</h4>
     <!-- Chọn địa chỉ đã lưu -->
     <div>
@@ -135,16 +181,13 @@ $diachi = $_SESSION['diachi'];
         <select name="address_select" id="address_select" class="form-control">
             <option value="">-- Chọn địa chỉ --</option>
             <?php
-            // Lấy địa chỉ đã lưu của người dùng
-            include('../config/config.php');
-            $user_id = $_SESSION['user_id'];
-            $query = "SELECT * FROM addresses WHERE user_id = ?";
-            $stmt = $mysqli->prepare($query);
-            $stmt->bind_param("i", $user_id);
-            $stmt->execute();
-            $result = $stmt->get_result();
-            while ($address = $result->fetch_assoc()) {
-                echo "<option value='" . $address['id'] . "'>" . $address['address'] . "</option>";
+            if (isset($_SESSION['user'])) {
+                $user = $_SESSION['user'];
+                // Gộp địa chỉ từ các trường
+                $full_address = $user['duong'] . ', ' . $user['xa'] . ', ' . $user['quanHuyen'] . ', ' . $user['tinhThanh'];
+                echo "<option value='" . htmlspecialchars($full_address) . "' selected>" . htmlspecialchars($full_address) . "</option>";
+            } else {
+                echo "<option disabled>Không tìm thấy địa chỉ người dùng</option>";
             }
             ?>
         </select>
