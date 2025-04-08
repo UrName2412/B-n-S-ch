@@ -2,6 +2,12 @@
 session_start();
 $user = $_SESSION['user'] ?? [];
 
+if (!isset($_SESSION['username'])) {
+  echo "<script>alert('Bạn chưa đăng nhập!'); window.location.href='../dangky/dangnhap.php';</script>";
+  exit;
+}
+
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Lấy dữ liệu từ form
     $name = trim($_POST['name-user']);

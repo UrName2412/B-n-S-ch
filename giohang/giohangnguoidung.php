@@ -16,11 +16,8 @@ if (isset($_SESSION['username'])) {
         exit();
     }
 } else {
-    echo "<script>alert('Bạn chưa đăng nhập!'); window.location.href='../dangky/dangnhap.php';</script>";
-if (!isset($_SESSION['username'])) {
-    echo "<script>alert('Bạn cần đăng nhập để xem giỏ hàng!'); window.location.href='../dangky/dangnhap.php';</script>";
+    echo "<script>alert('Bạn cần đăng nhập để tiếp tục thanh toán!'); window.location.href='../dangky/dangnhap.php';</script>";
     exit();
-}
 }
 
 // Lấy thông tin người dùng từ session
@@ -110,7 +107,7 @@ $diachi = $_SESSION['user']['duong'] . ', ' .
                             </div>
                         </li>
                     </ul>
-                    <a href="/giohang/giohangnguoidung.php" class="nav-link text-white">
+                    <a href="giohangnguoidung.php" class="nav-link text-white">
                         <div class="cart-icon">
                             <i class="fas fa-shopping-basket" style="color: yellow;"></i>
                             <span class="">0</span>
