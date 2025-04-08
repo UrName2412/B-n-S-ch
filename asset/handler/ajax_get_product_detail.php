@@ -15,7 +15,7 @@ if (isset($_POST['id'])) {
         echo "<div class='container-fluid'>
                 <div class='row'>
                     <div class='col-md-6'>
-                        <img src='/Images/demenphieuluuky.jpg' class='img-fluid rounded' alt='{$row['tenSach']}' />
+                        <img src='/Images/${product.hinhAnh}' class='img-fluid rounded' alt='{$row['tenSach']}' />
                     </div>
                     <div class='col-md-6'>
                         <h5 class='fw-bold'>{$row['tenSach']}</h5>
