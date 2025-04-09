@@ -1,3 +1,28 @@
+<?php
+require '../admin/config/config.php';
+require '../asset/handler/user_handle.php';
+session_start();
+
+if (isset($_SESSION['username'])) {
+    $username = $_SESSION['username'];
+} elseif (isset($_COOKIE['username']) && isset($_COOKIE['pass'])) {
+    $username = $_COOKIE['username'];
+    $password = $_COOKIE['pass'];
+
+    if (checkLogin($database, $username, $password)) {
+        $_SESSION['username'] = $username;
+    } else {
+        echo "<script>alert('Bạn chưa đăng nhập!'); window.location.href='../dangky/dangnhap.php';</script>";
+        exit();
+    }
+} else {
+    echo "<script>alert('Bạn chưa đăng nhập!'); window.location.href='../dangky/dangnhap.php';</script>";
+    exit();
+}
+
+$user = getUserInfoByUsername($database, $username);
+?>
+
 <!DOCTYPE html>
 <html lang="vi">
 
@@ -12,6 +37,7 @@
     <!-- CSS  -->
     <link rel="stylesheet" href="../asset/css/sanpham.css">
     <link rel="stylesheet" href="../asset/css/hoaDon.css">
+    <link rel="stylesheet" href="../asset/css/index-user.css">
 </head>
 
 <body>
@@ -48,18 +74,22 @@
                     </form>
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a href="../index.php" class="nav-link fw-bold text-white">ĐĂNG XUẤT</a>
-                        </li>
-                        <li class="nav-item">
-                            <div>
-                                <a href="../nguoidung/user.php"><i class="fas fa-user" id="avatar"
-                                        style="color: black;"></i></a>
-                                <span id="profile-name" style="top: 20px; padding: 2px; display: none;">Nguyễn Văn
-                                    A</span>
+                            <div class="d-flex gap-2">
+                                <a href="../nguoidung/user.php" class="mt-2"><i class="fas fa-user" id="avatar" style="color: black;"></i></a>
+                                <span class="mt-1" id="profile-name" style="top: 20px; padding: 2px;"><?php echo $user['tenNguoiDung']; ?></span>
+                                <div class="dropdown">
+                                    <button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                                    <ul class="dropdown-menu">
+                                        <li class="dropdownList"><a class="dropdown-item" href="../nguoidung/user.php">Thông tin tài khoản</a></li>
+                                        <?php if (isset($_SESSION['username'])): ?>
+                                            <li class="dropdownList"><a href="../dangky/dangxuat.php" class="dropdown-item">Đăng xuất</a></li>
+                                        <?php endif; ?>
+                                    </ul>
+                                </div>
                             </div>
                         </li>
                     </ul>
-                    <a href="/giohang/giohangnguoidung.php" class="nav-link text-white">
+                    <a href="giohangnguoidung.php" class="nav-link text-white">
                         <div class="cart-icon">
                             <i class="fas fa-shopping-basket"></i>
                             <span class="">0</span>
