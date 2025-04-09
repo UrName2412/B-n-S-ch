@@ -1,7 +1,6 @@
 <?php
-
-require '../../config/config.php';
 session_start();
+require '../../config/config.php';
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $tenNguoiDung = $_POST["tenNguoiDung"];
@@ -42,18 +41,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         echo "Bị trùng tên người dùng rồi.";
     }
 
-
-
-
-    $database->close();
-
-
     if ($flag){
         $_SESSION["ketQuaThem"]=true;
-    } else{
+    } else {
         $_SESSION["ketQuaThem"]=false;
     }
-    print_r($_SESSION);
+
+    $database->close();
 }
 
 

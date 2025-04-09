@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -205,11 +209,8 @@
                 </form>
             </div>
         </div>
-        <!-- Thiếu địa chỉ select, vai trò -->
-
         <!--End of Content-Tool-->
     </div>
-
 
     <script src="../asset/js/function.js"></script>
     <script src="../asset/js/validator.js"></script>
@@ -257,6 +258,18 @@
             addressHandler2.loadProvinces();
         });
     </script>
+
+    <?php
+        if (isset($_SESSION["ketQuaThem"])){
+            if ($_SESSION["ketQuaThem"] == true){
+                echo "<script>createAlert('Đã thêm người dùng thành công.');</script>";
+            }
+            else {
+                echo "<script>createAlert('Đã bị trùng tên người dùng.');</script>";
+            }
+            unset($_SESSION["ketQuaThem"]);
+        }
+    ?>
 </body>
 
 </html>
