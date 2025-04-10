@@ -41,6 +41,31 @@ $xa = getAddress($wards, $user['xa']);
 $quan = getAddress($districts, $user['quanHuyen']);
 $tinh = getAddress($provinces, $user['tinhThanh']);
 $diaChi = $duong . ', ' . $xa . ', ' . $quan . ', ' . $tinh;
+
+function test_input($data)
+{
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+
+if ($_SERVER['REQUEST_METHOD'] === "POST") {
+    $username1 = test_input($_POST['name']);
+    $address1 = test_input($_POST['address']);
+    $phone1 = test_input($_POST['phone']);
+    $province1 = test_input($_POST['province']);
+    $district1 = test_input($_POST['district']);
+    $ward1 = test_input($_POST['ward']);
+
+    updateUser($database, $username1, $address1, $phone1, $province1, $district1, $ward1);
+
+    $_SESSION['update_success'] = true;
+
+    header("Location: user.php");
+    exit();
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -59,6 +84,12 @@ $diaChi = $duong . ', ' . $xa . ', ' . $quan . ', ' . $tinh;
 </head>
 
 <body>
+    <?php
+    if (isset($_SESSION['update_success'])) {
+        echo "<script>alert('Cập nhật thông tin thành công!');</script>";
+        unset($_SESSION['update_success']);
+    }
+    ?>
     <!-- Header -->
     <header class="text-white py-3">
         <div class="container">
@@ -90,18 +121,6 @@ $diaChi = $duong . ', ' . $xa . ', ' . $quan . ', ' . $tinh;
                             <i class="fas fa-search"></i>
                         </button>
                     </form>
-                    <script>
-                        document.getElementById('searchForm').addEventListener('submit', function(event) {
-                            event.preventDefault();
-                            const inputValue = document.getElementById('timkiem').value.trim();
-
-                            if (inputValue) {
-                                window.location.href = '../nguoidung/timkiem.php';
-                            } else {
-                                alert('Vui lòng nhập nội dung tìm kiếm!');
-                            }
-                        });
-                    </script>
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
                             <div class="d-flex gap-2">
@@ -161,49 +180,6 @@ $diaChi = $duong . ', ' . $xa . ', ' . $quan . ', ' . $tinh;
                 </div>
             </div>
         </div>
-        <script>
-            function toggleEditForm() {
-                const form = document.getElementById('edit-form');
-                const overlay = document.querySelector('.overlay');
-
-                // Toggle classes
-                form.classList.toggle('show');
-                overlay.classList.toggle('show');
-            }
-
-            function updateInfo() {
-                const name = document.getElementById('name').value;
-                const day = document.getElementById('ngay').value;
-                const month = document.getElementById('thang').value;
-                const year = document.getElementById('nam').value;
-                const email = document.getElementById('email').value;
-                const phone = document.getElementById('phone').value;
-                const address = document.getElementById('address').value;
-                const notification = document.getElementById('notification');
-
-                if (month == 2) {
-                    if (day > 29) {
-                        notification.innerHTML = '<div class="alert alert-danger">Ngày tháng không hợp lệ</div>';
-                        return;
-                    }
-                } else if (month == 4 || month == 6 || month == 9 || month == 11) {
-                    if (day > 30) {
-                        notification.innerHTML = '<div class="alert alert-danger">Ngày tháng không hợp lệ</div>';
-                        return;
-                    }
-                }
-                const sinhnhat = `${day}/${month}/${year}`;
-
-                document.getElementById('customer-name').textContent = name;
-                document.getElementById('profile-name').textContent = name;
-                document.getElementById('customer-sinhnhat').textContent = sinhnhat;
-                document.getElementById('customer-email').textContent = email;
-                document.getElementById('customer-phone').textContent = phone;
-                document.getElementById('customer-address').textContent = address;
-
-                toggleEditForm();
-            }
-        </script>
     </main>
     <!-- Footer -->
     <footer class="text-white py-4">
@@ -263,70 +239,56 @@ $diaChi = $duong . ', ' . $xa . ', ' . $quan . ', ' . $tinh;
         </div>
     </footer>
     <div class="overlay"></div>
-    <form id="edit-form">
+    <form id="edit-form" name="edit-form" action="user.php" method="post">
         <h2>Cập Nhật Thông Tin</h2>
-        <div class="d-flex">
+        <div class="mb-2">
             <label for="name">Tên đăng nhập:</label>
-            <input type="text" id="name" value="<?php echo $user['tenNguoiDung']; ?>" readonly>
+            <input type="text" id="name" name="name" value="<?php echo $user['tenNguoiDung']; ?>" readonly>
         </div>
-        <div class="d-flex">
+        <div class="mb-2">
             <label for="email">Email:</label>
-            <input type="email" id="email" value="<?php echo $user['email']; ?>" readonly>
+            <input type="email" id="email" name="email" value="<?php echo $user['email']; ?>" readonly>
         </div>
-        <div class="d-flex">
+        <div class="mb-2">
             <label for="phone">Số Điện Thoại:</label>
-            <input type="text" id="phone" value="<?php echo $user['soDienThoai']; ?>">
+            <input type="text" id="phone" name="phone" placeholder="Nhập số điện thoại" value="<?php echo $user['soDienThoai']; ?>">
         </div>
-        <div>
-            <label class="form-label" for="province">Tỉnh/Thành</label>
+        <div class="mb-2">
+            <label class="form-label" for="province">Tỉnh/Thành:</label>
             <select class="form-select" id="province" name="province">
-                <option value="">Chọn tỉnh/thành phố</option>
-                <?php
-                foreach ($provinces as $prov) {
-                    $selected = (isset($user['tinhThanh']) && $user['tinhThanh'] == $prov['code']) ? "selected" : "";
-                    echo "<option value='{$prov['code']}' $selected>{$prov['name']}</option>";
-                }
-                ?>
+                <?php foreach ($provinces as $province): ?>
+                    <option value="<?= $province['code'] ?>" <?= $province['code'] == $user['tinhThanh'] ? 'selected' : '' ?>>
+                        <?= $province['name'] ?>
+                    </option>
+                <?php endforeach; ?>
             </select>
         </div>
-        <div>
-            <label class="form-label" for="district">Quận/Huyện</label>
+        <div class="mb-2">
+            <label class="form-label" for="district">Quận/Huyện:</label>
             <select class="form-select" id="district" name="district">
-                <option value="">Chọn quận/huyện</option>
-                <?php 
-                if (!empty($user['tinhThanh'])) {
-                    foreach ($districts as $dist) {
-                        if ($dist['province_code'] == $user['tinhThanh']) {
-                            $selected = ($user['quanHuyen'] == $dist['code']) ? "selected" : "";
-                            echo "<option value='{$dist['code']}' $selected>{$dist['name']}</option>";
-                        }
-                    }
-                }
-                ?>
+                <?php foreach ($districts as $district): ?>
+                    <option value="<?= $district['code'] ?>" <?= $district['code'] == $user['quanHuyen'] ? 'selected' : '' ?>>
+                        <?= $district['name'] ?>
+                    </option>
+                <?php endforeach; ?>
             </select>
         </div>
-        <div>
-            <label class="form-label" for="ward">Xã/Phường</label>
+        <div class="mb-2">
+            <label class="form-label" for="ward">Xã/Phường:</label>
             <select class="form-select" id="ward" name="ward">
-                <option value="">Chọn xã/phường</option>
-                <?php 
-                if (!empty($user['quanHuyen'])) {
-                    foreach ($wards as $wardItem) {
-                        if ($wardItem['district_code'] == $user['quanHuyen']) {
-                            $selected = ($user['xa'] == $wardItem['code']) ? "selected" : "";
-                            echo "<option value='{$wardItem['code']}' $selected>{$wardItem['name']}</option>";
-                        }
-                    }
-                }
-                ?>
+                <?php foreach ($wards as $ward): ?>
+                    <option value="<?= $ward['code'] ?>" <?= $ward['code'] == $user['xa'] ? 'selected' : '' ?>>
+                        <?= $ward['name'] ?>
+                    </option>
+                <?php endforeach; ?>
             </select>
         </div>
-        <div class="d-flex">
-            <label class="form-label" for="address">Địa chỉ nhà</label>
-            <input class="form-control" type="text" name="address" id="address" value="<?php echo $duong ?>">
+        <div class="mb-2">
+            <label class="form-label" for="address">Địa chỉ nhà:</label>
+            <input class="form-control" type="text" name="address" id="address" placeholder="Nhập địa chỉ nhà" value="<?php echo $user['duong']; ?>">
         </div>
-        <button type="button" class="edit-btn" onclick="updateInfo()">Lưu</button>
-        <button type="button" class="cancel-btn" onclick="toggleEditForm()">Hủy</button>
+        <button type="submit" class="edit-btn">Lưu</button>
+        <button type="reset" class="cancel-btn" onclick="toggleEditForm()">Hủy</button>
     </form>
 
     <!-- Bootstrap JS -->
@@ -334,17 +296,16 @@ $diaChi = $duong . ', ' . $xa . ', ' . $quan . ', ' . $tinh;
     <script src="../asset/js/user.js"></script>
 
     <script>
-        document.getElementById('searchForm').addEventListener('submit', function (event) {
-    event.preventDefault();
-    const inputValue = document.getElementById('timkiem').value.trim();
+        document.getElementById('searchForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const inputValue = document.getElementById('timkiem').value.trim();
 
-    if (inputValue) {
-        window.location.href = '/B-n-S-ch/nguoidung/timkiem.php?tenSach=' + encodeURIComponent(inputValue);
-    } else {
-        alert('Vui lòng nhập nội dung tìm kiếm!');
-    }
-});
-
+            if (inputValue) {
+                window.location.href = '/B-n-S-ch/nguoidung/timkiem.php?tenSach=' + encodeURIComponent(inputValue);
+            } else {
+                alert('Vui lòng nhập nội dung tìm kiếm!');
+            }
+        });
     </script>
 
 </body>
