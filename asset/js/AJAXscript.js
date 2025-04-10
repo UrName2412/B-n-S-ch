@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const productsPerPage = 6;
+    const productsPerPage = 9;
     const paginationContainer = document.querySelector(".pagination-container .pagination");
     let currentPage = 1;
     let products = [];

@@ -2,7 +2,7 @@
 include '../../admin/config/config.php';
 
 // Xử lý phân trang
-$productsPerPage = 6;
+$productsPerPage = 9;
 $currentPage = isset($_GET['page']) ? intval($_GET['page']) : 1;
 if ($currentPage < 1) {
     $currentPage = 1;
