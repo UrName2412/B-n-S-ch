@@ -40,8 +40,8 @@
                                 PHẨM</a>
                         </li>
                     </ul>
-                    <form id="searchForm" class="d-flex me-auto">
-                        <input class="form-control me-2" type="text" id="timkiem" placeholder="Tìm sách">
+                    <form id="searchForm" class="d-flex me-auto" method="GET" action="nguoidung/timkiem.php">
+                        <input class="form-control me-2" type="text" id="timkiem" name="tenSach" placeholder="Tìm sách">
                         <button class="btn btn-outline-light" type="submit">
                             <i class="fas fa-search"></i>
                         </button>
@@ -71,7 +71,7 @@
                             </div>
                         </li>
                     </ul>
-                    <a href="/giohang/giohangnguoidung.php" class="nav-link text-white">
+                    <a href="../giohang/giohangnguoidung.php" class="nav-link text-white">
                         <div class="cart-icon">
                             <i class="fas fa-shopping-basket"></i>
                             <span class="">0</span>
@@ -117,139 +117,41 @@
                 <h2 class="text-dark">Kết quả tìm kiếm</h2>
                 <div class="border p-5">
                     <div class="container my-4">
-                        <div class="listProduct row">
-                            <div class="col-md-4 mb-4">
-                                <div class="card" style="width: 100%;">
-                                    <a href="../sanpham/chitietsanpham.php">
-                                        <img src="../Images/harrypotter.jpg" alt="Ảnh 1" class="card-img-top">
-                                    </a>
-                                    <div class="card-body">
-                                        <h5 class="card-title">Harry Potter Và Hòn Đá Phù Thủy</h5>
-                                        <p class="card-text">Tiểu thuyết</p>
-                                        <p class="card-text text-danger fw-bold">120.000 đ</p>
-                                        <button class="btn" style="background-color: #336799; color: #ffffff;">Thêm
-                                            vào giỏ hàng</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-4">
-                                <div class="card" style="width: 100%;">
-                                    <a href="../sanpham/chitietsanpham.php">
-                                        <img src="../Images/tuduynguoc.jpg" alt="Ảnh 2" class="card-img-top">
-                                    </a>
-                                    <div class="card-body">
-                                        <h5 class="card-title">Tư Duy Ngược</h5>
-                                        <p class="card-text">Kỹ năng sống</p>
-                                        <p class="card-text text-danger fw-bold">80.000 đ</p>
-                                        <button class="btn" style="background-color: #336799; color: #ffffff;">Thêm
-                                            vào giỏ hàng</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-4">
-                                <div class="card" style="width: 100%;">
-                                    <a href="../sanpham/chitietsanpham.php">
-                                        <img src="../Images/bonmuacuocsong.jpg" alt="Ảnh 3" class="card-img-top">
-                                    </a>
-                                    <div class="card-body">
-                                        <h5 class="card-title">Bốn Mùa Cuộc Sống</h5>
-                                        <p class="card-text">Truyền Cảm Hứng</p>
-                                        <p class="card-text text-danger fw-bold">50.000 đ</p>
-                                        <button class="btn" style="background-color: #336799; color: #ffffff;">Thêm
-                                            vào giỏ hàng</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-4">
-                                <div class="card" style="width: 100%;">
-                                    <a href="../sanpham/chitietsanpham.php">
-                                        <img src="../Images/canhdongbattan.jpg" alt="Ảnh 4" class="card-img-top">
-                                    </a>
-                                    <div class="card-body">
-                                        <h5 class="card-title">Cánh Đồng Bất Tận</h5>
-                                        <p class="card-text">Văn học</p>
-                                        <p class="card-text text-danger fw-bold">60.000 đ</p>
-                                        <button class="btn" style="background-color: #336799; color: #ffffff;">Thêm
-                                            vào giỏ hàng</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-4">
-                                <div class="card" style="width: 100%;">
-                                    <a href="../sanpham/chitietsanpham.php">
-                                        <img src="../Images/khihoithohoathinhkhong.webp" alt="Ảnh 5"
-                                            class="card-img-top">
-                                    </a>
-                                    <div class="card-body">
-                                        <h5 class="card-title">Khi Hơi Thở Hóa Thinh Không</h5>
-                                        <p class="card-text">Hồi Ký</p>
-                                        <p class="card-text text-danger fw-bold">75.000 đ</p>
-                                        <button class="btn" style="background-color: #336799; color: #ffffff;">Thêm
-                                            vào giỏ hàng</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-4">
-                                <div class="card" style="width: 100%;">
-                                    <a href="../sanpham/chitietsanpham.php">
-                                        <img src="../Images/sachcuasutinhlang.jpg" alt="Ảnh 6" class="card-img-top">
-                                    </a>
-                                    <div class="card-body">
-                                        <h5 class="card-title">Sách Của Sự Tĩnh Lặng</h5>
-                                        <p class="card-text">Kỹ năng sống</p>
-                                        <p class="card-text text-danger fw-bold">90.000 đ</p>
-                                        <button class="btn" style="background-color: #336799; color: #ffffff;">Thêm
-                                            vào giỏ hàng</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-4">
-                                <div class="card" style="width: 100%;">
-                                    <a href="../sanpham/chitietsanpham.php">
-                                        <img src="../Images/stopoverthinking.jpg" alt="Ảnh 7" class="card-img-top">
-                                    </a>
-                                    <div class="card-body">
-                                        <h5 class="card-title">Stop Overthinking</h5>
-                                        <p class="card-text">Tâm lý</p>
-                                        <p class="card-text text-danger fw-bold">85.000 đ</p>
-                                        <button class="btn" style="background-color: #336799; color: #ffffff;">Thêm
-                                            vào giỏ hàng</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-4">
-                                <div class="card" style="width: 100%;">
-                                    <a href="../sanpham/chitietsanpham.php">
-                                        <img src="../Images/conchimxanhbiecbayve.jpg" alt="Ảnh 8" class="card-img-top">
-                                    </a>
-                                    <div class="card-body">
-                                        <h5 class="card-title">Con Chim Xanh Biếc Bay Về</h5>
-                                        <p class="card-text">Văn học</p>
-                                        <p class="card-text text-danger fw-bold">100.000 đ</p>
-                                        <button class="btn" style="background-color: #336799; color: #ffffff;">Thêm
-                                            vào giỏ hàng</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-4">
-                                <div class="card" style="width: 100%;">
-                                    <a href="../sanpham/chitietsanpham.php">
-                                        <img src="../Images/baigiangcuoicung.jpg" alt="Ảnh 9" class="card-img-top">
-                                    </a>
-                                    <div class="card-body">
-                                        <h5 class="card-title">Bài Giảng Cuối Cùng</h5>
-                                        <p class="card-text">Truyền cảm hứng</p>
-                                        <p class="card-text text-danger fw-bold">70.000 đ</p>
-                                        <button class="btn" style="background-color: #336799; color: #ffffff;">Thêm
-                                            vào giỏ hàng</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <nav class="pagination-container mt-4">
-                                <ul class="pagination justify-content-center">
+                    <div class="listProduct row">
+                        <?php
+                        require '../admin/config/config.php';
+if (isset($_GET['tenSach']) && !empty($_GET['tenSach'])) {
+    $tenSach = '%' . $_GET['tenSach'] . '%';
+    $stmt = $database->prepare("SELECT * FROM b01_sanpham WHERE tenSach LIKE ? AND trangThai = 1");
+    $stmt->bind_param("s", $tenSach);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-                                </ul>
-                            </nav>
+    if ($result->num_rows > 0) {
+        echo '<h3>Kết quả tìm kiếm cho: <strong>' . htmlspecialchars($_GET['tenSach']) . '</strong></h3>';
+        while ($row = $result->fetch_assoc()) {
+            ?>
+            <div class="col-md-4 mb-4">
+                <div class="card" style="width: 100%;">
+                    <a href="../sanpham/chitietsanpham.php?maSach=<?php echo $row['maSach']; ?>">
+                        <img src="../images/<?php echo $row['hinhAnh']; ?>" class="card-img-top" alt="...">
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title"><?php echo $row['tenSach']; ?></h5>
+                        <p class="card-text text-danger fw-bold"><?php echo number_format($row['giaBan']); ?> đ</p>
+                        <button class="btn" style="background-color: #336799; color: #ffffff;">Thêm vào giỏ hàng</button>
+                    </div>
+                </div>
+            </div>
+            <?php
+        }
+    } else {
+        echo "<p>Không tìm thấy sách nào phù hợp.</p>";
+    }
+} else {
+    echo "<p>Vui lòng nhập từ khóa để tìm kiếm.</p>";
+}
+?>
                         </div>
                     </div>
                 </div>
@@ -346,6 +248,21 @@
         window.addEventListener("load", adjustSidebar);
         window.addEventListener("resize", adjustSidebar);
     </script>
+
+<script>
+        document.getElementById('searchForm').addEventListener('submit', function (event) {
+    event.preventDefault();
+    const inputValue = document.getElementById('timkiem').value.trim();
+
+    if (inputValue) {
+        // Chuyển sang trang tìm kiếm và truyền từ khóa vào URL
+        window.location.href = '../nguoidung/timkiem.php?tenSach=' + encodeURIComponent(inputValue);
+    } else {
+        alert('Vui lòng nhập nội dung tìm kiếm!');
+    }
+});
+
+        </script>
 </body>
 
 </html>

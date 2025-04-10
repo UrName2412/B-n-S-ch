@@ -78,8 +78,8 @@ $diachi = $_SESSION['user']['duong'] . ', ' .
                             <a href="../sanpham/sanpham-user.php" class="nav-link fw-bold text-white">SẢN PHẨM</a>
                         </li>
                     </ul>
-                    <form id="searchForm" class="d-flex me-auto">
-                        <input class="form-control me-2" type="text" id="timkiem" placeholder="Tìm sách">
+                    <form id="searchForm" class="d-flex me-auto" method="GET" action="nguoidung/timkiem.php">
+                        <input class="form-control me-2" type="text" id="timkiem" name="tenSach" placeholder="Tìm sách">
                         <button class="btn btn-outline-light" type="submit">
                             <i class="fas fa-search"></i>
                         </button>
@@ -191,34 +191,7 @@ $diachi = $_SESSION['user']['duong'] . ', ' .
 
         </div>
 
-        <!-- Section for Address -->
-        <section class="cart-address mt-4">
-            <h4 class="fw-bold">Chọn địa chỉ giao hàng</h4>
-            <!-- Chọn địa chỉ đã lưu -->
-            <div>
-                <label for="address_select">Chọn địa chỉ có sẵn:</label>
-                <select name="address_select" id="address_select" class="form-control">
-                    <option value="">-- Chọn địa chỉ --</option>
-                    <?php
-                    if (isset($_SESSION['user'])) {
-                        $user = $_SESSION['user'];
-                        // Gộp địa chỉ từ các trường
-                        $full_address = $user['duong'] . ', ' . $user['xa'] . ', ' . $user['quanHuyen'] . ', ' . $user['tinhThanh'];
-                        echo "<option value='" . htmlspecialchars($full_address) . "' selected>" . htmlspecialchars($full_address) . "</option>";
-                    } else {
-                        echo "<option disabled>Không tìm thấy địa chỉ người dùng</option>";
-                    }
-                    ?>
-                </select>
-            </div>
-
-
-            <!-- Nhập địa chỉ mới -->
-            <div class="mt-3">
-                <label for="new_address">Hoặc nhập địa chỉ mới:</label>
-                <textarea name="new_address" id="new_address" class="form-control" placeholder="Nhập địa chỉ mới" rows="3"></textarea>
-            </div>
-        </section>
+                       
 
         <!--emptyc-cart-->
         <div id="empty-cart-message" class="cart_container align-items-center mt-4 mx-5"
@@ -331,6 +304,21 @@ $diachi = $_SESSION['user']['duong'] . ', ' .
     <!-- Bootstrap JS -->
     <script src="../vender/js/bootstrap.bundle.min.js"></script>
     <script src="../asset/js/user-cart.js"></script>
+
+    <script>
+        document.getElementById('searchForm').addEventListener('submit', function (event) {
+    event.preventDefault();
+    const inputValue = document.getElementById('timkiem').value.trim();
+
+    if (inputValue) {
+        window.location.href = '/B-n-S-ch/nguoidung/timkiem.php?tenSach=' + encodeURIComponent(inputValue);
+    } else {
+        alert('Vui lòng nhập nội dung tìm kiếm!');
+    }
+});
+
+    </script>
+
 </body>
 
 </html>

@@ -352,7 +352,7 @@ if (isset($_SESSION['username']) || isset($_COOKIE['username'])) {
     const inputValue = document.getElementById('timkiem').value.trim();
 
     if (inputValue) {
-        window.location.href = '../bansach/nguoidung/timkiem-nologin.php?tenSach=' + encodeURIComponent(inputValue);
+        window.location.href = '../B-n-S-ch/nguoidung/timkiem-nologin.php?tenSach=' + encodeURIComponent(inputValue);
     } else {
         alert('Vui lòng nhập nội dung tìm kiếm!');
     }

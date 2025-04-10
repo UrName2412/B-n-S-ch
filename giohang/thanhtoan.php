@@ -95,12 +95,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
               <a href="../sanpham/sanpham-user.php" class="nav-link fw-bold text-white">SẢN PHẨM</a>
             </li>
           </ul>
-          <form class="d-flex me-auto">
-            <input class="form-control me-2" type="text" id="timkiem" placeholder="Tìm sách">
-            <button class="btn btn-outline-light" type="submit">
-              <i class="fas fa-search"></i>
-            </button>
-          </form>
+          <form id="searchForm" class="d-flex me-auto" method="GET" action="nguoidung/timkiem.php">
+                        <input class="form-control me-2" type="text" id="timkiem" name="tenSach" placeholder="Tìm sách">
+                        <button class="btn btn-outline-light" type="submit">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </form>
           <ul class="navbar-nav me-auto">
             <li class="nav-item">
               <div class="d-flex gap-2">
@@ -270,6 +270,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
     window.toggleDefaultInfo = toggleDefaultInfo;
   </script>
+
+<script>
+        document.getElementById('searchForm').addEventListener('submit', function (event) {
+    event.preventDefault();
+    const inputValue = document.getElementById('timkiem').value.trim();
+
+    if (inputValue) {
+        window.location.href = '/B-n-S-ch/nguoidung/timkiem.php?tenSach=' + encodeURIComponent(inputValue);
+    } else {
+        alert('Vui lòng nhập nội dung tìm kiếm!');
+    }
+});
+
+    </script>
+
 </body>
 
 </html>
