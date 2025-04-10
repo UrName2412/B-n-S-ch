@@ -19,7 +19,9 @@ function getProducts() {
 }
 
 function renderProducts() {
-    activeProducts(listProductsBlock);
+    let productFilterBlock = document.getElementById('productFilter');
+    productFilterBlock.value = "allProducts";
+    productFilter();
 }
 
 function fixButtons() {
@@ -119,6 +121,25 @@ function fixButtons() {
                         selectNhaXuatBan.appendChild(option);
                     });
                 })
+
+            messageRequired = 'Vui lòng nhập thông tin.';
+            Validator({
+                form: '#form-fix',
+                errorSelector: '.form-message',
+                rules: [
+                    Validator.isRequired('#suaTenSach', messageRequired),
+                    Validator.isRequired('#suaTacGia', messageRequired),
+                    Validator.isRequired('#suaTheLoai', 'Vui lòng chọn thể loại'),
+                    Validator.isRequired('#suaNhaXuatBan', messageRequired),
+                    Validator.isRequired('#suaGiaBan', messageRequired),
+                    Validator.isRequired('#suaSoTrang', messageRequired),
+                    Validator.isRequired('#suaMoTa', messageRequired),
+                    Validator.isNumber('#suaGiaBan', 'Giá tiền không hợp lệ'),
+                    Validator.isNumber('#suaSoTrang', 'Số trang không hợp lệ'),
+                    Validator.min('#suaGiaBan', 1000, 'Giá tiền tối thiểu là 1000 VNĐ'),
+                    Validator.min('#suaSoTrang', 1, 'Số trang tối thiểu là 1 trang'),
+                ]
+            });
 
             var formFix = document.getElementById('form-fix');
             formFix.addEventListener("submit", e => {

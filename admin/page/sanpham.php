@@ -162,9 +162,9 @@ $stmt->close();
                         <i class="fas fa-filter"></i>
                     </button>
                     <select name="productFilter" id="productFilter" onchange="productFilter()">
+                        <option value="allProducts">Tất cả sản phẩm</option>
                         <option value="activeProducts">Sản phẩm hoạt động</option>
                         <option value="hiddenProducts">Sản phẩm bị ẩn</option>
-                        <option value="allProducts">Tất cả sản phẩm</option>
                     </select>
                     <input type="text" name="search" placeholder="Tìm kiếm..." id="searchInput">
                     <button type="button" id="searchButton" onclick="searchButton()">
@@ -182,7 +182,7 @@ $stmt->close();
             </button>
             <div class="menu-add">
                 <h2>Thêm Sản Phẩm</h2>
-                <form class="form" id="form-add" method="POST" action="../handlers/them/themsanpham.php">
+                <form class="form" id="form-add" method="POST" action="../handlers/them/themsanpham.php" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="hinhAnh">Hình ảnh:</label>
                         <input type="file" name="hinhAnh" id="hinhAnh" placeholder="Chọn ảnh">
@@ -243,8 +243,6 @@ $stmt->close();
                 </form>
             </div>
         </div>
-
-        <!-- Cần sửa nhà xuất bản với thể loại theo type select (lấy từ dữ liệu) -->
 
         <!--End of Content-Tool-->
     </div>

@@ -119,9 +119,9 @@ session_start();
                         <i class="fas fa-filter"></i>
                     </button>
                     <select name="userFilter" id="userFilter">
+                        <option value="allUsers">Tất cả người dùng</option>
                         <option value="activeUsers">Người dùng hoạt động</option>
                         <option value="bannedUsers">Người dùng bị khóa</option>
-                        <option value="allUsers">Tất cả người dùng</option>
                     </select>
                     <input type="text" name="search" placeholder="Tìm kiếm..." id="searchInput">
                     <button type="button" id="searchButton">
@@ -268,6 +268,10 @@ session_start();
                 echo "<script>createAlert('Đã bị trùng tên người dùng.');</script>";
             }
             unset($_SESSION["ketQuaThem"]);
+        }
+        if (isset($_SESSION["ketQuaSua"])){
+            echo "<script>createAlert('".$_SESSION["ketQuaSua"]."');</script>";
+            unset($_SESSION["ketQuaSua"]);
         }
     ?>
 </body>

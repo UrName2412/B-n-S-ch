@@ -1,4 +1,5 @@
 <?php
+session_start();
 require '../../config/config.php';
 $soDienThoaiPattern = '/^0\d{9,10}$/';
 
@@ -52,6 +53,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     
         $stmt->bind_param($types, ...$values);
         $stmt->execute();
+        $stmt->close();
+        $_SESSION['ketQuaSua'] = "Cập nhật thông tin người dùng thành công.";
+    } else {
+        $_SESSION['ketQuaSua'] = "Không có thay đổi nào để cập nhật.";
     }
     
 }

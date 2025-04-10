@@ -1,7 +1,7 @@
 <?php
 require '../../config/config.php';
 
-header("Content-Type: application/json"); // Bắt buộc để báo cho JS đây là JSON
+header("Content-Type: application/json");
 
 if ($_SERVER['REQUEST_METHOD'] == "GET") {
     $maSach = $_GET['maSach'] ?? null;

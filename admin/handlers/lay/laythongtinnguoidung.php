@@ -2,17 +2,18 @@
 header("Content-Type: application/json");
 require '../../config/config.php';
 
-$data = json_decode(file_get_contents("php://input"), true);
-$trangThai = isset($data['trangThai']) ? $data['trangThai'] : null;
-
 $sql = "SELECT * FROM b01_nguoiDung";
 $params = [];
-$types = "";
+$types = '';
 
-if (!is_null($trangThai)) {
-    $sql .= " WHERE trangThai = ?";
-    $params[] = $trangThai;
-    $types .= "i";
+if (isset($_GET['timKiem']) && isset($_GET['tenNguoiDung'])) {
+    $sql .= " WHERE tenNguoiDung LIKE ?";
+    $params[] = "%" . $_GET['tenNguoiDung'] . "%";
+    $types = 's';
+} elseif (isset($_GET['tenNguoiDung'])) {
+    $sql .= " WHERE tenNguoiDung = ?";
+    $params[] = $_GET['tenNguoiDung'];
+    $types = 's';
 }
 
 $stmt = $database->prepare($sql);

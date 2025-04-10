@@ -4,10 +4,8 @@ require '../../config/config.php';
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $tenNguoiDung = $_POST["tenNguoiDung"];
-    $vaiTro = $_POST["vaiTro"];
 
-    $stmt = $database->prepare("SELECT tenNguoiDung FROM b01_nguoiDung WHERE vaiTro = ?");
-    $stmt->bind_param("i",$vaiTro);
+    $stmt = $database->prepare("SELECT tenNguoiDung FROM b01_nguoiDung");
     $stmt->execute();
     $result = $stmt->get_result();
     $stmt->close();
@@ -31,6 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $quanHuyen = $_POST["quanHuyen"];
         $xa = $_POST["xa"];
         $duong = $_POST["duong"];
+        $vaiTro = $_POST["vaiTro"];
         $trangThai = 1;
         $stmt = $database->prepare("INSERT INTO b01_nguoiDung(tenNguoiDung, matKhau, soDienThoai, email, tinhThanh, quanHuyen, xa, duong, vaiTro, trangThai) 
         VALUES (?,?,?,?,?,?,?,?,?,?)");
