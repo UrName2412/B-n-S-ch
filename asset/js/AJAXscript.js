@@ -3,61 +3,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const paginationContainer = document.querySelector(".pagination-container .pagination");
     let currentPage = 1;
     let products = [];
-
-    // Function to attach event listeners to "view-detail" links
-    function attachViewDetailListeners() {
-        document.querySelectorAll(".view-detail").forEach(link => {
-            link.addEventListener("click", function (e) {
-                e.preventDefault();
-                const productId = this.getAttribute("data-id");
-
-                fetch("/asset/handler/ajax_get_product_detail.php", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                    body: `id=${productId}`
-                })
-                    .then(response => response.text())
-                    .then(data => {
-                        const modalElement = document.getElementById("productDetailModal");
-                        const productDetailContent = document.getElementById("productDetailContent");
-                        productDetailContent.innerHTML = data;
-
-                        const productDetailModal = new bootstrap.Modal(modalElement);
-                        modalElement.removeAttribute("inert");
-                        productDetailModal.show();
-
-                        // Handle modal hidden event
-                        modalElement.addEventListener("hidden.bs.modal", function () {
-                            productDetailContent.innerHTML = "";
-                            modalElement.setAttribute("inert", "");
-                            document.body.classList.remove("modal-open");
-                            const backdrop = document.querySelector(".modal-backdrop");
-                            if (backdrop) {
-                                backdrop.remove();
-                            }
-                        });
-                    })
-                    .catch(error => console.error("Error fetching product details:", error));
-            });
-        });
-    }
-
-    // Function to fetch product details via AJAX
-    function fetchProductDetail(productId) {
-        fetch("/asset/handler/ajax_get_product_detail.php", {
-            method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: `id=${productId}`
-        })
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById("productDetailContent").innerHTML = data;
-                const productDetailModal = new bootstrap.Modal(document.getElementById("productDetailModal"));
-                productDetailModal.show();
-            })
-            .catch(error => console.error("Error fetching product details:", error));
-    }
-
     // Hàm hiển thị sản phẩm theo trang
     function showPage(page) {
         const start = (page - 1) * productsPerPage;
@@ -76,12 +21,41 @@ document.addEventListener("DOMContentLoaded", function () {
     function createPagination() {
         const totalPages = Math.ceil(products.length / productsPerPage);
         paginationContainer.innerHTML = ""; // Xóa phân trang cũ
-
-        for (let i = 1; i <= totalPages; i++) {
+    
+        // Tính trang bắt đầu và kết thúc để chỉ hiển thị tối đa 3 trang
+        let startPage = Math.max(1, currentPage - 1);
+        let endPage = Math.min(totalPages, startPage + 2);
+    
+        if (endPage - startPage < 2) {
+            startPage = Math.max(1, endPage - 2);
+        }
+    
+        // Nút « quay về
+        if (currentPage > 1) {
+            const prevLi = document.createElement("li");
+            prevLi.classList.add("page-item");
+    
+            const prevLink = document.createElement("a");
+            prevLink.classList.add("page-link");
+            prevLink.href = "#";
+            prevLink.innerHTML = "&laquo;";
+            prevLink.addEventListener("click", (e) => {
+                e.preventDefault();
+                currentPage--;
+                showPage(currentPage);
+                createPagination();
+            });
+    
+            prevLi.appendChild(prevLink);
+            paginationContainer.appendChild(prevLi);
+        }
+    
+        // Các trang số
+        for (let i = startPage; i <= endPage; i++) {
             const li = document.createElement("li");
             li.classList.add("page-item");
             if (i === currentPage) li.classList.add("active");
-
+    
             const a = document.createElement("a");
             a.classList.add("page-link");
             a.href = "#";
@@ -92,14 +66,32 @@ document.addEventListener("DOMContentLoaded", function () {
                 showPage(currentPage);
                 createPagination();
             });
-
+    
             li.appendChild(a);
             paginationContainer.appendChild(li);
         }
+    
+        // Nút » tiếp theo
+        if (currentPage < totalPages) {
+            const nextLi = document.createElement("li");
+            nextLi.classList.add("page-item");
+    
+            const nextLink = document.createElement("a");
+            nextLink.classList.add("page-link");
+            nextLink.href = "#";
+            nextLink.innerHTML = "&raquo;";
+            nextLink.addEventListener("click", (e) => {
+                e.preventDefault();
+                currentPage++;
+                showPage(currentPage);
+                createPagination();
+            });
+    
+            nextLi.appendChild(nextLink);
+            paginationContainer.appendChild(nextLi);
+        }
     }
-    document.getElementById("resetFilter").addEventListener("click", function () {
-        window.location.reload();
-    });
+    
     // Gọi từ AJAX
     document.getElementById("filterBtn").addEventListener("click", function () {
         let category = document.getElementById("theloai").value || "";
@@ -110,12 +102,11 @@ document.addEventListener("DOMContentLoaded", function () {
         let nhaXuatBan = document.getElementById("nxb").value.trim().toLowerCase();
         let theloai = document.getElementById("theloai").value.trim().toLowerCase();
 
-        let url = `/asset/handler/fetch_product.php?category=${category}&min_price=${minPrice}&max_price=${maxPrice}`;
+        let url = `/B-n-S-ch/asset/handler/fetch_product.php?category=${category}&min_price=${minPrice}&max_price=${maxPrice}`;
 
         fetch(url)
             .then(response => response.text()) // Đọc phản hồi dưới dạng text
             .then(data => {
-                console.log("Phản hồi từ server:", data); // Ghi lại dữ liệu nhận được
                 try {
                     return JSON.parse(data); // Thử parse JSON
                 } catch (error) {
@@ -128,6 +119,7 @@ document.addEventListener("DOMContentLoaded", function () {
         fetch(url)
             .then(response => response.json())
             .then(data => {
+
                 let filteredProducts = data.filter(product => {
                     let productName = (product.tenSach || "").toLowerCase();
                     if (tenSach && !productName.includes(tenSach)) return false;
@@ -160,7 +152,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <div class="col-md-4 mb-4">
                         <div class="card" style="width: 100%;">
                             <a href="#" class="view-detail" data-id="${product.maSach}">
-                                <img src="/Images/${product.hinhAnh}" alt="${product.tenSach}" class="card-img-top">
+                                <img src="/B-n-S-ch/Images/${product.hinhAnh}" alt="${product.tenSach}" class="card-img-top">
                             </a>
                             <div class="card-body">
                                 <h5 class="card-title">${product.tenSach}</h5>
@@ -184,30 +176,28 @@ document.addEventListener("DOMContentLoaded", function () {
         return new Intl.NumberFormat('vi-VN').format(price);
     }
 });
+
 function loadProducts(page = 1) {
     function formatPrice(price) {
         return new Intl.NumberFormat('vi-VN').format(price);
     }
-    // Sử dụng Fetch API thay vì jQuery.ajax
-    fetch('/asset/handler/pagination.php?page=' + page)
+
+    fetch('/B-n-S-ch/asset/handler/pagination.php?page=' + page)
         .then(response => response.json())
         .then(data => {
-            // Xử lý dữ liệu sản phẩm
             let products = data.products;
             let totalPages = data.totalPages;
 
-            // Xóa danh sách cũ
             let listProduct = document.getElementById('listProduct');
             listProduct.innerHTML = '';
 
-            // Hiển thị sản phẩm mới
             products.forEach(function (product) {
                 let productDiv = document.createElement('div');
                 productDiv.classList.add('col-md-4', 'mb-4');
                 productDiv.innerHTML = `
                     <div class="card" style="width: 100%;">
                         <a href="#" class="view-detail" data-id="${product.maSach}">
-                            <img src="/Images/${product.hinhAnh}" alt="${product.tenSach}" class="card-img-top">
+                            <img src="/B-n-S-ch/Images/${product.hinhAnh}" alt="${product.tenSach}" class="card-img-top">
                         </a>
                         <div class="card-body">
                             <h5 class="card-title">${product.tenSach}</h5>
@@ -220,19 +210,47 @@ function loadProducts(page = 1) {
                 listProduct.appendChild(productDiv);
             });
 
-            // Hiển thị phân trang
+            // ======= PHÂN TRANG TỐI ĐA 3 TRANG + MŨI TÊN =======
             let paginationHTML = '';
-            for (let i = 1; i <= totalPages; i++) {
+            let startPage = Math.max(1, page - 1);
+            let endPage = Math.min(totalPages, startPage + 2);
+
+            if (endPage - startPage < 2) {
+                startPage = Math.max(1, endPage - 2);
+            }
+
+            // Nút quay về
+            if (page > 1) {
+                paginationHTML += `
+                    <li class="page-item">
+                        <a class="page-link" href="javascript:void(0);" onclick="loadProducts(${page - 1})">&laquo;</a>
+                    </li>
+                `;
+            }
+
+            // Các trang số
+            for (let i = startPage; i <= endPage; i++) {
                 paginationHTML += `
                     <li class="page-item ${i === page ? 'active' : ''}">
                         <a class="page-link" href="javascript:void(0);" onclick="loadProducts(${i})">${i}</a>
                     </li>
                 `;
             }
+
+            // Nút tiến tới
+            if (page < totalPages) {
+                paginationHTML += `
+                    <li class="page-item">
+                        <a class="page-link" href="javascript:void(0);" onclick="loadProducts(${page + 1})">&raquo;</a>
+                    </li>
+                `;
+            }
+
             document.getElementById('pagination').innerHTML = paginationHTML;
         })
         .catch(error => console.error('Error loading products:', error));
 }
+
 
 // Tải sản phẩm ban đầu
 document.addEventListener('DOMContentLoaded', function () {

@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // Hiển thị modal thông báo thêm sản phẩm thành công
             let notification = new bootstrap.Modal(modalElement, { backdrop: true, keyboard: true });
             notification.show();
-            modalElement.removeAttribute("inert");
+            modalElement.removeAttribute("");
 
             addToCart(productTitle, productPrice, imageUrl);
         }
@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
             event.preventDefault();
             const productId = event.target.closest(".view-detail").getAttribute("data-id");
 
-            fetch("/asset/handler/ajax_get_product_detail.php", {
+            fetch("/B-n-S-ch/asset/handler/ajax_get_product_detail.php", {
                 method: "POST",
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 body: "id=" + productId
@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     let modal = new bootstrap.Modal(document.getElementById("productDetailModal"), { backdrop: true, keyboard: true });
                     modal.show();
-                    document.getElementById("productDetailModal").removeAttribute("inert");
+                    document.getElementById("productDetailModal").removeAttribute("");
 
                     // Add event listener for "Thêm vào giỏ hàng" button in the modal
                     const addToCartButton = document.querySelector("#productDetailContent .btn-success");
@@ -55,10 +55,10 @@ document.addEventListener("DOMContentLoaded", () => {
                         // Hiển thị modal thông báo thêm sản phẩm thành công
                         let notification = new bootstrap.Modal(document.getElementById("cartModal"), { backdrop: true, keyboard: true });
                         notification.show();
-                        document.getElementById("cartModal").removeAttribute("inert");
+                        document.getElementById("cartModal").removeAttribute("");
 
                         modal.hide();
-                        document.getElementById("productDetailModal").setAttribute("inert", "");
+                        document.getElementById("productDetailModal").setAttribute("", "");
                     });
 
                     // Ensure modal is properly hidden after filtering
