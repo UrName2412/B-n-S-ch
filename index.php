@@ -184,7 +184,19 @@ if (isset($_SESSION['username']) || isset($_COOKIE['username'])) {
                             <input type="text" class="form-control" id="tentacgia" placeholder="Tên tác giả">
                         </li>
                         <li class="list-group-item">
-                            <input type="text" class="form-control" id="nxb" placeholder="Nhà xuất bản">
+                            <!-- Danh sách nhà xuất bản -->
+                            <select class="form-select" id="nxb">
+                                <option value="">-- Chọn nhà xuất bản --</option>
+                                <?php
+                                $sql = "SELECT * FROM b01_nhaXuatBan";
+                                $result = $database->query($sql);
+                                if ($result->num_rows > 0) {
+                                    while ($row = $result->fetch_assoc()) {
+                                        echo '<option value="' . $row["maNhaXuatBan"] . '">' . $row["tenNhaXuatBan"] . '</option>';
+                                    }
+                                }
+                                ?>
+                            </select>
                         </li>
                         <li class="list-group-item">
                             <!-- Thêm ô tìm kiếm thể loại -->
@@ -300,7 +312,7 @@ if (isset($_SESSION['username']) || isset($_COOKIE['username'])) {
     <a href="#top" id="backToTop">&#8593;</a>
 
     <!-- Modal thông báo thêm vào giỏ hàng -->
-    <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" inert>
+    <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" >
         <div class="modal-dialog modal-sm position-absolute" style="top: 10%; left: 10%;">
             <div class="modal-content bg-success text-white">
                 <div class="modal-body text-center">
@@ -311,7 +323,7 @@ if (isset($_SESSION['username']) || isset($_COOKIE['username'])) {
     </div>
 
     <!-- Modal chi tiết sản phẩm -->
-    <div class="modal fade" id="productDetailModal" tabindex="-1" aria-labelledby="productDetailLabel" inert>
+    <div class="modal fade" id="productDetailModal" tabindex="-1" aria-labelledby="productDetailLabel" >
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -352,7 +364,7 @@ if (isset($_SESSION['username']) || isset($_COOKIE['username'])) {
     const inputValue = document.getElementById('timkiem').value.trim();
 
     if (inputValue) {
-        window.location.href = '../bansach/nguoidung/timkiem-nologin.php?tenSach=' + encodeURIComponent(inputValue);
+        window.location.href = '../B-n-S-ch/nguoidung/timkiem-nologin.php?tenSach=' + encodeURIComponent(inputValue);
     } else {
         alert('Vui lòng nhập nội dung tìm kiếm!');
     }

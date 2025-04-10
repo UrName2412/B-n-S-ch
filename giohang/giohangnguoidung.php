@@ -3,12 +3,14 @@ require '../admin/config/config.php';
 require '../asset/handler/user_handle.php';
 session_start();
 
+// Kiểm tra nếu người dùng đã đăng nhập
 if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
 } elseif (isset($_COOKIE['username']) && isset($_COOKIE['pass'])) {
     $username = $_COOKIE['username'];
     $password = $_COOKIE['pass'];
 
+    // Kiểm tra đăng nhập qua cookie
     if (checkLogin($database, $username, $password)) {
         $_SESSION['username'] = $username;
     } else {
@@ -20,18 +22,26 @@ if (isset($_SESSION['username'])) {
     exit();
 }
 
+// Lấy thông tin người dùng từ cơ sở dữ liệu hoặc session
 $user = getUserInfoByUsername($database, $username);
 
-// Lấy thông tin người dùng từ session
-$ten_user = $_SESSION['user']['tenNguoiDung'];
-$email_user = $_SESSION['user']['email'];
-$sdt = $_SESSION['user']['soDienThoai'];
+// Kiểm tra nếu thông tin người dùng đã có trong session
+if (isset($_SESSION['user'])) {
+    $ten_user = $_SESSION['user']['tenNguoiDung'] ?? '';
+    $email_user = $_SESSION['user']['email'] ?? '';
+    $sdt = $_SESSION['user']['soDienThoai'] ?? '';
 
-// Gộp địa chỉ 
-$diachi = $_SESSION['user']['duong'] . ', ' .
-    $_SESSION['user']['xa'] . ', ' .
-    $_SESSION['user']['quanHuyen'] . ', ' .
-    $_SESSION['user']['tinhThanh'];
+    // Gộp địa chỉ người dùng nếu có đầy đủ thông tin
+    $diachi = ($_SESSION['user']['duong'] ?? '') . ', ' .
+        ($_SESSION['user']['xa'] ?? '') . ', ' .
+        ($_SESSION['user']['quanHuyen'] ?? '') . ', ' .
+        ($_SESSION['user']['tinhThanh'] ?? '');
+} else {
+    $ten_user = '';
+    $email_user = '';
+    $sdt = '';
+    $diachi = '';
+}
 
 ?>
 
@@ -78,14 +88,14 @@ $diachi = $_SESSION['user']['duong'] . ', ' .
                             <a href="../sanpham/sanpham-user.php" class="nav-link fw-bold text-white">SẢN PHẨM</a>
                         </li>
                     </ul>
-                    <form id="searchForm" class="d-flex me-auto">
-                        <input class="form-control me-2" type="text" id="timkiem" placeholder="Tìm sách">
+                    <form id="searchForm" class="d-flex me-auto" method="GET" action="nguoidung/timkiem.php">
+                        <input class="form-control me-2" type="text" id="timkiem" name="tenSach" placeholder="Tìm sách">
                         <button class="btn btn-outline-light" type="submit">
                             <i class="fas fa-search"></i>
                         </button>
                     </form>
                     <script>
-                        document.getElementById('searchForm').addEventListener('submit', function(event) {
+                        document.getElementById('searchForm').addEventListener('submit', function (event) {
                             event.preventDefault();
                             const inputValue = document.getElementById('timkiem').value.trim();
 
@@ -99,14 +109,19 @@ $diachi = $_SESSION['user']['duong'] . ', ' .
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
                             <div class="d-flex gap-2">
-                                <a href="../nguoidung/user.php" class="mt-2"><i class="fas fa-user" id="avatar" style="color: black;"></i></a>
-                                <span class="mt-1" id="profile-name" style="top: 20px; padding: 2px;"><?php echo $user['tenNguoiDung']; ?></span>
+                                <a href="../nguoidung/user.php" class="mt-2"><i class="fas fa-user" id="avatar"
+                                        style="color: black;"></i></a>
+                                <span class="mt-1" id="profile-name"
+                                    style="top: 20px; padding: 2px;"><?php echo $user['tenNguoiDung']; ?></span>
                                 <div class="dropdown">
-                                    <button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                                    <button class="btn btn-outline-light dropdown-toggle" type="button"
+                                        data-bs-toggle="dropdown" aria-expanded="false"></button>
                                     <ul class="dropdown-menu">
-                                        <li class="dropdownList"><a class="dropdown-item" href="../nguoidung/user.php">Thông tin tài khoản</a></li>
+                                        <li class="dropdownList"><a class="dropdown-item"
+                                                href="../nguoidung/user.php">Thông tin tài khoản</a></li>
                                         <?php if (isset($_SESSION['username'])): ?>
-                                            <li class="dropdownList"><a href="../dangky/dangxuat.php" class="dropdown-item">Đăng xuất</a></li>
+                                            <li class="dropdownList"><a href="../dangky/dangxuat.php"
+                                                    class="dropdown-item">Đăng xuất</a></li>
                                         <?php endif; ?>
                                     </ul>
                                 </div>
@@ -191,34 +206,7 @@ $diachi = $_SESSION['user']['duong'] . ', ' .
 
         </div>
 
-        <!-- Section for Address -->
-        <section class="cart-address mt-4">
-            <h4 class="fw-bold">Chọn địa chỉ giao hàng</h4>
-            <!-- Chọn địa chỉ đã lưu -->
-            <div>
-                <label for="address_select">Chọn địa chỉ có sẵn:</label>
-                <select name="address_select" id="address_select" class="form-control">
-                    <option value="">-- Chọn địa chỉ --</option>
-                    <?php
-                    if (isset($_SESSION['user'])) {
-                        $user = $_SESSION['user'];
-                        // Gộp địa chỉ từ các trường
-                        $full_address = $user['duong'] . ', ' . $user['xa'] . ', ' . $user['quanHuyen'] . ', ' . $user['tinhThanh'];
-                        echo "<option value='" . htmlspecialchars($full_address) . "' selected>" . htmlspecialchars($full_address) . "</option>";
-                    } else {
-                        echo "<option disabled>Không tìm thấy địa chỉ người dùng</option>";
-                    }
-                    ?>
-                </select>
-            </div>
 
-
-            <!-- Nhập địa chỉ mới -->
-            <div class="mt-3">
-                <label for="new_address">Hoặc nhập địa chỉ mới:</label>
-                <textarea name="new_address" id="new_address" class="form-control" placeholder="Nhập địa chỉ mới" rows="3"></textarea>
-            </div>
-        </section>
 
         <!--emptyc-cart-->
         <div id="empty-cart-message" class="cart_container align-items-center mt-4 mx-5"
@@ -331,6 +319,21 @@ $diachi = $_SESSION['user']['duong'] . ', ' .
     <!-- Bootstrap JS -->
     <script src="../vender/js/bootstrap.bundle.min.js"></script>
     <script src="../asset/js/user-cart.js"></script>
+
+    <script>
+        document.getElementById('searchForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const inputValue = document.getElementById('timkiem').value.trim();
+
+            if (inputValue) {
+                window.location.href = '/B-n-S-ch/nguoidung/timkiem.php?tenSach=' + encodeURIComponent(inputValue);
+            } else {
+                alert('Vui lòng nhập nội dung tìm kiếm!');
+            }
+        });
+
+    </script>
+
 </body>
 
 </html>

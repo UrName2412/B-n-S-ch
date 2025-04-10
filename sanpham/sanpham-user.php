@@ -64,14 +64,14 @@ $user = getUserInfoByUsername($database, $username);
                             <a href="sanpham-user.php" class="nav-link fw-bold" style="color: yellow;">SẢN PHẨM</a>
                         </li>
                     </ul>
-                    <form id="searchForm" class="d-flex me-auto">
-                        <input class="form-control me-2" type="text" id="timkiem" placeholder="Tìm sách">
+                    <form id="searchForm" class="d-flex me-auto" method="GET" action="nguoidung/timkiem.php">
+                        <input class="form-control me-2" type="text" id="timkiem" name="tenSach" placeholder="Tìm sách">
                         <button class="btn btn-outline-light" type="submit">
                             <i class="fas fa-search"></i>
                         </button>
                     </form>
                     <script>
-                        document.getElementById('searchForm').addEventListener('submit', function(event) {
+                        document.getElementById('searchForm').addEventListener('submit', function (event) {
                             event.preventDefault();
                             const inputValue = document.getElementById('timkiem').value.trim();
                             if (inputValue) {
@@ -84,14 +84,19 @@ $user = getUserInfoByUsername($database, $username);
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
                             <div class="d-flex gap-2">
-                                <a href="../nguoidung/user.php" class="mt-2"><i class="fas fa-user" id="avatar" style="color: black;"></i></a>
-                                <span class="mt-1" id="profile-name" style="top: 20px; padding: 2px;"><?php echo $user['tenNguoiDung']; ?></span>
+                                <a href="../nguoidung/user.php" class="mt-2"><i class="fas fa-user" id="avatar"
+                                        style="color: black;"></i></a>
+                                <span class="mt-1" id="profile-name"
+                                    style="top: 20px; padding: 2px;"><?php echo $user['tenNguoiDung']; ?></span>
                                 <div class="dropdown">
-                                    <button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                                    <button class="btn btn-outline-light dropdown-toggle" type="button"
+                                        data-bs-toggle="dropdown" aria-expanded="false"></button>
                                     <ul class="dropdown-menu">
-                                        <li class="dropdownList"><a class="dropdown-item" href="../nguoidung/user.php">Thông tin tài khoản</a></li>
+                                        <li class="dropdownList"><a class="dropdown-item"
+                                                href="../nguoidung/user.php">Thông tin tài khoản</a></li>
                                         <?php if (isset($_SESSION['username'])): ?>
-                                            <li class="dropdownList"><a href="../dangky/dangxuat.php" class="dropdown-item">Đăng xuất</a></li>
+                                            <li class="dropdownList"><a href="../dangky/dangxuat.php"
+                                                    class="dropdown-item">Đăng xuất</a></li>
                                         <?php endif; ?>
                                     </ul>
                                 </div>
@@ -123,9 +128,26 @@ $user = getUserInfoByUsername($database, $username);
                             <input type="text" class="form-control" id="tentacgia" placeholder="Tên tác giả">
                         </li>
                         <li class="list-group-item">
-                            <input type="text" class="form-control" id="nxb" placeholder="Nhà xuất bản">
+                            <!-- Danh sách nhà xuất bản  -->
+                            <select class="form-select" id="nxb">
+                                <option value="">-- Chọn nhà xuất bản  --</option>
+                                <?php
+                                $sql = "SELECT * FROM b01_nhaXuatBan";
+                                $result = $database->query($sql);
+                                if ($result->num_rows > 0) {
+                                    while ($row = $result->fetch_assoc()) {
+                                        echo '<option value="' . $row["maNhaXuatBan"] . '">' . $row["tenNhaXuatBan"] . '</option>';
+                                    }
+                                }
+                                ?>
+                            </select>
                         </li>
                         <li class="list-group-item">
+                            <!-- Thêm ô tìm kiếm thể loại -->
+                            <input type="text" class="form-control mb-2" id="searchTheLoai"
+                                placeholder="Tìm thể loại...">
+
+                            <!-- Danh sách thể loại -->
                             <select class="form-select" id="theloai">
                                 <option value="">-- Chọn thể loại --</option>
                                 <?php
@@ -235,7 +257,7 @@ $user = getUserInfoByUsername($database, $username);
 
     <a href="#top" id="backToTop">&#8593;</a>
 
-    <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" inert>
+    <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" >
         <div class="modal-dialog modal-sm position-absolute" style="top: 10%; left: 10%;">
             <div class="modal-content bg-success text-white">
                 <div class="modal-body text-center">
@@ -245,7 +267,7 @@ $user = getUserInfoByUsername($database, $username);
         </div>
     </div>
 
-    <div class="modal fade" id="productDetailModal" tabindex="-1" aria-labelledby="productDetailLabel" inert>
+    <div class="modal fade" id="productDetailModal" tabindex="-1" aria-labelledby="productDetailLabel" >
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -279,6 +301,21 @@ $user = getUserInfoByUsername($database, $username);
         window.addEventListener("load", adjustSidebar);
         window.addEventListener("resize", adjustSidebar);
     </script>
+
+<script>
+        document.getElementById('searchForm').addEventListener('submit', function (event) {
+    event.preventDefault();
+    const inputValue = document.getElementById('timkiem').value.trim();
+
+    if (inputValue) {
+        window.location.href = '/B-n-S-ch/nguoidung/timkiem.php?tenSach=' + encodeURIComponent(inputValue);
+    } else {
+        alert('Vui lòng nhập nội dung tìm kiếm!');
+    }
+});
+
+    </script>
+
 </body>
 
 </html>

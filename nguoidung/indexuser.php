@@ -64,8 +64,8 @@ $user = getUserInfoByUsername($database, $username);
                             <a href="../sanpham/sanpham-user.php" class="nav-link fw-bold text-white">SẢN PHẨM</a>
                         </li>
                     </ul>
-                    <form id="searchForm" class="d-flex me-auto">
-                        <input class="form-control me-2" type="text" id="timkiem" placeholder="Tìm sách">
+                    <form id="searchForm" class="d-flex me-auto" method="GET" action="nguoidung/timkiem.php">
+                        <input class="form-control me-2" type="text" id="timkiem" name="tenSach" placeholder="Tìm sách">
                         <button class="btn btn-outline-light" type="submit">
                             <i class="fas fa-search"></i>
                         </button>
@@ -208,7 +208,19 @@ $user = getUserInfoByUsername($database, $username);
                             <input type="text" class="form-control" id="tentacgia" placeholder="Tên tác giả">
                         </li>
                         <li class="list-group-item">
-                            <input type="text" class="form-control" id="nxb" placeholder="Nhà xuất bản">
+                            <!-- Danh sách nhà xuất bản -->
+                            <select class="form-select" id="nxb">
+                                <option value="">-- Chọn nhà xuất bản --</option>
+                                <?php
+                                $sql = "SELECT * FROM b01_nhaXuatBan";
+                                $result = $database->query($sql);
+                                if ($result->num_rows > 0) {
+                                    while ($row = $result->fetch_assoc()) {
+                                        echo '<option value="' . $row["maNhaXuatBan"] . '">' . $row["tenNhaXuatBan"] . '</option>';
+                                    }
+                                }
+                                ?>
+                            </select>
                         </li>
                         <li class="list-group-item">
                             <!-- Thêm ô tìm kiếm thể loại -->
@@ -323,7 +335,7 @@ $user = getUserInfoByUsername($database, $username);
 
     <a href="#top" id="backToTop">&#8593;</a>
 
-    <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" inert>
+    <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" >
         <div class="modal-dialog modal-sm position-absolute" style="top: 10%; left: 10%;">
             <div class="modal-content bg-success text-white">
                 <div class="modal-body text-center">
@@ -333,7 +345,7 @@ $user = getUserInfoByUsername($database, $username);
         </div>
     </div>
 
-    <div class="modal fade" id="productDetailModal" tabindex="-1" aria-labelledby="productDetailLabel" inert>
+    <div class="modal fade" id="productDetailModal" tabindex="-1" aria-labelledby="productDetailLabel" >
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -367,6 +379,21 @@ $user = getUserInfoByUsername($database, $username);
         window.addEventListener("load", adjustSidebar);
         window.addEventListener("resize", adjustSidebar);
     </script>
+
+<script>
+        document.getElementById('searchForm').addEventListener('submit', function (event) {
+    event.preventDefault();
+    const inputValue = document.getElementById('timkiem').value.trim();
+
+    if (inputValue) {
+        window.location.href = '/B-n-S-ch/nguoidung/timkiem.php?tenSach=' + encodeURIComponent(inputValue);
+    } else {
+        alert('Vui lòng nhập nội dung tìm kiếm!');
+    }
+});
+
+    </script>
+
 </body>
 
 </html>

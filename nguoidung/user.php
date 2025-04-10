@@ -21,6 +21,26 @@ if (isset($_SESSION['username'])) {
 }
 
 $user = getUserInfoByUsername($database, $username);
+
+$provinces = json_decode(file_get_contents('../vender/apiAddress/province.json'), true);
+$districts = json_decode(file_get_contents('../vender/apiAddress/district.json'), true);
+$wards = json_decode(file_get_contents('../vender/apiAddress/ward.json'), true);
+
+function getAddress($data, $code)
+{
+    foreach ($data as $item) {
+        if ($item['code'] == $code) {
+            return $item['name'];
+        }
+    }
+    return 'Không rõ';
+}
+
+$duong = $user['duong'];
+$xa = getAddress($wards, $user['xa']);
+$quan = getAddress($districts, $user['quanHuyen']);
+$tinh = getAddress($provinces, $user['tinhThanh']);
+$diaChi = $duong . ', ' . $xa . ', ' . $quan . ', ' . $tinh;
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -64,8 +84,8 @@ $user = getUserInfoByUsername($database, $username);
                             <a href="../sanpham/sanpham-user.php" class="nav-link fw-bold text-white">SẢN PHẨM</a>
                         </li>
                     </ul>
-                    <form id="searchForm" class="d-flex me-auto">
-                        <input class="form-control me-2" type="text" id="timkiem" placeholder="Tìm sách">
+                    <form id="searchForm" class="d-flex me-auto" method="GET" action="nguoidung/timkiem.php">
+                        <input class="form-control me-2" type="text" id="timkiem" name="tenSach" placeholder="Tìm sách">
                         <button class="btn btn-outline-light" type="submit">
                             <i class="fas fa-search"></i>
                         </button>
@@ -133,13 +153,10 @@ $user = getUserInfoByUsername($database, $username);
                         <button class="edit-btn" id="infoUpdate" onclick="toggleEditForm()">Cập Nhật Thông Tin</button>
                     </div>
                     <div class="profile-info">
-                        <p class="d-flex flex-column"><Strong>HỌ VÀ TÊN</Strong> <span id="customer-name">Nguyễn Văn A</span></p>
-                        <p class="d-flex flex-column"><strong>NGÀY SINH</strong> <span id="customer-sinhnhat">11/11/2001</span></p>
-                        <p class="d-flex flex-column"><strong>EMAIL</strong> <span id="customer-email">nguyenvana@example.com</span></p>
-                        <p class="d-flex flex-column"><strong>SỐ ĐIỆN THOẠI</strong> <span id="customer-phone">+84 912 345 678</span></p>
-                        <p class="d-flex flex-column"><strong>ĐỊA CHỈ</strong> <span id="customer-address">123 lê Lợi, Quận 1, TP Hồ Chí
-                                Minh</span>
-                        </p>
+                        <p class="d-flex flex-column"><Strong>TÊN ĐĂNG NHẬP</Strong> <span id="customer-name"><?php echo $user['tenNguoiDung']; ?></span></p>
+                        <p class="d-flex flex-column"><strong>EMAIL</strong> <span id="customer-email"><?php echo $user['email']; ?></span></p>
+                        <p class="d-flex flex-column"><strong>SỐ ĐIỆN THOẠI</strong> <span id="customer-phone"><?php echo $user['soDienThoai']; ?></span></p>
+                        <p class="d-flex flex-column"><strong>ĐỊA CHỈ</strong> <span id="customer-address"><?php echo $diaChi; ?></span></p>
                     </div>
                 </div>
             </div>
@@ -249,61 +266,65 @@ $user = getUserInfoByUsername($database, $username);
     <form id="edit-form">
         <h2>Cập Nhật Thông Tin</h2>
         <div class="d-flex">
-            <label for="name">Họ Tên:</label>
-            <input type="text" id="name" placeholder="Nhập họ tên" value="Nguyễn Văn A">
+            <label for="name">Tên đăng nhập:</label>
+            <input type="text" id="name" value="<?php echo $user['tenNguoiDung']; ?>" readonly>
         </div>
-
-        <div id="sinhnhat">
-            <label for="sinhnhat">Ngày sinh:</label>
-            <div>
-                <label for="ngay">Ngày</label>
-                <select name="day" id="ngay">
-                    <option value="11">Chọn ngày</option>
-                    <script>
-                        for (let i = 1; i <= 31; i++) {
-                            document.write(`<option value="${i}">${i}</option>`);
-                        }
-                    </script>
-                </select>
-            </div>
-            <div>
-                <label for="thang">Tháng</label>
-                <select name="month" id="thang">
-                    <option value="11">Chọn tháng</option>
-                    <script>
-                        for (let i = 1; i <= 12; i++) {
-                            document.write(`<option value="${i}">Tháng ${i}</option>`);
-                        }
-                    </script>
-                </select>
-            </div>
-            <div>
-                <label for="nam">Năm</label>
-                <select name="year" id="nam">
-                    <option value="2001">Chọn năm</option>
-                    <script>
-                        const currentYear = new Date().getFullYear();
-                        for (let i = currentYear; i >= 1900; i--) {
-                            document.write(`<option value="${i}">${i}</option>`);
-                        }
-                    </script>
-                </select>
-            </div>
-        </div>
-        <span id="notification"></span>
         <div class="d-flex">
             <label for="email">Email:</label>
-            <input type="email" id="email" placeholder="Nhập email" value="nguyenvana@example.com">
+            <input type="email" id="email" value="<?php echo $user['email']; ?>" readonly>
         </div>
         <div class="d-flex">
             <label for="phone">Số Điện Thoại:</label>
-            <input type="text" id="phone" placeholder="Nhập số điện thoại" value="+84 912 345 678">
+            <input type="text" id="phone" value="<?php echo $user['soDienThoai']; ?>">
+        </div>
+        <div>
+            <label class="form-label" for="province">Tỉnh/Thành</label>
+            <select class="form-select" id="province" name="province">
+                <option value="">Chọn tỉnh/thành phố</option>
+                <?php
+                foreach ($provinces as $prov) {
+                    $selected = (isset($user['tinhThanh']) && $user['tinhThanh'] == $prov['code']) ? "selected" : "";
+                    echo "<option value='{$prov['code']}' $selected>{$prov['name']}</option>";
+                }
+                ?>
+            </select>
+        </div>
+        <div>
+            <label class="form-label" for="district">Quận/Huyện</label>
+            <select class="form-select" id="district" name="district">
+                <option value="">Chọn quận/huyện</option>
+                <?php 
+                if (!empty($user['tinhThanh'])) {
+                    foreach ($districts as $dist) {
+                        if ($dist['province_code'] == $user['tinhThanh']) {
+                            $selected = ($user['quanHuyen'] == $dist['code']) ? "selected" : "";
+                            echo "<option value='{$dist['code']}' $selected>{$dist['name']}</option>";
+                        }
+                    }
+                }
+                ?>
+            </select>
+        </div>
+        <div>
+            <label class="form-label" for="ward">Xã/Phường</label>
+            <select class="form-select" id="ward" name="ward">
+                <option value="">Chọn xã/phường</option>
+                <?php 
+                if (!empty($user['quanHuyen'])) {
+                    foreach ($wards as $wardItem) {
+                        if ($wardItem['district_code'] == $user['quanHuyen']) {
+                            $selected = ($user['xa'] == $wardItem['code']) ? "selected" : "";
+                            echo "<option value='{$wardItem['code']}' $selected>{$wardItem['name']}</option>";
+                        }
+                    }
+                }
+                ?>
+            </select>
         </div>
         <div class="d-flex">
-            <label for="address">Địa Chỉ:</label>
-            <input type="text" id="address" placeholder="Nhập địa chỉ" value="123 lê Lợi, Quận 1, TP Hồ Chí Minh">
+            <label class="form-label" for="address">Địa chỉ nhà</label>
+            <input class="form-control" type="text" name="address" id="address" value="<?php echo $duong ?>">
         </div>
-
         <button type="button" class="edit-btn" onclick="updateInfo()">Lưu</button>
         <button type="button" class="cancel-btn" onclick="toggleEditForm()">Hủy</button>
     </form>
@@ -311,6 +332,21 @@ $user = getUserInfoByUsername($database, $username);
     <!-- Bootstrap JS -->
     <script src="../vender/js/bootstrap.bundle.min.js"></script>
     <script src="../asset/js/user.js"></script>
+
+    <script>
+        document.getElementById('searchForm').addEventListener('submit', function (event) {
+    event.preventDefault();
+    const inputValue = document.getElementById('timkiem').value.trim();
+
+    if (inputValue) {
+        window.location.href = '/B-n-S-ch/nguoidung/timkiem.php?tenSach=' + encodeURIComponent(inputValue);
+    } else {
+        alert('Vui lòng nhập nội dung tìm kiếm!');
+    }
+});
+
+    </script>
+
 </body>
 
 </html>

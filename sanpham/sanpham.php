@@ -1,5 +1,5 @@
-<?php 
-include '../admin/config/config.php'; 
+<?php
+include '../admin/config/config.php';
 
 session_start();
 
@@ -103,9 +103,26 @@ if (isset($_SESSION['username']) || isset($_COOKIE['username'])) {
                             <input type="text" class="form-control" id="tentacgia" placeholder="Tên tác giả">
                         </li>
                         <li class="list-group-item">
-                            <input type="text" class="form-control" id="nxb" placeholder="Nhà xuất bản">
+                            <!-- Danh sách nhà xuất bản -->
+                            <select class="form-select" id="nxb">
+                                <option value="">-- Chọn nhà xuất bản --</option>
+                                <?php
+                                $sql = "SELECT * FROM b01_nhaXuatBan";
+                                $result = $database->query($sql);
+                                if ($result->num_rows > 0) {
+                                    while ($row = $result->fetch_assoc()) {
+                                        echo '<option value="' . $row["maNhaXuatBan"] . '">' . $row["tenNhaXuatBan"] . '</option>';
+                                    }
+                                }
+                                ?>
+                            </select>
                         </li>
                         <li class="list-group-item">
+                            <!-- Thêm ô tìm kiếm thể loại -->
+                            <input type="text" class="form-control mb-2" id="searchTheLoai"
+                                placeholder="Tìm thể loại...">
+
+                            <!-- Danh sách thể loại -->
                             <select class="form-select" id="theloai">
                                 <option value="">-- Chọn thể loại --</option>
                                 <?php
@@ -140,40 +157,43 @@ if (isset($_SESSION['username']) || isset($_COOKIE['username'])) {
                 <div class="border p-5">
                     <div class="container my-4">
                         <div id="listProduct" class="listProduct row">
-                        <?php
-                        require '../admin/config/config.php';
-if (isset($_GET['tenSach']) && !empty($_GET['tenSach'])) {
-    $tenSach = '%' . $_GET['tenSach'] . '%';
-    $stmt = $database->prepare("SELECT * FROM b01_sanpham WHERE tenSach LIKE ? AND trangThai = 1");
-    $stmt->bind_param("s", $tenSach);
-    $stmt->execute();
-    $result = $stmt->get_result();
+                            <?php
+                            require '../admin/config/config.php';
+                            if (isset($_GET['tenSach']) && !empty($_GET['tenSach'])) {
+                                $tenSach = '%' . $_GET['tenSach'] . '%';
+                                $stmt = $database->prepare("SELECT * FROM b01_sanpham WHERE tenSach LIKE ? AND trangThai = 1");
+                                $stmt->bind_param("s", $tenSach);
+                                $stmt->execute();
+                                $result = $stmt->get_result();
 
-    if ($result->num_rows > 0) {
-        echo '<h3>Kết quả tìm kiếm cho: <strong>' . htmlspecialchars($_GET['tenSach']) . '</strong></h3>';
-        while ($row = $result->fetch_assoc()) {
-            ?>
-            <div class="col-md-4 mb-4">
-                <div class="card" style="width: 100%;">
-                    <a href="../sanpham/chitietsanpham.php?maSach=<?php echo $row['maSach']; ?>">
-                        <img src="../images/<?php echo $row['hinhAnh']; ?>" class="card-img-top" alt="...">
-                    </a>
-                    <div class="card-body">
-                        <h5 class="card-title"><?php echo $row['tenSach']; ?></h5>
-                        <p class="card-text text-danger fw-bold"><?php echo number_format($row['giaBan']); ?> đ</p>
-                        <button class="btn" style="background-color: #336799; color: #ffffff;">Thêm vào giỏ hàng</button>
-                    </div>
-                </div>
-            </div>
-            <?php
-        }
-    } else {
-        echo "<p>Không tìm thấy sách nào phù hợp.</p>";
-    }
-} else {
-    echo "<p>Vui lòng nhập từ khóa để tìm kiếm.</p>";
-}
-?>
+                                if ($result->num_rows > 0) {
+                                    echo '<h3>Kết quả tìm kiếm cho: <strong>' . htmlspecialchars($_GET['tenSach']) . '</strong></h3>';
+                                    while ($row = $result->fetch_assoc()) {
+                                        ?>
+                                        <div class="col-md-4 mb-4">
+                                            <div class="card" style="width: 100%;">
+                                                <a href="../sanpham/chitietsanpham.php?maSach=<?php echo $row['maSach']; ?>">
+                                                    <img src="../images/<?php echo $row['hinhAnh']; ?>" class="card-img-top"
+                                                        alt="...">
+                                                </a>
+                                                <div class="card-body">
+                                                    <h5 class="card-title"><?php echo $row['tenSach']; ?></h5>
+                                                    <p class="card-text text-danger fw-bold">
+                                                        <?php echo number_format($row['giaBan']); ?> đ</p>
+                                                    <button class="btn" style="background-color: #336799; color: #ffffff;">Thêm vào
+                                                        giỏ hàng</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <?php
+                                    }
+                                } else {
+                                    echo "<p>Không tìm thấy sách nào phù hợp.</p>";
+                                }
+                            } else {
+                                echo "<p>Vui lòng nhập từ khóa để tìm kiếm.</p>";
+                            }
+                            ?>
 
                         </div>
                     </div>
@@ -247,7 +267,7 @@ if (isset($_GET['tenSach']) && !empty($_GET['tenSach'])) {
 
     <a href="#top" id="backToTop">&#8593;</a>
 
-    <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" inert>
+    <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" >
         <div class="modal-dialog modal-sm position-absolute" style="top: 10%; left: 10%;">
             <div class="modal-content bg-success text-white">
                 <div class="modal-body text-center">
@@ -257,7 +277,7 @@ if (isset($_GET['tenSach']) && !empty($_GET['tenSach'])) {
         </div>
     </div>
 
-    <div class="modal fade" id="productDetailModal" tabindex="-1" aria-labelledby="productDetailLabel" inert>
+    <div class="modal fade" id="productDetailModal" tabindex="-1" aria-labelledby="productDetailLabel" >
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -292,17 +312,17 @@ if (isset($_GET['tenSach']) && !empty($_GET['tenSach'])) {
         window.addEventListener("resize", adjustSidebar);
     </script>
 
-<script>
+    <script>
         document.getElementById('searchForm').addEventListener('submit', function (event) {
-    event.preventDefault();
-    const inputValue = document.getElementById('timkiem').value.trim();
+            event.preventDefault();
+            const inputValue = document.getElementById('timkiem').value.trim();
 
-    if (inputValue) {
-        window.location.href = '../nguoidung/timkiem-nologin.php?tenSach=' + encodeURIComponent(inputValue);
-    } else {
-        alert('Vui lòng nhập nội dung tìm kiếm!');
-    }
-});
+            if (inputValue) {
+                window.location.href = '../nguoidung/timkiem-nologin.php?tenSach=' + encodeURIComponent(inputValue);
+            } else {
+                alert('Vui lòng nhập nội dung tìm kiếm!');
+            }
+        });
 
     </script>
 </body>
