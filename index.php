@@ -184,9 +184,9 @@ if (isset($_SESSION['username']) || isset($_COOKIE['username'])) {
                             <input type="text" class="form-control" id="tentacgia" placeholder="Tên tác giả">
                         </li>
                         <li class="list-group-item">
-                            <!-- Danh sách thể loại -->
+                            <!-- Danh sách nhà xuất bản -->
                             <select class="form-select" id="nxb">
-                                <option value="">-- Chọn thể loại --</option>
+                                <option value="">-- Chọn nhà xuất bản --</option>
                                 <?php
                                 $sql = "SELECT * FROM b01_nhaXuatBan";
                                 $result = $database->query($sql);
