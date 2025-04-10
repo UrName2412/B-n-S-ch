@@ -3,6 +3,26 @@ document.addEventListener("DOMContentLoaded", function () {
     const paginationContainer = document.querySelector(".pagination-container .pagination");
     let currentPage = 1;
     let products = [];
+    let resetButton = document.getElementById("resetFilter");
+
+    resetButton.addEventListener("click", function () {
+        window.location.reload(); // Tải lại trang để reset tất cả các bộ lọc
+    })
+
+
+    // Hàm gán sự kiện cho các nút "Xem chi tiết"
+    function attachViewDetailListeners() {
+        const viewDetailButtons = document.querySelectorAll(".view-detail");
+
+        viewDetailButtons.forEach(button => {
+            button.addEventListener("click", function (e) {
+                e.preventDefault(); // Ngăn chặn hành động mặc định (chuyển trang)
+
+                const productId = button.getAttribute("data-id"); // Lấy ID của sản phẩm
+            });
+        });
+    }
+
     // Hàm hiển thị sản phẩm theo trang
     function showPage(page) {
         const start = (page - 1) * productsPerPage;
@@ -21,20 +41,20 @@ document.addEventListener("DOMContentLoaded", function () {
     function createPagination() {
         const totalPages = Math.ceil(products.length / productsPerPage);
         paginationContainer.innerHTML = ""; // Xóa phân trang cũ
-    
+
         // Tính trang bắt đầu và kết thúc để chỉ hiển thị tối đa 3 trang
         let startPage = Math.max(1, currentPage - 1);
         let endPage = Math.min(totalPages, startPage + 2);
-    
+
         if (endPage - startPage < 2) {
             startPage = Math.max(1, endPage - 2);
         }
-    
+
         // Nút « quay về
         if (currentPage > 1) {
             const prevLi = document.createElement("li");
             prevLi.classList.add("page-item");
-    
+
             const prevLink = document.createElement("a");
             prevLink.classList.add("page-link");
             prevLink.href = "#";
@@ -45,17 +65,17 @@ document.addEventListener("DOMContentLoaded", function () {
                 showPage(currentPage);
                 createPagination();
             });
-    
+
             prevLi.appendChild(prevLink);
             paginationContainer.appendChild(prevLi);
         }
-    
+
         // Các trang số
         for (let i = startPage; i <= endPage; i++) {
             const li = document.createElement("li");
             li.classList.add("page-item");
             if (i === currentPage) li.classList.add("active");
-    
+
             const a = document.createElement("a");
             a.classList.add("page-link");
             a.href = "#";
@@ -66,16 +86,16 @@ document.addEventListener("DOMContentLoaded", function () {
                 showPage(currentPage);
                 createPagination();
             });
-    
+
             li.appendChild(a);
             paginationContainer.appendChild(li);
         }
-    
+
         // Nút » tiếp theo
         if (currentPage < totalPages) {
             const nextLi = document.createElement("li");
             nextLi.classList.add("page-item");
-    
+
             const nextLink = document.createElement("a");
             nextLink.classList.add("page-link");
             nextLink.href = "#";
@@ -86,12 +106,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 showPage(currentPage);
                 createPagination();
             });
-    
+
             nextLi.appendChild(nextLink);
             paginationContainer.appendChild(nextLi);
         }
     }
-    
+
     // Gọi từ AJAX
     document.getElementById("filterBtn").addEventListener("click", function () {
         let category = document.getElementById("theloai").value || "";
