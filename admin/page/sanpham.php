@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 require '../config/config.php';
 $stmt = $database->prepare("SELECT * FROM b01_theLoai");
 $stmt->execute();
@@ -273,6 +275,22 @@ $stmt->close();
             ]
         });
     </script>
+
+    <?php
+        if (isset($_SESSION["ketQuaThem"])){
+            if ($_SESSION["ketQuaThem"] == true){
+                echo "<script>createAlert('Đã thêm sản phẩm thành công.');</script>";
+            }
+            else {
+                echo "<script>createAlert('Thêm sản phẩm không thành công.');</script>";
+            }
+            unset($_SESSION["ketQuaThem"]);
+        }
+        if (isset($_SESSION["liDo"])){
+            echo "<script>createAlert('".$_SESSION["liDo"]."');</script>";
+            unset($_SESSION["liDo"]);
+        }
+    ?>
 </body>
 
 </html>

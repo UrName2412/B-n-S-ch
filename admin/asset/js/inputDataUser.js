@@ -45,11 +45,6 @@ function fixButtons() {
                 <input type="hidden" name="vaiTro" value="${users[index].vaiTro}">
                 <input type="hidden" name="trangThai" value="${users[index].trangThai}">
                 <div class="form-group">
-                    <label for="matKhau">Mật khẩu:</label>
-                    <input type="password" name="matKhau" id="suaMatKhau" placeholder="Nhập mật khẩu" >
-                    <span class="form-message"></span>
-                </div>
-                <div class="form-group">
                     <label for="soDienThoai">Số điện thoại:</label>
                     <input type="tel" name="soDienThoai" id="suaSoDienThoai" placeholder="Nhập số điện thoại" value=${users[index].soDienThoai}>
                     <span class="form-message"></span>
@@ -104,7 +99,6 @@ function fixButtons() {
             formFix.addEventListener('submit', e =>{
                 e.preventDefault();
 
-                var suaMatKhau = document.getElementById('suaMatKhau').value;
                 var suaSoDienThoai = document.getElementById('suaSoDienThoai').value;
                 var suaEmail = document.getElementById('suaEmail').value;
                 var suaTinhThanh = document.getElementById('suaTinhThanh').value;
@@ -114,7 +108,6 @@ function fixButtons() {
 
                 var flag = true;
 
-                if (suaMatKhau != "") flag = false;
                 if (suaSoDienThoai != users[index].soDienThoai) flag = false;
                 if (suaEmail != users[index].email) flag = false;
                 if (suaTinhThanh != users[index].tinhThanh) flag = false;

@@ -1,6 +1,8 @@
 <?php
-
+session_start();
 require '../../config/config.php';
+
+$_SESSION["ketQuaThem"]=false;
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $hinhAnh = $_POST["hinhAnh"];
@@ -21,8 +23,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $stmt->close();
 
     $database->close();
-    
+    $_SESSION["ketQuaThem"]=true;
 }
+
+
 
 header('Location: ../../page/sanpham.php');
 exit();

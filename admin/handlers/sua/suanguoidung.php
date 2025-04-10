@@ -18,7 +18,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $stmt->close();
 
     $duLieuMoi = [
-        'matKhau' => $_POST['matKhau'],
         'soDienThoai' => $_POST['soDienThoai'],
         'email' => $_POST['email'],
         'tinhThanh' => $_POST['tinhThanh'],
@@ -26,10 +25,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         'xa' => $_POST['xa'],
         'duong' => $_POST['duong']
     ];
-
-    if ($duLieuMoi['matKhau'] ==""){
-        $duLieuMoi['matKhau'] = $duLieuCu['matKhau'];
-    }
 
     foreach ($duLieuMoi as $truongDuLieu => $giaTriMoi) {
         if ($giaTriMoi != $duLieuCu[$truongDuLieu]) {
