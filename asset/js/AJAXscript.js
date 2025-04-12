@@ -122,7 +122,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let nhaXuatBan = document.getElementById("nxb").value.trim().toLowerCase();
         let theloai = document.getElementById("theloai").value.trim().toLowerCase();
 
-        let url = `/Website/GIT/WebBanSach/asset/handler/fetch_product.php?category=${category}&min_price=${minPrice}&max_price=${maxPrice}`;
+        let url = `/B-n-S-ch/asset/handler/fetch_product.php?category=${category}&min_price=${minPrice}&max_price=${maxPrice}`;
 
         fetch(url)
             .then(response => response.text()) // Đọc phản hồi dưới dạng text
@@ -172,7 +172,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <div class="col-md-4 mb-4">
                         <div class="card" style="width: 100%;">
                             <a href="#" class="view-detail" data-id="${product.maSach}">
-                                <img src="/Website/GIT/WebBanSach/Images/${product.hinhAnh}" alt="${product.tenSach}" class="card-img-top">
+                                <img src="/B-n-S-ch/Images/${product.hinhAnh}" alt="${product.tenSach}" class="card-img-top">
                             </a>
                             <div class="card-body">
                                 <h5 class="card-title">${product.tenSach}</h5>
@@ -202,7 +202,7 @@ function loadProducts(page = 1) {
         return new Intl.NumberFormat('vi-VN').format(price);
     }
 
-    fetch('/Website/GIT/WebBanSach/asset/handler/pagination.php?page=' + page)
+    fetch('/B-n-S-ch/asset/handler/pagination.php?page=' + page)
         .then(response => response.json())
         .then(data => {
             let products = data.products;
@@ -217,7 +217,7 @@ function loadProducts(page = 1) {
                 productDiv.innerHTML = `
                     <div class="card" style="width: 100%;">
                         <a href="#" class="view-detail" data-id="${product.maSach}">
-                            <img src="/Website/GIT/WebBanSach/Images/${product.hinhAnh}" alt="${product.tenSach}" class="card-img-top">
+                            <img src="/B-n-S-ch/Images/${product.hinhAnh}" alt="${product.tenSach}" class="card-img-top">
                         </a>
                         <div class="card-body">
                             <h5 class="card-title">${product.tenSach}</h5>
