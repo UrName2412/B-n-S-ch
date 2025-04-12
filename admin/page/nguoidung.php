@@ -1,5 +1,16 @@
 <?php
+require '../config/config.php';
+require '../handlers/admin_handle.php';
 session_start();
+
+if (isset($_SESSION['username'])) {
+    $username = $_SESSION['username'];
+} else {
+    echo "<script>alert('Bạn chưa đăng nhập!'); window.location.href='../index.php';</script>";
+    exit();
+}
+
+$admin = getAdminInfoByUsername($database, $username);
 ?>
 
 <!DOCTYPE html>
@@ -35,7 +46,7 @@ session_start();
                     <i class="fas fa-clipboard-list"></i>
                     <h3>Đơn hàng</h3>
                 </a>
-                <a href="../index.php" class="last-child">
+                <a href="dangxuat.php" class="last-child">
                     <i class="fas fa-sign-out-alt"></i>
                     <h3>Đăng xuất</h3>
                 </a>
@@ -49,7 +60,7 @@ session_start();
                 <div class="logo">
                     <a href="#">
                         <img src="../image/LogoSach.png">
-                        <h2>Admin</h2>
+                        <h2><?php echo $admin['tenNguoiDung'];?></h2>
                     </a>
                 </div>
             </div>
