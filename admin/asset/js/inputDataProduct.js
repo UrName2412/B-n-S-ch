@@ -41,12 +41,13 @@ function fixButtons() {
             let index = products.findIndex(product => product.maSach == maSach);
             menuFix.innerHTML = `
             <h2>Sửa sản phẩm</h2>
-            <form class="form" id="form-fix" method="POST" action="../handlers/sua/suasanpham.php">
+            <form class="form" id="form-fix" method="POST" action="../handlers/sua/suasanpham.php" enctype="multipart/form-data">
                 <input type="hidden" name="maSach" value="${maSach}">
                 <div class="form-group">
                     <label for="hinhAnh">Hình ảnh:</label>
-                    <input type="file" name="hinhAnh" id="suaHinhAnh" placeholder="Chọn ảnh" >
+                    <input type="file" name="hinhAnh" id="suaHinhAnh" placeholder="Chọn ảnh">
                     <span class="form-message"></span>
+                    <img id="suaPreviewImg" style="display:none;"/>
                 </div>
                 <div class="form-group">
                     <label for="tenSach">Tên sách:</label>
@@ -123,7 +124,9 @@ function fixButtons() {
                         selectNhaXuatBan.appendChild(option);
                     });
                 })
-
+                document.getElementById('suaHinhAnh').addEventListener('change', function () {
+                    previewImage(this, 'suaPreviewImg', '.form-message');
+                });
             messageRequired = 'Vui lòng nhập thông tin.';
             Validator({
                 form: '#form-fix',
@@ -142,6 +145,50 @@ function fixButtons() {
                     Validator.min('#suaSoTrang', 1, 'Số trang tối thiểu là 1 trang'),
                 ]
             });
+
+            function previewImage(input, previewImgId, errorSelector = '.form-message') {
+                const previewImg = document.getElementById(previewImgId);
+                const formGroup = input.closest('.form-group') || input.parentElement;
+                const errorMessage = formGroup.querySelector(errorSelector);
+                const file = input.files[0];
+            
+                const validTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+                const maxSize = 5 * 1024 * 1024;
+            
+                if (file) {
+                    const fileExtension = file.name.split('.').pop().toLowerCase();
+            
+                    if (!validTypes.includes(file.type) && !['jpg', 'jpeg', 'png'].includes(fileExtension)) {
+                        errorMessage.innerText = 'Vui lòng chọn ảnh có định dạng JPG, PNG, jpec.';
+                        previewImg.style.display = 'none';
+                        input.value = '';
+                        formGroup.classList.add('invalid');
+                        return;
+                    }
+            
+                    if (file.size > maxSize) {
+                        errorMessage.innerText = 'Vui lòng chọn ảnh có dung lượng nhỏ hơn 5MB.';
+                        previewImg.style.display = 'none';
+                        input.value = '';
+                        formGroup.classList.add('invalid');
+                        return;
+                    }
+            
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        previewImg.src = e.target.result;
+                        previewImg.style.display = 'block';
+                    };
+                    reader.readAsDataURL(file);
+            
+                    errorMessage.innerText = '';
+                    formGroup.classList.remove('invalid');
+                } else {
+                    previewImg.style.display = 'none';
+                    errorMessage.innerText = '';
+                    formGroup.classList.remove('invalid');
+                }
+            }
         })
     })
 }
