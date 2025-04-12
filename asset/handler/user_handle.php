@@ -94,3 +94,20 @@ function checkLogin($database, $username, $password)
 
     $stmt->close();
 }
+
+function updateUser($database, $username, $address, $phone, $province, $district, $ward)
+{
+    $stmt = $database->prepare("UPDATE b01_nguoiDung
+    SET soDienThoai = ?, tinhThanh = ?, quanHuyen = ?, xa = ?, duong = ?
+    WHERE tenNguoiDung = ?");
+
+    if ($stmt === false) {
+        die('MySQL prepare error: ' . $database->error);
+    }
+
+    $stmt->bind_param("ssssss", $phone, $province, $district, $ward, $address, $username);
+
+    $stmt->execute();
+
+    $stmt->close();
+}

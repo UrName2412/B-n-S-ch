@@ -83,7 +83,7 @@ function fixButtons() {
                     messageRequired = 'Vui lòng nhập thông tin.';
                     messageEmail = 'Vui lòng nhập đúng email.';
                     messagePhone = 'Vui lòng nhập đúng số điện thoại.';
-                    messagePassword = 'Yêu cầu kí tự hoa, kí tự thường, số và ít nhất 7 kí tự.';
+                    messagePassword = 'Mật khẩu phải chứa ít nhất 1 ký tự Hoa, 1 ký tự số và 1 ký tự đặc biệt.';
                     Validator({
                         form: '#form-fix',
                         errorSelector: '.form-message',
