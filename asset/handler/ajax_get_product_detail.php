@@ -15,7 +15,7 @@ if (isset($_POST['id'])) {
         echo "<div class='container-fluid'>
                 <div class='row'>
                     <div class='col-md-6'>
-                        <img src='/B-n-S-ch/Images/{$row['hinhAnh']}' class='img-fluid rounded' style='height:75vh' alt='{$row['tenSach']}' />
+                        <img src='/Website/GIT/WebBanSach/Images/{$row['hinhAnh']}' class='img-fluid rounded' style='height:75vh' alt='{$row['tenSach']}' />
                     </div>
                     <div class='col-md-6 d-flex flex-column justify-content-between'>
                     <div>
