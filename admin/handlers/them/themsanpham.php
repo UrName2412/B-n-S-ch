@@ -19,8 +19,7 @@ function xuLyTenFileKhongTrung($originalName, $uploads_dir){
 
     return $newName;
 }
-
-$_SESSION["ketQuaThem"] = false;
+$flag = false;
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $tname = $_FILES["hinhAnh"]["tmp_name"];
@@ -55,11 +54,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $stmt->close();
 
         $database->close();
-        $_SESSION["ketQuaThem"] = true;
+        $flag = true;
     } else {
         $_SESSION["liDo"] = "Lỗi khi tải lên file ảnh.";
         header('Location: ../../page/sanpham.php');
         exit();
+    }
+    if ($flag){
+        $_SESSION["thongBaoThem"] = "Đã thêm thành công sản phẩm.";
     }
 }
 

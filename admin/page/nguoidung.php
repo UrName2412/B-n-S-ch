@@ -271,18 +271,13 @@ $admin = getAdminInfoByUsername($database, $username);
     </script>
 
     <?php
-        if (isset($_SESSION["ketQuaThem"])){
-            if ($_SESSION["ketQuaThem"] == true){
-                echo "<script>createAlert('Đã thêm người dùng thành công.');</script>";
-            }
-            else {
-                echo "<script>createAlert('Đã bị trùng tên người dùng.');</script>";
-            }
-            unset($_SESSION["ketQuaThem"]);
+        if (isset($_SESSION["thongBaoThem"])){
+            echo "<script>createAlert('".$_SESSION["thongBaoThem"]."');</script>";
+            unset($_SESSION["thongBaoThem"]);
         }
-        if (isset($_SESSION["ketQuaSua"])){
-            echo "<script>createAlert('".$_SESSION["ketQuaSua"]."');</script>";
-            unset($_SESSION["ketQuaSua"]);
+        if (isset($_SESSION["thongBaoSua"])){
+            echo "<script>createAlert('".$_SESSION["thongBaoSua"]."');</script>";
+            unset($_SESSION["thongBaoSua"]);
         }
     ?>
 </body>

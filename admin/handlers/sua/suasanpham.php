@@ -1,4 +1,5 @@
 <?php
+session_start();
 require '../../config/config.php';
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
@@ -46,6 +47,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     
         $stmt->bind_param($types, ...$values);
         $stmt->execute();
+        $_SESSION['thongBaoSua'] = "Cập nhật thành công!";
+    } else{
+        $_SESSION['thongBaoSua'] = "Không có thay đổi nào được thực hiện.";
     }
     
 }

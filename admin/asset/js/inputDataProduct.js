@@ -142,44 +142,6 @@ function fixButtons() {
                     Validator.min('#suaSoTrang', 1, 'Số trang tối thiểu là 1 trang'),
                 ]
             });
-
-            var formFix = document.getElementById('form-fix');
-            formFix.addEventListener("submit", e => {
-                e.preventDefault();
-
-                var suaHinhAnh = document.getElementById('suaHinhAnh').value;
-                var suaTenSach = document.getElementById('suaTenSach').value;
-                var suaTacGia = document.getElementById('suaTacGia').value;
-                var suaTheLoai = document.getElementById('suaTheLoai').value;
-                var suaNhaXuatBan = document.getElementById('suaNhaXuatBan').value;
-                var suaGiaBan = document.getElementById('suaGiaBan').value;
-                var suaSoTrang = document.getElementById('suaSoTrang').value;
-                var suaMoTa = document.getElementById('suaMoTa').value;
-
-                var flag = true;
-
-                if (suaHinhAnh != "") flag = false;
-                if (suaTenSach != products[index].tenSach) flag = false;
-                if (suaTacGia != products[index].tacGia) flag = false;
-                if (suaTheLoai != products[index].maTheLoai) flag = false;
-                if (suaNhaXuatBan != products[index].maNhaXuatBan) flag = false;
-                if (suaGiaBan != products[index].giaBan) flag = false;
-                if (suaSoTrang != products[index].soTrang) flag = false;
-                if (suaMoTa != products[index].moTa) flag = false;
-
-                if (flag) {
-                    createAlert("Không có thông tin nào cần sửa.");
-                } else{
-                    openModal(stringModal, stringAlert).then((result) => {
-                        if (result) {
-                            formFix.submit();
-                            menuFix.remove();
-                            behindMenu.style.display = 'none';
-                            productFilter();
-                        }
-                    });
-                }
-            })
         })
     })
 }

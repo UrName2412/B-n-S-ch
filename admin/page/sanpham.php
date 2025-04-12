@@ -287,18 +287,17 @@ $stmt->close();
     </script>
 
     <?php
-        if (isset($_SESSION["ketQuaThem"])){
-            if ($_SESSION["ketQuaThem"] == true){
-                echo "<script>createAlert('Đã thêm sản phẩm thành công.');</script>";
-            }
-            else {
-                echo "<script>createAlert('Thêm sản phẩm không thành công.');</script>";
-            }
-            unset($_SESSION["ketQuaThem"]);
+        if (isset($_SESSION["thongBaoThem"])){
+            echo "<script>createAlert('".$_SESSION["thongBaoThem"]."');</script>";
+            unset($_SESSION["thongBaoThem"]);
         }
         if (isset($_SESSION["liDo"])){
             echo "<script>createAlert('".$_SESSION["liDo"]."');</script>";
             unset($_SESSION["liDo"]);
+        }
+        if (isset($_SESSION["thongBaoSua"])){
+            echo "<script>createAlert('".$_SESSION["thongBaoSua"]."');</script>";
+            unset($_SESSION["thongBaoSua"]);
         }
     ?>
 </body>
