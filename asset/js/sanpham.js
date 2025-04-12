@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
             event.preventDefault();
             const productId = event.target.closest(".view-detail").getAttribute("data-id");
 
-            fetch("/B-n-S-ch/asset/handler/ajax_get_product_detail.php", {
+            fetch("/Website/GIT/WebBanSach/asset/handler/ajax_get_product_detail.php", {
                 method: "POST",
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 body: "id=" + productId

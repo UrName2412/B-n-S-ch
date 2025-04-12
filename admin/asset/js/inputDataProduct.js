@@ -1,6 +1,8 @@
 let products = [];
 var listProductsBlock = document.querySelector('#dataProducts');
 
+const diaChiAnh = '../../Images/';
+
 function start() {
     getProducts().then(() => {
         renderProducts();
@@ -285,7 +287,7 @@ function searchButton() {
                             <textarea placeholder="Nhập giá tiền..." readonly>${product.giaBan}</textarea>
                             <div class="input-picture">
                                 <input type="file" name="picture" class="picture" placeholder="Chọn ảnh" onchange="displayFileName()" style="display: none;">
-                                <textarea placeholder="Nhập nội dung..." class="file-name" readonly>${product.hinhAnh}</textarea>
+                                <img class="pictureProduct" src="${diaChiAnh}${product.hinhAnh}" alt="" srcset="">
                             </div>
                             <div class="tool">
                                 <button type="button" class="restore">
@@ -305,7 +307,7 @@ function searchButton() {
                             <textarea placeholder="Nhập giá tiền..." readonly>${product.giaBan}</textarea>
                             <div class="input-picture">
                                 <input type="file" name="picture" class="picture" placeholder="Chọn ảnh" onchange="displayFileName()" style="display: none;">
-                                <textarea placeholder="Nhập nội dung..." class="file-name" readonly>${product.hinhAnh}</textarea>
+                                <img class="pictureProduct" src="${diaChiAnh}${product.hinhAnh}" alt="" srcset="">
                             </div>
                             <div class="tool">
                                 <button type="button" class="fix">
@@ -352,7 +354,7 @@ function activeProducts(listProductsBlock) {
                 <textarea placeholder="Nhập giá tiền..." readonly>${product.giaBan}</textarea>
                 <div class="input-picture">
                     <input type="file" name="picture" class="picture" placeholder="Chọn ảnh" onchange="displayFileName()" style="display: none;">
-                    <textarea placeholder="Nhập nội dung..." class="file-name" readonly>${product.hinhAnh}</textarea>
+                    <img class="pictureProduct" src="${diaChiAnh}${product.hinhAnh}" alt="" srcset="">
                 </div>
                 <div class="tool">
                     <button type="button" class="fix">
@@ -386,7 +388,7 @@ function allProducts(listProductsBlock) {
                 <textarea placeholder="Nhập giá tiền..." readonly>${product.giaBan}</textarea>
                 <div class="input-picture">
                     <input type="file" name="picture" class="picture" placeholder="Chọn ảnh" onchange="displayFileName()" style="display: none;">
-                    <textarea placeholder="Nhập nội dung..." class="file-name" readonly>${product.hinhAnh}</textarea>
+                    <img class="pictureProduct" src="${diaChiAnh}${product.hinhAnh}" alt="" srcset="">
                 </div>
                 <div class="tool">
                     <button type="button" class="restore">
@@ -404,7 +406,7 @@ function allProducts(listProductsBlock) {
                 <textarea placeholder="Nhập giá tiền..." readonly>${product.giaBan}</textarea>
                 <div class="input-picture">
                     <input type="file" name="picture" class="picture" placeholder="Chọn ảnh" onchange="displayFileName()" style="display: none;">
-                    <textarea placeholder="Nhập nội dung..." class="file-name" readonly>${product.hinhAnh}</textarea>
+                    <img class="pictureProduct" src="${diaChiAnh}${product.hinhAnh}" alt="" srcset="">
                 </div>
                 <div class="tool">
                     <button type="button" class="fix">
@@ -439,7 +441,7 @@ function hiddenProducts(listProductsBlock) {
                 <textarea placeholder="Nhập giá tiền..." readonly>${product.giaBan}</textarea>
                 <div class="input-picture">
                     <input type="file" name="picture" class="picture" placeholder="Chọn ảnh" onchange="displayFileName()" style="display: none;">
-                    <textarea placeholder="Nhập nội dung..." class="file-name" readonly>${product.hinhAnh}</textarea>
+                    <img class="pictureProduct" src="${diaChiAnh}${product.hinhAnh}" alt="" srcset="">
                 </div>
                 <div class="tool">
                     <button type="button" class="restore">
@@ -535,7 +537,7 @@ function handleFilter(tacGia, maTheLoai, maNhaXuatBan, priceStart, priceEnd) {
                 <textarea placeholder="Nhập giá tiền..." readonly>${products[i].giaBan}</textarea>
                 <div class="input-picture">
                     <input type="file" name="picture" class="picture" placeholder="Chọn ảnh" onchange="displayFileName()" style="display: none;">
-                    <textarea placeholder="Nhập nội dung..." class="file-name" readonly>${products[i].hinhAnh}</textarea>
+                    <img class="pictureProduct" src="${diaChiAnh}${products[i].hinhAnh}" alt="" srcset="">
                 </div>
                 <div class="tool">
                     <button type="button" class="restore">
@@ -553,7 +555,7 @@ function handleFilter(tacGia, maTheLoai, maNhaXuatBan, priceStart, priceEnd) {
                 <textarea placeholder="Nhập giá tiền..." readonly>${products[i].giaBan}</textarea>
                 <div class="input-picture">
                     <input type="file" name="picture" class="picture" placeholder="Chọn ảnh" onchange="displayFileName()" style="display: none;">
-                    <textarea placeholder="Nhập nội dung..." class="file-name" readonly>${products[i].hinhAnh}</textarea>
+                    <img class="pictureProduct" src="${diaChiAnh}${products[i].hinhAnh}" alt="" srcset="">
                 </div>
                 <div class="tool">
                     <button type="button" class="fix">

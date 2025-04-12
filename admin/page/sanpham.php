@@ -185,8 +185,9 @@ $stmt->close();
                 <form class="form" id="form-add" method="POST" action="../handlers/them/themsanpham.php" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="hinhAnh">Hình ảnh:</label>
-                        <input type="file" name="hinhAnh" id="hinhAnh" placeholder="Chọn ảnh">
+                        <input type="file" name="hinhAnh" id="hinhAnh" placeholder="Chọn ảnh" onchange="previewImage(this, 'previewImg', '.form-message')">
                         <span class="form-message"></span>
+                        <img id="previewImg" style="display:none;"/>
                     </div>
                     <div class="form-group">
                         <label for="tenSach">Tên sách:</label>
@@ -261,10 +262,10 @@ $stmt->close();
                 Validator.isRequired('#tenSach', messageRequired),
                 Validator.isRequired('#tacGia', messageRequired),
                 Validator.isRequired('#theLoai', 'Vui lòng chọn thể loại'),
-                Validator.isRequired('#nhaXuatBan', messageRequired),
+                Validator.isRequired('#nhaXuatBan', 'Vui lòng chọn nhà xuất bản'),
                 Validator.isRequired('#giaBan', messageRequired),
                 Validator.isRequired('#soTrang', messageRequired),
-                Validator.isRequired('#hinhAnh', messageRequired),
+                Validator.isRequired('#hinhAnh', 'Vui lòng chọn hình ảnh'),
                 Validator.isRequired('#moTa', messageRequired),
                 Validator.isNumber('#giaBan', 'Giá tiền không hợp lệ'),
                 Validator.isNumber('#soTrang', 'Số trang không hợp lệ'),
