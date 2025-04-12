@@ -116,15 +116,12 @@ Validator.minLength = function (selector, min) {
     }
 }
 
-function isValidPasswd(pass) {
-    return /[A-Z]/.test(pass) && /\d/.test(pass) && /[!@#$%^&*()_+\-={}[\]:;"'<>,.?/~\\|]/.test(pass);
-}
-
 Validator.isPassword = function (selector, message) {
     return {
         selector: selector,
         test: function (value) {
-            return isValidPasswd(value) ? undefined : message;
+            var regex = /^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{6,})\S$/;
+            return regex.test(value) ? undefined : message;
         }
     }
 
