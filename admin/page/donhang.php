@@ -182,6 +182,58 @@ $admin = getAdminInfoByUsername($database, $username);
 
         renderAddress('city', 'district', null);  
     </script>
+    <script>
+        // Khởi tạo addressHandler để hiển thị danh sách tỉnh/thành phố và quận/huyện
+        const addressHandlerInstance = new addressHandler('city', 'district', null);
+    </script>
+    <script>
+    function handleFilter(dateStart, dateEnd, city, district) {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', `filterDonHang.php?dateStart=${dateStart}&dateEnd=${dateEnd}&city=${city}&district=${district}`, true);
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                try {
+                    const data = JSON.parse(xhr.responseText);
+                    const dataCarts = document.getElementById('dataCarts');
+                    dataCarts.innerHTML = ''; // Xóa dữ liệu cũ
+
+                    if (data.length > 0) {
+                        data.forEach(order => {
+                            const row = `
+                                <div class="grid-row">
+                                    <span>${order.maDon}</span>
+                                    <span>${order.tenNguoiDung}</span>
+                                    <span>${order.diaChi}, ${order.districtName}, ${order.cityName}</span>
+                                    <span>${order.soDienThoai}</span>
+                                    <span>${order.tongTien}</span>
+                                    <span>${order.tinhTrang}</span>
+                                    <span><a href="chiTietDonHang.php?id=${order.maDon}">Chi tiết</a></span>
+                                </div>
+                            `;
+                            dataCarts.innerHTML += row;
+                        });
+                    } else {
+                        dataCarts.innerHTML = '<div class="no-data">Không có dữ liệu phù hợp.</div>';
+                    }
+                } catch (e) {
+                    console.error('Lỗi JSON:', e);
+                    console.error('Phản hồi:', xhr.responseText);
+                }
+            } else {
+                console.error('Lỗi khi tải dữ liệu');
+            }
+        };
+        xhr.send();
+    }
+
+    function clearFilter() {
+        document.getElementById('dateStart').value = '';
+        document.getElementById('dateEnd').value = '';
+        document.getElementById('city').value = '';
+        document.getElementById('district').value = '';
+        handleFilter('', '', '', ''); // Reset bộ lọc
+    }
+</script>
 </body>
 
 </html>

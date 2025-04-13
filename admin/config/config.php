@@ -1,6 +1,6 @@
 <?php
 if (!defined('DB_SERVER')) {
-    define('DB_SERVER', 'localhost');
+    define('DB_SERVER', '127.0.0.1');
 }
 
 if (!defined('DB_USERNAME')) {
@@ -16,7 +16,7 @@ if (!defined('DB_NAME')) {
 }
 
 // Create connection
-$database = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
+$database = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME, 3300);
 
 // Check connection
 if ($database->connect_error){
