@@ -3,8 +3,25 @@ require '../admin/config/config.php';
 require '../asset/handler/user_handle.php';
 session_start();
 
+
 if (!isset($_SESSION['user'])) {
   echo "Bạn chưa đăng nhập.";
+
+if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role'] == false)) {
+  $username = $_SESSION['username'];
+} elseif (isset($_COOKIE['username']) && isset($_COOKIE['pass'])) {
+  $username = $_COOKIE['username'];
+  $password = $_COOKIE['pass'];
+
+  if (checkLogin($database, $username, $password)) {
+    $_SESSION['username'] = $username;
+  } else {
+    echo "<script>alert('Bạn cần đăng nhập để tiếp tục thanh toán!'); window.location.href='../dangky/dangnhap.php';</script>";
+    exit();
+  }
+} else {
+  echo "<script>alert('Bạn cần đăng nhập để tiếp tục thanh toán!'); window.location.href='../dangky/dangnhap.php';</script>";
+
   exit();
 }
 
@@ -252,19 +269,18 @@ if (!isset($_SESSION['username'])) {
     window.toggleDefaultInfo = toggleDefaultInfo;
   </script>
 
-<script>
-        document.getElementById('searchForm').addEventListener('submit', function (event) {
-    event.preventDefault();
-    const inputValue = document.getElementById('timkiem').value.trim();
+  <script>
+    document.getElementById('searchForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const inputValue = document.getElementById('timkiem').value.trim();
 
-    if (inputValue) {
+      if (inputValue) {
         window.location.href = '/B-n-S-ch/nguoidung/timkiem.php?tenSach=' + encodeURIComponent(inputValue);
-    } else {
+      } else {
         alert('Vui lòng nhập nội dung tìm kiếm!');
-    }
-});
-
-    </script>
+      }
+    });
+  </script>
 
 <script>
 function validateForm() {

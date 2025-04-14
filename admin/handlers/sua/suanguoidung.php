@@ -54,9 +54,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $stmt->bind_param($types, ...$values);
         $stmt->execute();
         $stmt->close();
-        $_SESSION['ketQuaSua'] = "Cập nhật thông tin người dùng thành công.";
+        if ($vaiTro){
+            $_SESSION['thongBaoSua'] = "Cập nhật thành công thông tin người quản trị.";
+        } else {
+            $_SESSION['thongBaoSua'] = "Cập nhật thành công thông tin người dùng.";
+        }
     } else {
-        $_SESSION['ketQuaSua'] = "Không có thay đổi nào để cập nhật.";
+        $_SESSION['thongBaoSua'] = "Không có thay đổi nào được thực hiện.";
     }
     
 }

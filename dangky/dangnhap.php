@@ -3,7 +3,7 @@ require "../admin/config/config.php";
 require "../asset/handler/user_handle.php";
 session_start();
 
-if (isset($_SESSION['username']) || isset($_COOKIE['username'])) {
+if ((isset($_SESSION['username']) || isset($_COOKIE['username'])) && (isset($_SESSION['role']) && $_SESSION['role'] == false)) {
     header("Location: ../nguoidung/indexuser.php");
     exit();
 }
@@ -14,19 +14,20 @@ function test_input($data)
 }
 
 $usererror = $passerror = "";
-$success = false;
+$success = $stasflag = false;
 $username = "";
 $password = "";
 
-if (isset($_COOKIE['username']) && isset($_COOKIE['pass'])) {
+if (isset($_COOKIE['username']) && isset($_COOKIE['pass']) && isset($_COOKIE['role'])) {
     $username = $_COOKIE['username'];
     $password = $_COOKIE['pass'];
 
     $user = checkLogin($database, $username, $password);
-    if ($user) {
+    if ($user && $_COOKIE['role'] == $user['vaiTro']) {
         $_SESSION['username'] = $user['tenNguoiDung'];
         $_SESSION['user'] = $user;
-        $success = true; 
+        $_SESSION['role'] = false;
+        $success = true;
     }
 }
 
@@ -37,21 +38,26 @@ if (isset($_POST['action']) && $_POST['action'] == 'do-login') {
 
         $user = checkLogin($database, $username, $password);
 
-        if (!$user) {
+        if (!$user || $user['vaiTro'] == true) {
             // $usererror = "Tên đăng nhập hoặc mật khẩu không đúng";
             // $passerror = "Tên đăng nhập hoặc mật khẩu không đúng";
             echo "<script>alert('Tên đăng nhập hoặc mật khẩu không đúng');</script>";
+        } else if ($user['trangThai'] == false) {
+            $stasflag = true;
         } else {
             $_SESSION['username'] = $user['tenNguoiDung'];
             $_SESSION['user'] = $user;
+            $_SESSION['role'] = false;
             $success = true;
 
             if (isset($_POST['remember'])) {
                 setcookie('username', $username, time() + 30 * 24 * 60 * 60, "/");
                 setcookie('pass', $password, time() + 30 * 24 * 60 * 60, "/");
+                setcookie('role', $user['vaiTro'], time() + 30 * 24 * 60 * 60, "/");
             } else {
                 setcookie('username', '', time() - 3600, "/");
                 setcookie('pass', '', time() - 3600, "/");
+                setcookie('role', '', time() - 3600, "/");
             }
         }
     }
@@ -65,7 +71,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'do-login') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cửa hàng sách</title>
+    <title>Đăng nhập</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="../vender/css/bootstrap.min.css">
     <!-- FONT AWESOME  -->
@@ -194,6 +200,23 @@ if (isset($_POST['action']) && $_POST['action'] == 'do-login') {
         </div>
     </div>
 
+    <!-- Modal Failed Status -->
+    <div class="modal fade" id="stasModal" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-warning d-flex justify-content-center p-3">
+                    <h4 class="modal-title">Thông báo!</h4>
+                </div>
+                <div class="modal-body text-center">
+                    <p style="font-size: 20px;">Tài khoản của bạn không tồn tại hoặc đã bị khóa, vui lòng liên hệ bộ phận chăm sóc khác hàng để được hỗ trợ!</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="../index.php" class="btn btn-warning" id="closeModal">Quay về trang chủ</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="text-white py-4">
         <div class="container">
@@ -256,19 +279,27 @@ if (isset($_POST['action']) && $_POST['action'] == 'do-login') {
     <script src="../vender/js/bootstrap.bundle.min.js"></script>
     <script src="../asset/js/dangnhap.js"></script>
     <?php if ($success): ?>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        var successModal = new bootstrap.Modal(document.getElementById('successModal'));
-        successModal.show();
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                successModal.show();
 
-        setTimeout(function () {
-            window.location.href = "../nguoidung/indexuser.php";
-        }, 2000);
-    });
-</script>
-<?php endif; ?>
+                setTimeout(function() {
+                    window.location.href = "../nguoidung/indexuser.php";
+                }, 2000);
+            });
+        </script>
+    <?php endif; ?>
 
-    
+    <?php if ($stasflag): ?>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var stasModal = new bootstrap.Modal(document.getElementById('stasModal'));
+                stasModal.show();
+            });
+        </script>
+    <?php endif; ?>
+
 </body>
 
 </html>

@@ -1,6 +1,8 @@
 let products = [];
 var listProductsBlock = document.querySelector('#dataProducts');
 
+const diaChiAnh = '../../Images/';
+
 function start() {
     getProducts().then(() => {
         renderProducts();
@@ -39,12 +41,13 @@ function fixButtons() {
             let index = products.findIndex(product => product.maSach == maSach);
             menuFix.innerHTML = `
             <h2>Sửa sản phẩm</h2>
-            <form class="form" id="form-fix" method="POST" action="../handlers/sua/suasanpham.php">
+            <form class="form" id="form-fix" method="POST" action="../handlers/sua/suasanpham.php" enctype="multipart/form-data">
                 <input type="hidden" name="maSach" value="${maSach}">
                 <div class="form-group">
                     <label for="hinhAnh">Hình ảnh:</label>
-                    <input type="file" name="hinhAnh" id="suaHinhAnh" placeholder="Chọn ảnh" >
+                    <input type="file" name="hinhAnh" id="suaHinhAnh" placeholder="Chọn ảnh">
                     <span class="form-message"></span>
+                    <img id="suaPreviewImg" style="display:none;"/>
                 </div>
                 <div class="form-group">
                     <label for="tenSach">Tên sách:</label>
@@ -121,7 +124,9 @@ function fixButtons() {
                         selectNhaXuatBan.appendChild(option);
                     });
                 })
-
+                document.getElementById('suaHinhAnh').addEventListener('change', function () {
+                    previewImage(this, 'suaPreviewImg', '.form-message');
+                });
             messageRequired = 'Vui lòng nhập thông tin.';
             Validator({
                 form: '#form-fix',
@@ -141,43 +146,49 @@ function fixButtons() {
                 ]
             });
 
-            var formFix = document.getElementById('form-fix');
-            formFix.addEventListener("submit", e => {
-                e.preventDefault();
-
-                var suaHinhAnh = document.getElementById('suaHinhAnh').value;
-                var suaTenSach = document.getElementById('suaTenSach').value;
-                var suaTacGia = document.getElementById('suaTacGia').value;
-                var suaTheLoai = document.getElementById('suaTheLoai').value;
-                var suaNhaXuatBan = document.getElementById('suaNhaXuatBan').value;
-                var suaGiaBan = document.getElementById('suaGiaBan').value;
-                var suaSoTrang = document.getElementById('suaSoTrang').value;
-                var suaMoTa = document.getElementById('suaMoTa').value;
-
-                var flag = true;
-
-                if (suaHinhAnh != "") flag = false;
-                if (suaTenSach != products[index].tenSach) flag = false;
-                if (suaTacGia != products[index].tacGia) flag = false;
-                if (suaTheLoai != products[index].maTheLoai) flag = false;
-                if (suaNhaXuatBan != products[index].maNhaXuatBan) flag = false;
-                if (suaGiaBan != products[index].giaBan) flag = false;
-                if (suaSoTrang != products[index].soTrang) flag = false;
-                if (suaMoTa != products[index].moTa) flag = false;
-
-                if (flag) {
-                    createAlert("Không có thông tin nào cần sửa.");
-                } else{
-                    openModal(stringModal, stringAlert).then((result) => {
-                        if (result) {
-                            formFix.submit();
-                            menuFix.remove();
-                            behindMenu.style.display = 'none';
-                            productFilter();
-                        }
-                    });
+            function previewImage(input, previewImgId, errorSelector = '.form-message') {
+                const previewImg = document.getElementById(previewImgId);
+                const formGroup = input.closest('.form-group') || input.parentElement;
+                const errorMessage = formGroup.querySelector(errorSelector);
+                const file = input.files[0];
+            
+                const validTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+                const maxSize = 5 * 1024 * 1024;
+            
+                if (file) {
+                    const fileExtension = file.name.split('.').pop().toLowerCase();
+            
+                    if (!validTypes.includes(file.type) && !['jpg', 'jpeg', 'png'].includes(fileExtension)) {
+                        errorMessage.innerText = 'Vui lòng chọn ảnh có định dạng JPG, PNG, jpec.';
+                        previewImg.style.display = 'none';
+                        input.value = '';
+                        formGroup.classList.add('invalid');
+                        return;
+                    }
+            
+                    if (file.size > maxSize) {
+                        errorMessage.innerText = 'Vui lòng chọn ảnh có dung lượng nhỏ hơn 5MB.';
+                        previewImg.style.display = 'none';
+                        input.value = '';
+                        formGroup.classList.add('invalid');
+                        return;
+                    }
+            
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        previewImg.src = e.target.result;
+                        previewImg.style.display = 'block';
+                    };
+                    reader.readAsDataURL(file);
+            
+                    errorMessage.innerText = '';
+                    formGroup.classList.remove('invalid');
+                } else {
+                    previewImg.style.display = 'none';
+                    errorMessage.innerText = '';
+                    formGroup.classList.remove('invalid');
                 }
-            })
+            }
         })
     })
 }
@@ -285,7 +296,7 @@ function searchButton() {
                             <textarea placeholder="Nhập giá tiền..." readonly>${product.giaBan}</textarea>
                             <div class="input-picture">
                                 <input type="file" name="picture" class="picture" placeholder="Chọn ảnh" onchange="displayFileName()" style="display: none;">
-                                <textarea placeholder="Nhập nội dung..." class="file-name" readonly>${product.hinhAnh}</textarea>
+                                <img class="pictureProduct" src="${diaChiAnh}${product.hinhAnh}" alt="" srcset="">
                             </div>
                             <div class="tool">
                                 <button type="button" class="restore">
@@ -305,7 +316,7 @@ function searchButton() {
                             <textarea placeholder="Nhập giá tiền..." readonly>${product.giaBan}</textarea>
                             <div class="input-picture">
                                 <input type="file" name="picture" class="picture" placeholder="Chọn ảnh" onchange="displayFileName()" style="display: none;">
-                                <textarea placeholder="Nhập nội dung..." class="file-name" readonly>${product.hinhAnh}</textarea>
+                                <img class="pictureProduct" src="${diaChiAnh}${product.hinhAnh}" alt="" srcset="">
                             </div>
                             <div class="tool">
                                 <button type="button" class="fix">
@@ -352,7 +363,7 @@ function activeProducts(listProductsBlock) {
                 <textarea placeholder="Nhập giá tiền..." readonly>${product.giaBan}</textarea>
                 <div class="input-picture">
                     <input type="file" name="picture" class="picture" placeholder="Chọn ảnh" onchange="displayFileName()" style="display: none;">
-                    <textarea placeholder="Nhập nội dung..." class="file-name" readonly>${product.hinhAnh}</textarea>
+                    <img class="pictureProduct" src="${diaChiAnh}${product.hinhAnh}" alt="" srcset="">
                 </div>
                 <div class="tool">
                     <button type="button" class="fix">
@@ -386,7 +397,7 @@ function allProducts(listProductsBlock) {
                 <textarea placeholder="Nhập giá tiền..." readonly>${product.giaBan}</textarea>
                 <div class="input-picture">
                     <input type="file" name="picture" class="picture" placeholder="Chọn ảnh" onchange="displayFileName()" style="display: none;">
-                    <textarea placeholder="Nhập nội dung..." class="file-name" readonly>${product.hinhAnh}</textarea>
+                    <img class="pictureProduct" src="${diaChiAnh}${product.hinhAnh}" alt="" srcset="">
                 </div>
                 <div class="tool">
                     <button type="button" class="restore">
@@ -404,7 +415,7 @@ function allProducts(listProductsBlock) {
                 <textarea placeholder="Nhập giá tiền..." readonly>${product.giaBan}</textarea>
                 <div class="input-picture">
                     <input type="file" name="picture" class="picture" placeholder="Chọn ảnh" onchange="displayFileName()" style="display: none;">
-                    <textarea placeholder="Nhập nội dung..." class="file-name" readonly>${product.hinhAnh}</textarea>
+                    <img class="pictureProduct" src="${diaChiAnh}${product.hinhAnh}" alt="" srcset="">
                 </div>
                 <div class="tool">
                     <button type="button" class="fix">
@@ -439,7 +450,7 @@ function hiddenProducts(listProductsBlock) {
                 <textarea placeholder="Nhập giá tiền..." readonly>${product.giaBan}</textarea>
                 <div class="input-picture">
                     <input type="file" name="picture" class="picture" placeholder="Chọn ảnh" onchange="displayFileName()" style="display: none;">
-                    <textarea placeholder="Nhập nội dung..." class="file-name" readonly>${product.hinhAnh}</textarea>
+                    <img class="pictureProduct" src="${diaChiAnh}${product.hinhAnh}" alt="" srcset="">
                 </div>
                 <div class="tool">
                     <button type="button" class="restore">
@@ -535,7 +546,7 @@ function handleFilter(tacGia, maTheLoai, maNhaXuatBan, priceStart, priceEnd) {
                 <textarea placeholder="Nhập giá tiền..." readonly>${products[i].giaBan}</textarea>
                 <div class="input-picture">
                     <input type="file" name="picture" class="picture" placeholder="Chọn ảnh" onchange="displayFileName()" style="display: none;">
-                    <textarea placeholder="Nhập nội dung..." class="file-name" readonly>${products[i].hinhAnh}</textarea>
+                    <img class="pictureProduct" src="${diaChiAnh}${products[i].hinhAnh}" alt="" srcset="">
                 </div>
                 <div class="tool">
                     <button type="button" class="restore">
@@ -553,7 +564,7 @@ function handleFilter(tacGia, maTheLoai, maNhaXuatBan, priceStart, priceEnd) {
                 <textarea placeholder="Nhập giá tiền..." readonly>${products[i].giaBan}</textarea>
                 <div class="input-picture">
                     <input type="file" name="picture" class="picture" placeholder="Chọn ảnh" onchange="displayFileName()" style="display: none;">
-                    <textarea placeholder="Nhập nội dung..." class="file-name" readonly>${products[i].hinhAnh}</textarea>
+                    <img class="pictureProduct" src="${diaChiAnh}${products[i].hinhAnh}" alt="" srcset="">
                 </div>
                 <div class="tool">
                     <button type="button" class="fix">

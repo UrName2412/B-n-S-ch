@@ -10,7 +10,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const passwd = document.getElementById("pass");
     const passwdconf = document.getElementById("pass-confirm");
     const terms = document.getElementById("terms");
-    const modal = document.getElementById("successModal");
 
     // Hiển thị thông báo lỗi
     function showError(input, message) {
@@ -22,6 +21,10 @@ document.addEventListener("DOMContentLoaded", function () {
             parent.appendChild(error);
         }
         error.textContent = message;
+    }
+
+    function isValid(pass) {
+        return /[A-Z]/.test(pass) && /\d/.test(pass) && /[!@#$%^&*()_+\-={}[\]:;"'<>,.?/~\\|]/.test(pass);
     }
 
     // Xóa thông báo lỗi
@@ -124,6 +127,9 @@ document.addEventListener("DOMContentLoaded", function () {
         else if (passwd.value.length < 8) {
             showError(passwd, "Mật khẩu phải có ít nhất 8 kí tự");
             valid = false;
+        } else if (!isValid(passwd.value)) {
+            showError(passwd, "Mật khẩu phải chứa ít nhất 1 ký tự Hoa, 1 ký tự số và 1 ký tự đặc biệt");
+            valid = false;
         }
         else {
             hideError(passwd);
@@ -137,8 +143,10 @@ document.addEventListener("DOMContentLoaded", function () {
         else if (passwdconf.value != passwd.value) {
             showError(passwdconf, "Mật khẩu xác nhận phải khớp với mật khẩu vừa nhập");
             valid = false;
-        }
-        else {
+        } else if (!isValid(passwdconf.value)) {
+            showError(passwdconf, "Mật khẩu phải chứa ít nhất 1 ký tự Hoa, 1 ký tự số và 1 ký tự đặc biệt");
+            valid = false;
+        } else {
             hideError(passwdconf);
         }
 

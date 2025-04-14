@@ -2,12 +2,14 @@
 session_start();
 
 // Xóa session
-session_unset();
-session_destroy();
+unset($_SESSION['username']);
+unset($_SESSION['pass']);
+unset($_SESSION['role']);
 
 // Xóa cookie đăng nhập
 setcookie('username', '', time() - 3600, "/");
 setcookie('pass', '', time() - 3600, "/");
+setcookie('role', '', time() - 3600, "/");
 
 header("Location: ../index.php");
 exit();

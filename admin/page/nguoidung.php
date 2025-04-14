@@ -1,5 +1,16 @@
 <?php
+require '../config/config.php';
+require '../handlers/admin_handle.php';
 session_start();
+
+if (isset($_SESSION['usernameadmin']) && (isset($_SESSION['roleadmin']) && $_SESSION['roleadmin'] == true)) {
+    $username = $_SESSION['usernameadmin'];
+} else {
+    echo "<script>alert('Bạn chưa đăng nhập!'); window.location.href='../index.php';</script>";
+    exit();
+}
+
+$admin = getAdminInfoByUsername($database, $username);
 ?>
 
 <!DOCTYPE html>
@@ -35,7 +46,7 @@ session_start();
                     <i class="fas fa-clipboard-list"></i>
                     <h3>Đơn hàng</h3>
                 </a>
-                <a href="../index.php" class="last-child">
+                <a href="dangxuat.php" class="last-child">
                     <i class="fas fa-sign-out-alt"></i>
                     <h3>Đăng xuất</h3>
                 </a>
@@ -49,7 +60,7 @@ session_start();
                 <div class="logo">
                     <a href="#">
                         <img src="../image/LogoSach.png">
-                        <h2>Admin</h2>
+                        <h2><?php echo $admin['tenNguoiDung'];?></h2>
                     </a>
                 </div>
             </div>
@@ -260,18 +271,13 @@ session_start();
     </script>
 
     <?php
-        if (isset($_SESSION["ketQuaThem"])){
-            if ($_SESSION["ketQuaThem"] == true){
-                echo "<script>createAlert('Đã thêm người dùng thành công.');</script>";
-            }
-            else {
-                echo "<script>createAlert('Đã bị trùng tên người dùng.');</script>";
-            }
-            unset($_SESSION["ketQuaThem"]);
+        if (isset($_SESSION["thongBaoThem"])){
+            echo "<script>createAlert('".$_SESSION["thongBaoThem"]."');</script>";
+            unset($_SESSION["thongBaoThem"]);
         }
-        if (isset($_SESSION["ketQuaSua"])){
-            echo "<script>createAlert('".$_SESSION["ketQuaSua"]."');</script>";
-            unset($_SESSION["ketQuaSua"]);
+        if (isset($_SESSION["thongBaoSua"])){
+            echo "<script>createAlert('".$_SESSION["thongBaoSua"]."');</script>";
+            unset($_SESSION["thongBaoSua"]);
         }
     ?>
 </body>

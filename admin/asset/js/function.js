@@ -142,3 +142,52 @@ function createAlert(stringAlert){
         }
     });
 }
+
+function previewImage(input, previewImgId, errorSelector = '.form-message') {
+    const previewImg = document.getElementById(previewImgId);
+    const formGroup = input.closest('.form-group') || input.parentElement;
+    const errorMessage = formGroup.querySelector(errorSelector);
+    const file = input.files[0];
+
+    const validTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+    const maxSize = 5 * 1024 * 1024;
+
+    if (file) {
+        const fileExtension = file.name.split('.').pop().toLowerCase();
+
+        if (!validTypes.includes(file.type) && !['jpg', 'jpeg', 'png'].includes(fileExtension)) {
+            errorMessage.innerText = 'Vui lòng chọn ảnh có định dạng JPG, PNG, jpec.';
+            previewImg.style.display = 'none';
+            input.value = '';
+            formGroup.classList.add('invalid');
+            return;
+        }
+
+        if (file.size > maxSize) {
+            errorMessage.innerText = 'Vui lòng chọn ảnh có dung lượng nhỏ hơn 5MB.';
+            previewImg.style.display = 'none';
+            input.value = '';
+            formGroup.classList.add('invalid');
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            previewImg.src = e.target.result;
+            previewImg.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+
+        errorMessage.innerText = '';
+        formGroup.classList.remove('invalid');
+    } else {
+        previewImg.style.display = 'none';
+        errorMessage.innerText = '';
+        formGroup.classList.remove('invalid');
+    }
+}
+
+
+
+
+

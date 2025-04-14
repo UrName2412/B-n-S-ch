@@ -1,3 +1,18 @@
+<?php 
+require '../config/config.php';
+require '../handlers/admin_handle.php';
+session_start();
+
+if (isset($_SESSION['usernameadmin']) && (isset($_SESSION['roleadmin']) && $_SESSION['roleadmin'] == true)) {
+    $username = $_SESSION['usernameadmin'];
+} else {
+    echo "<script>alert('Bạn chưa đăng nhập!'); window.location.href='../index.php';</script>";
+    exit();
+}
+
+$admin = getAdminInfoByUsername($database, $username);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,7 +48,7 @@
                     <i class="fas fa-clipboard-list"></i>
                     <h3>Đơn hàng</h3>
                 </div>
-                <a href="../index.php" class="last-child">
+                <a href="dangxuat.php" class="last-child">
                     <i class="fas fa-sign-out-alt"></i>
                     <h3>Đăng xuất</h3>
                 </a>
@@ -48,7 +63,7 @@
                 <div class="logo">
                     <a href="nguoidung.php">
                         <img src="../image/LogoSach.png">
-                        <h2>Admin</h2>
+                        <h2><?php echo $admin['tenNguoiDung'];?></h2>
                     </a>
                 </div>
             </div>
@@ -144,29 +159,66 @@
     <script src="../asset/js/validator.js"></script>
     <script src="../asset/js/inputDataCart.js"></script>
     <script src="../asset/js/admin.js"></script>
-    <script src="../asset/js/apiAddress.js"></script>
+    <script type="module" src="../asset/js/apiAddress.js"></script>
 
-    <script>
-        messageRequired = 'Vui lòng nhập thông tin.';
-        messagePhone = 'Vui lòng nhập đúng số điện thoại';
-        Validator({
-            form: '#form-add',
-            errorSelector: '.form-message',
-            rules: [
-                Validator.isRequired('#id',messageRequired),
-                Validator.isRequired('#name',messageRequired),
-                Validator.isRequired('#address',messageRequired),
-                Validator.isRequired('#quantity',messageRequired),
-                Validator.isRequired('#total',messageRequired),
-                Validator.isRequired('#status',messageRequired),
-                Validator.isPhone('#phone',messagePhone),
-                Validator.minLength('#address',6),
-                Validator.minLength('#name',6)
-            ]
-        })
+    <script type="module">
+        import {
+            addressHandler
+        } from '../asset/js/apiAddress.js';
+        document.addEventListener("DOMContentLoaded", () => {
+            const addressHandler1 = new addressHandler("city", "district");
 
-        renderAddress('city', 'district', null);  
+            addressHandler1.loadProvinces();
+        });
     </script>
+    <script>
+    function handleFilter(dateStart, dateEnd, city, district) {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', `filterDonHang.php?dateStart=${dateStart}&dateEnd=${dateEnd}&city=${city}&district=${district}`, true);
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                try {
+                    const data = JSON.parse(xhr.responseText);
+                    const dataCarts = document.getElementById('dataCarts');
+                    dataCarts.innerHTML = ''; // Xóa dữ liệu cũ
+
+                    if (data.length > 0) {
+                        data.forEach(order => {
+                            const row = `
+                                <div class="grid-row">
+                                    <span>${order.maDon}</span>
+                                    <span>${order.tenNguoiDung}</span>
+                                    <span>${order.diaChi}, ${order.districtName}, ${order.cityName}</span>
+                                    <span>${order.soDienThoai}</span>
+                                    <span>${order.tongTien}</span>
+                                    <span>${order.tinhTrang}</span>
+                                    <span><a href="chiTietDonHang.php?id=${order.maDon}">Chi tiết</a></span>
+                                </div>
+                            `;
+                            dataCarts.innerHTML += row;
+                        });
+                    } else {
+                        dataCarts.innerHTML = '<div class="no-data">Không có dữ liệu phù hợp.</div>';
+                    }
+                } catch (e) {
+                    console.error('Lỗi JSON:', e);
+                    console.error('Phản hồi:', xhr.responseText);
+                }
+            } else {
+                console.error('Lỗi khi tải dữ liệu');
+            }
+        };
+        xhr.send();
+    }
+
+    function clearFilter() {
+        document.getElementById('dateStart').value = '';
+        document.getElementById('dateEnd').value = '';
+        document.getElementById('city').value = '';
+        document.getElementById('district').value = '';
+        handleFilter('', '', '', ''); // Reset bộ lọc
+    }
+</script>
 </body>
 
 </html>

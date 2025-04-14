@@ -41,9 +41,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
 
     if ($flag){
-        $_SESSION["ketQuaThem"]=true;
+        if ($vaiTro == 1){
+            $_SESSION['thongBaoThem'] = "Thêm người quản trị thành công!";
+        } else {
+            $_SESSION['thongBaoThem'] = "Thêm người dùng thành công!";
+        }
     } else {
-        $_SESSION["ketQuaThem"]=false;
+        $_SESSION['thongBaoThem'] = "Tên người dùng đã tồn tại!";
     }
 
     $database->close();

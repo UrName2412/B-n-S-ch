@@ -124,3 +124,12 @@
 #alertCloseBtn:hover{
     background-color: #45a049;
 }
+#suaPreviewImg,
+#previewImg {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-radius: 2px;
+}

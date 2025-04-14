@@ -2,6 +2,17 @@
 session_start();
 
 require '../config/config.php';
+require '../handlers/admin_handle.php';
+
+if (isset($_SESSION['usernameadmin']) && (isset($_SESSION['roleadmin']) && $_SESSION['roleadmin'] == true)) {
+    $username = $_SESSION['usernameadmin'];
+} else {
+    echo "<script>alert('Bạn chưa đăng nhập!'); window.location.href='../index.php';</script>";
+    exit();
+}
+
+$admin = getAdminInfoByUsername($database, $username);
+
 $stmt = $database->prepare("SELECT * FROM b01_theLoai");
 $stmt->execute();
 $result = $stmt->get_result();
@@ -60,7 +71,7 @@ $stmt->close();
                     <i class="fas fa-clipboard-list"></i>
                     <h3>Đơn hàng</h3>
                 </a>
-                <a href="../index.php" class="last-child">
+                <a href="dangxuat.php" class="last-child">
                     <i class="fas fa-sign-out-alt"></i>
                     <h3>Đăng xuất</h3>
                 </a>
@@ -74,7 +85,7 @@ $stmt->close();
                 <div class="logo">
                     <a href="nguoidung.php">
                         <img src="../image/LogoSach.png">
-                        <h2>Admin</h2>
+                        <h2><?php echo $admin['tenNguoiDung'];?></h2>
                     </a>
                 </div>
             </div>
@@ -185,8 +196,9 @@ $stmt->close();
                 <form class="form" id="form-add" method="POST" action="../handlers/them/themsanpham.php" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="hinhAnh">Hình ảnh:</label>
-                        <input type="file" name="hinhAnh" id="hinhAnh" placeholder="Chọn ảnh">
+                        <input type="file" name="hinhAnh" id="hinhAnh" placeholder="Chọn ảnh" onchange="previewImage(this, 'previewImg', '.form-message')">
                         <span class="form-message"></span>
+                        <img id="previewImg" style="display:none;"/>
                     </div>
                     <div class="form-group">
                         <label for="tenSach">Tên sách:</label>
@@ -261,10 +273,10 @@ $stmt->close();
                 Validator.isRequired('#tenSach', messageRequired),
                 Validator.isRequired('#tacGia', messageRequired),
                 Validator.isRequired('#theLoai', 'Vui lòng chọn thể loại'),
-                Validator.isRequired('#nhaXuatBan', messageRequired),
+                Validator.isRequired('#nhaXuatBan', 'Vui lòng chọn nhà xuất bản'),
                 Validator.isRequired('#giaBan', messageRequired),
                 Validator.isRequired('#soTrang', messageRequired),
-                Validator.isRequired('#hinhAnh', messageRequired),
+                Validator.isRequired('#hinhAnh', 'Vui lòng chọn hình ảnh'),
                 Validator.isRequired('#moTa', messageRequired),
                 Validator.isNumber('#giaBan', 'Giá tiền không hợp lệ'),
                 Validator.isNumber('#soTrang', 'Số trang không hợp lệ'),
@@ -275,18 +287,17 @@ $stmt->close();
     </script>
 
     <?php
-        if (isset($_SESSION["ketQuaThem"])){
-            if ($_SESSION["ketQuaThem"] == true){
-                echo "<script>createAlert('Đã thêm sản phẩm thành công.');</script>";
-            }
-            else {
-                echo "<script>createAlert('Thêm sản phẩm không thành công.');</script>";
-            }
-            unset($_SESSION["ketQuaThem"]);
+        if (isset($_SESSION["thongBaoThem"])){
+            echo "<script>createAlert('".$_SESSION["thongBaoThem"]."');</script>";
+            unset($_SESSION["thongBaoThem"]);
         }
         if (isset($_SESSION["liDo"])){
             echo "<script>createAlert('".$_SESSION["liDo"]."');</script>";
             unset($_SESSION["liDo"]);
+        }
+        if (isset($_SESSION["thongBaoSua"])){
+            echo "<script>createAlert('".$_SESSION["thongBaoSua"]."');</script>";
+            unset($_SESSION["thongBaoSua"]);
         }
     ?>
 </body>
