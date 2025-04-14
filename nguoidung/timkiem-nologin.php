@@ -191,12 +191,8 @@ if ((isset($_SESSION['username']) || isset($_COOKIE['username'])) && (isset($_SE
                                         </div>
                             <?php
                                     }
-                                } else {
-                                    echo "<p>Không tìm thấy sách nào phù hợp.</p>";
-                                }
-                            } else {
-                                echo "<p>Vui lòng nhập từ khóa để tìm kiếm.</p>";
-                            }
+                                } 
+                            } 
                             ?>
 
                         </div>
