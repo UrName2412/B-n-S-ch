@@ -159,32 +159,17 @@ $admin = getAdminInfoByUsername($database, $username);
     <script src="../asset/js/validator.js"></script>
     <script src="../asset/js/inputDataCart.js"></script>
     <script src="../asset/js/admin.js"></script>
-    <script src="../asset/js/apiAddress.js"></script>
+    <script type="module" src="../asset/js/apiAddress.js"></script>
 
-    <script>
-        messageRequired = 'Vui lòng nhập thông tin.';
-        messagePhone = 'Vui lòng nhập đúng số điện thoại';
-        Validator({
-            form: '#form-add',
-            errorSelector: '.form-message',
-            rules: [
-                Validator.isRequired('#id',messageRequired),
-                Validator.isRequired('#name',messageRequired),
-                Validator.isRequired('#address',messageRequired),
-                Validator.isRequired('#quantity',messageRequired),
-                Validator.isRequired('#total',messageRequired),
-                Validator.isRequired('#status',messageRequired),
-                Validator.isPhone('#phone',messagePhone),
-                Validator.minLength('#address',6),
-                Validator.minLength('#name',6)
-            ]
-        })
+    <script type="module">
+        import {
+            addressHandler
+        } from '../asset/js/apiAddress.js';
+        document.addEventListener("DOMContentLoaded", () => {
+            const addressHandler1 = new addressHandler("city", "district");
 
-        renderAddress('city', 'district', null);  
-    </script>
-    <script>
-        // Khởi tạo addressHandler để hiển thị danh sách tỉnh/thành phố và quận/huyện
-        const addressHandlerInstance = new addressHandler('city', 'district', null);
+            addressHandler1.loadProvinces();
+        });
     </script>
     <script>
     function handleFilter(dateStart, dateEnd, city, district) {
