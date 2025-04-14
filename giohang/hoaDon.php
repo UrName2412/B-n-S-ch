@@ -137,48 +137,6 @@ while ($row = $result_ct->fetch_assoc()) {
 </div>
 
 
-<!-- Footer -->
-<footer class="text-white py-4">
-    <div class="container">
-        <div class="row pb-4 footer__bar">
-            <div class="col-md-12 d-flex justify-content-between fw-bold align-items-center footer__connect">
-                <p>Thời gian mở cửa: <span>07h30 - 21h30 mỗi ngày</span></p>
-                <div class="d-flex">
-                    <p>Kết nối với chúng tôi:</p>
-                    <a href="#" class="text-white ms-3"><i class="fab fa-facebook-square"></i></a>
-                    <a href="#" class="text-white ms-3"><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="row d-flex justify-content-center align-items-center footer__bar">
-            <div class="col-md-4">
-                <a href="../index.php"><img src="../Images/LogoSach.png" alt="logo" width="100" height="57"></a>
-            </div>
-            <div class="col-md-4">
-                <p class="mb-1">Hotline: 1900 0000</p>
-                <p class="mb-1">Email: nhasach@gmail.com</p>
-                <p>&copy; 2024 Công ty TNHH Nhà sách</p>
-            </div>
-            <div class="col-md-4">
-                <ul class="list list-unstyled">
-                    <li><a href="#" class="text-white">Tuyển dụng</a></li>
-                    <li><a href="#" class="text-white">Chính sách giao hàng</a></li>
-                    <li><a href="#" class="text-white">Điều khoản và điều kiện</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="row footer__bar">
-            <div class="col-md-12">
-                <ul class="list-unstyled">
-                    <li>Chi nhánh 1: 273 An Dương Vương, Quận 5, TP.HCM</li>
-                    <li>Chi nhánh 2: 199 Lê Quang Định, Bình Thạnh, TP.HCM</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-</footer>
-
     <!-- Footer -->
     <footer class="text-white py-4">
         <div class="container">
