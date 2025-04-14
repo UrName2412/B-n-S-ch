@@ -23,7 +23,7 @@ if ((isset($_SESSION['username']) || isset($_COOKIE['username'])) && (isset($_SE
     <link rel="stylesheet" href="../vender/css/bootstrap.min.css">
     <link rel="stylesheet" href="../vender/css/fontawesome-free/css/all.min.css">
     <!-- CSS  -->
-    <link rel="stylesheet" href="../asset/css/index-user.css">
+    <link rel="stylesheet" href="../asset/css/sanpham.css">
 </head>
 
 <body>
@@ -125,7 +125,6 @@ if ((isset($_SESSION['username']) || isset($_COOKIE['username'])) && (isset($_SE
                 <div class="border p-5">
                     <div class="container my-4">
                         <div class="listProduct row">
-
                         <?php
                         require '../admin/config/config.php';
                         if (isset($_GET['tenSach']) && !empty($_GET['tenSach'])) {
@@ -163,38 +162,6 @@ if ((isset($_SESSION['username']) || isset($_COOKIE['username'])) && (isset($_SE
                             echo "<p>Vui lòng nhập từ khóa để tìm kiếm.</p>";
                         }
                         ?>
-
-                            <?php
-                            require '../admin/config/config.php';
-                            if (isset($_GET['tenSach']) && !empty($_GET['tenSach'])) {
-                                $tenSach = '%' . $_GET['tenSach'] . '%';
-                                $stmt = $database->prepare("SELECT * FROM b01_sanpham WHERE tenSach LIKE ? AND trangThai = 1");
-                                $stmt->bind_param("s", $tenSach);
-                                $stmt->execute();
-                                $result = $stmt->get_result();
-
-                                if ($result->num_rows > 0) {
-                                    echo '<h3>Kết quả tìm kiếm cho: <strong>' . htmlspecialchars($_GET['tenSach']) . '</strong></h3>';
-                                    while ($row = $result->fetch_assoc()) {
-                            ?>
-                                        <div class="col-md-4 mb-4">
-                                            <div class="card" style="width: 100%;">
-                                                <a href="../sanpham/chitietsanpham.php?maSach=<?php echo $row['maSach']; ?>">
-                                                    <img src="../images/<?php echo $row['hinhAnh']; ?>" class="card-img-top" alt="...">
-                                                </a>
-                                                <div class="card-body">
-                                                    <h5 class="card-title"><?php echo $row['tenSach']; ?></h5>
-                                                    <p class="card-text text-danger fw-bold"><?php echo number_format($row['giaBan']); ?> đ</p>
-                                                    <button class="btn" style="background-color: #336799; color: #ffffff;">Thêm vào giỏ hàng</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                            <?php
-                                    }
-                                } 
-                            } 
-                            ?>
-
                         </div>
                     </div>
                 </div>
