@@ -3,54 +3,31 @@ require '../admin/config/config.php';
 require '../asset/handler/user_handle.php';
 session_start();
 
-if (isset($_SESSION['username'])) {
-  $username = $_SESSION['username'];
-} elseif (isset($_COOKIE['username']) && isset($_COOKIE['pass'])) {
-  $username = $_COOKIE['username'];
-  $password = $_COOKIE['pass'];
-
-  if (checkLogin($database, $username, $password)) {
-    $_SESSION['username'] = $username;
-  } else {
-    echo "<script>alert('Bạn cần đăng nhập để tiếp tục thanh toán!'); window.location.href='../dangky/dangnhap.php';</script>";
-    exit();
-  }
-} else {
-  echo "<script>alert('Bạn cần đăng nhập để tiếp tục thanh toán!'); window.location.href='../dangky/dangnhap.php';</script>";
+if (!isset($_SESSION['user'])) {
+  echo "Bạn chưa đăng nhập.";
   exit();
 }
 
-$user = getUserInfoByUsername($database, $username);
+$user = $_SESSION['user'];
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-  // Lấy dữ liệu từ form
-  $name = trim($_POST['name-user']);
-  $phone = trim($_POST['phone-user']);
-  $address = trim($_POST['payment--adr']);
-  $note = trim($_POST['payment--note']);
+// Kiểm tra trạng thái đăng nhập 
+if (!isset($_SESSION['username'])) {
+  if (isset($_COOKIE['username']) && isset($_COOKIE['pass'])) {
+      $username = $_COOKIE['username'];
+      $password = $_COOKIE['pass'];
 
-  if (empty($name) || empty($phone) || empty($address)) {
-    echo "Vui lòng điền đầy đủ thông tin.";
-    exit;
+      if (checkLogin($database, $username, $password)) {
+          $_SESSION['username'] = $username;
+      } else {
+          echo "<script>alert('Bạn chưa đăng nhập!'); window.location.href='../dangky/dangnhap.php';</script>";
+          exit();
+      }
+  } else {
+      echo "<script>alert('Bạn chưa đăng nhập!'); window.location.href='../dangky/dangnhap.php';</script>";
+      exit();
   }
-
-  if (!preg_match("/^(\+84|0)\d{9,10}$/", $phone)) {
-    echo "Số điện thoại không hợp lệ.";
-    exit;
-  }
-
-  $_SESSION['order_info'] = [
-    'tenNguoiNhan' => $name,
-    'soDienThoai' => $phone,
-    'diaChi' => $address,
-    'ghiChu' => $note,
-  ];
-
-  header("Location: confirm_order.php");
-  exit;
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="vi">
@@ -58,14 +35,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Đặt hàng</title>
+  <title>Thanh Toán</title>
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="../vender/css/bootstrap.min.css">
   <!-- FONT AWESOME  -->
   <link rel="stylesheet" href="../vender/css/fontawesome-free/css/all.min.css">
   <!-- CSS  -->
   <link rel="stylesheet" href="../asset/css/sanpham.css">
-  <link rel="stylesheet" href="../asset/css/hoaDon.css">
+  <link rel="stylesheet" href="../asset/css/thanhtoan.css">
   <link rel="stylesheet" href="../asset/css/index-user.css">
 </head>
 
@@ -96,11 +73,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </li>
           </ul>
           <form id="searchForm" class="d-flex me-auto" method="GET" action="nguoidung/timkiem.php">
-                        <input class="form-control me-2" type="text" id="timkiem" name="tenSach" placeholder="Tìm sách">
-                        <button class="btn btn-outline-light" type="submit">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </form>
+            <input class="form-control me-2" type="text" id="timkiem" name="tenSach" placeholder="Tìm sách">
+            <button class="btn btn-outline-light" type="submit">
+              <i class="fas fa-search"></i>
+            </button>
+          </form>
           <ul class="navbar-nav me-auto">
             <li class="nav-item">
               <div class="d-flex gap-2">
@@ -118,7 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
               </div>
             </li>
           </ul>
-          <a href="/giohang/giohangnguoidung.php" class="nav-link text-white">
+          <a href="giohangnguoidung.php" class="nav-link text-white">
             <div class="cart-icon">
               <i class="fas fa-shopping-basket" style="color: yellow;"></i>
               <span class="">0</span>
@@ -129,8 +106,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
   </header>
 
-  <!-- PHẦN NHẬP THÔNG TIN ĐẶT HÀNG (GIAO HÀNG) -->
-  <section class="payment_container my-4">
+   <!-- PHẦN NHẬP THÔNG TIN ĐẶT HÀNG (GIAO HÀNG) -->
+   <section class="payment_container my-4">
     <div class="payment__content row justify-content-center">
       <div class="payment__content__left col-12 col-md-8 col-lg-6 d-flex flex-column">
         <h3>Thông tin giao hàng</h3>
@@ -146,7 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
             <!-- Họ tên -->
             <div>
-              <label for="name-user"><i class="fas fa-user"></i> Họ tên <span style="color: red;">*</span></label>
+              <label for="name-user"><i class="fas fa-user"></i> Tên người nhận<span style="color: red;">*</span></label>
               <input type="text" id="name-user" name="name-user" class="user-info" value="<?= htmlspecialchars($user['tenNguoiDung'] ?? '') ?>" placeholder="Tên người nhận hàng"
                 required>
               <span class="form-message"></span>
@@ -175,74 +152,78 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
               <span class="form-message"></span>
             </div>
           </fieldset>
-          <!-- Nút xác nhận thông tin đặt hàng -->
-          <button class="payment--button btn btn-primary" type="submit">Tiếp tục</button>
+
+          <fieldset>
+            <legend>Phương thức thanh toán</legend>
+            <label>Chọn phương thức:</label>
+            <div class="btn-group d-flex flex-column" id="payment__method" role="group" aria-label="Basic radio toggle button group">
+              <!-- Visa/Mastercard -->
+              <div class="payment-option">
+                <input type="radio" name="phuongThuc" id="btnradio1" value="visa" autocomplete="off">
+                <label class="btn d-flex align-items-center" for="btnradio1">
+                  <img src="../Images/visa.png" class="w-12" alt="Visa">
+                  <span class="ms-2">Visa/Mastercard</span>
+                </label>
+              </div>
+              <!-- Ví Momo -->
+              <div class="payment-option">
+                <input type="radio" name="phuongThuc" id="btnradio2" value="momo" autocomplete="off">
+                <label class="btn d-flex align-items-center" for="btnradio2">
+                  <img src="../Images/momo.png" class="w-12" alt="Momo">
+                  <span class="ms-2">Ví Momo</span>
+                </label>
+              </div>
+              <!-- Tiền mặt -->
+              <div class="payment-option">
+                <input type="radio" name="phuongThuc" id="btnradio3" value="cash" autocomplete="off" checked>
+                <label class="btn d-flex align-items-center" for="btnradio3">
+                  <div class="cash-icon"><i class="fas fa-money-bill"></i></div>
+                  <span class="ms-2">Tiền mặt</span>
+                </label>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- Thông tin chi tiết theo phương thức được chọn -->
+          <div id="visa-form" class="payment-detail-form" style="display: none;">
+            <div class="card p-3 shadow-sm">
+              <h4 class="mb-3">Thông tin thẻ Visa/Mastercard</h4>
+              <div class="mb-3">
+                <label for="card-number" class="form-label">Số thẻ:</label>
+                <input type="text" id="card-number" class="form-control" placeholder="Nhập số thẻ">
+              </div>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="card-expiry" class="form-label">Ngày hết hạn:</label>
+                  <input type="text" id="card-expiry" class="form-control" placeholder="MM/YY">
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="card-cvv" class="form-label">Mã CVV:</label>
+                  <input type="text" id="card-cvv" class="form-control" placeholder="Mã CVV">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="momo-form" class="payment-detail-form" style="display: none;">
+            <div class="card p-3 shadow-sm">
+              <h4 class="mb-3">Thông tin Ví Momo</h4>
+              <div class="mb-3">
+                <label for="momo-number" class="form-label">Số điện thoại:</label>
+                <input type="text" id="momo-number" class="form-control" placeholder="Nhập số điện thoại liên kết">
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Tiếp tục</button>
         </form>
       </div>
     </div>
   </section>
 
-  <!-- Footer -->
-  <footer class="text-white py-4">
-    <div class="container">
-      <div class="row pb-4 footer__bar">
-        <div class="col-md-12 d-flex justify-content-between fw-bold align-items-center footer__connect">
-          <p>Thời gian mở cửa: <span>07h30 - 21h30 mỗi ngày</span></p>
-          <div class="d-flex">
-            <p>Kết nối với chúng tôi:</p>
-            <a href="#" class="text-white ms-3">
-              <i class="fab fa-facebook-square"></i>
-            </a>
-            <a href="#" class="text-white ms-3">
-              <i class="fab fa-instagram"></i>
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="row d-flex justify-content-center align-items-center footer__bar">
-        <div class="col-md-4">
-          <div class="logo">
-            <a href="../index.php" class="d-flex align-items-center">
-              <img src="../Images/LogoSach.png" alt="logo" width="100" height="57">
-            </a>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div>
-            <p class="mb-1">Hotline: 1900 0000</p>
-            <p class="mb-1">Email: nhasach@gmail.com</p>
-            <p>&copy; 2024 Công ty TNHH Nhà sách</p>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <ul class="list list-unstyled">
-            <li class="list-item">
-              <a href="#" class="text-white">Tuyển dụng</a>
-            </li>
-            <li class="list-item">
-              <a href="#" class="text-white">Chính sách giao hàng</a>
-            </li>
-            <li class="list-item">
-              <a href="#" class="text-white">Điều khoản và điều kiện</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div class="row footer__bar">
-        <div class="col-md-12">
-          <ul class="list-unstyled">
-            <li>Chi nhánh 1: 273 An Dương Vương, Phường 3, Quận 5, TP. Hồ Chí Minh</li>
-            <li>Chi nhánh 2: 105 Bà Huyện Thanh Quan, Phường Võ Thị Sáu, Quận 3, TP. Hồ Chí Minh</li>
-            <li>Chi nhánh 3: 4 Tôn Đức Thắng, Phường Bến Nghé, Quận 1, TP. Hồ Chí Minh</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </footer>
-
-  <!-- Liên kết file JS riêng -->
-  <script src="../asset/js/thanhtoan.js"></script>
   <script src="../vender/js/bootstrap.bundle.min.js"></script>
+  <script src="../asset/js/thanhtoan.js"></script>
+
   <script>
     function toggleDefaultInfo() {
       const defaultCheckbox = document.getElementById('default-info-checkbox');
@@ -284,6 +265,52 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 });
 
     </script>
+
+<script>
+function validateForm() {
+    const paymentMethods = document.getElementsByName('phuongThuc');
+    let isPaymentMethodSelected = false;
+
+    for (const method of paymentMethods) {
+        if (method.checked) {
+            isPaymentMethodSelected = true;
+            break;
+        }
+    }
+
+    if (!isPaymentMethodSelected) {
+        alert('Vui lòng chọn phương thức thanh toán.');
+        return false;
+    }
+
+    // Lấy thông tin người dùng và đơn hàng
+    const nameUser = document.getElementById('name-user').value;
+    const phoneUser = document.getElementById('phone-user').value;
+    const paymentAdr = document.getElementById('payment--adr').value;
+    const paymentNote = document.getElementById('payment--note').value;
+    const paymentMethod = document.querySelector('input[name="phuongThuc"]:checked').value;
+
+    // Thêm các tham số vào URL chuyển hướng 
+    window.location.href = `confirm_order.php?name=${encodeURIComponent(nameUser)}&phone=${encodeURIComponent(phoneUser)}&address=${encodeURIComponent(paymentAdr)}&note=${encodeURIComponent(paymentNote)}&method=${encodeURIComponent(paymentMethod)}`;
+
+    return false;  
+}
+
+
+    // Xử lý hiển thị form chi tiết theo lựa chọn
+    document.getElementById('btnradio1').addEventListener('change', function() {
+      document.getElementById('visa-form').style.display = 'block';
+      document.getElementById('momo-form').style.display = 'none';
+    });
+    document.getElementById('btnradio2').addEventListener('change', function() {
+      document.getElementById('visa-form').style.display = 'none';
+      document.getElementById('momo-form').style.display = 'block';
+    });
+    document.getElementById('btnradio3').addEventListener('change', function() {
+      document.getElementById('visa-form').style.display = 'none';
+      document.getElementById('momo-form').style.display = 'none';
+    });
+  </script>
 
 </body>
 

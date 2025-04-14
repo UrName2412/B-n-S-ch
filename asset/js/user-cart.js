@@ -85,16 +85,16 @@ listcartsProductHTML.addEventListener('click', (event) => {
 // Confirm deletion of item
 confirmDeleteButton.addEventListener("click", () => {
     if (itemToDelete) {
-        const productName = itemToDelete.querySelector('.fw-bold').textContent;  // Lấy tên sản phẩm
-        const productIndex = productCart.findIndex(product => product.productName === productName);  // Tìm sản phẩm theo tên
+        const productName = itemToDelete.querySelector('.fw-bold').textContent;
+        const productIndex = productCart.findIndex(product => product.productName === productName);
 
         if (productIndex !== -1) {
-            productCart.splice(productIndex, 1);  // Xóa sản phẩm khỏi giỏ hàng
-            sessionStorage.setItem('cart', JSON.stringify(productCart));  // Lưu lại giỏ hàng vào sessionStorage
-            itemToDelete.remove();  // Xóa sản phẩm khỏi DOM
-            itemToDelete = null;  // Đặt lại itemToDelete để tránh xóa nhầm
-            updateTotal();  // Cập nhật lại tổng giá trị và số lượng giỏ hàng
-            confirmDeleteModal.hide();  // Đóng modal xác nhận
+            productCart.splice(productIndex, 1);
+            sessionStorage.setItem('cart', JSON.stringify(productCart));
+            itemToDelete.remove();
+            itemToDelete = null;
+            updateTotal();
+            confirmDeleteModal.hide();
         } else {
             console.log("Sản phẩm không tồn tại trong giỏ hàng.");
         }
@@ -110,10 +110,10 @@ listcartsProductHTML.addEventListener('change', (event) => {
         const inputField = event.target;
         const newQuantity = parseInt(inputField.value);
         if (newQuantity > 0) {
-            const productName = inputField.closest('.item').querySelector('.fw-bold').textContent;  // Lấy tên sản phẩm
+            const productName = inputField.closest('.item').querySelector('.fw-bold').textContent;
             changeQuantity(productName, newQuantity);
         } else {
-            inputField.value = 1;  // Nếu số lượng nhỏ hơn 1, đặt lại về 1
+            inputField.value = 1;
         }
     }
 });
@@ -130,13 +130,14 @@ const changeQuantity = (productName, newQuantity) => {
 };
 
 const checkCart = () => {
-    if(productCart.length === 0){
+    if (productCart.length === 0) {
         const emptyCart = new bootstrap.Modal(document.getElementById('empty'))
         emptyCart.show();
-    }else{
+    } else {
         window.location.href = "thanhtoan.php";
     }
 }
 
-// Initialize the cart on page load
+
+
 loadFromsessionStorage();

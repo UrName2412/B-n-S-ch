@@ -14,13 +14,15 @@ document.addEventListener("DOMContentLoaded", () => {
             const productTitle = card.querySelector(".card-title").textContent;
             const productPrice = card.querySelector(".card-text.text-danger").textContent;
             const imageUrl = card.querySelector(".card-img-top").src;
+            const productId = card.querySelector(".view-detail").getAttribute("data-id");  // Đảm bảo lấy đúng productId
 
             // Hiển thị modal thông báo thêm sản phẩm thành công
             let notification = new bootstrap.Modal(modalElement, { backdrop: true, keyboard: true });
             notification.show();
             modalElement.removeAttribute("");
 
-            addToCart(productTitle, productPrice, imageUrl);
+            // Thêm vào giỏ hàng
+            addToCart(productTitle, productPrice, imageUrl, productId);
         }
     });
 
@@ -50,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         const productPrice = document.querySelector("#productDetailContent p:nth-of-type(4)").textContent.split(":")[1].trim();
                         const imageUrl = document.querySelector("#productDetailContent img").src;
 
-                        addToCart(productName, productPrice, imageUrl);
+                        addToCart(productName, productPrice, imageUrl, productId);
 
                         // Hiển thị modal thông báo thêm sản phẩm thành công
                         let notification = new bootstrap.Modal(document.getElementById("cartModal"), { backdrop: true, keyboard: true });
@@ -88,12 +90,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-// Thêm sản phẩm vào giỏ hàng
-const addToCart = (productName, productPrice, imageUrl) => {
+const addToCart = (productName, productPrice, imageUrl, productId) => {
     let productIndex = cart.findIndex((item) => item.productName === productName);
 
     if (productIndex < 0) {
         cart.push({
+            productId: productId,
             image: imageUrl,
             productName: productName,
             productPrice: productPrice,

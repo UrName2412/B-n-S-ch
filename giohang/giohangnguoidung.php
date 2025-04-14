@@ -3,6 +3,7 @@ require '../admin/config/config.php';
 require '../asset/handler/user_handle.php';
 session_start();
 
+
 // Kiểm tra nếu người dùng đã đăng nhập
 if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
@@ -22,20 +23,13 @@ if (isset($_SESSION['username'])) {
     exit();
 }
 
-// Lấy thông tin người dùng từ cơ sở dữ liệu hoặc session
 $user = getUserInfoByUsername($database, $username);
 
-// Kiểm tra nếu thông tin người dùng đã có trong session
 if (isset($_SESSION['user'])) {
     $ten_user = $_SESSION['user']['tenNguoiDung'] ?? '';
     $email_user = $_SESSION['user']['email'] ?? '';
     $sdt = $_SESSION['user']['soDienThoai'] ?? '';
-
-    // Gộp địa chỉ người dùng nếu có đầy đủ thông tin
-    $diachi = ($_SESSION['user']['duong'] ?? '') . ', ' .
-        ($_SESSION['user']['xa'] ?? '') . ', ' .
-        ($_SESSION['user']['quanHuyen'] ?? '') . ', ' .
-        ($_SESSION['user']['tinhThanh'] ?? '');
+    $diachi = ($_SESSION['user']['duong'] ?? '') . ', ' . ($_SESSION['user']['xa'] ?? '') . ', ' . ($_SESSION['user']['quanHuyen'] ?? '') . ', ' . ($_SESSION['user']['tinhThanh'] ?? '');
 } else {
     $ten_user = '';
     $email_user = '';
@@ -43,7 +37,20 @@ if (isset($_SESSION['user'])) {
     $diachi = '';
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $rawData = file_get_contents("php://input");
+    $cart = json_decode($rawData, true);
+
+    if (is_array($cart)) {
+        $_SESSION['cart'] = $cart;  
+        echo json_encode(['success' => true]); 
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Dữ liệu giỏ hàng không hợp lệ']);
+    }
+    exit();
+}
 ?>
+
 
 <!DOCTYPE html>
 <html lang="vi">
@@ -146,41 +153,48 @@ if (isset($_SESSION['user'])) {
                 <!--Danh sách sản phẩm-->
                 <?php
                 if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
-                    echo "<script>document.getElementById('cart-items').style.display = 'none'; document.getElementById('empty-cart-message').style.display = 'flex';</script>";
+                    echo '
+                        <style>
+                            #cart-items { display: none; }
+                            #empty-cart-message { display: flex; }
+                        </style>
+                    ';
                 } else {
                     $tongCong = 0;
                     foreach ($_SESSION['cart'] as $item) {
                         $tong = $item['giaBan'] * $item['soLuong'];
                         $tongCong += $tong;
                         echo '
-        <div class="card mb-3 shadow-sm">
-            <div class="row g-0">
-                <div class="col-md-2">
-                    <img src="' . $item['hinhAnh'] . '" class="img-fluid rounded-start" alt="' . $item['tenSach'] . '">
-                </div>
-                <div class="col-md-10">
-                    <div class="card-body d-flex justify-content-between align-items-center">
-                        <div>
-                            <h5 class="card-title">' . $item['tenSach'] . '</h5>
-                            <p class="card-text mb-1">Giá: <strong>' . number_format($item['giaBan'], 0, ',', '.') . 'đ</strong></p>
-                            <p class="card-text">Số lượng: <strong>' . $item['soLuong'] . '</strong></p>
-                        </div>
-                        <div>
-                            <p class="text-end fw-bold text-danger">' . number_format($tong, 0, ',', '.') . 'đ</p>
-                            <form method="post" action="xoagiohang.php" onsubmit="return confirm(\'Xóa sản phẩm này khỏi giỏ hàng?\')">
-                                <input type="hidden" name="maSach" value="' . $item['maSach'] . '">
-                                <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>';
+                            <div class="card mb-3 shadow-sm">
+                                <div class="row g-0">
+                                    <div class="col-md-2">
+                                        <img src="' . $item['hinhAnh'] . '" class="img-fluid rounded-start" alt="' . $item['tenSach'] . '">
+                                    </div>
+                                    <div class="col-md-10">
+                                        <div class="card-body d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <h5 class="card-title">' . $item['tenSach'] . '</h5>
+                                                <p class="card-text mb-1">Giá: <strong>' . number_format($item['giaBan'], 0, ',', '.') . 'đ</strong></p>
+                                                <p class="card-text">Số lượng: <strong>' . $item['soLuong'] . '</strong></p>
+                                            </div>
+                                            <div>
+                                                <p class="text-end fw-bold text-danger">' . number_format($tong, 0, ',', '.') . 'đ</p>
+                                                <form method="post" action="xoagiohang.php" onsubmit="return confirm(\'Xóa sản phẩm này khỏi giỏ hàng?\')">
+                                                    <input type="hidden" name="maSach" value="' . $item['maSach'] . '">
+                                                    <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>';
                     }
-
+                
                     echo '<script>
-        document.querySelector(".cart-total .text-danger.h5").innerText = "' . number_format($tongCong, 0, ',', '.') . 'đ";
-    </script>';
+                        document.addEventListener("DOMContentLoaded", function() {
+                            document.querySelector(".cart-total .text-danger.h5").innerText = "' . number_format($tongCong, 0, ',', '.') . 'đ";
+                        });
+                    </script>';
                 }
                 ?>
             </div>

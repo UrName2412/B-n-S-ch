@@ -1,121 +1,110 @@
 <?php
 session_start();
-include('../admin/config/config.php');
+require '../admin/config/config.php';
 
-// Kiểm tra giỏ hàng và thông tin giao hàng
-if (!isset($_SESSION['user']) || !isset($_SESSION['order_info']) || !isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
-    echo "Không có thông tin đơn hàng.";
-    exit;
-}
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $tenNguoiNhan = $_SESSION['user']['tenNguoiDung'];
+    $soDienThoai = $_SESSION['user']['soDienThoai'];
+    $tinhThanh = $_SESSION['user']['tinhThanh'];
+    $quanHuyen = $_SESSION['user']['quanHuyen'];
+    $xa = $_SESSION['user']['xa'];
+    $duong = $_SESSION['user']['duong'];
+    $tenNguoiDung = $_SESSION['user']['tenNguoiDung'];
+    $ngayTao = date('Y-m-d H:i:s');
+    $ghiChu = ''; 
+    $tinhTrang = 'Chờ xử lý';
 
-$orderInfo = $_SESSION['order_info'];
-$user = $_SESSION['user'];
-$cart = $_SESSION['cart'];
+    // Giỏ hàng
+    $cart = json_decode($_POST['cart'], true);
 
-// Khi người dùng xác nhận
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $tenNguoiNhan = $orderInfo['tenNguoiNhan'];
-    $soDienThoai = $orderInfo['soDienThoai'];
-    $ghiChu = $orderInfo['ghiChu'];
-    $tenNguoiDung = $user['tenNguoiDung'];
 
-    // Tách địa chỉ
-    $fullAddress = $orderInfo['diaChi'];
-    // Tạm thời tách đơn giản: bạn nên xử lý rõ hơn theo cấu trúc tỉnh, huyện, xã
-    $tinhThanh = $quanHuyen = $xa = $duong = "";
-    $duong = $fullAddress; // Đơn giản hóa
-
+    // Tính tổng tiền
     $tongTien = 0;
     foreach ($cart as $item) {
-        $tongTien += $item['giaBan'] * $item['soLuong'];
+        $giaBan = preg_replace('/[^\d.]/', '', $item['productPrice']);
+        $tongTien += $giaBan * $item['quantity'];  
     }
 
-    $ngayTao = date('Y-m-d H:i:s');
-    $tinhTrang = 'Chờ xác nhận';
+    // 1. Thêm vào bảng `b01_donhang`
+    $sql = "INSERT INTO b01_donhang (tenNguoiNhan, soDienThoai, ngayTao, tinhThanh, quanHuyen, xa, duong, tongTien, tinhTrang, ghiChu, tenNguoiDung)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $stmt = $database->prepare($sql);
+    $stmt->bind_param("sssssssssss", $tenNguoiNhan, $soDienThoai, $ngayTao, $tinhThanh, $quanHuyen, $xa, $duong, $tongTien, $tinhTrang, $ghiChu, $tenNguoiDung);
 
-    // Insert vào bảng `b01_donhang`
-    $sql_donhang = "INSERT INTO b01_donhang (tenNguoiNhan, soDienThoai, ngayTao, tinhThanh, quanHuyen, xa, duong, tongTien, tinhTrang, ghiChu, tenNguoiDung)
-                    VALUES ('$tenNguoiNhan', '$soDienThoai', '$ngayTao', '$tinhThanh', '$quanHuyen', '$xa', '$duong', $tongTien, '$tinhTrang', '$ghiChu', '$tenNguoiDung')";
-    
-    if (mysqli_query($database, $sql_donhang)) {
-        $maDon = mysqli_insert_id($database); // Lấy ID đơn hàng mới
+    if ($stmt->execute()) {
+        $maDon = $stmt->insert_id; // Lấy mã đơn mới tạo
 
-        // Thêm vào bảng `b01_chitiethoadon`
+        // 2. Thêm từng sản phẩm vào `b01_chitiethoadon`
+        $sql_ct = "INSERT INTO b01_chitiethoadon (maSach, maDon, giaBan, soLuong) VALUES (?, ?, ?, ?)";
+        $stmt_ct = $database->prepare($sql_ct);
+
         foreach ($cart as $item) {
-            $maSach = $item['maSach'];
-            $giaBan = $item['giaBan'];
-            $soLuong = $item['soLuong'];
-
-            $sql_ct = "INSERT INTO b01_chitiethoadon (maSach, maDon, giaBan, soLuong)
-                       VALUES ('$maSach', '$maDon', '$giaBan', '$soLuong')";
-            mysqli_query($database, $sql_ct);
+            $maSach = $item['productId'];  
+            $giaBan = preg_replace('/[^\d.]/', '', $item['productPrice']); 
+            $soLuong = $item['quantity']; 
+            
+            // Binding tham số với kiểu dữ liệu chính xác
+            $stmt_ct->bind_param("iidi", $maSach, $maDon, $giaBan, $soLuong);
+            
+            if (!$stmt_ct->execute()) {
+                echo "Lỗi khi thêm chi tiết hóa đơn: " . $stmt_ct->error;
+            }
         }
 
-        // Xóa giỏ hàng và order_info
-        unset($_SESSION['cart']);
-        unset($_SESSION['order_info']);
+        // Lưu mã đơn vào session
+        $_SESSION['maDon'] = $maDon;
 
-        header("Location: order_success.php?maDon=$maDon");
-        exit;
+        // Chuyển hướng đến trang hoaDon.php
+        header("Location: hoaDon.php?maDon=$maDon");
+        exit; // Đảm bảo không có mã PHP nào được thực thi sau khi chuyển hướng
+
     } else {
-        echo "Lỗi khi tạo đơn hàng: " . mysqli_error($database);
+        echo "Lỗi khi thêm đơn hàng: " . $stmt->error;
     }
 }
-?>
 
+$name = isset($_GET['name']) ? $_GET['name'] : '';
+$phone = isset($_GET['phone']) ? $_GET['phone'] : '';
+$address = isset($_GET['address']) ? $_GET['address'] : '';
+$note = isset($_GET['note']) ? $_GET['note'] : '';
+$paymentMethod = isset($_GET['method']) ? $_GET['method'] : '';
+?>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <title>Xác nhận đơn hàng</title>
-    <link rel="stylesheet" href="../vender/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../asset/css/confirm_order.css">
 </head>
-<body class="container py-4">
+<body>
+    <div class="container">
+        <h2>Xác nhận đơn hàng</h2>
 
-    <h2>Xác nhận đơn hàng</h2>
-    <h4>Thông tin người nhận</h4>
-    <ul>
-        <li><strong>Họ tên:</strong> <?= htmlspecialchars($orderInfo['tenNguoiNhan']) ?></li>
-        <li><strong>SĐT:</strong> <?= htmlspecialchars($orderInfo['soDienThoai']) ?></li>
-        <li><strong>Địa chỉ:</strong> <?= htmlspecialchars($orderInfo['diaChi']) ?></li>
-        <li><strong>Ghi chú:</strong> <?= htmlspecialchars($orderInfo['ghiChu']) ?></li>
-    </ul>
+        <!-- Thông tin người nhận -->
+        <div id="thongTinNguoiNhan">
+            <p><strong>Người nhận:</strong> <?php echo $_SESSION['user']['tenNguoiDung']; ?></p>
+            <p><strong>Địa chỉ:</strong> 
+                <?php echo $_SESSION['user']['duong'] . ', ' . $_SESSION['user']['xa'] . ', ' . $_SESSION['user']['quanHuyen'] . ', ' . $_SESSION['user']['tinhThanh']; ?>
+            </p>
+            <p><strong>Số điện thoại:</strong> <?php echo $_SESSION['user']['soDienThoai']; ?></p>
+        </div>
 
-    <h4>Danh sách sản phẩm</h4>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Sách</th>
-                <th>Giá</th>
-                <th>Số lượng</th>
-                <th>Thành tiền</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            $tong = 0;
-            foreach ($cart as $item):
-                $thanhTien = $item['giaBan'] * $item['soLuong'];
-                $tong += $thanhTien;
-            ?>
-            <tr>
-                <td><?= htmlspecialchars($item['tenSach']) ?></td>
-                <td><?= number_format($item['giaBan'], 0, ',', '.') ?> đ</td>
-                <td><?= $item['soLuong'] ?></td>
-                <td><?= number_format($thanhTien, 0, ',', '.') ?> đ</td>
-            </tr>
-            <?php endforeach; ?>
-            <tr>
-                <td colspan="3" class="text-end"><strong>Tổng tiền:</strong></td>
-                <td><strong><?= number_format($tong, 0, ',', '.') ?> đ</strong></td>
-            </tr>
-        </tbody>
-    </table>
+        <div id="hoaDon" style="margin-top: 30px;"></div>
 
-    <form method="POST">
-        <button class="btn btn-success" type="submit">Xác nhận đặt hàng</button>
-        <a href="thanhtoan.php" class="btn btn-secondary">Quay lại</a>
-    </form>
+        <form action="confirm_order.php" method="post">
+        <input type="hidden" name="note" value="<?php echo htmlspecialchars($note); ?>">
+        <input type="hidden" name="method" value="<?php echo htmlspecialchars($paymentMethod); ?>">
+        <input type="hidden" name="cart" id="cartInput">
+            <input type="submit" value="Xác nhận đặt hàng" class="btn btn-success">
+        </form>
+    </div>
 
+    <script src="../asset/js/confirm_order.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const cart = JSON.parse(sessionStorage.getItem('cart') || '[]');
+        document.getElementById('cartInput').value = JSON.stringify(cart);
+    });
+</script>
 </body>
 </html>

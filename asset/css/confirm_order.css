@@ -1,0 +1,121 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f6f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 40px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    text-align: center;
+    font-size: 28px;
+    color: #2c3e50;
+    margin-bottom: 30px;
+}
+
+#thongTinNguoiNhan {
+    font-size: 16px;
+    line-height: 1.8;
+    margin-bottom: 25px;
+    padding: 15px 25px;
+    background-color: #f1f1f1;
+    border-left: 5px solid #17a2b8;
+    border-radius: 6px;
+}
+
+#hoaDon {
+    font-size: 15px;
+    background-color: #fafafa;
+    border: 1px dashed #ccc;
+    padding: 20px;
+    border-radius: 6px;
+    margin-bottom: 30px;
+}
+
+input[type="submit"] {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background-color: #28a745;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+    background-color: #218838;
+}
+
+
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+        margin: 20px;
+    }
+
+    h2 {
+        font-size: 22px;
+    }
+
+    #thongTinNguoiNhan {
+        font-size: 14px;
+        padding: 10px 15px;
+    }
+
+    input[type="submit"] {
+        font-size: 14px;
+        padding: 10px;
+    }
+}
+
+#hoaDon table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 15px;
+}
+
+#hoaDon th,
+#hoaDon td {
+    padding: 12px 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#hoaDon td.title {
+    text-align: left;
+    width: 30%;
+}
+
+
+#hoaDon td img {
+    width: 60px;
+    height: auto;
+    border-radius: 4px;
+}
+
+
+#hoaDon th {
+    background-color: #343a40;
+    color: white;
+}
+
+#hoaDon .tongCong {
+    text-align: right;
+    font-weight: bold;
+    padding-top: 15px;
+}

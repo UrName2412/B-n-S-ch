@@ -48,9 +48,7 @@ Validator.isPhone = (selector) => {
   };
 };
 
-// ---------------------
-// Các đoạn mã khác
-// ---------------------
+
 let cartQuantity = [];
 const iconCartSpan = document.querySelector('.cart-icon span');
 
@@ -69,7 +67,6 @@ loadFromsessionStorage();
 
 document.addEventListener("DOMContentLoaded", function () {
 
-
   // Định nghĩa hàm validateForm và gán vào window
   function validateForm() {
     const nameValue = document.getElementById('name-user').value.trim();
@@ -82,30 +79,32 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     return true;
   }
-  window.validateForm = validateForm; // Cho phép gọi từ HTML
+  window.validateForm = validateForm;
 
-  // Xử lý khi submit form: nếu thông tin hợp lệ thì chuyển hướng đến trang chọn phương thức thanh toán
   const orderForm = document.querySelector("#form-add");
   if (orderForm) {
     orderForm.addEventListener("submit", function (event) {
       event.preventDefault();
+
       if (validateForm()) {
-        // Chuyển hướng đến trang chọn phương thức thanh toán
-        window.location.href = "chonPhuongThucThanhToan.php";
+        const nameUser = document.getElementById('name-user').value.trim();
+        const phoneUser = document.getElementById('phone-user').value.trim();
+        const adrValue = document.getElementById('payment--adr').value.trim();
+
+        // Chuyển hướng tới confirm_order.php với tham số URL
+        const redirectUrl = `confirm_order.php?name=${encodeURIComponent(nameUser)}&phone=${encodeURIComponent(phoneUser)}&address=${encodeURIComponent(adrValue)}`;
+        window.location.href = redirectUrl;
       }
     });
   }
 
-  // Gán sự kiện cho checkbox (chỉ gán một lần)
   const defaultCheckbox = document.getElementById('default-info-checkbox');
   if (defaultCheckbox) {
     defaultCheckbox.addEventListener('change', toggleDefaultInfo);
   }
 
-  // Khởi tạo trạng thái form ban đầu
   toggleDefaultInfo();
 
-  // Kích hoạt Validator với các quy tắc kiểm tra
   Validator({
     form: '#form-add',
     rules: [
