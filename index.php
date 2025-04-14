@@ -2,7 +2,7 @@
 include 'admin/config/config.php';
 session_start();
 
-if (isset($_SESSION['username']) || isset($_COOKIE['username'])) {
+if ((isset($_SESSION['username']) || isset($_COOKIE['username'])) && (isset($_SESSION['role']) && $_SESSION['role'] == false)) {
     header("Location: nguoidung/indexuser.php");
     exit();
 }

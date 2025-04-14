@@ -4,7 +4,7 @@ require '../asset/handler/user_handle.php';
 session_start();
 
 // Kiểm tra nếu người dùng đã đăng nhập
-if (isset($_SESSION['username'])) {
+if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role'] == false)) {
     $username = $_SESSION['username'];
 } elseif (isset($_COOKIE['username']) && isset($_COOKIE['pass'])) {
     $username = $_COOKIE['username'];
@@ -95,7 +95,7 @@ if (isset($_SESSION['user'])) {
                         </button>
                     </form>
                     <script>
-                        document.getElementById('searchForm').addEventListener('submit', function (event) {
+                        document.getElementById('searchForm').addEventListener('submit', function(event) {
                             event.preventDefault();
                             const inputValue = document.getElementById('timkiem').value.trim();
 
@@ -321,7 +321,7 @@ if (isset($_SESSION['user'])) {
     <script src="../asset/js/user-cart.js"></script>
 
     <script>
-        document.getElementById('searchForm').addEventListener('submit', function (event) {
+        document.getElementById('searchForm').addEventListener('submit', function(event) {
             event.preventDefault();
             const inputValue = document.getElementById('timkiem').value.trim();
 
@@ -331,7 +331,6 @@ if (isset($_SESSION['user'])) {
                 alert('Vui lòng nhập nội dung tìm kiếm!');
             }
         });
-
     </script>
 
 </body>

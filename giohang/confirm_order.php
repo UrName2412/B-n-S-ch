@@ -1,6 +1,25 @@
 <?php
 session_start();
 include('../admin/config/config.php');
+require '../asset/handler/user_handle.php';
+session_start();
+
+if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role'] == false)) {
+    $username = $_SESSION['username'];
+} elseif (isset($_COOKIE['username']) && isset($_COOKIE['pass'])) {
+    $username = $_COOKIE['username'];
+    $password = $_COOKIE['pass'];
+
+    if (checkLogin($database, $username, $password)) {
+        $_SESSION['username'] = $username;
+    } else {
+        echo "<script>alert('Bạn chưa đăng nhập!'); window.location.href='../dangky/dangnhap.php';</script>";
+        exit();
+    }
+} else {
+    echo "<script>alert('Bạn chưa đăng nhập!'); window.location.href='../dangky/dangnhap.php';</script>";
+    exit();
+}
 
 // Kiểm tra giỏ hàng và thông tin giao hàng
 if (!isset($_SESSION['user']) || !isset($_SESSION['order_info']) || !isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
@@ -36,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Insert vào bảng `b01_donhang`
     $sql_donhang = "INSERT INTO b01_donhang (tenNguoiNhan, soDienThoai, ngayTao, tinhThanh, quanHuyen, xa, duong, tongTien, tinhTrang, ghiChu, tenNguoiDung)
                     VALUES ('$tenNguoiNhan', '$soDienThoai', '$ngayTao', '$tinhThanh', '$quanHuyen', '$xa', '$duong', $tongTien, '$tinhTrang', '$ghiChu', '$tenNguoiDung')";
-    
+
     if (mysqli_query($database, $sql_donhang)) {
         $maDon = mysqli_insert_id($database); // Lấy ID đơn hàng mới
 
@@ -65,11 +84,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <title>Xác nhận đơn hàng</title>
     <link rel="stylesheet" href="../vender/css/bootstrap.min.css">
 </head>
+
 <body class="container py-4">
 
     <h2>Xác nhận đơn hàng</h2>
@@ -98,12 +119,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $thanhTien = $item['giaBan'] * $item['soLuong'];
                 $tong += $thanhTien;
             ?>
-            <tr>
-                <td><?= htmlspecialchars($item['tenSach']) ?></td>
-                <td><?= number_format($item['giaBan'], 0, ',', '.') ?> đ</td>
-                <td><?= $item['soLuong'] ?></td>
-                <td><?= number_format($thanhTien, 0, ',', '.') ?> đ</td>
-            </tr>
+                <tr>
+                    <td><?= htmlspecialchars($item['tenSach']) ?></td>
+                    <td><?= number_format($item['giaBan'], 0, ',', '.') ?> đ</td>
+                    <td><?= $item['soLuong'] ?></td>
+                    <td><?= number_format($thanhTien, 0, ',', '.') ?> đ</td>
+                </tr>
             <?php endforeach; ?>
             <tr>
                 <td colspan="3" class="text-end"><strong>Tổng tiền:</strong></td>
@@ -118,4 +139,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </form>
 
 </body>
+
 </html>

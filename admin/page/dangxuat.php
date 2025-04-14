@@ -2,8 +2,9 @@
 session_start();
 
 // Xóa session
-session_unset();
-session_destroy();
+unset($_SESSION['usernameadmin']);
+unset($_SESSION['passadmin']);
+unset($_SESSION['roleadmin']);
 
 header("Location: ../index.php");
 exit();

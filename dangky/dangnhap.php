@@ -3,7 +3,7 @@ require "../admin/config/config.php";
 require "../asset/handler/user_handle.php";
 session_start();
 
-if (isset($_SESSION['username']) || isset($_COOKIE['username'])) {
+if ((isset($_SESSION['username']) || isset($_COOKIE['username'])) && (isset($_SESSION['role']) && $_SESSION['role'] == false)) {
     header("Location: ../nguoidung/indexuser.php");
     exit();
 }
@@ -18,14 +18,15 @@ $success = $stasflag = false;
 $username = "";
 $password = "";
 
-if (isset($_COOKIE['username']) && isset($_COOKIE['pass'])) {
+if (isset($_COOKIE['username']) && isset($_COOKIE['pass']) && isset($_COOKIE['role'])) {
     $username = $_COOKIE['username'];
     $password = $_COOKIE['pass'];
 
     $user = checkLogin($database, $username, $password);
-    if ($user) {
+    if ($user && $_COOKIE['role'] == $user['vaiTro']) {
         $_SESSION['username'] = $user['tenNguoiDung'];
         $_SESSION['user'] = $user;
+        $_SESSION['role'] = false;
         $success = true;
     }
 }
@@ -46,14 +47,17 @@ if (isset($_POST['action']) && $_POST['action'] == 'do-login') {
         } else {
             $_SESSION['username'] = $user['tenNguoiDung'];
             $_SESSION['user'] = $user;
+            $_SESSION['role'] = false;
             $success = true;
 
             if (isset($_POST['remember'])) {
                 setcookie('username', $username, time() + 30 * 24 * 60 * 60, "/");
                 setcookie('pass', $password, time() + 30 * 24 * 60 * 60, "/");
+                setcookie('role', $user['vaiTro'], time() + 30 * 24 * 60 * 60, "/");
             } else {
                 setcookie('username', '', time() - 3600, "/");
                 setcookie('pass', '', time() - 3600, "/");
+                setcookie('role', '', time() - 3600, "/");
             }
         }
     }
@@ -67,7 +71,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'do-login') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cửa hàng sách</title>
+    <title>Đăng nhập</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="../vender/css/bootstrap.min.css">
     <!-- FONT AWESOME  -->
