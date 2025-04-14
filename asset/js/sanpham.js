@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
     listProductHTML.addEventListener("click", function (event) {
         if (event.target.classList.contains("btn")) {
             const card = event.target.closest(".card");
+            const productId = card.getAttribute("data-id");
             const productTitle = card.querySelector(".card-title").textContent;
             const productPrice = card.querySelector(".card-text.text-danger").textContent;
             const imageUrl = card.querySelector(".card-img-top").src;
@@ -20,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
             notification.show();
             modalElement.removeAttribute("");
 
-            addToCart(productTitle, productPrice, imageUrl);
+            addToCart(productId,productTitle, productPrice, imageUrl);
         }
     });
 
@@ -89,11 +90,12 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // Thêm sản phẩm vào giỏ hàng
-const addToCart = (productName, productPrice, imageUrl) => {
-    let productIndex = cart.findIndex((item) => item.productName === productName);
+const addToCart = (productId,productName, productPrice, imageUrl) => {
+    let productIndex = cart.findIndex((item) => item.productId === productId);
 
     if (productIndex < 0) {
         cart.push({
+            productId: productId,
             image: imageUrl,
             productName: productName,
             productPrice: productPrice,
@@ -105,6 +107,12 @@ const addToCart = (productName, productPrice, imageUrl) => {
 
     addTosessionStorage();
 };
+
+function removeSessionCart() {
+    sessionStorage.removeItem("cart");
+    iconCartSpan.innerText = 0;
+    cart = [];
+}
 
 // Lưu giỏ hàng vào sessionStorage
 const addTosessionStorage = () => {
