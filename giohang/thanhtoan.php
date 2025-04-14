@@ -3,7 +3,7 @@ require '../admin/config/config.php';
 require '../asset/handler/user_handle.php';
 session_start();
 
-if (isset($_SESSION['username'])) {
+if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role'] == false)) {
   $username = $_SESSION['username'];
 } elseif (isset($_COOKIE['username']) && isset($_COOKIE['pass'])) {
   $username = $_COOKIE['username'];
@@ -96,11 +96,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </li>
           </ul>
           <form id="searchForm" class="d-flex me-auto" method="GET" action="nguoidung/timkiem.php">
-                        <input class="form-control me-2" type="text" id="timkiem" name="tenSach" placeholder="Tìm sách">
-                        <button class="btn btn-outline-light" type="submit">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </form>
+            <input class="form-control me-2" type="text" id="timkiem" name="tenSach" placeholder="Tìm sách">
+            <button class="btn btn-outline-light" type="submit">
+              <i class="fas fa-search"></i>
+            </button>
+          </form>
           <ul class="navbar-nav me-auto">
             <li class="nav-item">
               <div class="d-flex gap-2">
@@ -271,19 +271,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     window.toggleDefaultInfo = toggleDefaultInfo;
   </script>
 
-<script>
-        document.getElementById('searchForm').addEventListener('submit', function (event) {
-    event.preventDefault();
-    const inputValue = document.getElementById('timkiem').value.trim();
+  <script>
+    document.getElementById('searchForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const inputValue = document.getElementById('timkiem').value.trim();
 
-    if (inputValue) {
+      if (inputValue) {
         window.location.href = '/B-n-S-ch/nguoidung/timkiem.php?tenSach=' + encodeURIComponent(inputValue);
-    } else {
+      } else {
         alert('Vui lòng nhập nội dung tìm kiếm!');
-    }
-});
-
-    </script>
+      }
+    });
+  </script>
 
 </body>
 

@@ -3,8 +3,9 @@ require '../admin/config/config.php';
 require '../asset/handler/user_handle.php';
 session_start();
 
-if (isset($_SESSION['username'])) {
+if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role'] == false)) {
   $username = $_SESSION['username'];
+  
 } elseif (isset($_COOKIE['username']) && isset($_COOKIE['pass'])) {
   $username = $_COOKIE['username'];
   $password = $_COOKIE['pass'];

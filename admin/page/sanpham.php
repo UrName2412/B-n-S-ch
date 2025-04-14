@@ -4,8 +4,8 @@ session_start();
 require '../config/config.php';
 require '../handlers/admin_handle.php';
 
-if (isset($_SESSION['username'])) {
-    $username = $_SESSION['username'];
+if (isset($_SESSION['usernameadmin']) && (isset($_SESSION['roleadmin']) && $_SESSION['roleadmin'] == true)) {
+    $username = $_SESSION['usernameadmin'];
 } else {
     echo "<script>alert('Bạn chưa đăng nhập!'); window.location.href='../index.php';</script>";
     exit();

@@ -3,7 +3,7 @@ require 'config/config.php';
 require 'handlers/admin_handle.php';
 
 session_start();
-if (isset($_SESSION['username'])) {
+if (isset($_SESSION['usernameadmin']) && (isset($_SESSION['roleadmin']) && $_SESSION['roleadmin'] == true)) {
     header("Location: page/thongke.php");
     exit();
 }
@@ -14,8 +14,8 @@ function test_input($data)
 }
 
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
-    $username = test_input($_POST['username']);
-    $password = test_input($_POST['pass']);
+    $username = test_input($_POST['usernameadmin']);
+    $password = test_input($_POST['passadmin']);
 
     $admin = checkLogin($database, $username, $password);
 
@@ -26,8 +26,9 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     } else if ($admin['trangThai'] == false) {
         echo "<script>alert('Tài khoản của bạn không tồn tại hoặc đã bị khóa');</script>";
     } else {
-        $_SESSION['username'] = $admin['tenNguoiDung'];
-        $_SESSION['admin'] = $admin;
+        $_SESSION['usernameadmin'] = $admin['tenNguoiDung'];
+        $_SESSION['adminadmin'] = $admin;
+        $_SESSION['roleadmin'] = true;
 
         echo "<script>alert('Đăng nhập thành công');</script>";
         header("Location: page/thongke.php");
@@ -66,12 +67,12 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                     <div class="card-body">
                         <form action="index.php" name="signinform" id="signinform" method="post">
                             <div class="mb-3">
-                                <label class="form-label text-white" for="username">Tên đăng nhập</label>
-                                <input class="form-control" type="text" name="username" id="username" placeholder="Nhập tên đăng nhập" value="<?php echo isset($username) ? $username : ''; ?>">
+                                <label class="form-label text-white" for="usernameadmin">Tên đăng nhập</label>
+                                <input class="form-control" type="text" name="usernameadmin" id="usernameadmin" placeholder="Nhập tên đăng nhập" value="<?php echo isset($username) ? $username : ''; ?>">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label text-white" for="pass">Mật khẩu</label>
-                                <input class="form-control" type="password" name="pass" id="pass" placeholder="Nhập mật khẩu" value="<?php echo isset($password) ? $password : ''; ?>">
+                                <label class="form-label text-white" for="passadmin">Mật khẩu</label>
+                                <input class="form-control" type="password" name="passadmin" id="passadmin" placeholder="Nhập mật khẩu" value="<?php echo isset($password) ? $password : ''; ?>">
                             </div>
                             <button type="submit" class="btn text-white w-100">Đăng Nhập</button>
                         </form>

@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     const form = document.getElementById("signinform");
-    const username = document.getElementById("username");
-    const passwd = document.getElementById("pass");
+    const username = document.getElementById("usernameadmin");
+    const passwd = document.getElementById("passadmin");
 
     function showError(input, message) {
         const parent = input.parentElement;

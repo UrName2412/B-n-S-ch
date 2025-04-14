@@ -1,3 +1,14 @@
+<?php
+require "../admin/config/config.php";
+require "../asset/handler/user_handle.php";
+session_start();
+
+if ((isset($_SESSION['username']) || isset($_COOKIE['username'])) && (isset($_SESSION['role']) && $_SESSION['role'] == false)) {
+    header("Location: ../nguoidung/indexuser.php");
+    exit();
+}
+
+?>
 
 <!DOCTYPE html>
 <html lang="vi">
@@ -48,7 +59,7 @@
                         </button>
                     </form>
                     <script>
-                        document.getElementById('searchForm').addEventListener('submit', function (event) {
+                        document.getElementById('searchForm').addEventListener('submit', function(event) {
                             event.preventDefault();
                             const inputValue = document.getElementById('timkiem').value.trim();
 
@@ -114,40 +125,40 @@
                 <div class="border p-5">
                     <div class="container my-4">
                         <div class="listProduct row">
-                        <?php
-                        require '../admin/config/config.php';
-if (isset($_GET['tenSach']) && !empty($_GET['tenSach'])) {
-    $tenSach = '%' . $_GET['tenSach'] . '%';
-    $stmt = $database->prepare("SELECT * FROM b01_sanpham WHERE tenSach LIKE ? AND trangThai = 1");
-    $stmt->bind_param("s", $tenSach);
-    $stmt->execute();
-    $result = $stmt->get_result();
+                            <?php
+                            require '../admin/config/config.php';
+                            if (isset($_GET['tenSach']) && !empty($_GET['tenSach'])) {
+                                $tenSach = '%' . $_GET['tenSach'] . '%';
+                                $stmt = $database->prepare("SELECT * FROM b01_sanpham WHERE tenSach LIKE ? AND trangThai = 1");
+                                $stmt->bind_param("s", $tenSach);
+                                $stmt->execute();
+                                $result = $stmt->get_result();
 
-    if ($result->num_rows > 0) {
-        echo '<h3>Kết quả tìm kiếm cho: <strong>' . htmlspecialchars($_GET['tenSach']) . '</strong></h3>';
-        while ($row = $result->fetch_assoc()) {
-            ?>
-            <div class="col-md-4 mb-4">
-                <div class="card" style="width: 100%;">
-                    <a href="../sanpham/chitietsanpham.php?maSach=<?php echo $row['maSach']; ?>">
-                        <img src="../images/<?php echo $row['hinhAnh']; ?>" class="card-img-top" alt="...">
-                    </a>
-                    <div class="card-body">
-                        <h5 class="card-title"><?php echo $row['tenSach']; ?></h5>
-                        <p class="card-text text-danger fw-bold"><?php echo number_format($row['giaBan']); ?> đ</p>
-                        <button class="btn" style="background-color: #336799; color: #ffffff;">Thêm vào giỏ hàng</button>
-                    </div>
-                </div>
-            </div>
-            <?php
-        }
-    } else {
-        echo "<p>Không tìm thấy sách nào phù hợp.</p>";
-    }
-} else {
-    echo "<p>Vui lòng nhập từ khóa để tìm kiếm.</p>";
-}
-?>
+                                if ($result->num_rows > 0) {
+                                    echo '<h3>Kết quả tìm kiếm cho: <strong>' . htmlspecialchars($_GET['tenSach']) . '</strong></h3>';
+                                    while ($row = $result->fetch_assoc()) {
+                            ?>
+                                        <div class="col-md-4 mb-4">
+                                            <div class="card" style="width: 100%;">
+                                                <a href="../sanpham/chitietsanpham.php?maSach=<?php echo $row['maSach']; ?>">
+                                                    <img src="../images/<?php echo $row['hinhAnh']; ?>" class="card-img-top" alt="...">
+                                                </a>
+                                                <div class="card-body">
+                                                    <h5 class="card-title"><?php echo $row['tenSach']; ?></h5>
+                                                    <p class="card-text text-danger fw-bold"><?php echo number_format($row['giaBan']); ?> đ</p>
+                                                    <button class="btn" style="background-color: #336799; color: #ffffff;">Thêm vào giỏ hàng</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                            <?php
+                                    }
+                                } else {
+                                    echo "<p>Không tìm thấy sách nào phù hợp.</p>";
+                                }
+                            } else {
+                                echo "<p>Vui lòng nhập từ khóa để tìm kiếm.</p>";
+                            }
+                            ?>
                         </div>
                     </div>
                 </div>
@@ -230,7 +241,7 @@ if (isset($_GET['tenSach']) && !empty($_GET['tenSach'])) {
     <script src="../asset/js/timkiem.js"></script>
 
     <script>
-        function adjustSidebar() {  // Hàm điều khiển sidebar khi cuộn
+        function adjustSidebar() { // Hàm điều khiển sidebar khi cuộn
             const sidebar = document.querySelector("aside");
             if (window.innerWidth > 991) {
                 sidebar.style.position = "sticky";
@@ -246,19 +257,18 @@ if (isset($_GET['tenSach']) && !empty($_GET['tenSach'])) {
     </script>
 
     <script>
-        document.getElementById('searchForm').addEventListener('submit', function (event) {
-    event.preventDefault();
-    const inputValue = document.getElementById('timkiem').value.trim();
+        document.getElementById('searchForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const inputValue = document.getElementById('timkiem').value.trim();
 
-    if (inputValue) {
-        // Chuyển sang trang tìm kiếm và truyền từ khóa vào URL
-        window.location.href = '../nguoidung/timkiem-nologin.php?tenSach=' + encodeURIComponent(inputValue);
-    } else {
-        alert('Vui lòng nhập nội dung tìm kiếm!');
-    }
-});
-
-        </script>
+            if (inputValue) {
+                // Chuyển sang trang tìm kiếm và truyền từ khóa vào URL
+                window.location.href = '../nguoidung/timkiem-nologin.php?tenSach=' + encodeURIComponent(inputValue);
+            } else {
+                alert('Vui lòng nhập nội dung tìm kiếm!');
+            }
+        });
+    </script>
 </body>
 
 </html>
