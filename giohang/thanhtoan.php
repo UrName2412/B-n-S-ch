@@ -6,7 +6,7 @@ session_start();
 
 if (!isset($_SESSION['user'])) {
   echo "Bạn chưa đăng nhập.";
-
+}
 if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role'] == false)) {
   $username = $_SESSION['username'];
 } elseif (isset($_COOKIE['username']) && isset($_COOKIE['pass'])) {
