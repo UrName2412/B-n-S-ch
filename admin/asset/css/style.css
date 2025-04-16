@@ -467,6 +467,7 @@ a {
     box-shadow: var(--box-shadow);
     position: absolute;
     top: 9vh;
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
 }
 
 .menuFilter:hover{
@@ -479,6 +480,7 @@ a {
     gap: 5px;
     padding: 5px;
     align-self: end;
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
 }
 
 .timeFilter{
@@ -488,12 +490,14 @@ a {
     gap: 5px;
     width: 100%;
     align-items: center;
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
 }
 .part{
     width: 100%;
     display: flex;
     align-items: center;
     gap: 3px;
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
 }
 .part input{
     border-radius: 5px;
@@ -504,6 +508,7 @@ a {
     box-sizing: border-box;
     border-radius: 10px;
     border: 2px solid var(--color-dark);
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
 }
 .acceptFilter{
     background-color: var(--color-dark);
@@ -556,6 +561,7 @@ a {
     border-radius: 10px;
     border: 2px solid var(--color-dark);
     padding: 5px;
+    font-size: clamp(0.8rem, 1.6vw, 1rem);
 }
 
 .addressFilter input:focus,
@@ -614,6 +620,7 @@ button:hover{
     height: 5vh;
     border-radius: 10px;
     border: 1px solid black;
+    font-size: clamp(1rem, 2vw, 1.2rem);
 }
 
 .tool select:focus{
@@ -703,7 +710,7 @@ button:hover{
 }
 
 .tool button span {
-    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
 }
 
 .tool-menu{
@@ -740,77 +747,130 @@ button:hover{
     flex-direction: column;
     align-content:center;
 }
-
-.detailHeader{
-    width: 100%;
-    height: 10vh;
+.menu-detail {
+    background-color: #f1f5f9; /* Nền sáng */
+    color: #1f2937; /* Màu chữ tối cho dễ đọc */
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Màu bóng nhẹ */
 }
 
-.detailHeader ul{
+.menu-detail h2 {
+    text-align: center;
+    font-size: clamp(1rem, 2.5vw, 1.75rem);
+    margin-bottom: 25px;
+    color: #1f2937; /* Màu chữ tối */
+    border-bottom: 3px solid #e2e8f0; /* Viền sáng */
+    padding-bottom: 12px;
+}
+
+.menu-fix-cart {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(150px, 1fr));
+    padding: 15px;
+    gap: 15px;
+    justify-content: space-between;
+    align-content: start;
+}
+
+.menu-fix-cart .block {
+    width: 100%;
+    padding: 15px;
+    aspect-ratio: 4 / 1;
+    background-color: #e2e8f0; /* Nền sáng */
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Bóng nhẹ */
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
+    color: #1f2937; /* Màu chữ tối */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.detailHeader {
+    width: 100%;
+    background-color: #ffffff; /* Nền sáng */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Bóng nhẹ */
+    margin-bottom: 20px;
+}
+
+.detailHeader .header-title {
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: #4f46e5; /* Màu tím sáng */
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.detailHeader ul {
     list-style: none;
-}
-
-.grid-header-detail{
-    display: grid;
-    grid-template-columns: minmax(80px,2fr) minmax(40px,0.5fr) repeat(2,minmax(60px,1fr));
-    font-weight: bold;
-    border-top: 2px solid var(--color-dark);
-    border-bottom: 2px solid var(--color-dark);
-    padding: 0.5rem 0;
-    text-align: center;
-}
-
-.grid-row-detail{
-    display: grid;
-    grid-template-columns: minmax(80px,2fr) minmax(40px,0.5fr) repeat(2,minmax(60px,1fr));
-    border-bottom: 1px solid var(--color-dark);
-    box-sizing: border-box;
-}
-
-.grid-footer-detail{
-    display: grid;
-    grid-template-columns: minmax(180px,3.5fr) minmax(60px,1fr);
-    font-weight: bold;
-    padding: 0.5rem 0;
-    text-align: center;
-}
-
-.grid-header-detail textarea{
     padding: 0;
-    text-align: center;
-    width: 100%;
-    resize: none;
-    font-size: clamp(1rem, 2.5vw, 1.5rem);
-}
-.grid-header-detail textarea:not(:first-child){
-    border-left: 1px solid var(--color-light);
-}
-
-.grid-row-detail textarea{
-    padding: 0.5rem;
-    text-align: center;
-    width: 100%;
-    resize: none;
-    font-size: clamp(1rem, 2.5vw, 1.5rem);
-}
-.grid-row-detail textarea:not(:first-child){
-    border-left: 1px solid var(--color-dark);
+    margin: 0;
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #374151; /* Màu chữ tối */
+    display: grid;
+    grid-template-columns: 1fr 1fr;
 }
 
-.grid-footer-detail textarea{
-    padding: 0.5rem;
+.detailHeader ul li {
+    margin: 8px 0;
+}
+
+.detailHeader ul li strong {
+    color: #1f2937; /* Màu chữ tối */
+}
+
+.grid-header-detail,
+.grid-row-detail,
+.grid-footer-detail {
+    display: grid;
+    grid-template-columns: 3fr 1fr 1fr 1fr;
+    gap: 15px;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 12px;
+    background-color: #ffffff; /* Nền sáng */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Bóng nhẹ */
+}
+
+.grid-footer-detail {
+    grid-template-columns: minmax(180px, 3.5fr) minmax(60px, 1fr);
+}
+
+.grid-header-detail textarea,
+.grid-row-detail textarea,
+.grid-footer-detail textarea {
+    background-color: #f9fafb; /* Nền sáng */
+    border: 1px solid #e2e8f0; /* Viền sáng */
+    padding: 14px;
+    border-radius: 8px;
+    font-size: 1rem;
+    resize: none;
     text-align: center;
-    width: 100%;
-    resize: none;
-    font-size: clamp(1rem, 2.5vw, 1.5rem);
+    font-weight: 500;
+    color: #1f2937; /* Màu chữ tối */
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05); /* Bóng nhẹ */
 }
-.grid-footer-detail textarea:first-child{
-    padding: 0.5rem;
-    text-align: start;
-    width: 100%;
-    resize: none;
-    font-size: clamp(1rem, 2.5vw, 1.5rem);
+
+.grid-header-detail textarea {
+    font-weight: 700;
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    color: #1f2937; /* Màu chữ tối */
+    pointer-events: none;
 }
+
+.grid-footer-detail textarea:last-child {
+    background-color: #ffffff; /* Nền sáng */
+    font-weight: bold;
+    color: #4f46e5; /* Màu tím sáng */
+    border: 1px solid #4f46e5; /* Viền tím sáng */
+}
+
+
 
 #order-status{
     background-color: var(--color-dark);

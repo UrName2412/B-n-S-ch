@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $tenNguoiDung = $_SESSION['user']['tenNguoiDung'];
     $ngayTao = date('Y-m-d H:i:s');
     $ghiChu = '';
-    $tinhTrang = 'Chờ xử lý';
+    $tinhTrang = 'Chưa xác nhận';
 
 
     $cart = json_decode($_POST['cart'], true);

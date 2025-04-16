@@ -8,70 +8,150 @@ function start() {
     cartFilter();
 }
 
-//function
-// function getCarts() {
-//     return fetch(cartsAPI)
-//         .then(response => response.json())
-//         .then(data => {
-//             carts = data;
-//         });
-// }
-
-// function renderCarts() {
-//     allCarts(listCartsBlock);
-// }
-
-
-function setStatusButtons(isAllCarts) {
+function setStatusButtons() {
     var statusButtons = document.querySelectorAll('.status');
+
     statusButtons.forEach((statusButton) => {
         setStatus(statusButton.innerHTML, statusButton);
-        statusButton.addEventListener('click', (event) => {
-            if (statusButton.innerHTML == 'Chưa xử lí') statusButton.innerHTML = "Đã xác nhận";
-            else if (statusButton.innerHTML == 'Đã xác nhận') statusButton.innerHTML = "Đã giao";
-            else if (statusButton.innerHTML == 'Đã giao') statusButton.innerHTML = "Đã hủy";
-            else if (statusButton.innerHTML == 'Đã hủy') statusButton.innerHTML = "Chưa xử lí";
 
-            var gridRowCart = event.target.closest('.grid-row-cart');
-            let id = gridRowCart.querySelector('.grid-row-cart textarea[placeholder="Nhập id..."]').value;
-            let index = carts.findIndex(cart => cart.id == id);
-            carts[index].status = statusButton.innerHTML;
-            if (isAllCarts === false) {
-                gridRowCart.remove();
+        statusButton.onclick = (e) => {
+            const gridRowCart = e.target.closest('.grid-row-cart');
+            const maDon = gridRowCart.querySelector('textarea[placeholder="Nhập mã đơn..."]').value.trim();
+
+            const toolMenu = document.querySelector('.tool-menu');
+            toolMenu.style.display = 'block';
+
+            const oldMenu = toolMenu.querySelector('.menu-fix');
+            if (oldMenu) oldMenu.remove();
+
+            let buttons = '';
+            if (statusButton.innerHTML === 'Chưa xác nhận') {
+                buttons = `
+                    <button type="button" class="block confirm" data-status="Đã xác nhận">Đã xác nhận</button>
+                    <button type="button" class="block canceled" data-status="Đã hủy">Đã hủy</button>
+                `;
+            } else if (statusButton.innerHTML === 'Đã xác nhận') {
+                buttons = `
+                    <button type="button" class="block delivered" data-status="Đã giao">Đã giao</button>
+                    <button type="button" class="block canceled" data-status="Đã hủy">Đã hủy</button>
+                `;
+            } else {
+                toolMenu.style.display = 'none';
+                createAlert('Không thể chỉnh sửa.')
+                return;
             }
-            setStatus(statusButton.innerHTML, statusButton);
-        })
-    })
+
+            const menuDetail = document.createElement('div');
+            menuDetail.className = 'menu-fix';
+            menuDetail.innerHTML = `
+                <h2>Chọn trạng thái</h2>
+                <div class="menu-fix-cart">
+                    ${buttons}
+                </div>
+            `;
+            toolMenu.appendChild(menuDetail);
+            openToolMenu('.menu-fix');
+
+            const buttonBlocks = menuDetail.querySelectorAll('.block');
+            buttonBlocks.forEach((buttonBlock) => {
+                buttonBlock.addEventListener('click', () => {
+                    const newStatus = buttonBlock.dataset.status;
+
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = '../handlers/sua/suatinhtrangdonhang.php';
+
+                    const inputTinhTrang = document.createElement('input');
+                    inputTinhTrang.type = 'hidden';
+                    inputTinhTrang.name = 'tinhTrang';
+                    inputTinhTrang.value = newStatus;
+
+                    const inputMaDon = document.createElement('input');
+                    inputMaDon.type = 'hidden';
+                    inputMaDon.name = 'maDon';
+                    inputMaDon.value = maDon;
+
+                    form.appendChild(inputTinhTrang);
+                    form.appendChild(inputMaDon);
+                    document.body.appendChild(form);
+
+                    form.submit();
+                });
+            });
+        };
+    });
 
     function setStatus(cartStatus, statusButton) {
-        statusButton.className = 'status';
-        if (cartStatus == 'Chưa xử lí') statusButton.classList.add('not-confirm');
-        else if (cartStatus == 'Đã xác nhận') statusButton.classList.add('confirm');
-        else if (cartStatus == 'Đã giao') statusButton.classList.add('delivered');
-        else if (cartStatus == 'Đã hủy') statusButton.classList.add('canceled');
-        statusButton.innerHTML = `${cartStatus}`;
+        statusButton.className = 'status'; 
+        if (cartStatus === 'Chưa xác nhận') statusButton.classList.add('not-confirm');
+        else if (cartStatus === 'Đã xác nhận') statusButton.classList.add('confirm');
+        else if (cartStatus === 'Đã giao') statusButton.classList.add('delivered');
+        else if (cartStatus === 'Đã hủy') statusButton.classList.add('canceled');
+        statusButton.innerHTML = cartStatus;
     }
 }
+
+
+
 
 function setDetailButtons() {
     var detailButtons = document.querySelectorAll('.detailButton');
     detailButtons.forEach(detailButton => {
-        detailButton.addEventListener('click', (event) => {
+        detailButton.addEventListener('click', async function(event) {
             var gridRowCart = event.target.closest('.grid-row-cart');
-            var id = gridRowCart.querySelector('textarea[placeholder="Nhập id..."]').value;
-            var index = carts.findIndex(cart => cart.id == id);
+            var maDon = gridRowCart.querySelector('textarea[placeholder="Nhập mã đơn..."]').value.trim();
+
+            let response = await fetch(`../handlers/lay/laydonhang.php?maDon=${maDon}`);
+            let cart = await response.json();
+
+            let response1 = await fetch(`../handlers/lay/laychitiethoadon.php?maDon=${maDon}`);
+            let detailCart = await response1.json();
+
+            let fetchProductPromises = detailCart.map(item =>
+                fetch(`../handlers/lay/laysanpham.php?maSach=${item.maSach}`).then(res => res.json())
+            );
+            let productList = await Promise.all(fetchProductPromises);
+
+            let detail = '';
+            let tongCong = 0;
+            for (let i = 0; i < detailCart.length; i++) {
+                let item = detailCart[i];
+                let product = productList[i];
+                let total = item.soLuong * item.giaBan;
+                tongCong += total;
+
+                detail += `
+                    <div class="grid-row-detail">
+                        <textarea readonly>${product.tenSach}</textarea>
+                        <textarea readonly>${item.soLuong}</textarea>
+                        <textarea readonly>${item.giaBan.toLocaleString()}</textarea>
+                        <textarea readonly>${total.toLocaleString()}</textarea>
+                    </div>
+                `;
+            }
 
             const toolMenu = document.querySelector('.tool-menu');
             toolMenu.style.display = 'block';
-            menuDetail = document.createElement('div');
+
+            const oldMenuDetail = toolMenu.querySelector('.menu-detail');
+            if (oldMenuDetail) {
+                oldMenuDetail.remove();
+            }
+            let diaChi = await addressHandler1.concatenateAddress(cart.tinhThanh,cart.quanHuyen,cart.xa,cart.duong);
+            let menuDetail = document.createElement('div');
             menuDetail.className = 'menu-detail';
+            menuDetail.innerHTML = '';
             menuDetail.innerHTML = `
                 <h2>Chi tiết đơn hàng</h2>
                 <div class="detailHeader">
-                    <ul>
-                        <span>HÓA ĐƠN CHO</span>
-                        <li>Vũ</li>
-                        <li>Asd</li>
+                    <div class="header-title">
+                        <span>Thông tin đơn hàng</span>
+                    </div>
+                    <ul class="header-info">
+                        <li><strong>Tên người dùng:</strong> ${cart.tenNguoiDung}</li>
+                        <li><strong>Số điện thoại:</strong> ${cart.soDienThoai}</li>
+                        <li><strong>Ngày đặt hàng:</strong> ${cart.ngayTao}</li>
+                        <li><strong>Địa chỉ:</strong> ${diaChi}</li>
                     </ul>
                 </div>
                 <div class="grid-header-detail">
@@ -81,29 +161,19 @@ function setDetailButtons() {
                     <textarea readonly>Thành tiền</textarea>
                 </div>
                 <div class="grid-body-detail">
-                    <div class="grid-row-detail">
-                        <textarea readonly>Sach Cu~</textarea>
-                        <textarea readonly>5</textarea>
-                        <textarea readonly>30.000</textarea>
-                        <textarea readonly>150.000</textarea>
-                    </div>
-                    <div class="grid-row-detail">
-                        <textarea readonly>Sach Cu~</textarea>
-                        <textarea readonly>5</textarea>
-                        <textarea readonly>30.000</textarea>
-                        <textarea readonly>150.000</textarea>
-                    </div>
+                    ${detail}
                 </div>
                 <div class="grid-footer-detail">
                     <textarea readonly>Tổng cộng</textarea>
-                    <textarea readonly>300.000</textarea>
+                    <textarea readonly>${tongCong.toLocaleString()}</textarea>
                 </div>
             `;
-            toolMenu.appendChild(menuDetail)
+            toolMenu.appendChild(menuDetail);
             openToolMenu('.menu-detail');
-        })
-    })
+        });
+    });
 }
+
 
 function searchButton() {
     var flag = true;
@@ -145,7 +215,7 @@ function searchButton() {
             createAlert("Không tìm thấy đơn hàng.");
             cartFilter();
         } else {
-            setStatusButtons(true);
+            setStatusButtons();
             setDetailButtons();
         }
     }
@@ -157,12 +227,11 @@ async function allCarts(listCartsBlock) {
 
     listCartsBlock.innerHTML = '';
     for (let cart of carts){
-        console.log(cart);
-        let diaChi = await addressHandler1.concatenateAddress(cart.tinhThanh,cart.quanHuyen,cart.xa)
+        let diaChi = await addressHandler1.concatenateAddress(cart.tinhThanh,cart.quanHuyen,cart.xa,cart.duong)
         var newCart = document.createElement('div');
         newCart.className = 'grid-row-cart';
         newCart.innerHTML = `
-                <textarea placeholder="Nhập id..." readonly>${cart.maDon}</textarea>
+                <textarea placeholder="Nhập mã đơn..." readonly>${cart.maDon}</textarea>
                 <textarea placeholder="Nhập tên người dùng..." readonly>${cart.tenNguoiDung}</textarea>
                 <textarea placeholder="Nhập địa chỉ..." readonly>${diaChi}</textarea>
                 <textarea placeholder="Nhập số điện thoại..." readonly>${cart.soDienThoai}</textarea>
@@ -174,42 +243,57 @@ async function allCarts(listCartsBlock) {
             `;
         listCartsBlock.appendChild(newCart);
     };
-    setStatusButtons(true);
+    setStatusButtons();
     setDetailButtons();
 }
 
-function statusCarts(listCartsBlock, status) {
+async function statusCarts(listCartsBlock, status) {
+    let response = await fetch('../handlers/lay/laydonhang.php');
+    let carts = await response.json();
+
     listCartsBlock.innerHTML = '';
-    carts.forEach(function (cart) {
-        if (cart.status == status) {
+    for (let cart of carts) {
+        let cartStatus = cart.tinhTrang.trim().toLowerCase();
+        let filterStatus = status.trim().toLowerCase();
+
+        console.log('Cart status:', cartStatus, 'Status filter:', filterStatus, cartStatus == filterStatus);
+
+        if (cartStatus == filterStatus) {
+            let diaChi = await addressHandler1.concatenateAddress(cart.tinhThanh, cart.quanHuyen, cart.xa, cart.duong);
             var newCart = document.createElement('div');
             newCart.className = 'grid-row-cart';
             newCart.innerHTML = `
-                <textarea placeholder="Nhập id..." readonly>${cart.id}</textarea>
-                <textarea placeholder="Nhập tên người dùng..." readonly>${cart.username}</textarea>
-                <textarea placeholder="Nhập địa chỉ..." readonly>${cart.address}</textarea>
-                <textarea placeholder="Nhập số điện thoại..." readonly>${cart.phone}</textarea>
-                <textarea placeholder="Nhập tổng giá..." readonly>${cart.amount}</textarea>
+                <textarea placeholder="Nhập mã đơn..." readonly>${cart.maDon}</textarea>
+                <textarea placeholder="Nhập tên người dùng..." readonly>${cart.tenNguoiDung}</textarea>
+                <textarea placeholder="Nhập địa chỉ..." readonly>${diaChi}</textarea>
+                <textarea placeholder="Nhập số điện thoại..." readonly>${cart.soDienThoai}</textarea>
+                <textarea placeholder="Nhập tổng giá..." readonly>${cart.tongTien}</textarea>
                 <div class="buttonCart">
-                    <button type="button" class="status">${cart.status}</button>
+                    <button type="button" class="status">${cart.tinhTrang}</button>
                     <button type="button" class="detailButton">Chi tiết đơn hàng</button>
                 </div>
             `;
             listCartsBlock.appendChild(newCart);
         }
-    });
-    setStatusButtons(false);
+    }
+
+    setStatusButtons();
     setDetailButtons();
 }
 
+
+
 function cartFilter() {
     const cartFilter = document.getElementById('cartFilter');
-    if (cartFilter.value == "Tất cả đơn hàng") allCarts(listCartsBlock);
-    else if (cartFilter.value == "Chưa xử lí") statusCarts(listCartsBlock, "Chưa xử lí");
-    else if (cartFilter.value == "Đã xác nhận") statusCarts(listCartsBlock, "Đã xác nhận");
-    else if (cartFilter.value == "Đã giao") statusCarts(listCartsBlock, "Đã giao");
-    else if (cartFilter.value == "Đã hủy") statusCarts(listCartsBlock, "Đã hủy");
+    const status = cartFilter.value;
+
+    if (status === "Tất cả đơn hàng") {
+        allCarts(listCartsBlock);
+    } else {
+        statusCarts(listCartsBlock, status);
+    }
 }
+
 
 let filterBtn = document.getElementById('filterBtnCart');
 let menuFilter = document.querySelector('.menuFilter');
@@ -232,8 +316,10 @@ document.onclick = (e) => {
 
 
 
-function handleFilter(dateStart, dateEnd, city, district) {
+async function handleFilter(dateStart, dateEnd, city, district) {
     var flag = true;
+    let response = await fetch('../handlers/lay/laydonhang.php');
+    let carts = await response.json();
 
     dateStart = (dateStart == "") ? null : new Date(dateStart);
     dateEnd = (dateEnd == "") ? null : new Date(dateEnd);
@@ -257,32 +343,28 @@ function handleFilter(dateStart, dateEnd, city, district) {
     listCartsBlock.innerHTML = '';
 
     for (let i = 0; i < carts.length; i++) {
-        cartTime = new Date(carts[i].date + "T07:00:00");
+        let cartTime = new Date(carts[i].ngayTao + "T07:00:00");
         if (carts[i].status == cartFilterValue || cartFilterValue == "Tất cả đơn hàng") {
 
-            var cityTemp = carts[i].address.split(",")[1].trim().toLowerCase();
-            var districtTemp = carts[i].address.split(",")[0].trim().toLowerCase();
-
-
-
-            if (city && city !== cityTemp) continue;
-            if (district && district !== districtTemp) continue;
+            if (city && city !== carts[i].tinhThanh) continue;
+            if (district && district !== carts[i].quanHuyen) continue;
 
             if (dateStart && cartTime < dateStart) continue;
             if (dateEnd && cartTime > dateEnd) continue;
 
             flag = false;
 
+            let diaChi = await addressHandler1.concatenateAddress(carts[i].tinhThanh,carts[i].quanHuyen,carts[i].xa,carts[i].duong);
             var newCart = document.createElement('div');
             newCart.className = 'grid-row-cart';
             newCart.innerHTML = `
-                <textarea placeholder="Nhập id..." readonly>${carts[i].id}</textarea>
-                <textarea placeholder="Nhập tên người dùng..." readonly>${carts[i].username}</textarea>
-                <textarea placeholder="Nhập địa chỉ..." readonly>${carts[i].address}</textarea>
-                <textarea placeholder="Nhập số điện thoại..." readonly>${carts[i].phone}</textarea>
-                <textarea placeholder="Nhập tổng giá..." readonly>${carts[i].amount}</textarea>
+                <textarea placeholder="Nhập maDon..." readonly>${carts[i].maDon}</textarea>
+                <textarea placeholder="Nhập tên người dùng..." readonly>${carts[i].tenNguoiDung}</textarea>
+                <textarea placeholder="Nhập địa chỉ..." readonly>${diaChi}</textarea>
+                <textarea placeholder="Nhập số điện thoại..." readonly>${carts[i].soDienThoai}</textarea>
+                <textarea placeholder="Nhập tổng giá..." readonly>${carts[i].tongTien}</textarea>
                 <div class="buttonCart">
-                    <button type="button" class="status">${carts[i].status}</button>
+                    <button type="button" class="status">${carts[i].tinhTrang}</button>
                     <button type="button" class="detailButton">Chi tiết đơn hàng</button>
                 </div>
             `;
@@ -295,14 +377,14 @@ function handleFilter(dateStart, dateEnd, city, district) {
         createAlert("Không tìm thấy đơn hàng.");
     } else {
         if (cartFilterValue == "Tất cả đơn hàng")
-            setStatusButtons(true);
-        else setStatusButtons(false);
+            setStatusButtons();
+        else setStatusButtons();
         setDetailButtons();
     }
 }
 
 function clearFilter() {
-    userFilter();
+    cartFilter();
     const ids = ['dateStart', 'dateEbd', 'city', 'district'];
     ids.forEach(id => {
         const Element = document.getElementById(id);
@@ -322,10 +404,10 @@ document.getElementById('clearButton').addEventListener('click', () =>{
 })
 
 document.getElementById('acceptFilter').addEventListener('click', () =>{
-    dateStart = document.getElementById('dateStart').value;
-    dateEnd = document.getElementById('dateEnd').value;
-    city = document.getElementById('city').value;
-    district = document.getElementById('district').value;
+    let dateStart = document.getElementById('dateStart')?.value || '';
+    let dateEnd = document.getElementById('dateEnd')?.value || '';
+    let city = document.getElementById('city')?.value || '';
+    let district = document.getElementById('district')?.value || '';
     handleFilter(dateStart,dateEnd,city,district);
 })
 

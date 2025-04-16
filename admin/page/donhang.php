@@ -133,7 +133,7 @@ $admin = getAdminInfoByUsername($database, $username);
                     </button>
                     <select name="cartFilter" id="cartFilter">
                         <option value="Tất cả đơn hàng" selected>Tất cả đơn hàng</option>
-                        <option value="Chưa xử lí">Chưa xử lí</option>
+                        <option value="Chưa xác nhận">Chưa xác nhận</option>
                         <option value="Đã xác nhận">Đã xác nhận</option>
                         <option value="Đã giao">Đã giao</option>
                         <option value="Đã hủy">Đã hủy</option>
@@ -160,6 +160,12 @@ $admin = getAdminInfoByUsername($database, $username);
     <script type="module" src="../asset/js/inputDataCart.js"></script>
     <script src="../asset/js/admin.js"></script>
     <script type="module" src="../asset/js/apiAddress.js"></script>
+    <?php
+        if (isset($_SESSION["thongBaoSua"])){
+            echo "<script>createAlert('".$_SESSION["thongBaoSua"]."');</script>";
+            unset($_SESSION["thongBaoSua"]);
+        }
+    ?>
 </body>
 
 </html>
