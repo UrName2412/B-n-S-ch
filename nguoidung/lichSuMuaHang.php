@@ -1,15 +1,81 @@
+<?php
+require '../admin/config/config.php';
+require '../asset/handler/user_handle.php';
+session_start();
+
+// Kiểm tra nếu người dùng đã đăng nhập
+if (isset($_SESSION['username']) && isset($_SESSION['role']) && $_SESSION['role'] == false) {
+    $username = $_SESSION['username'];
+} elseif (isset($_COOKIE['username']) && isset($_COOKIE['pass'])) {
+    $username = $_COOKIE['username'];
+    $password = $_COOKIE['pass'];
+
+    // Kiểm tra đăng nhập qua cookie
+    if (checkLogin($database, $username, $password)) {
+        $_SESSION['username'] = $username;
+    } else {
+        echo "<script>alert('Bạn chưa đăng nhập!'); window.location.href='../dangky/dangnhap.php';</script>";
+        exit();
+    }
+} else {
+    echo "<script>alert('Bạn cần đăng nhập để xem lịch sử mua hàng!'); window.location.href='../dangky/dangnhap.php';</script>";
+    exit();
+}
+
+// Lấy thông tin người dùng từ cơ sở dữ liệu
+$user = getUserInfoByUsername($database, $username);
+
+// Lấy lịch sử mua hàng của người dùng từ cơ sở dữ liệu
+$sql = "SELECT dh.*, ctdh.*, sp.tenSach, sp.hinhAnh
+        FROM b01_donhang dh
+        JOIN b01_chitiethoadon ctdh ON dh.maDon = ctdh.maDon
+        JOIN b01_sanpham sp ON ctdh.maSach = sp.maSach
+        WHERE dh.tenNguoiDung = ?";
+$stmt = $database->prepare($sql);
+$stmt->bind_param('s', $username);
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Kiểm tra xem có đơn hàng nào không
+if ($result->num_rows > 0) {
+    $orderHistory = "<h2>Lịch sử mua hàng của bạn</h2>";
+$orderHistory .= "<table border='1' class='table'>
+                    <tr>
+                        <th>Ngày nhận hàng</th>
+                        <th>Hình ảnh</th>
+                        <th>Tên sách</th>
+                        <th>Số lượng</th>
+                        <th>Giá bán</th>
+                        <th>Tổng tiền</th>
+                    </tr>";
+while ($row = $result->fetch_assoc()) {
+    $orderHistory .= "<tr>
+                        <td>" . htmlspecialchars($row['ngayTao']) . "</td>
+                        <td><img src='../Images/" . htmlspecialchars($row['hinhAnh']) . "' alt='Hình ảnh sách' style='width: 80px; height: auto; border-radius: 6px;'></td>
+                        <td>" . htmlspecialchars($row['tenSach']) . "</td>
+                        <td>" . htmlspecialchars($row['soLuong']) . "</td>
+                        <td>" . number_format($row['giaBan']*1000, 0, ',', '.') . " VND</td>
+                        <td>" . number_format($row['soLuong'] * $row['giaBan']*1000, 0, ',', '.') . " VND</td>
+                      </tr>";
+}
+$orderHistory .= "</table>";
+} else {
+    $orderHistory = "<p>Không có đơn hàng nào trong lịch sử mua hàng của bạn.</p>";
+}
+
+$stmt->close();
+$database->close();
+?>
+
 <!DOCTYPE html>
 <html lang="vi">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hồ sơ</title>
-    <!-- Bootstrap CSS -->
+    <title>Lịch sử mua hàng</title>
     <link rel="stylesheet" href="../vender/css/bootstrap.min.css">
-    <!-- FONT AWESOME  -->
-    <link rel="stylesheet" href="../vender/css/bootstrap.min.css">
-    <!-- CSS  -->
+    <link rel="stylesheet" href="../vender/css/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="../asset/css/index-user.css">
     <link rel="stylesheet" href="../asset/css/user.css">
     <link rel="stylesheet" href="../asset/css/lichSuMuaHang.css">
@@ -47,18 +113,6 @@
                             <i class="fas fa-search"></i>
                         </button>
                     </form>
-                    <script>
-                        document.getElementById('searchForm').addEventListener('submit', function (event) {
-                            event.preventDefault();
-                            const inputValue = document.getElementById('timkiem').value.trim();
-
-                            if (inputValue) {
-                                window.location.href = '../nguoidung/timkiem.php';
-                            } else {
-                                alert('Vui lòng nhập nội dung tìm kiếm!');
-                            }
-                        });
-                    </script>
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
                             <a href="../index.php" class="nav-link fw-bold text-white">ĐĂNG XUẤT</a>
@@ -81,7 +135,7 @@
             </nav>
         </div>
     </header>
-    <!-- Main -->
+    <!-- Main Content -->
     <main class="container my-4">
         <div class="main-profile row padding-0">
             <!-- Main profile -->
@@ -96,136 +150,12 @@
                 </ul>
             </div>
             <div class="col-9">
-                <div class="product_container">
-                    <div class="order-title">
-                        <p>Đơn Hàng 1</p>
-                        <p>Ngày nhận hàng: 24/12/2023</p>
-                    </div>
-                    <div>
-                        <div class="product_info">
-                            <img src="../Images/tuduynguoc.jpg" alt="Tư duy ngược">
-                            <div class="product_detail1">
-                                <h5>Tư duy ngược</h5>
-                                <p>x1</p>
-                            </div>
-                            <div class="product_detail2">
-                                <p>80.000đ</p>
-                            </div>
-                        </div>
-                        <div class="product_info">
-                            <img src="../Images/stopoverthinking.jpg" alt="Stop Overthinking">
-                            <div class="product_detail1">
-                                <h5>Stop Overthinking</h5>
-                                <p>x2</p>
-                            </div>
-                            <div class="product_detail2">
-                                <p>85.000đ</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="total">
-                        <p>Tổng tiền: <span>250.000đ</span></p>
-                    </div>
-                </div>
-
-                <div class="product_container">
-                    <div class="order-title">
-                        <p>Đơn Hàng 2</p>
-                        <p>Ngày nhận hàng: 15/11/2023</p>
-                    </div>
-                    <div>
-                        <div class="product_info">
-                            <img src="../Images/tuduymo.jpg" alt="Tư duy mở">
-                            <div class="product_detail1">
-                                <h5>Tư duy mở</h5>
-                                <p>x1</p>
-                            </div>
-                            <div class="product_detail2">
-                                <p>80.000đ</p>
-                            </div>
-                        </div>
-                        <div class="product_info">
-                            <img src="../Images/conduongchangmayaidi.jpg" alt="Con đường chẳng mấy ai đi">
-                            <div class="product_detail1">
-                                <h5>Con đường chẳng mấy ai đi</h5>
-                                <p>x3</p>
-                            </div>
-                            <div class="product_detail2">
-                                <p>90.000đ</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="total">
-                        <p>Tổng tiền: <span>350.000đ</span></p>
-                    </div>
-                </div>
-
-                <div class="product_container">
-                    <div class="order-title">
-                        <p>Đơn Hàng 3</p>
-                        <p>Ngày nhận hàng: 05/10/2023</p>
-                    </div>
-                    <div>
-                        <div class="product_info">
-                            <img src="../Images/saochungtalaingu.jpg" alt="Sao chúng ta lại ngủ">
-                            <div class="product_detail1">
-                                <h5>Sao chúng ta lại ngủ</h5>
-                                <p>x2</p>
-                            </div>
-                            <div class="product_detail2">
-                                <p>195.000đ</p>
-                            </div>
-                        </div>
-                        <div class="product_info">
-                            <img src="../Images/muonkiepnhansinh.jpg" alt="Muôn kiếp nhân sinh">
-                            <div class="product_detail1">
-                                <h5>Muôn kiếp nhân sinh</h5>
-                                <p>x1</p>
-                            </div>
-                            <div class="product_detail2">
-                                <p>125.000đ</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="total">
-                        <p>Tổng tiền: <span>515.000đ</span></p>
-                    </div>
-                </div>
-
-                <div class="product_container">
-                    <div class="order-title">
-                        <p>Đơn Hàng 4</p>
-                        <p>Ngày nhận hàng: 20/09/2023</p>
-                    </div>
-                    <div>
-                        <div class="product_info">
-                            <img src="../Images/muonkiepnhansinh.jpg" alt="Muôn kiếp nhân sinh">
-                            <div class="product_detail1">
-                                <h5>Muôn kiếp nhân sinh</h5>
-                                <p>x1</p>
-                            </div>
-                            <div class="product_detail2">
-                                <p>125.000đ</p>
-                            </div>
-                        </div>
-                        <div class="product_info">
-                            <img src="../Images/cuoccachmangglucose.jpg" alt="Cuộc cách mạng Glucose">
-                            <div class="product_detail1">
-                                <h5>Cuộc cách mạng Glucose</h5>
-                                <p>x2</p>
-                            </div>
-                            <div class="product_detail2">
-                                <p>120.000đ</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="total">
-                        <p>Tổng tiền: <span>365.000đ</span></p>
-                    </div>
-                </div>
+                <!-- Hiển thị lịch sử mua hàng -->
+                <?php echo $orderHistory; ?>
             </div>
         </div>
     </main>
+
     <!-- Footer -->
     <footer class="text-white py-4">
         <div class="container">
@@ -276,30 +206,12 @@
                 <div class="col-md-12">
                     <ul class="list-unstyled">
                         <li>Chi nhánh 1: 273 An Dương Vương, Phường 3, Quận 5, TP. Hồ Chí Minh</li>
-                        <li>Chi nhánh 2: 105 Bà Huyện Thanh Quan, Phường Võ Thị Sáu, Quận 3, TP. Hồ Chí Minh</li>
-                        <li>Chi nhánh 3: 4 Tôn Đức Thắng, Phường Bến Nghé, Quận 1, TP. Hồ Chí Minh</li>
+                        <li>Chi nhánh 2: 105 Xô Viết Nghệ Tĩnh, Phường 26, Quận Bình Thạnh, TP. Hồ Chí Minh</li>
                     </ul>
                 </div>
             </div>
         </div>
     </footer>
-    <!-- Bootstrap JS -->
-    <script src="../vender/js/bootstrap.bundle.min.js"></script>
-
-    <script>
-        document.getElementById('searchForm').addEventListener('submit', function (event) {
-    event.preventDefault();
-    const inputValue = document.getElementById('timkiem').value.trim();
-
-    if (inputValue) {
-        window.location.href = '/B-n-S-ch/nguoidung/timkiem.php?tenSach=' + encodeURIComponent(inputValue);
-    } else {
-        alert('Vui lòng nhập nội dung tìm kiếm!');
-    }
-});
-
-    </script>
-
 </body>
 
 </html>
