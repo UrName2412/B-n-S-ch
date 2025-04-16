@@ -39,7 +39,7 @@ $result = $stmt->get_result();
 // Kiểm tra xem có đơn hàng nào không
 if ($result->num_rows > 0) {
     $orderHistory = "<h2>Lịch sử mua hàng của bạn</h2>";
-$orderHistory .= "<table border='1' class='table'>
+    $orderHistory .= "<table border='1' class='table'>
                     <tr>
                         <th>Ngày nhận hàng</th>
                         <th>Hình ảnh</th>
@@ -48,17 +48,17 @@ $orderHistory .= "<table border='1' class='table'>
                         <th>Giá bán</th>
                         <th>Tổng tiền</th>
                     </tr>";
-while ($row = $result->fetch_assoc()) {
-    $orderHistory .= "<tr>
+    while ($row = $result->fetch_assoc()) {
+        $orderHistory .= "<tr>
                         <td>" . htmlspecialchars($row['ngayTao']) . "</td>
                         <td><img src='../Images/" . htmlspecialchars($row['hinhAnh']) . "' alt='Hình ảnh sách' style='width: 80px; height: auto; border-radius: 6px;'></td>
                         <td>" . htmlspecialchars($row['tenSach']) . "</td>
                         <td>" . htmlspecialchars($row['soLuong']) . "</td>
-                        <td>" . number_format($row['giaBan']*1000, 0, ',', '.') . " VND</td>
-                        <td>" . number_format($row['soLuong'] * $row['giaBan']*1000, 0, ',', '.') . " VND</td>
+                        <td>" . number_format($row['giaBan'] * 1000, 0, ',', '.') . " VND</td>
+                        <td>" . number_format($row['soLuong'] * $row['giaBan'] * 1000, 0, ',', '.') . " VND</td>
                       </tr>";
-}
-$orderHistory .= "</table>";
+    }
+    $orderHistory .= "</table>";
 } else {
     $orderHistory = "<p>Không có đơn hàng nào trong lịch sử mua hàng của bạn.</p>";
 }
@@ -115,13 +115,16 @@ $database->close();
                     </form>
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a href="../index.php" class="nav-link fw-bold text-white">ĐĂNG XUẤT</a>
-                        </li>
-                        <li class="nav-item">
-                            <div>
-                                <a href="user.php"><i class="fas fa-user" id="avatar" style="color: black;"></i></a>
-                                <span id="profile-name" style="top: 20px; padding: 2px; display: none;">Nguyễn Văn
-                                    A</span>
+                            <div class="d-flex gap-2">
+                                <a href="../nguoidung/user.php" class="mt-2"><i class="fas fa-user" id="avatar" style="color: black;"></i></a>
+                                <span class="mt-1" id="profile-name" style="top: 20px; padding: 2px;"><?php echo $user['tenNguoiDung']; ?></span>
+                                <div class="dropdown">
+                                    <button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                                    <ul class="dropdown-menu">
+                                        <li class="dropdownList"><a class="dropdown-item" href="../nguoidung/user.php">Thông tin tài khoản</a></li>
+                                        <li class="dropdownList"><a href="../dangky/dangxuat.php" class="dropdown-item">Đăng xuất</a></li>
+                                    </ul>
+                                </div>
                             </div>
                         </li>
                     </ul>

@@ -5,7 +5,6 @@ session_start();
 
 if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role'] == false)) {
     $username = $_SESSION['username'];
-    
 } elseif (isset($_COOKIE['username']) && isset($_COOKIE['pass'])) {
     $username = $_COOKIE['username'];
     $password = $_COOKIE['pass'];
@@ -72,7 +71,7 @@ $user = getUserInfoByUsername($database, $username);
                         </button>
                     </form>
                     <script>
-                        document.getElementById('searchForm').addEventListener('submit', function (event) {
+                        document.getElementById('searchForm').addEventListener('submit', function(event) {
                             event.preventDefault();
                             const inputValue = document.getElementById('timkiem').value.trim();
                             if (inputValue) {
@@ -95,10 +94,8 @@ $user = getUserInfoByUsername($database, $username);
                                     <ul class="dropdown-menu">
                                         <li class="dropdownList"><a class="dropdown-item"
                                                 href="../nguoidung/user.php">Thông tin tài khoản</a></li>
-                                        <?php if (isset($_SESSION['username'])): ?>
-                                            <li class="dropdownList"><a href="../dangky/dangxuat.php"
-                                                    class="dropdown-item" onclick="removeSessionCart()">Đăng xuất</a></li>
-                                        <?php endif; ?>
+                                        <li class="dropdownList"><a href="../dangky/dangxuat.php"
+                                                class="dropdown-item">Đăng xuất</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -131,7 +128,7 @@ $user = getUserInfoByUsername($database, $username);
                         <li class="list-group-item">
                             <!-- Danh sách nhà xuất bản  -->
                             <select class="form-select" id="nxb">
-                                <option value="">-- Chọn nhà xuất bản  --</option>
+                                <option value="">-- Chọn nhà xuất bản --</option>
                                 <?php
                                 $sql = "SELECT * FROM b01_nhaXuatBan";
                                 $result = $database->query($sql);
@@ -258,7 +255,7 @@ $user = getUserInfoByUsername($database, $username);
 
     <a href="#top" id="backToTop">&#8593;</a>
 
-    <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" >
+    <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel">
         <div class="modal-dialog modal-sm position-absolute" style="top: 10%; left: 10%;">
             <div class="modal-content bg-success text-white">
                 <div class="modal-body text-center">
@@ -268,7 +265,7 @@ $user = getUserInfoByUsername($database, $username);
         </div>
     </div>
 
-    <div class="modal fade" id="productDetailModal" tabindex="-1" aria-labelledby="productDetailLabel" >
+    <div class="modal fade" id="productDetailModal" tabindex="-1" aria-labelledby="productDetailLabel">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -303,18 +300,17 @@ $user = getUserInfoByUsername($database, $username);
         window.addEventListener("resize", adjustSidebar);
     </script>
 
-<script>
-        document.getElementById('searchForm').addEventListener('submit', function (event) {
-    event.preventDefault();
-    const inputValue = document.getElementById('timkiem').value.trim();
+    <script>
+        document.getElementById('searchForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const inputValue = document.getElementById('timkiem').value.trim();
 
-    if (inputValue) {
-        window.location.href = '/B-n-S-ch/nguoidung/timkiem.php?tenSach=' + encodeURIComponent(inputValue);
-    } else {
-        alert('Vui lòng nhập nội dung tìm kiếm!');
-    }
-});
-
+            if (inputValue) {
+                window.location.href = '/B-n-S-ch/nguoidung/timkiem.php?tenSach=' + encodeURIComponent(inputValue);
+            } else {
+                alert('Vui lòng nhập nội dung tìm kiếm!');
+            }
+        });
     </script>
 
 </body>

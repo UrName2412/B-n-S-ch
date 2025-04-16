@@ -42,8 +42,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $cart = json_decode($rawData, true);
 
     if (is_array($cart)) {
-        $_SESSION['cart'] = $cart;  
-        echo json_encode(['success' => true]); 
+        $_SESSION['cart'] = $cart;
+        echo json_encode(['success' => true]);
     } else {
         echo json_encode(['success' => false, 'message' => 'Dữ liệu giỏ hàng không hợp lệ']);
     }
@@ -126,10 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <ul class="dropdown-menu">
                                         <li class="dropdownList"><a class="dropdown-item"
                                                 href="../nguoidung/user.php">Thông tin tài khoản</a></li>
-                                        <?php if (isset($_SESSION['username'])): ?>
-                                            <li class="dropdownList"><a href="../dangky/dangxuat.php"
-                                                    class="dropdown-item">Đăng xuất</a></li>
-                                        <?php endif; ?>
+                                        <li class="dropdownList"><a href="../dangky/dangxuat.php" class="dropdown-item">Đăng xuất</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -189,7 +186,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 </div>
                             </div>';
                     }
-                
+
                     echo '<script>
                         document.addEventListener("DOMContentLoaded", function() {
                             document.querySelector(".cart-total .text-danger.h5").innerText = "' . number_format($tongCong, 0, ',', '.') . 'đ";
