@@ -71,7 +71,7 @@ $user = getUserInfoByUsername($database, $username);
                         </button>
                     </form>
                     <script>
-                        document.getElementById('searchForm').addEventListener('submit', function(event) {
+                        document.getElementById('searchForm').addEventListener('submit', function (event) {
                             event.preventDefault();
                             const inputValue = document.getElementById('timkiem').value.trim();
                             if (inputValue) {
@@ -301,7 +301,13 @@ $user = getUserInfoByUsername($database, $username);
     </script>
 
     <script>
-        document.getElementById('searchForm').addEventListener('submit', function(event) {
+
+        // Tải sản phẩm ban đầu
+        document.addEventListener('DOMContentLoaded', function () {
+            loadProducts();  // Mặc định tải trang 1
+        });
+
+        document.getElementById('searchForm').addEventListener('submit', function (event) {
             event.preventDefault();
             const inputValue = document.getElementById('timkiem').value.trim();
 

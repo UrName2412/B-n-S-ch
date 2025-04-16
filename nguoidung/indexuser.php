@@ -73,7 +73,7 @@ $user = getUserInfoByUsername($database, $username);
                         </button>
                     </form>
                     <script>
-                        document.getElementById('searchForm').addEventListener('submit', function(event) {
+                        document.getElementById('searchForm').addEventListener('submit', function (event) {
                             event.preventDefault();
                             const inputValue = document.getElementById('timkiem').value.trim();
 
@@ -87,13 +87,18 @@ $user = getUserInfoByUsername($database, $username);
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
                             <div class="d-flex gap-2">
-                                <a href="user.php" class="mt-2"><i class="fas fa-user" id="avatar" style="color: black;"></i></a>
-                                <span class="mt-1" id="profile-name" style="top: 20px; padding: 2px;"><?php echo $user['tenNguoiDung']; ?></span>
+                                <a href="user.php" class="mt-2"><i class="fas fa-user" id="avatar"
+                                        style="color: black;"></i></a>
+                                <span class="mt-1" id="profile-name"
+                                    style="top: 20px; padding: 2px;"><?php echo $user['tenNguoiDung']; ?></span>
                                 <div class="dropdown">
-                                    <button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                                    <button class="btn btn-outline-light dropdown-toggle" type="button"
+                                        data-bs-toggle="dropdown" aria-expanded="false"></button>
                                     <ul class="dropdown-menu">
-                                        <li class="dropdownList"><a class="dropdown-item" href="user.php">Thông tin tài khoản</a></li>
-                                        <li class="dropdownList"><a href="../dangky/dangxuat.php" class="dropdown-item">Đăng xuất</a></li>
+                                        <li class="dropdownList"><a class="dropdown-item" href="user.php">Thông tin tài
+                                                khoản</a></li>
+                                        <li class="dropdownList"><a href="../dangky/dangxuat.php"
+                                                class="dropdown-item">Đăng xuất</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -381,7 +386,14 @@ $user = getUserInfoByUsername($database, $username);
     </script>
 
     <script>
-        document.getElementById('searchForm').addEventListener('submit', function(event) {
+
+        // Tải sản phẩm ban đầu
+        document.addEventListener('DOMContentLoaded', function () {
+            loadProducts();  // Mặc định tải trang 1
+        });
+
+
+        document.getElementById('searchForm').addEventListener('submit', function (event) {
             event.preventDefault();
             const inputValue = document.getElementById('timkiem').value.trim();
 

@@ -118,6 +118,7 @@ $user = getUserInfoByUsername($database, $username);
     </header>
 
     <!-- Main -->
+    <!-- Main -->
     <div class="container my-4">
         <div class="row">
             <!-- Sidebar -->
@@ -204,12 +205,15 @@ $user = getUserInfoByUsername($database, $username);
                                         ?>
                                         <div class="col-md-4 mb-4">
                                             <div class="card" style="width: 100%;">
-                                                <a href="#" class="view-detail" data-id="<?php echo $row['maSach']; ?>"><img src="../images/<?php echo $row['hinhAnh']; ?>" class="card-img-top"
-                                                        alt="..."></a>
+                                                <a href="#" class="view-detail" data-id="<?php echo $row['maSach']; ?>">
+                                                    <img src="../images/<?php echo $row['hinhAnh']; ?>" class="card-img-top"
+                                                        alt="...">
+                                                </a>
                                                 <div class="card-body">
                                                     <h5 class="card-title"><?php echo $row['tenSach']; ?></h5>
                                                     <p class="card-text text-danger fw-bold">
-                                                        <?php echo number_format($row['giaBan']); ?> đ</p>
+                                                        <?php echo number_format($row['giaBan']); ?> đ
+                                                    </p>
                                                     <button class="btn" style="background-color: #336799; color: #ffffff;">Thêm vào
                                                         giỏ hàng</button>
                                                 </div>
@@ -293,16 +297,6 @@ $user = getUserInfoByUsername($database, $username);
         </div>
     </footer>
 
-    <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" inert>
-        <div class="modal-dialog modal-sm position-absolute" style="top: 10%; left: 10%;">
-            <div class="modal-content bg-success text-white">
-                <div class="modal-body text-center">
-                    <p class="m-0">Đã thêm vào giỏ hàng!</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Modal thông báo thêm vào giỏ hàng -->
     <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel">
         <div class="modal-dialog modal-sm position-absolute" style="top: 10%; left: 10%;">
@@ -337,6 +331,7 @@ $user = getUserInfoByUsername($database, $username);
     <script src="../vender/js/bootstrap.bundle.min.js"></script>
     <script src="../asset/js/sanpham.js"></script>
     <script src="../asset/js/timkiem.js"></script>
+    <script src="../asset/js/AJAXscript.js"></script>
 
     <script>
         function adjustSidebar() { // Hàm điều khiển sidebar khi cuộn

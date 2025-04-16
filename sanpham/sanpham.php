@@ -157,7 +157,7 @@ if ((isset($_SESSION['username']) || isset($_COOKIE['username'])) && (isset($_SE
                 <div class="border p-5">
                     <div class="container my-4">
                         <div id="listProduct" class="listProduct row">
-                            
+
 
                         </div>
                     </div>
@@ -231,7 +231,7 @@ if ((isset($_SESSION['username']) || isset($_COOKIE['username'])) && (isset($_SE
 
     <a href="#top" id="backToTop">&#8593;</a>
 
-    <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" >
+    <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel">
         <div class="modal-dialog modal-sm position-absolute" style="top: 10%; left: 10%;">
             <div class="modal-content bg-success text-white">
                 <div class="modal-body text-center">
@@ -241,7 +241,7 @@ if ((isset($_SESSION['username']) || isset($_COOKIE['username'])) && (isset($_SE
         </div>
     </div>
 
-    <div class="modal fade" id="productDetailModal" tabindex="-1" aria-labelledby="productDetailLabel" >
+    <div class="modal fade" id="productDetailModal" tabindex="-1" aria-labelledby="productDetailLabel">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -277,6 +277,12 @@ if ((isset($_SESSION['username']) || isset($_COOKIE['username'])) && (isset($_SE
     </script>
 
     <script>
+
+        // Tải sản phẩm ban đầu
+        document.addEventListener('DOMContentLoaded', function () {
+            loadProducts();  // Mặc định tải trang 1
+        });
+
         document.getElementById('searchForm').addEventListener('submit', function (event) {
             event.preventDefault();
             const inputValue = document.getElementById('timkiem').value.trim();

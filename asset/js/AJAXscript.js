@@ -309,8 +309,3 @@ function loadProducts(page = 1) {
         .catch(error => console.error('Error loading products:', error));
 }
 
-
-// Tải sản phẩm ban đầu
-document.addEventListener('DOMContentLoaded', function () {
-    loadProducts();  // Mặc định tải trang 1
-});

@@ -66,7 +66,7 @@ if ((isset($_SESSION['username']) || isset($_COOKIE['username'])) && (isset($_SE
                             const inputValue = document.getElementById('timkiem').value.trim();
 
                             if (inputValue) {
-                                window.location.href = '../nguoidung/timkiem-nologin.php';
+                                window.location.href = 'timkiem-nologin.php';
                             } else {
                                 alert('Vui lòng nhập nội dung tìm kiếm!');
                             }
