@@ -199,8 +199,7 @@ async function searchButton() {
             var newUser = document.createElement('div');
             newUser.className = 'grid-row';
             let vaiTro = user.vaiTro ? "Người quản trị" : "Người dùng";
-            let diaChi = await addressHandler1.concatenateAddress(user.tinhThanh, user.quanHuyen, user.xa);
-            if (user.duong != "") diaChi = diaChi.concat(", " + user.duong);
+            let diaChi = await addressHandler1.concatenateAddress(user.tinhThanh, user.quanHuyen, user.xa, user.duong);
 
             if (!user.trangThai && userFilterValue != "activeUsers") {
                 newUser.classList.add('banned');
@@ -274,8 +273,7 @@ async function activeUsers(listUsersBlock) {
         for (let user of users) {
             let vaiTro = user.vaiTro ? "Người quản trị" : "Người dùng";
 
-            let diaChi = await addressHandler1.concatenateAddress(user.tinhThanh, user.quanHuyen, user.xa);
-            if (user.duong != "") diaChi = diaChi.concat(", " + user.duong);
+            let diaChi = await addressHandler1.concatenateAddress(user.tinhThanh, user.quanHuyen, user.xa, user.duong);
 
             var newUser = document.createElement('div');
             newUser.className = 'grid-row';
@@ -321,8 +319,7 @@ async function allUsers(listUsersBlock) {
             newUser.className = 'grid-row';
 
             let vaiTro = user.vaiTro ? "Người quản trị" : "Người dùng";
-            let diaChi = await addressHandler1.concatenateAddress(user.tinhThanh, user.quanHuyen, user.xa);
-            if (user.duong) diaChi += `, ${user.duong}`;
+            let diaChi = await addressHandler1.concatenateAddress(user.tinhThanh, user.quanHuyen, user.xa,user.duong);
 
             if (user.trangThai) {
                 newUser.innerHTML = `
@@ -388,8 +385,7 @@ async function bannedUsers(listUsersBlock) {
         for (let user of users) {
             if (!user.trangThai) {
                 const vaiTro = user.vaiTro ? "Người quản trị" : "Người dùng";
-                let diaChi = await addressHandler1.concatenateAddress(user.tinhThanh, user.quanHuyen, user.xa);
-                if (user.duong) diaChi += `, ${user.duong}`;
+                let diaChi = await addressHandler1.concatenateAddress(user.tinhThanh, user.quanHuyen, user.xa, user.duong);
 
                 const newUser = document.createElement('div');
                 newUser.className = 'grid-row banned';
@@ -482,8 +478,7 @@ async function handleFilter(vaiTro, tinhThanh, quanHuyen, soDienThoai) {
             var newUser = document.createElement('div');
 
             let chuoiVaiTro = (users[i].vaiTro) ? "Người quản trị" : "Người dùng";
-            let diaChi = await addressHandler1.concatenateAddress(users[i].tinhThanh, users[i].quanHuyen, users[i].xa);
-            if (users[i].duong != "") diaChi = diaChi.concat(", " + users[i].duong);
+            let diaChi = await addressHandler1.concatenateAddress(users[i].tinhThanh, users[i].quanHuyen, users[i].xa, users[i].duong);
             newUser.className = 'grid-row';
             if (!users[i].trangThai) {
                 newUser.classList.add('banned');

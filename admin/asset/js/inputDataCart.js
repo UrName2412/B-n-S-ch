@@ -1,26 +1,25 @@
-var cartsAPI = '../data/JSON/donhang.json';
+import { addressHandler } from './apiAddress.js';
+const addressHandler1 = new addressHandler('city', 'district',);
 
 let carts = [];
 var listCartsBlock = document.querySelector('#dataCarts');
 
 function start() {
-    getCarts().then(() => {
-        renderCarts();
-    });
+    cartFilter();
 }
 
 //function
-function getCarts() {
-    return fetch(cartsAPI)
-        .then(response => response.json())
-        .then(data => {
-            carts = data;
-        });
-}
+// function getCarts() {
+//     return fetch(cartsAPI)
+//         .then(response => response.json())
+//         .then(data => {
+//             carts = data;
+//         });
+// }
 
-function renderCarts() {
-    allCarts(listCartsBlock);
-}
+// function renderCarts() {
+//     allCarts(listCartsBlock);
+// }
 
 
 function setStatusButtons(isAllCarts) {
@@ -142,34 +141,39 @@ function searchButton() {
                 }
             }
         })
-        if (flag){
+        if (flag) {
             createAlert("Không tìm thấy đơn hàng.");
             cartFilter();
-        } else{
+        } else {
             setStatusButtons(true);
             setDetailButtons();
         }
     }
 }
 
-function allCarts(listCartsBlock) {
+async function allCarts(listCartsBlock) {
+    let response = await fetch('../handlers/lay/laydonhang.php');
+    let carts = await response.json();
+
     listCartsBlock.innerHTML = '';
-    carts.forEach(function (cart) {
+    for (let cart of carts){
+        console.log(cart);
+        let diaChi = await addressHandler1.concatenateAddress(cart.tinhThanh,cart.quanHuyen,cart.xa)
         var newCart = document.createElement('div');
         newCart.className = 'grid-row-cart';
         newCart.innerHTML = `
-            <textarea placeholder="Nhập id..." readonly>${cart.id}</textarea>
-            <textarea placeholder="Nhập tên người dùng..." readonly>${cart.username}</textarea>
-            <textarea placeholder="Nhập địa chỉ..." readonly>${cart.address}</textarea>
-            <textarea placeholder="Nhập số điện thoại..." readonly>${cart.phone}</textarea>
-            <textarea placeholder="Nhập tổng giá..." readonly>${cart.amount}</textarea>
-            <div class="buttonCart">
-                <button type="button" class="status">${cart.status}</button>
-                <button type="button" class="detailButton">Chi tiết đơn hàng</button>
-            </div>
-        `;
+                <textarea placeholder="Nhập id..." readonly>${cart.maDon}</textarea>
+                <textarea placeholder="Nhập tên người dùng..." readonly>${cart.tenNguoiDung}</textarea>
+                <textarea placeholder="Nhập địa chỉ..." readonly>${diaChi}</textarea>
+                <textarea placeholder="Nhập số điện thoại..." readonly>${cart.soDienThoai}</textarea>
+                <textarea placeholder="Nhập tổng giá..." readonly>${cart.tongTien}</textarea>
+                <div class="buttonCart">
+                    <button type="button" class="status">${cart.tinhTrang}</button>
+                    <button type="button" class="detailButton">Chi tiết đơn hàng</button>
+                </div>
+            `;
         listCartsBlock.appendChild(newCart);
-    });
+    };
     setStatusButtons(true);
     setDetailButtons();
 }
@@ -285,8 +289,8 @@ function handleFilter(dateStart, dateEnd, city, district) {
             listCartsBlock.appendChild(newCart);
         }
     }
-    
-    if (flag){
+
+    if (flag) {
         clearFilter();
         createAlert("Không tìm thấy đơn hàng.");
     } else {
@@ -297,16 +301,37 @@ function handleFilter(dateStart, dateEnd, city, district) {
     }
 }
 
-function clearFilter(){
+function clearFilter() {
     userFilter();
-    const ids = ['dateStart','dateEbd','city','district'];
-    ids.forEach(id =>{
+    const ids = ['dateStart', 'dateEbd', 'city', 'district'];
+    ids.forEach(id => {
         const Element = document.getElementById(id);
         if (Element) Element.value = "";
     })
 }
 
+
 start();
+
+document.getElementById('cartFilter').addEventListener('change', ()=>{
+    cartFilter();
+})
+
+document.getElementById('clearButton').addEventListener('click', () =>{
+    clearFilter();
+})
+
+document.getElementById('acceptFilter').addEventListener('click', () =>{
+    dateStart = document.getElementById('dateStart').value;
+    dateEnd = document.getElementById('dateEnd').value;
+    city = document.getElementById('city').value;
+    district = document.getElementById('district').value;
+    handleFilter(dateStart,dateEnd,city,district);
+})
+
+document.getElementById('searchButton').addEventListener('click', ()=>{
+    searchButton();
+})
 
 document.addEventListener("DOMContentLoaded", () => {
     response768('.grid-row-cart');

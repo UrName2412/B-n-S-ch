@@ -84,7 +84,7 @@ export class addressHandler {
         return ward ? ward.name : "Không tìm thấy";
     }
 
-    async concatenateAddress(provinceCode = null, districtCode = null, wardCode = null) {
+    async concatenateAddress(provinceCode = null, districtCode = null, wardCode = null, street = null) {
         if (this.provinces.length == 0 || this.districts.length == 0 || this.wards.length == 0) {
             await this.loadProvinces();
         }
@@ -92,6 +92,7 @@ export class addressHandler {
         if (provinceCode) address += this.getProvinceName(provinceCode) + ", ";
         if (districtCode) address += this.getDistrictName(districtCode) + ", ";
         if (wardCode) address += this.getWardName(wardCode) + ", ";
+        if (street) address += street + ", ";
         return address.slice(0, -2);
     }
 
