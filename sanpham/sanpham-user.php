@@ -97,7 +97,7 @@ $user = getUserInfoByUsername($database, $username);
                                                 href="../nguoidung/user.php">Thông tin tài khoản</a></li>
                                         <?php if (isset($_SESSION['username'])): ?>
                                             <li class="dropdownList"><a href="../dangky/dangxuat.php"
-                                                    class="dropdown-item">Đăng xuất</a></li>
+                                                    class="dropdown-item" onclick="removeSessionCart()">Đăng xuất</a></li>
                                         <?php endif; ?>
                                     </ul>
                                 </div>

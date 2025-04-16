@@ -200,7 +200,7 @@ $paymentMethod = isset($_GET['method']) ? $_GET['method'] : '';
         <input type="hidden" name="note" value="<?php echo htmlspecialchars($note); ?>">
         <input type="hidden" name="method" value="<?php echo htmlspecialchars($paymentMethod); ?>">
         <input type="hidden" name="cart" id="cartInput">
-            <input type="submit" value="Xác nhận đặt hàng" class="btn btn-success">
+            <input type="submit" value="Xác nhận đặt hàng" class="btn btn-success" onclick="removeSessionCart()">
         </form>
         </div>
     </div>
@@ -293,6 +293,7 @@ $paymentMethod = isset($_GET['method']) ? $_GET['method'] : '';
     </div>
 
     <script src="../asset/js/confirm_order.js"></script>
+    <script src="../asset/js/sanpham.js"></script>
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         const cart = JSON.parse(sessionStorage.getItem('cart') || '[]');
