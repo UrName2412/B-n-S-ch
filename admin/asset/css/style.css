@@ -748,18 +748,18 @@ button:hover{
     align-content:center;
 }
 .menu-detail {
-    background-color: #f1f5f9; /* Nền sáng */
-    color: #1f2937; /* Màu chữ tối cho dễ đọc */
+    background-color: #f1f5f9;
+    color: #1f2937;
     padding: 20px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Màu bóng nhẹ */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .menu-detail h2 {
     text-align: center;
     font-size: clamp(1rem, 2.5vw, 1.75rem);
     margin-bottom: 25px;
-    color: #1f2937; /* Màu chữ tối */
-    border-bottom: 3px solid #e2e8f0; /* Viền sáng */
+    color: #1f2937; 
+    border-bottom: 3px solid #e2e8f0;
     padding-bottom: 12px;
 }
 
@@ -776,11 +776,11 @@ button:hover{
     width: 100%;
     padding: 15px;
     aspect-ratio: 4 / 1;
-    background-color: #e2e8f0; /* Nền sáng */
+    background-color: #e2e8f0;
     border-radius: 15px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Bóng nhẹ */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
     font-size: clamp(1rem, 2.5vw, 1.5rem);
-    color: #1f2937; /* Màu chữ tối */
+    color: #1f2937;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -788,17 +788,17 @@ button:hover{
 
 .detailHeader {
     width: 100%;
-    background-color: #ffffff; /* Nền sáng */
+    background-color: #ffffff;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Bóng nhẹ */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
 }
 
 .detailHeader .header-title {
     font-size: 1.6rem;
     font-weight: bold;
-    color: #4f46e5; /* Màu tím sáng */
+    color: #4f46e5;
     margin-bottom: 15px;
     text-align: center;
 }
@@ -809,7 +809,7 @@ button:hover{
     margin: 0;
     font-size: 1.1rem;
     line-height: 1.7;
-    color: #374151; /* Màu chữ tối */
+    color: #374151;
     display: grid;
     grid-template-columns: 1fr 1fr;
 }
@@ -819,7 +819,7 @@ button:hover{
 }
 
 .detailHeader ul li strong {
-    color: #1f2937; /* Màu chữ tối */
+    color: #1f2937;
 }
 
 .grid-header-detail,
@@ -831,8 +831,8 @@ button:hover{
     padding: 15px;
     margin-bottom: 15px;
     border-radius: 12px;
-    background-color: #ffffff; /* Nền sáng */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Bóng nhẹ */
+    background-color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .grid-footer-detail {
@@ -842,16 +842,16 @@ button:hover{
 .grid-header-detail textarea,
 .grid-row-detail textarea,
 .grid-footer-detail textarea {
-    background-color: #f9fafb; /* Nền sáng */
-    border: 1px solid #e2e8f0; /* Viền sáng */
+    background-color: #f9fafb;
+    border: 1px solid #e2e8f0;
     padding: 14px;
     border-radius: 8px;
     font-size: 1rem;
     resize: none;
     text-align: center;
     font-weight: 500;
-    color: #1f2937; /* Màu chữ tối */
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05); /* Bóng nhẹ */
+    color: #1f2937;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .grid-header-detail textarea {
@@ -859,15 +859,15 @@ button:hover{
     background-color: transparent;
     border: none;
     box-shadow: none;
-    color: #1f2937; /* Màu chữ tối */
+    color: #1f2937;
     pointer-events: none;
 }
 
 .grid-footer-detail textarea:last-child {
-    background-color: #ffffff; /* Nền sáng */
+    background-color: #ffffff;
     font-weight: bold;
-    color: #4f46e5; /* Màu tím sáng */
-    border: 1px solid #4f46e5; /* Viền tím sáng */
+    color: #4f46e5;
+    border: 1px solid #4f46e5;
 }
 
 
