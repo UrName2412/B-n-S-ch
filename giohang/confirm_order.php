@@ -159,9 +159,7 @@ $paymentMethod = isset($_GET['method']) ? $_GET['method'] : '';
                                         data-bs-toggle="dropdown" aria-expanded="false"></button>
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item" href="../nguoidung/user.php">Thông tin tài khoản</a></li>
-                                        <?php if (isset($_SESSION['username'])): ?>
-                                            <li><a class="dropdown-item" href="../dangky/dangxuat.php">Đăng xuất</a></li>
-                                        <?php endif; ?>
+                                        <li class="dropdownList"><a href="../dangky/dangxuat.php" class="dropdown-item">Đăng xuất</a></li>
                                     </ul>
                                 </div>
                             </div>

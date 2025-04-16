@@ -1,11 +1,10 @@
-<?php 
+<?php
 require '../admin/config/config.php';
 require '../asset/handler/user_handle.php';
 session_start();
 
 if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role'] == false)) {
     $username = $_SESSION['username'];
-    
 } elseif (isset($_COOKIE['username']) && isset($_COOKIE['pass'])) {
     $username = $_COOKIE['username'];
     $password = $_COOKIE['pass'];
@@ -72,7 +71,7 @@ if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role
                         </button>
                     </form>
                     <script>
-                        document.getElementById('searchForm').addEventListener('submit', function (event) {
+                        document.getElementById('searchForm').addEventListener('submit', function(event) {
                             event.preventDefault();
                             const inputValue = document.getElementById('timkiem').value.trim();
 
@@ -85,14 +84,16 @@ if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role
                     </script>
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a href="../index.php" class="nav-link fw-bold text-white">ĐĂNG XUẤT</a>
-                        </li>
-                        <li class="nav-item">
-                            <div>
-                                <a href="../nguoidung/user.php"><i class="fas fa-user" id="avatar"
-                                        style="color: black;"></i></a>
-                                <span id="profile-name" style="top: 20px; padding: 2px; display: none;">Nguyễn Văn
-                                    A</span>
+                            <div class="d-flex gap-2">
+                                <a href="../nguoidung/user.php" class="mt-2"><i class="fas fa-user" id="avatar" style="color: black;"></i></a>
+                                <span class="mt-1" id="profile-name" style="top: 20px; padding: 2px;"><?php echo $user['tenNguoiDung']; ?></span>
+                                <div class="dropdown">
+                                    <button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                                    <ul class="dropdown-menu">
+                                        <li class="dropdownList"><a class="dropdown-item" href="../nguoidung/user.php">Thông tin tài khoản</a></li>
+                                        <li class="dropdownList"><a href="../dangky/dangxuat.php" class="dropdown-item">Đăng xuất</a></li>
+                                    </ul>
+                                </div>
                             </div>
                         </li>
                     </ul>
@@ -141,44 +142,44 @@ if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role
             <div class="col-lg-9">
                 <div class="border p-5">
                     <div class="container my-4">
-                    <div class="listProduct row">
-                    <?php
-                        require '../admin/config/config.php';
-                        if (isset($_GET['tenSach']) && !empty($_GET['tenSach'])) {
-                            $keyword = '%' . $_GET['tenSach'] . '%';
-                            $stmt = $database->prepare("
+                        <div class="listProduct row">
+                            <?php
+                            require '../admin/config/config.php';
+                            if (isset($_GET['tenSach']) && !empty($_GET['tenSach'])) {
+                                $keyword = '%' . $_GET['tenSach'] . '%';
+                                $stmt = $database->prepare("
                                 SELECT * FROM b01_sanpham 
                                 WHERE (tenSach LIKE ? OR moTa LIKE ?) 
                                 AND trangThai = 1
                             ");
-                            $stmt->bind_param("ss", $keyword, $keyword);
-                            $stmt->execute();
-                            $result = $stmt->get_result();
-                        
-                            if ($result->num_rows > 0) {
-                                echo '<h3>Kết quả tìm kiếm cho: <strong>' . htmlspecialchars($_GET['tenSach']) . '</strong></h3>';
-                                while ($row = $result->fetch_assoc()) {
-                                    ?>
-                                    <div class="col-md-4 mb-4">
-                                        <div class="card" style="width: 100%;">
+                                $stmt->bind_param("ss", $keyword, $keyword);
+                                $stmt->execute();
+                                $result = $stmt->get_result();
+
+                                if ($result->num_rows > 0) {
+                                    echo '<h3>Kết quả tìm kiếm cho: <strong>' . htmlspecialchars($_GET['tenSach']) . '</strong></h3>';
+                                    while ($row = $result->fetch_assoc()) {
+                            ?>
+                                        <div class="col-md-4 mb-4">
+                                            <div class="card" style="width: 100%;">
                                                 <img src="../images/<?php echo $row['hinhAnh']; ?>" class="card-img-top" alt="...">
-                                            </a>
-                                            <div class="card-body">
-                                                <h5 class="card-title"><?php echo $row['tenSach']; ?></h5>
-                                                <p class="card-text text-danger fw-bold"><?php echo number_format($row['giaBan']); ?> đ</p>
-                                                <button class="btn" style="background-color: #336799; color: #ffffff;">Thêm vào giỏ hàng</button>
+                                                </a>
+                                                <div class="card-body">
+                                                    <h5 class="card-title"><?php echo $row['tenSach']; ?></h5>
+                                                    <p class="card-text text-danger fw-bold"><?php echo number_format($row['giaBan']); ?> đ</p>
+                                                    <button class="btn" style="background-color: #336799; color: #ffffff;">Thêm vào giỏ hàng</button>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <?php
+                            <?php
+                                    }
+                                } else {
+                                    echo "<p>Không tìm thấy sách nào phù hợp.</p>";
                                 }
                             } else {
-                                echo "<p>Không tìm thấy sách nào phù hợp.</p>";
+                                echo "<p>Vui lòng nhập từ khóa để tìm kiếm.</p>";
                             }
-                        } else {
-                            echo "<p>Vui lòng nhập từ khóa để tìm kiếm.</p>";
-                        }
-                        ?>
+                            ?>
                         </div>
                     </div>
                 </div>
@@ -261,7 +262,7 @@ if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role
     <script src="../asset/js/timkiem.js"></script>
 
     <script>
-        function adjustSidebar() {  // Hàm điều khiển sidebar khi cuộn
+        function adjustSidebar() { // Hàm điều khiển sidebar khi cuộn
             const sidebar = document.querySelector("aside");
             if (window.innerWidth > 991) {
                 sidebar.style.position = "sticky";
@@ -276,20 +277,19 @@ if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role
         window.addEventListener("resize", adjustSidebar);
     </script>
 
-<script>
-        document.getElementById('searchForm').addEventListener('submit', function (event) {
-    event.preventDefault();
-    const inputValue = document.getElementById('timkiem').value.trim();
+    <script>
+        document.getElementById('searchForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const inputValue = document.getElementById('timkiem').value.trim();
 
-    if (inputValue) {
-        // Chuyển sang trang tìm kiếm và truyền từ khóa vào URL
-        window.location.href = '../nguoidung/timkiem.php?tenSach=' + encodeURIComponent(inputValue);
-    } else {
-        alert('Vui lòng nhập nội dung tìm kiếm!');
-    }
-});
-
-        </script>
+            if (inputValue) {
+                // Chuyển sang trang tìm kiếm và truyền từ khóa vào URL
+                window.location.href = '../nguoidung/timkiem.php?tenSach=' + encodeURIComponent(inputValue);
+            } else {
+                alert('Vui lòng nhập nội dung tìm kiếm!');
+            }
+        });
+    </script>
 </body>
 
 </html>

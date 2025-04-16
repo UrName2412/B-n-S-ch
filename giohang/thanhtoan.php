@@ -30,18 +30,18 @@ $user = $_SESSION['user'];
 // Kiểm tra trạng thái đăng nhập 
 if (!isset($_SESSION['username'])) {
   if (isset($_COOKIE['username']) && isset($_COOKIE['pass'])) {
-      $username = $_COOKIE['username'];
-      $password = $_COOKIE['pass'];
+    $username = $_COOKIE['username'];
+    $password = $_COOKIE['pass'];
 
-      if (checkLogin($database, $username, $password)) {
-          $_SESSION['username'] = $username;
-      } else {
-          echo "<script>alert('Bạn chưa đăng nhập!'); window.location.href='../dangky/dangnhap.php';</script>";
-          exit();
-      }
-  } else {
+    if (checkLogin($database, $username, $password)) {
+      $_SESSION['username'] = $username;
+    } else {
       echo "<script>alert('Bạn chưa đăng nhập!'); window.location.href='../dangky/dangnhap.php';</script>";
       exit();
+    }
+  } else {
+    echo "<script>alert('Bạn chưa đăng nhập!'); window.location.href='../dangky/dangnhap.php';</script>";
+    exit();
   }
 }
 ?>
@@ -104,9 +104,7 @@ if (!isset($_SESSION['username'])) {
                   <button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
                   <ul class="dropdown-menu">
                     <li class="dropdownList"><a class="dropdown-item" href="../nguoidung/user.php">Thông tin tài khoản</a></li>
-                    <?php if (isset($_SESSION['username'])): ?>
-                      <li class="dropdownList"><a href="../dangky/dangxuat.php" class="dropdown-item">Đăng xuất</a></li>
-                    <?php endif; ?>
+                    <li class="dropdownList"><a href="../dangky/dangxuat.php" class="dropdown-item">Đăng xuất</a></li>
                   </ul>
                 </div>
               </div>
@@ -123,8 +121,8 @@ if (!isset($_SESSION['username'])) {
     </div>
   </header>
 
-   <!-- PHẦN NHẬP THÔNG TIN ĐẶT HÀNG (GIAO HÀNG) -->
-   <section class="payment_container my-4">
+  <!-- PHẦN NHẬP THÔNG TIN ĐẶT HÀNG (GIAO HÀNG) -->
+  <section class="payment_container my-4">
     <div class="payment__content row justify-content-center">
       <div class="payment__content__left col-12 col-md-8 col-lg-6 d-flex flex-column">
         <h3>Thông tin giao hàng</h3>
@@ -282,35 +280,35 @@ if (!isset($_SESSION['username'])) {
     });
   </script>
 
-<script>
-function validateForm() {
-    const paymentMethods = document.getElementsByName('phuongThuc');
-    let isPaymentMethodSelected = false;
+  <script>
+    function validateForm() {
+      const paymentMethods = document.getElementsByName('phuongThuc');
+      let isPaymentMethodSelected = false;
 
-    for (const method of paymentMethods) {
+      for (const method of paymentMethods) {
         if (method.checked) {
-            isPaymentMethodSelected = true;
-            break;
+          isPaymentMethodSelected = true;
+          break;
         }
-    }
+      }
 
-    if (!isPaymentMethodSelected) {
+      if (!isPaymentMethodSelected) {
         alert('Vui lòng chọn phương thức thanh toán.');
         return false;
+      }
+
+      // Lấy thông tin người dùng và đơn hàng
+      const nameUser = document.getElementById('name-user').value;
+      const phoneUser = document.getElementById('phone-user').value;
+      const paymentAdr = document.getElementById('payment--adr').value;
+      const paymentNote = document.getElementById('payment--note').value;
+      const paymentMethod = document.querySelector('input[name="phuongThuc"]:checked').value;
+
+      // Thêm các tham số vào URL chuyển hướng 
+      window.location.href = `confirm_order.php?name=${encodeURIComponent(nameUser)}&phone=${encodeURIComponent(phoneUser)}&address=${encodeURIComponent(paymentAdr)}&note=${encodeURIComponent(paymentNote)}&method=${encodeURIComponent(paymentMethod)}`;
+
+      return false;
     }
-
-    // Lấy thông tin người dùng và đơn hàng
-    const nameUser = document.getElementById('name-user').value;
-    const phoneUser = document.getElementById('phone-user').value;
-    const paymentAdr = document.getElementById('payment--adr').value;
-    const paymentNote = document.getElementById('payment--note').value;
-    const paymentMethod = document.querySelector('input[name="phuongThuc"]:checked').value;
-
-    // Thêm các tham số vào URL chuyển hướng 
-    window.location.href = `confirm_order.php?name=${encodeURIComponent(nameUser)}&phone=${encodeURIComponent(phoneUser)}&address=${encodeURIComponent(paymentAdr)}&note=${encodeURIComponent(paymentNote)}&method=${encodeURIComponent(paymentMethod)}`;
-
-    return false;  
-}
 
 
     // Xử lý hiển thị form chi tiết theo lựa chọn
