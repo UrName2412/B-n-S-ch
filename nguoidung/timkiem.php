@@ -19,6 +19,9 @@ if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role
     echo "<script>alert('Bạn chưa đăng nhập!'); window.location.href='../dangky/dangnhap.php';</script>";
     exit();
 }
+
+$user = getUserInfoByUsername($database, $username);
+
 ?>
 
 <!DOCTYPE html>
@@ -34,6 +37,7 @@ if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role
     <link rel="stylesheet" href="../vender/css/bootstrap.min.css">
     <link rel="stylesheet" href="../vender/css/fontawesome-free/css/all.min.css">
     <!-- CSS  -->
+    <link rel="stylesheet" href="../asset/css/sanpham.css">
     <link rel="stylesheet" href="../asset/css/index-user.css">
 </head>
 
@@ -57,7 +61,7 @@ if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role
                             <a href="../nguoidung/indexuser.php" class="nav-link fw-bold text-white">TRANG CHỦ</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link fw-bold text-white">GIỚI THIỆU</a>
+                            <a href="../sanpham/gioithieu_user.php" class="nav-link fw-bold text-white">GIỚI THIỆU</a>
                         </li>
                         <li class="nav-item">
                             <a href="../sanpham/sanpham-user.php" class="nav-link fw-bold text-white">SẢN

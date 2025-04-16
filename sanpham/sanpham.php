@@ -15,7 +15,7 @@ if ((isset($_SESSION['username']) || isset($_COOKIE['username'])) && (isset($_SE
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cửa hàng sách</title>
+    <title>Sản phẩm</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="../vender/css/bootstrap.min.css">
     <!-- FONT AWESOME -->
@@ -44,7 +44,7 @@ if ((isset($_SESSION['username']) || isset($_COOKIE['username'])) && (isset($_SE
                             <a href="../index.php" class="nav-link fw-bold text-white">TRANG CHỦ</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link fw-bold text-white">GIỚI THIỆU</a>
+                            <a href="gioithieu.php" class="nav-link fw-bold text-white">GIỚI THIỆU</a>
                         </li>
                         <li class="nav-item">
                             <a href="../sanpham/sanpham.php" class="nav-link fw-bold" style="color: yellow;">SẢN

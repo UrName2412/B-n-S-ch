@@ -100,7 +100,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'do-login') {
                             <a href="../index.php" class="nav-link fw-bold text-white">TRANG CHỦ</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link fw-bold text-white">GIỚI THIỆU</a>
+                            <a href="../sanpham/gioithieu.php" class="nav-link fw-bold text-white">GIỚI THIỆU</a>
                         </li>
                         <li class="nav-item">
                             <a href="../sanpham/sanpham.php" class="nav-link fw-bold text-white">SẢN PHẨM</a>

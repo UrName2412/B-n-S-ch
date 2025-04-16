@@ -5,7 +5,6 @@ session_start();
 
 if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role'] == false)) {
     $username = $_SESSION['username'];
-    
 } elseif (isset($_COOKIE['username']) && isset($_COOKIE['pass'])) {
     $username = $_COOKIE['username'];
     $password = $_COOKIE['pass'];
@@ -31,7 +30,8 @@ $user = getUserInfoByUsername($database, $username);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cửa hàng sách</title>
+    <title>Cửa hàng sách Vương Hạo</title>
+    <meta name="description" content="Cửa hàng sách Vương Hạo cung cấp toàn quốc.">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="../vender/css/bootstrap.min.css">
     <!-- FONT AWESOME  -->
@@ -60,7 +60,7 @@ $user = getUserInfoByUsername($database, $username);
                             <a href="indexuser.php" class="nav-link fw-bold" style="color: yellow;">TRANG CHỦ</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link fw-bold text-white">GIỚI THIỆU</a>
+                            <a href="../sanpham/gioithieu_user.php" class="nav-link fw-bold text-white">GIỚI THIỆU</a>
                         </li>
                         <li class="nav-item">
                             <a href="../sanpham/sanpham-user.php" class="nav-link fw-bold text-white">SẢN PHẨM</a>
@@ -335,7 +335,7 @@ $user = getUserInfoByUsername($database, $username);
 
     <a href="#top" id="backToTop">&#8593;</a>
 
-    <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" >
+    <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel">
         <div class="modal-dialog modal-sm position-absolute" style="top: 10%; left: 10%;">
             <div class="modal-content bg-success text-white">
                 <div class="modal-body text-center">
@@ -345,7 +345,7 @@ $user = getUserInfoByUsername($database, $username);
         </div>
     </div>
 
-    <div class="modal fade" id="productDetailModal" tabindex="-1" aria-labelledby="productDetailLabel" >
+    <div class="modal fade" id="productDetailModal" tabindex="-1" aria-labelledby="productDetailLabel">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -380,18 +380,17 @@ $user = getUserInfoByUsername($database, $username);
         window.addEventListener("resize", adjustSidebar);
     </script>
 
-<script>
-        document.getElementById('searchForm').addEventListener('submit', function (event) {
-    event.preventDefault();
-    const inputValue = document.getElementById('timkiem').value.trim();
+    <script>
+        document.getElementById('searchForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const inputValue = document.getElementById('timkiem').value.trim();
 
-    if (inputValue) {
-        window.location.href = '/B-n-S-ch/nguoidung/timkiem.php?tenSach=' + encodeURIComponent(inputValue);
-    } else {
-        alert('Vui lòng nhập nội dung tìm kiếm!');
-    }
-});
-
+            if (inputValue) {
+                window.location.href = '/B-n-S-ch/nguoidung/timkiem.php?tenSach=' + encodeURIComponent(inputValue);
+            } else {
+                alert('Vui lòng nhập nội dung tìm kiếm!');
+            }
+        });
     </script>
 
 </body>

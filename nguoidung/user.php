@@ -110,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                             <a href="indexuser.php" class="nav-link fw-bold" style="color: white ;">TRANG CHỦ</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link fw-bold text-white">GIỚI THIỆU</a>
+                            <a href="../sanpham/gioithieu_user.php" class="nav-link fw-bold text-white">GIỚI THIỆU</a>
                         </li>
                         <li class="nav-item">
                             <a href="../sanpham/sanpham-user.php" class="nav-link fw-bold text-white">SẢN PHẨM</a>
