@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 const addToCart = (productName, productPrice, imageUrl, productId) => {
-    let productIndex = cart.findIndex((item) => item.productName === productName);
+    let productIndex = cart.findIndex((item) => item.productId === productId);
 
     if (productIndex < 0) {
         cart.push({
