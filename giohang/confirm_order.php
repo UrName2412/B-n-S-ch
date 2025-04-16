@@ -122,7 +122,7 @@ $paymentMethod = isset($_GET['method']) ? $_GET['method'] : '';
                             <a href="../nguoidung/indexuser.php" class="nav-link fw-bold text-white">TRANG CHỦ</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link fw-bold text-white">GIỚI THIỆU</a>
+                            <a href="../sanpham/gioithieu_user.php" class="nav-link fw-bold text-white">GIỚI THIỆU</a>
                         </li>
                         <li class="nav-item">
                             <a href="../nguoidung/sanpham-user.php" class="nav-link fw-bold" style="color: yellow;">SẢN PHẨM</a>

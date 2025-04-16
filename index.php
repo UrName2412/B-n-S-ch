@@ -43,7 +43,7 @@ if ((isset($_SESSION['username']) || isset($_COOKIE['username'])) && (isset($_SE
                             <a href="index.php" class="nav-link fw-bold" style="color: yellow;">TRANG CHỦ</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link fw-bold text-white">GIỚI THIỆU</a>
+                            <a href="sanpham/gioithieu.php" class="nav-link fw-bold text-white">GIỚI THIỆU</a>
                         </li>
                         <li class="nav-item">
                             <a href="sanpham/sanpham.php" class="nav-link fw-bold text-white">SẢN PHẨM</a>
@@ -312,7 +312,7 @@ if ((isset($_SESSION['username']) || isset($_COOKIE['username'])) && (isset($_SE
     <a href="#top" id="backToTop">&#8593;</a>
 
     <!-- Modal thông báo thêm vào giỏ hàng -->
-    <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" >
+    <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel">
         <div class="modal-dialog modal-sm position-absolute" style="top: 10%; left: 10%;">
             <div class="modal-content bg-success text-white">
                 <div class="modal-body text-center">
@@ -323,7 +323,7 @@ if ((isset($_SESSION['username']) || isset($_COOKIE['username'])) && (isset($_SE
     </div>
 
     <!-- Modal chi tiết sản phẩm -->
-    <div class="modal fade" id="productDetailModal" tabindex="-1" aria-labelledby="productDetailLabel" >
+    <div class="modal fade" id="productDetailModal" tabindex="-1" aria-labelledby="productDetailLabel">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -357,19 +357,24 @@ if ((isset($_SESSION['username']) || isset($_COOKIE['username'])) && (isset($_SE
         window.addEventListener("load", adjustSidebar);
         window.addEventListener("resize", adjustSidebar);
     </script>
-    
+
     <script>
+        // Tải sản phẩm ban đầu
+        document.addEventListener('DOMContentLoaded', function () {
+            loadProducts();  // Mặc định tải trang 1
+        });
+
+
         document.getElementById('searchForm').addEventListener('submit', function (event) {
-    event.preventDefault();
-    const inputValue = document.getElementById('timkiem').value.trim();
+            event.preventDefault();
+            const inputValue = document.getElementById('timkiem').value.trim();
 
-    if (inputValue) {
-        window.location.href = '../B-n-S-ch/nguoidung/timkiem-nologin.php?tenSach=' + encodeURIComponent(inputValue);
-    } else {
-        alert('Vui lòng nhập nội dung tìm kiếm!');
-    }
-});
-
+            if (inputValue) {
+                window.location.href = '../B-n-S-ch/nguoidung/timkiem-nologin.php?tenSach=' + encodeURIComponent(inputValue);
+            } else {
+                alert('Vui lòng nhập nội dung tìm kiếm!');
+            }
+        });
     </script>
 </body>
 

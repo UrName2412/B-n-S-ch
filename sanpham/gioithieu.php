@@ -1,5 +1,5 @@
 <?php
-require "../admin/config/config.php";
+include '../admin/config/config.php';
 
 session_start();
 
@@ -7,32 +7,32 @@ if ((isset($_SESSION['username']) || isset($_COOKIE['username'])) && (isset($_SE
     header("Location: ../nguoidung/indexuser.php");
     exit();
 }
-?>
 
+?>
 <!DOCTYPE html>
 <html lang="vi">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Giỏ hàng</title>
+    <title>Giới thiệu</title>
+    <meta name="description" content="Cửa hàng sách Vương Hạo cung cấp toàn quốc.">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="../vender/css/bootstrap.min.css">
-    <!-- FONT AWESOME  -->
+    <!-- FONT AWESOME -->
     <link rel="stylesheet" href="../vender/css/fontawesome-free/css/all.min.css">
-    <!-- CSS  -->
-    <link rel="stylesheet" href="../asset/css/sanpham.css">
-    <link rel="stylesheet" href="../asset/css/user-cart.css">
+    <!-- CSS -->
+    <link rel="stylesheet" href="../asset/css/index-user.css">
 </head>
 
 <body>
     <!-- Header -->
-    <header class="text-white py-3">
+    <header class="text-white py-3" id="top">
         <div class="container">
             <nav class="navbar navbar-expand-md">
                 <div class="navbar-brand logo">
-                    <a href="../index.php" class="d-flex align-items-center">
-                        <img src="../Images/LogoSach.png" alt="logo" style="width: 100px; height: 57px;">
+                    <a href="index.php" class="d-flex align-items-center">
+                        <img src="../Images/LogoSach.png" alt="logo" width="100" height="57" loading="lazy">
                     </a>
                 </div>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -45,14 +45,14 @@ if ((isset($_SESSION['username']) || isset($_COOKIE['username'])) && (isset($_SE
                             <a href="../index.php" class="nav-link fw-bold text-white">TRANG CHỦ</a>
                         </li>
                         <li class="nav-item">
-                            <a href="../sanpham/gioithieu.php" class="nav-link fw-bold text-white">GIỚI THIỆU</a>
+                            <a href="#" class="nav-link fw-bold" style="color: yellow;">GIỚI THIỆU</a>
                         </li>
                         <li class="nav-item">
-                            <a href="../sanpham/sanpham.php" class="nav-link fw-bold text-white">SẢN PHẨM</a>
+                            <a href="sanpham.php" class="nav-link fw-bold text-white">SẢN PHẨM</a>
                         </li>
                     </ul>
-                    <form id="searchForm" class="d-flex me-auto">
-                        <input class="form-control me-2" type="text" id="timkiem" placeholder="Tìm sách">
+                    <form id="searchForm" class="d-flex me-auto" method="GET" action="../nguoidung/timkiem-nologin.php">
+                        <input class="form-control me-2" type="text" id="timkiem" name="tenSach" placeholder="Tìm sách">
                         <button class="btn btn-outline-light" type="submit">
                             <i class="fas fa-search"></i>
                         </button>
@@ -77,9 +77,9 @@ if ((isset($_SESSION['username']) || isset($_COOKIE['username'])) && (isset($_SE
                             <a href="../dangky/dangky.php" class="nav-link fw-bold text-white">ĐĂNG KÝ</a>
                         </li>
                     </ul>
-                    <a href="/giohang/giohang.php" class="nav-link text-white">
+                    <a href="giohang/giohang.php" class="nav-link text-white">
                         <div class="cart-icon">
-                            <i class="fas fa-shopping-basket" style="color: yellow;"></i>
+                            <i class="fas fa-shopping-basket"></i>
                             <span class="">0</span>
                         </div>
                     </a>
@@ -88,46 +88,52 @@ if ((isset($_SESSION['username']) || isset($_COOKIE['username'])) && (isset($_SE
         </div>
     </header>
 
-    <!-- Main Content -->
-    <div class="product_container m-5">
+    <!-- Main -->
+    <div class="container my-5">
+    <h1 class="text-center mb-4 text-uppercase fw-bold">Giới Thiệu Về Cửa Hàng Sách Vương Hạo</h1>
+    <div class="row">
+        <div class="col-12">
+            <p class="fs-5">Cửa hàng sách <strong>Vương Hạo</strong> được thành lập với sứ mệnh truyền cảm hứng đọc sách, lan tỏa tri thức và kết nối cộng đồng yêu sách trên toàn quốc. Với phương châm <em>"Tri thức cho hôm nay - Hành trang cho ngày mai"</em>, chúng tôi không ngừng đổi mới để mang đến cho bạn đọc những cuốn sách chất lượng và trải nghiệm mua sắm tuyệt vời nhất.</p>
+            <ul class="fs-5">
+                <li>📚 Hơn 100 đầu sách đa dạng: văn học, kinh tế, kỹ năng sống, thiếu nhi, ngoại ngữ, và nhiều thể loại khác.</li>
+                <li>🚚 Giao hàng toàn quốc nhanh chóng, an toàn và tiện lợi.</li>
+                <li>📍 Hệ thống chi nhánh phủ khắp TP. Hồ Chí Minh, dễ dàng tiếp cận.</li>
+            </ul>
+        </div>
+    </div>
+
+    <hr class="my-5">
+
+    <div class="text-center">
+        <h2 class="mb-3">Tại sao nên chọn chúng tôi?</h2>
         <div class="row">
-            <div class="col-12" id="cart-items">
-                <!--Danh sách sản phẩm-->
+            <div class="col-md-4">
+                <i class="fas fa-book fa-3x text-primary mb-2"></i>
+                <h5>Sách Chính Hãng</h5>
+                <p>Cam kết 100% sách thật, chất lượng cao từ các nhà xuất bản uy tín.</p>
             </div>
-        </div>
-        <div class="d-flex align-items-center">
-            <!-- Section for Total and Checkout -->
-            <section class="cart-total mt-4">
-                <div class="d-flex justify-content-between fw-bold">
-                    <span>Tổng cộng:</span>
-                    <span class="text-danger">đ</span>
-                </div>
-
-                <!-- Buttons -->
-                <div class="text-end d-flex justify-content-end mt-3">
-                    <a href="../sanpham/sanpham.php" class="btn btn-secondary me-2"> <i
-                            class="fas fa-arrow-left mr-2"></i> Tiếp tục mua sắm</a>
-                    <button data-bs-toggle="modal" data-bs-target="#login-check" class="btn btn-success">Thanh
-                        toán</button>
-                </div>
-            </section>
-        </div>
-
-        <!--emptyc-cart-->
-        <div id="empty-cart-message" class="cart_container align-items-center mt-4 mx-5"
-            style="min-height: 100vh; display: none;">
-            <div class="row">
-                <div class="col-12">
-                    <h1 style="width: 100%; margin-left: 10px;">Giỏ hàng</h1>
-                    <div class="noproduct d-flex flex-column align-items-center mt-4">
-                        <i class="fas fa-box-open"></i>
-                        <p>Bạn chưa có sản phẩm nào trong giỏ hàng</p>
-                        <button class="btn"><a href="../sanpham/sanpham.php">Chọn sản phẩm ngay</a></button>
-                    </div>
-                </div>
+            <div class="col-md-4">
+                <i class="fas fa-user-friends fa-3x text-success mb-2"></i>
+                <h5>Hỗ Trợ Tận Tình</h5>
+                <p>Đội ngũ nhân viên thân thiện, nhiệt tình luôn sẵn sàng hỗ trợ bạn.</p>
+            </div>
+            <div class="col-md-4">
+                <i class="fas fa-star fa-3x text-warning mb-2"></i>
+                <h5>Trải Nghiệm Tuyệt Vời</h5>
+                <p>Giao diện website dễ sử dụng, tối ưu cho cả máy tính và điện thoại.</p>
             </div>
         </div>
     </div>
+
+    <hr class="my-5">
+
+    <div class="text-center">
+        <h2 class="mb-3">Cùng Khám Phá Thế Giới Tri Thức</h2>
+        <p class="fs-5">Dù bạn là người yêu tiểu thuyết, đam mê kinh doanh hay đang tìm sách học cho con, <strong>nhà sách Vương Hạo</strong> luôn có điều tuyệt vời dành cho bạn. Hãy cùng chúng tôi vun đắp văn hóa đọc cho cộng đồng Việt!</p>
+        <a href="sanpham.php" class="btn btn-dark mt-3">Khám phá ngay</a>
+    </div>
+</div>
+
     <!-- Footer -->
     <footer class="text-white py-4">
         <div class="container">
@@ -136,10 +142,10 @@ if ((isset($_SESSION['username']) || isset($_COOKIE['username'])) && (isset($_SE
                     <p>Thời gian mở cửa: <span>07h30 - 21h30 mỗi ngày</span></p>
                     <div class="d-flex">
                         <p>Kết nối với chúng tôi:</p>
-                        <a href="#" class="text-white ms-3">
+                        <a href="https://www.facebook.com/" target="_blank" class="text-white ms-3">
                             <i class="fab fa-facebook-square"></i>
                         </a>
-                        <a href="#" class="text-white ms-3">
+                        <a href="https://www.instagram.com/" target="_blank" class="text-white ms-3">
                             <i class="fab fa-instagram"></i>
                         </a>
                     </div>
@@ -185,48 +191,22 @@ if ((isset($_SESSION['username']) || isset($_COOKIE['username'])) && (isset($_SE
             </div>
         </div>
     </footer>
-    <!--Modal-->
-    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Xác nhận xóa</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn btn-danger" id="confirmDeleteButton">Xóa</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal -->
-    <div class="modal fade" id="login-check" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Thông báo </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Hãy đăng nhập để tiếp tục mua hàng</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn btn-success"
-                        onclick="window.location.href='../dangky/dangnhap.php'">Đăng nhập</a></button>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Bootstrap JS -->
     <script src="../vender/js/bootstrap.bundle.min.js"></script>
-    <script src="../asset/js/user-cart.js"></script>
+
+    <script>
+        document.getElementById('searchForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const inputValue = document.getElementById('timkiem').value.trim();
+
+            if (inputValue) {
+                window.location.href = '/B-n-S-ch/nguoidung/timkiem-nologin.php?tenSach=' + encodeURIComponent(inputValue);
+            } else {
+                alert('Vui lòng nhập nội dung tìm kiếm!');
+            }
+        });
+    </script>
 </body>
 
 </html>

@@ -3,14 +3,12 @@ require '../admin/config/config.php';
 require '../asset/handler/user_handle.php';
 session_start();
 
-// Kiểm tra nếu người dùng đã đăng nhập
-if (isset($_SESSION['username']) && isset($_SESSION['role']) && $_SESSION['role'] == false) {
+if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role'] == false)) {
     $username = $_SESSION['username'];
 } elseif (isset($_COOKIE['username']) && isset($_COOKIE['pass'])) {
     $username = $_COOKIE['username'];
     $password = $_COOKIE['pass'];
 
-    // Kiểm tra đăng nhập qua cookie
     if (checkLogin($database, $username, $password)) {
         $_SESSION['username'] = $username;
     } else {
@@ -18,77 +16,37 @@ if (isset($_SESSION['username']) && isset($_SESSION['role']) && $_SESSION['role'
         exit();
     }
 } else {
-    echo "<script>alert('Bạn cần đăng nhập để xem lịch sử mua hàng!'); window.location.href='../dangky/dangnhap.php';</script>";
+    echo "<script>alert('Bạn chưa đăng nhập!'); window.location.href='../dangky/dangnhap.php';</script>";
     exit();
 }
 
-// Lấy thông tin người dùng từ cơ sở dữ liệu
 $user = getUserInfoByUsername($database, $username);
 
-// Lấy lịch sử mua hàng của người dùng từ cơ sở dữ liệu
-$sql = "SELECT dh.*, ctdh.*, sp.tenSach, sp.hinhAnh
-        FROM b01_donhang dh
-        JOIN b01_chitiethoadon ctdh ON dh.maDon = ctdh.maDon
-        JOIN b01_sanpham sp ON ctdh.maSach = sp.maSach
-        WHERE dh.tenNguoiDung = ?";
-$stmt = $database->prepare($sql);
-$stmt->bind_param('s', $username);
-$stmt->execute();
-$result = $stmt->get_result();
-
-// Kiểm tra xem có đơn hàng nào không
-if ($result->num_rows > 0) {
-    $orderHistory = "<h2>Lịch sử mua hàng của bạn</h2>";
-    $orderHistory .= "<table border='1' class='table'>
-                    <tr>
-                        <th>Ngày nhận hàng</th>
-                        <th>Hình ảnh</th>
-                        <th>Tên sách</th>
-                        <th>Số lượng</th>
-                        <th>Giá bán</th>
-                        <th>Tổng tiền</th>
-                    </tr>";
-    while ($row = $result->fetch_assoc()) {
-        $orderHistory .= "<tr>
-                        <td>" . htmlspecialchars($row['ngayTao']) . "</td>
-                        <td><img src='../Images/" . htmlspecialchars($row['hinhAnh']) . "' alt='Hình ảnh sách' style='width: 80px; height: auto; border-radius: 6px;'></td>
-                        <td>" . htmlspecialchars($row['tenSach']) . "</td>
-                        <td>" . htmlspecialchars($row['soLuong']) . "</td>
-                        <td>" . number_format($row['giaBan'] * 1000, 0, ',', '.') . " VND</td>
-                        <td>" . number_format($row['soLuong'] * $row['giaBan'] * 1000, 0, ',', '.') . " VND</td>
-                      </tr>";
-    }
-    $orderHistory .= "</table>";
-} else {
-    $orderHistory = "<p>Không có đơn hàng nào trong lịch sử mua hàng của bạn.</p>";
-}
-
-$stmt->close();
-$database->close();
 ?>
-
 <!DOCTYPE html>
 <html lang="vi">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lịch sử mua hàng</title>
+    <title>Giới thiệu</title>
+    <meta name="description" content="Cửa hàng sách Vương Hạo cung cấp toàn quốc.">
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="../vender/css/bootstrap.min.css">
+    <!-- FONT AWESOME -->
     <link rel="stylesheet" href="../vender/css/fontawesome-free/css/all.min.css">
+    <!-- CSS -->
     <link rel="stylesheet" href="../asset/css/index-user.css">
-    <link rel="stylesheet" href="../asset/css/user.css">
-    <link rel="stylesheet" href="../asset/css/lichSuMuaHang.css">
 </head>
 
 <body>
     <!-- Header -->
-    <header class="text-white py-3">
+    <header class="text-white py-3" id="top">
         <div class="container">
             <nav class="navbar navbar-expand-md">
                 <div class="navbar-brand logo">
-                    <a href="indexuser.php" class="d-flex align-items-center">
-                        <img src="../Images/LogoSach.png" alt="logo" width="100" height="57">
+                    <a href="index.php" class="d-flex align-items-center">
+                        <img src="../Images/LogoSach.png" alt="logo" width="100" height="57" loading="lazy">
                     </a>
                 </div>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -98,21 +56,33 @@ $database->close();
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a href="indexuser.php" class="nav-link fw-bold" style="color: white ;">TRANG CHỦ</a>
+                            <a href="../nguoidung/indexuser.php" class="nav-link fw-bold text-white">TRANG CHỦ</a>
                         </li>
                         <li class="nav-item">
-                            <a href="../sanpham/gioithieu_user.php" class="nav-link fw-bold text-white">GIỚI THIỆU</a>
+                            <a href="#" class="nav-link fw-bold" style="color: yellow;">GIỚI THIỆU</a>
                         </li>
                         <li class="nav-item">
-                            <a href="../sanpham/sanpham-user.php" class="nav-link fw-bold text-white">SẢN PHẨM</a>
+                            <a href="sanpham-user.php" class="nav-link fw-bold text-white">SẢN PHẨM</a>
                         </li>
                     </ul>
-                    <form id="searchForm" class="d-flex me-auto" method="GET" action="nguoidung/timkiem.php">
+                    <form id="searchForm" class="d-flex me-auto" method="GET" action="../nguoidung/timkiem.php">
                         <input class="form-control me-2" type="text" id="timkiem" name="tenSach" placeholder="Tìm sách">
                         <button class="btn btn-outline-light" type="submit">
                             <i class="fas fa-search"></i>
                         </button>
                     </form>
+                    <script>
+                        document.getElementById('searchForm').addEventListener('submit', function(event) {
+                            event.preventDefault();
+                            const inputValue = document.getElementById('timkiem').value.trim();
+
+                            if (inputValue) {
+                                window.location.href = '../nguoidung/timkiem.php';
+                            } else {
+                                alert('Vui lòng nhập nội dung tìm kiếm!');
+                            }
+                        });
+                    </script>
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
                             <div class="d-flex gap-2">
@@ -138,26 +108,52 @@ $database->close();
             </nav>
         </div>
     </header>
-    <!-- Main Content -->
-    <main class="container my-4">
-        <div class="main-profile row padding-0">
-            <!-- Main profile -->
-            <div class="list col-3">
-                <ul class="list-unstyled">
-                    <a href="user.php">
-                        <li class="list-item">Hồ sơ</li>
-                    </a>
-                    <a href="lichSuMuaHang.php">
-                        <li class="list-item" style="background-color: #DFE1E5;">Lịch sử mua hàng</li>
-                    </a>
+
+    <!-- Main -->
+    <div class="container my-5">
+        <h1 class="text-center mb-4 text-uppercase fw-bold">Giới Thiệu Về Cửa Hàng Sách Vương Hạo</h1>
+        <div class="row">
+            <div class="col-12">
+                <p class="fs-5">Cửa hàng sách <strong>Vương Hạo</strong> được thành lập với sứ mệnh truyền cảm hứng đọc sách, lan tỏa tri thức và kết nối cộng đồng yêu sách trên toàn quốc. Với phương châm <em>"Tri thức cho hôm nay - Hành trang cho ngày mai"</em>, chúng tôi không ngừng đổi mới để mang đến cho bạn đọc những cuốn sách chất lượng và trải nghiệm mua sắm tuyệt vời nhất.</p>
+                <ul class="fs-5">
+                    <li>📚 Hơn 100 đầu sách đa dạng: văn học, kinh tế, kỹ năng sống, thiếu nhi, ngoại ngữ, và nhiều thể loại khác.</li>
+                    <li>🚚 Giao hàng toàn quốc nhanh chóng, an toàn và tiện lợi.</li>
+                    <li>📍 Hệ thống chi nhánh phủ khắp TP. Hồ Chí Minh, dễ dàng tiếp cận.</li>
                 </ul>
             </div>
-            <div class="col-9">
-                <!-- Hiển thị lịch sử mua hàng -->
-                <?php echo $orderHistory; ?>
+        </div>
+
+        <hr class="my-5">
+
+        <div class="text-center">
+            <h2 class="mb-3">Tại sao nên chọn chúng tôi?</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <i class="fas fa-book fa-3x text-primary mb-2"></i>
+                    <h5>Sách Chính Hãng</h5>
+                    <p>Cam kết 100% sách thật, chất lượng cao từ các nhà xuất bản uy tín.</p>
+                </div>
+                <div class="col-md-4">
+                    <i class="fas fa-user-friends fa-3x text-success mb-2"></i>
+                    <h5>Hỗ Trợ Tận Tình</h5>
+                    <p>Đội ngũ nhân viên thân thiện, nhiệt tình luôn sẵn sàng hỗ trợ bạn.</p>
+                </div>
+                <div class="col-md-4">
+                    <i class="fas fa-star fa-3x text-warning mb-2"></i>
+                    <h5>Trải Nghiệm Tuyệt Vời</h5>
+                    <p>Giao diện website dễ sử dụng, tối ưu cho cả máy tính và điện thoại.</p>
+                </div>
             </div>
         </div>
-    </main>
+
+        <hr class="my-5">
+
+        <div class="text-center">
+            <h2 class="mb-3">Cùng Khám Phá Thế Giới Tri Thức</h2>
+            <p class="fs-5">Dù bạn là người yêu tiểu thuyết, đam mê kinh doanh hay đang tìm sách học cho con, <strong>nhà sách Vương Hạo</strong> luôn có điều tuyệt vời dành cho bạn. Hãy cùng chúng tôi vun đắp văn hóa đọc cho cộng đồng Việt!</p>
+            <a href="sanpham-user.php" class="btn btn-dark mt-3">Khám phá ngay</a>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer class="text-white py-4">
@@ -179,7 +175,7 @@ $database->close();
             <div class="row d-flex justify-content-center align-items-center footer__bar">
                 <div class="col-md-4">
                     <div class="logo">
-                        <a href="indexuser.php" class="d-flex align-items-center">
+                        <a href="../nguoidung/indexuser.php" class="d-flex align-items-center">
                             <img src="../Images/LogoSach.png" alt="logo" width="100" height="57">
                         </a>
                     </div>
@@ -209,12 +205,29 @@ $database->close();
                 <div class="col-md-12">
                     <ul class="list-unstyled">
                         <li>Chi nhánh 1: 273 An Dương Vương, Phường 3, Quận 5, TP. Hồ Chí Minh</li>
-                        <li>Chi nhánh 2: 105 Xô Viết Nghệ Tĩnh, Phường 26, Quận Bình Thạnh, TP. Hồ Chí Minh</li>
+                        <li>Chi nhánh 2: 105 Bà Huyện Thanh Quan, Phường Võ Thị Sáu, Quận 3, TP. Hồ Chí Minh</li>
+                        <li>Chi nhánh 3: 4 Tôn Đức Thắng, Phường Bến Nghé, Quận 1, TP. Hồ Chí Minh</li>
                     </ul>
                 </div>
             </div>
         </div>
     </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="../vender/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        document.getElementById('searchForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const inputValue = document.getElementById('timkiem').value.trim();
+
+            if (inputValue) {
+                window.location.href = '/B-n-S-ch/nguoidung/timkiem.php?tenSach=' + encodeURIComponent(inputValue);
+            } else {
+                alert('Vui lòng nhập nội dung tìm kiếm!');
+            }
+        });
+    </script>
 </body>
 
 </html>

@@ -19,6 +19,9 @@ if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role
     echo "<script>alert('Bạn chưa đăng nhập!'); window.location.href='../dangky/dangnhap.php';</script>";
     exit();
 }
+
+$user = getUserInfoByUsername($database, $username);
+
 ?>
 
 <!DOCTYPE html>
@@ -34,6 +37,7 @@ if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role
     <link rel="stylesheet" href="../vender/css/bootstrap.min.css">
     <link rel="stylesheet" href="../vender/css/fontawesome-free/css/all.min.css">
     <!-- CSS  -->
+    <link rel="stylesheet" href="../asset/css/sanpham.css">
     <link rel="stylesheet" href="../asset/css/index-user.css">
 </head>
 
@@ -57,7 +61,7 @@ if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role
                             <a href="../nguoidung/indexuser.php" class="nav-link fw-bold text-white">TRANG CHỦ</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link fw-bold text-white">GIỚI THIỆU</a>
+                            <a href="../sanpham/gioithieu_user.php" class="nav-link fw-bold text-white">GIỚI THIỆU</a>
                         </li>
                         <li class="nav-item">
                             <a href="../sanpham/sanpham-user.php" class="nav-link fw-bold text-white">SẢN
@@ -71,7 +75,7 @@ if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role
                         </button>
                     </form>
                     <script>
-                        document.getElementById('searchForm').addEventListener('submit', function(event) {
+                        document.getElementById('searchForm').addEventListener('submit', function (event) {
                             event.preventDefault();
                             const inputValue = document.getElementById('timkiem').value.trim();
 
@@ -85,13 +89,18 @@ if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
                             <div class="d-flex gap-2">
-                                <a href="../nguoidung/user.php" class="mt-2"><i class="fas fa-user" id="avatar" style="color: black;"></i></a>
-                                <span class="mt-1" id="profile-name" style="top: 20px; padding: 2px;"><?php echo $user['tenNguoiDung']; ?></span>
+                                <a href="../nguoidung/user.php" class="mt-2"><i class="fas fa-user" id="avatar"
+                                        style="color: black;"></i></a>
+                                <span class="mt-1" id="profile-name"
+                                    style="top: 20px; padding: 2px;"><?php echo $user['tenNguoiDung']; ?></span>
                                 <div class="dropdown">
-                                    <button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                                    <button class="btn btn-outline-light dropdown-toggle" type="button"
+                                        data-bs-toggle="dropdown" aria-expanded="false"></button>
                                     <ul class="dropdown-menu">
-                                        <li class="dropdownList"><a class="dropdown-item" href="../nguoidung/user.php">Thông tin tài khoản</a></li>
-                                        <li class="dropdownList"><a href="../dangky/dangxuat.php" class="dropdown-item">Đăng xuất</a></li>
+                                        <li class="dropdownList"><a class="dropdown-item"
+                                                href="../nguoidung/user.php">Thông tin tài khoản</a></li>
+                                        <li class="dropdownList"><a href="../dangky/dangxuat.php"
+                                                class="dropdown-item">Đăng xuất</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -109,31 +118,65 @@ if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role
     </header>
 
     <!-- Main -->
+    <!-- Main -->
     <div class="container my-4">
         <div class="row">
             <!-- Sidebar -->
             <aside class="col-lg-3">
-                <div class="rounded text-dark p-4"
-                    style="border: 1px solid black; box-shadow: 5px 5px 5px rgba(50, 50, 50, 0.75);">
-                    <h5 class="fw-bold text-center">DANH MỤC</h5>
-                    <ul class="list-group" style="border: 1px solid;">
-                        <li class="list-group-item" style="border: none;">
-                            <a href="../danhmuc/sachthieunhi-nologin.php" class="fw-bold text-dark">Sách thiếu nhi</a>
+                <div class="rounded text-dark p-4" style="border: 1px solid black;">
+                    <h5 class="fw-bold text-center">TÌM KIẾM</h5>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <input type="text" class="form-control" id="tensach" placeholder="Tên sách">
                         </li>
-                        <li class="list-group-item" style="border: none;">
-                            <a href="../danhmuc/sachgiaokhoa-nologin.php" class="fw-bold text-dark">Sách giáo khoa</a>
+                        <li class="list-group-item">
+                            <input type="text" class="form-control" id="tentacgia" placeholder="Tên tác giả">
                         </li>
-                        <li class="list-group-item" style="border: none;">
-                            <a href="../danhmuc/sachkinhte-nologin.php" class="fw-bold text-dark">Sách kinh tế</a>
+                        <li class="list-group-item">
+                            <!-- Danh sách nhà xuất bản -->
+                            <select class="form-select" id="nxb">
+                                <option value="">-- Chọn nhà xuất bản --</option>
+                                <?php
+                                $sql = "SELECT * FROM b01_nhaXuatBan";
+                                $result = $database->query($sql);
+                                if ($result->num_rows > 0) {
+                                    while ($row = $result->fetch_assoc()) {
+                                        echo '<option value="' . $row["maNhaXuatBan"] . '">' . $row["tenNhaXuatBan"] . '</option>';
+                                    }
+                                }
+                                ?>
+                            </select>
                         </li>
-                        <li class="list-group-item" style="border: none;">
-                            <a href="../danhmuc/sachlichsu-nologin.php" class="fw-bold text-dark">Sách lịch sử</a>
+                        <li class="list-group-item">
+                            <!-- Thêm ô tìm kiếm thể loại -->
+                            <input type="text" class="form-control mb-2" id="searchTheLoai"
+                                placeholder="Tìm thể loại...">
+
+                            <!-- Danh sách thể loại -->
+                            <select class="form-select" id="theloai">
+                                <option value="">-- Chọn thể loại --</option>
+                                <?php
+                                $sql = "SELECT * FROM b01_theLoai";
+                                $result = $database->query($sql);
+                                if ($result->num_rows > 0) {
+                                    while ($row = $result->fetch_assoc()) {
+                                        echo '<option value="' . $row["maTheLoai"] . '">' . $row["tenTheLoai"] . '</option>';
+                                    }
+                                }
+                                ?>
+                            </select>
                         </li>
-                        <li class="list-group-item" style="border: none;">
-                            <a href="../danhmuc/sachngoaingu-nologin.php" class="fw-bold text-dark">Sách ngoại ngữ</a>
+                        <li class="list-group-item">
+                            <div class="input-group">
+                                <input class="form-control" type="number" id="minPrice" placeholder="Từ (VNĐ)" min="0">
+                                <input class="form-control" type="number" id="maxPrice" placeholder="Đến (VNĐ)" min="0">
+                            </div>
                         </li>
-                        <li class="list-group-item" style="border: none;">
-                            <a href="../danhmuc/sachkhoahoc-nologin.php" class="fw-bold text-dark">Sách khoa học</a>
+                        <li class="list-group-item">
+                            <div class="d-grid justify-content-md-end d-md-flex gap-2">
+                                <button type="button" class="btn btn-outline-dark" id="resetFilter">Xóa bộ lọc</button>
+                                <button type="button" class="btn btn-outline-dark" id="filterBtn">Tìm</button>
+                            </div>
                         </li>
                     </ul>
                 </div>
@@ -142,7 +185,7 @@ if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role
             <div class="col-lg-9">
                 <div class="border p-5">
                     <div class="container my-4">
-                        <div class="listProduct row">
+                        <div class="listProduct row" id="listProduct">
                             <?php
                             require '../admin/config/config.php';
                             if (isset($_GET['tenSach']) && !empty($_GET['tenSach'])) {
@@ -159,19 +202,24 @@ if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role
                                 if ($result->num_rows > 0) {
                                     echo '<h3>Kết quả tìm kiếm cho: <strong>' . htmlspecialchars($_GET['tenSach']) . '</strong></h3>';
                                     while ($row = $result->fetch_assoc()) {
-                            ?>
+                                        ?>
                                         <div class="col-md-4 mb-4">
                                             <div class="card" style="width: 100%;">
-                                                <img src="../images/<?php echo $row['hinhAnh']; ?>" class="card-img-top" alt="...">
+                                                <a href="#" class="view-detail" data-id="<?php echo $row['maSach']; ?>">
+                                                    <img src="../images/<?php echo $row['hinhAnh']; ?>" class="card-img-top"
+                                                        alt="...">
                                                 </a>
                                                 <div class="card-body">
                                                     <h5 class="card-title"><?php echo $row['tenSach']; ?></h5>
-                                                    <p class="card-text text-danger fw-bold"><?php echo number_format($row['giaBan']); ?> đ</p>
-                                                    <button class="btn" style="background-color: #336799; color: #ffffff;">Thêm vào giỏ hàng</button>
+                                                    <p class="card-text text-danger fw-bold">
+                                                        <?php echo number_format($row['giaBan']); ?> đ
+                                                    </p>
+                                                    <button class="btn" style="background-color: #336799; color: #ffffff;">Thêm vào
+                                                        giỏ hàng</button>
                                                 </div>
                                             </div>
                                         </div>
-                            <?php
+                                        <?php
                                     }
                                 } else {
                                     echo "<p>Không tìm thấy sách nào phù hợp.</p>";
@@ -182,6 +230,11 @@ if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role
                             ?>
                         </div>
                     </div>
+                    <nav class="pagination-container mt-4" aria-label="Page navigation">
+                        <ul id="pagination" class="pagination justify-content-center">
+
+                        </ul>
+                    </nav>
                 </div>
             </div>
         </div>
@@ -244,11 +297,29 @@ if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role
         </div>
     </footer>
 
-    <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" inert>
+    <!-- Modal thông báo thêm vào giỏ hàng -->
+    <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel">
         <div class="modal-dialog modal-sm position-absolute" style="top: 10%; left: 10%;">
             <div class="modal-content bg-success text-white">
                 <div class="modal-body text-center">
                     <p class="m-0">Đã thêm vào giỏ hàng!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal chi tiết sản phẩm -->
+    <div class="modal fade" id="productDetailModal" tabindex="-1" aria-labelledby="productDetailLabel">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="productDetailLabel">Chi tiết sản phẩm</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="productDetailContent">
+                        <!-- Nội dung sản phẩm sẽ được AJAX cập nhật tại đây -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -260,6 +331,7 @@ if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role
     <script src="../vender/js/bootstrap.bundle.min.js"></script>
     <script src="../asset/js/sanpham.js"></script>
     <script src="../asset/js/timkiem.js"></script>
+    <script src="../asset/js/AJAXscript.js"></script>
 
     <script>
         function adjustSidebar() { // Hàm điều khiển sidebar khi cuộn
@@ -278,7 +350,7 @@ if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role
     </script>
 
     <script>
-        document.getElementById('searchForm').addEventListener('submit', function(event) {
+        document.getElementById('searchForm').addEventListener('submit', function (event) {
             event.preventDefault();
             const inputValue = document.getElementById('timkiem').value.trim();
 
