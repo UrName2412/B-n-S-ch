@@ -226,7 +226,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                             </div>
                             <div class="mb-3">
                                 <input type="checkbox" class="form-check-input" id="terms" name="terms" <?php echo isset($_POST['terms']) ? 'checked' : ''; ?>>
-                                <label class="form-check-label" for="terms">Tôi đồng ý với <a href="#"> điều khoản và chính sách</a> của nhà sách.</label>
+                                <label class="form-check-label" for="terms">Tôi đồng ý với <a href="dieukhoan.php" target="_blank"> điều khoản và chính sách</a> của nhà sách.</label>
                             </div>
                             <button type="submit" class="btn text-white w-100" style="background-color: #336799;">Đăng Ký</button>
                         </form>
