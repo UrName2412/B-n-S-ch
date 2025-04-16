@@ -24,6 +24,7 @@ if ((isset($_SESSION['username']) || isset($_COOKIE['username'])) && (isset($_SE
     <link rel="stylesheet" href="../vender/css/fontawesome-free/css/all.min.css">
     <!-- CSS  -->
     <link rel="stylesheet" href="../asset/css/sanpham.css">
+    <link rel="stylesheet" href="../asset/css/index-user.css">
 </head>
 
 <body>
@@ -144,6 +145,7 @@ if ((isset($_SESSION['username']) || isset($_COOKIE['username'])) && (isset($_SE
                                     ?>
                                     <div class="col-md-4 mb-4">
                                         <div class="card" style="width: 100%;">
+                                            <a>
                                                 <img src="../images/<?php echo $row['hinhAnh']; ?>" class="card-img-top" alt="...">
                                             </a>
                                             <div class="card-body">
@@ -242,6 +244,7 @@ if ((isset($_SESSION['username']) || isset($_COOKIE['username'])) && (isset($_SE
     <script src="../vender/js/bootstrap.bundle.min.js"></script>
     <script src="../asset/js/sanpham.js"></script>
     <script src="../asset/js/timkiem.js"></script>
+    <script src="asset/js/AJAXscript.js"></script>
 
     <script>
         function adjustSidebar() { // Hàm điều khiển sidebar khi cuộn

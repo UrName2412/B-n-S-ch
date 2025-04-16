@@ -166,8 +166,7 @@ $user = getUserInfoByUsername($database, $username);
                             ?>
                                         <div class="col-md-4 mb-4">
                                             <div class="card" style="width: 100%;">
-                                                <img src="../images/<?php echo $row['hinhAnh']; ?>" class="card-img-top" alt="...">
-                                                </a>
+                                                <a><img src="../images/<?php echo $row['hinhAnh']; ?>" class="card-img-top" alt="..."></a>
                                                 <div class="card-body">
                                                     <h5 class="card-title"><?php echo $row['tenSach']; ?></h5>
                                                     <p class="card-text text-danger fw-bold"><?php echo number_format($row['giaBan']); ?> đ</p>
