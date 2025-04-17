@@ -72,18 +72,6 @@ $user = getUserInfoByUsername($database, $username);
                             <i class="fas fa-search"></i>
                         </button>
                     </form>
-                    <script>
-                        document.getElementById('searchForm').addEventListener('submit', function (event) {
-                            event.preventDefault();
-                            const inputValue = document.getElementById('timkiem').value.trim();
-
-                            if (inputValue) {
-                                window.location.href = 'timkiem.php';
-                            } else {
-                                alert('Vui lòng nhập nội dung tìm kiếm!');
-                            }
-                        });
-                    </script>
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
                             <div class="d-flex gap-2">

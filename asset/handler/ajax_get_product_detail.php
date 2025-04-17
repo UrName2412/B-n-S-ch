@@ -18,13 +18,13 @@ if (isset($_POST['id'])) {
                         <img src='/B-n-S-ch/Images/{$row['hinhAnh']}' class='img-fluid rounded' style='height:75vh' alt='{$row['tenSach']}' />
                     </div>
                     <div class='col-md-6 d-flex flex-column justify-content-between'>
-                    <div>
+                    <div style='height:70vh;'>
                         <h5 class='fw-bold'>{$row['tenSach']}</h5>
                         <p><b>Thể loại:</b> {$row['tenTheLoai']}</p>
                         <p><b>Tác giả:</b> {$row['tacGia']}</p>
                         <p><b>Nhà xuất bản:</b> {$row['tenNhaXuatBan']}</p>
                         <p><b>Giá bán:</b> <span class='text-danger fw-bold'>" . number_format($row['giaBan'], 0, ',', '.') . " đ</span></p>
-                        <p><b>Mô tả:</b> {$row['moTa']}</p>
+                        <p class='limit'><b>Mô tả:</b> {$row['moTa']}</p>
                         </div>
                         <button class='btn btn-success add-to-cart-detail w-100'>Thêm vào giỏ hàng</button>
                         </div>

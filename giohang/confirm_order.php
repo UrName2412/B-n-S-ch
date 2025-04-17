@@ -134,17 +134,6 @@ $paymentMethod = isset($_GET['method']) ? $_GET['method'] : '';
                             <i class="fas fa-search"></i>
                         </button>
                     </form>
-                    <script>
-                        document.getElementById('searchForm').addEventListener('submit', function (event) {
-                            event.preventDefault();
-                            const inputValue = document.getElementById('timkiem').value.trim();
-                            if (inputValue) {
-                                window.location.href = '../nguoidung/timkiem.php?tenSach=' + encodeURIComponent(inputValue);
-                            } else {
-                                alert('Vui lòng nhập nội dung tìm kiếm!');
-                            }
-                        });
-                    </script>
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
                             <div class="d-flex gap-2">

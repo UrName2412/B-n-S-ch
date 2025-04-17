@@ -199,3 +199,8 @@ aside input {
     color: white;
 }
 
+.limit {
+    overflow-y: scroll;
+    height: 50%;
+    padding-bottom: 20px;
+}

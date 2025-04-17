@@ -60,18 +60,6 @@ if ((isset($_SESSION['username']) || isset($_COOKIE['username'])) && (isset($_SE
                             <i class="fas fa-search"></i>
                         </button>
                     </form>
-                    <script>
-                        document.getElementById('searchForm').addEventListener('submit', function (event) {
-                            event.preventDefault();
-                            const inputValue = document.getElementById('timkiem').value.trim();
-
-                            if (inputValue) {
-                                window.location.href = 'timkiem-nologin.php';
-                            } else {
-                                alert('Vui lòng nhập nội dung tìm kiếm!');
-                            }
-                        });
-                    </script>
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
                             <a href="../dangky/dangnhap.php" class="nav-link fw-bold text-white">ĐĂNG NHẬP</a>

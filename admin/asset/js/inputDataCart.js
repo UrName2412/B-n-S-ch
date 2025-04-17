@@ -253,8 +253,8 @@ async function statusCarts(listCartsBlock, status) {
 
     listCartsBlock.innerHTML = '';
     for (let cart of carts) {
-        let cartStatus = cart.tinhTrang.trim().toLowerCase();
-        let filterStatus = status.trim().toLowerCase();
+        let cartStatus = cart.tinhTrang.trim().toLowerCase().normalize('NFC');
+        let filterStatus = status.trim().toLowerCase().normalize('NFC');
 
         console.log('Cart status:', cartStatus, 'Status filter:', filterStatus, cartStatus == filterStatus);
 

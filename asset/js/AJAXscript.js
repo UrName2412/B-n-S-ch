@@ -281,7 +281,7 @@ function loadProducts(page = 1) {
             if (page > 1) {
                 paginationHTML += `
                     <li class="page-item">
-                        <a class="page-link" href="javascript:void(0);" onclick="loadProducts(${page - 1})">&laquo;</a>
+                        <a class="page-link" href="#top" onclick="loadProducts(${page - 1})">&laquo;</a>
                     </li>
                 `;
             }
@@ -290,7 +290,7 @@ function loadProducts(page = 1) {
             for (let i = startPage; i <= endPage; i++) {
                 paginationHTML += `
                     <li class="page-item ${i === page ? 'active' : ''}">
-                        <a class="page-link" href="javascript:void(0);" onclick="loadProducts(${i})">${i}</a>
+                        <a class="page-link" href="#top" onclick="loadProducts(${i})">${i}</a>
                     </li>
                 `;
             }
@@ -299,7 +299,7 @@ function loadProducts(page = 1) {
             if (page < totalPages) {
                 paginationHTML += `
                     <li class="page-item">
-                        <a class="page-link" href="javascript:void(0);" onclick="loadProducts(${page + 1})">&raquo;</a>
+                        <a class="page-link" href="#top" onclick="loadProducts(${page + 1})">&raquo;</a>
                     </li>
                 `;
             }

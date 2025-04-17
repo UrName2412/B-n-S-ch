@@ -241,14 +241,6 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     <form id="edit-form" name="edit-form" action="user.php" method="post">
         <h2>Cập Nhật Thông Tin</h2>
         <div class="mb-2">
-            <label for="name">Tên đăng nhập:</label>
-            <input type="text" id="name" name="name" value="<?php echo $user['tenNguoiDung']; ?>" readonly>
-        </div>
-        <div class="mb-2">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" value="<?php echo $user['email']; ?>" readonly>
-        </div>
-        <div class="mb-2">
             <label for="phone">Số Điện Thoại:</label>
             <input type="text" id="phone" name="phone" placeholder="Nhập số điện thoại" value="<?php echo $user['soDienThoai']; ?>">
         </div>

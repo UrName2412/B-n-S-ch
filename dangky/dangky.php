@@ -106,18 +106,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                             <i class="fas fa-search"></i>
                         </button>
                     </form>
-                    <script>
-                        document.getElementById('searchForm').addEventListener('submit', function(event) {
-                            event.preventDefault();
-                            const inputValue = document.getElementById('timkiem').value.trim();
-
-                            if (inputValue) {
-                                window.location.href = '../nguoidung/timkiem-nologin.php';
-                            } else {
-                                alert('Vui lòng nhập nội dung tìm kiếm!');
-                            }
-                        });
-                    </script>
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
                             <a href="dangnhap.php" class="nav-link fw-bold text-white">ĐĂNG NHẬP</a>
