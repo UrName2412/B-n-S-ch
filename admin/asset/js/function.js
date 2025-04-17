@@ -150,7 +150,7 @@ function previewImage(input, previewImgId, errorSelector = '.form-message') {
     const file = input.files[0];
 
     const validTypes = ['image/jpeg', 'image/png', 'image/jpg'];
-    const maxSize = 5 * 1024 * 1024;
+    const maxSize = 2 * 1024 * 1024;
 
     if (file) {
         const fileExtension = file.name.split('.').pop().toLowerCase();
@@ -164,7 +164,7 @@ function previewImage(input, previewImgId, errorSelector = '.form-message') {
         }
 
         if (file.size > maxSize) {
-            errorMessage.innerText = 'Vui lòng chọn ảnh có dung lượng nhỏ hơn 5MB.';
+            errorMessage.innerText = 'Vui lòng chọn ảnh có dung lượng nhỏ hơn 2MB.';
             previewImg.style.display = 'none';
             input.value = '';
             formGroup.classList.add('invalid');
