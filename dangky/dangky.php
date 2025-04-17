@@ -9,6 +9,11 @@ if ((isset($_SESSION['username']) || isset($_COOKIE['username'])) && (isset($_SE
     exit();
 }
 
+if (isset($_COOKIE['username']) && isset($_COOKIE['pass']) && isset($_COOKIE['role'])) {
+    header("Location: ../nguoidung/indexuser.php");
+    exit();
+}
+
 function test_input($data)
 {
     $data = trim($data);
