@@ -124,8 +124,8 @@ function setDetailButtons() {
                     <div class="grid-row-detail">
                         <textarea readonly>${product.tenSach}</textarea>
                         <textarea readonly>${item.soLuong}</textarea>
-                        <textarea readonly>${item.giaBan.toLocaleString()}</textarea>
-                        <textarea readonly>${total.toLocaleString()}</textarea>
+                        <textarea readonly>${formatVND(item.giaBan)}</textarea>
+                        <textarea readonly>${formatVND(total)}</textarea>
                     </div>
                 `;
             }
@@ -165,7 +165,7 @@ function setDetailButtons() {
                 </div>
                 <div class="grid-footer-detail">
                     <textarea readonly>Tổng cộng</textarea>
-                    <textarea readonly>${tongCong.toLocaleString()}</textarea>
+                    <textarea readonly>${formatVND(tongCong)}</textarea>
                 </div>
             `;
             toolMenu.appendChild(menuDetail);
