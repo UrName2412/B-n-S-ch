@@ -89,10 +89,10 @@ export class addressHandler {
             await this.loadProvinces();
         }
         let address = "";
-        if (provinceCode) address += this.getProvinceName(provinceCode) + ", ";
-        if (districtCode) address += this.getDistrictName(districtCode) + ", ";
-        if (wardCode) address += this.getWardName(wardCode) + ", ";
         if (street) address += street + ", ";
+        if (wardCode) address += this.getWardName(wardCode) + ", ";
+        if (districtCode) address += this.getDistrictName(districtCode) + ", ";
+        if (provinceCode) address += this.getProvinceName(provinceCode) + ", ";
         return address.slice(0, -2);
     }
 

@@ -20,7 +20,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     $duLieuMoi = [
         'soDienThoai' => $_POST['soDienThoai'],
-        'email' => $_POST['email'],
         'tinhThanh' => $_POST['tinhThanh'],
         'quanHuyen' => $_POST['quanHuyen'],
         'xa' => $_POST['xa'],

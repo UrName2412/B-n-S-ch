@@ -37,11 +37,6 @@ function fixButtons() {
                         <span class="form-message"></span>
                     </div>
                     <div class="form-group">
-                        <label for="email">Email:</label>
-                        <input type="email" name="email" id="suaEmail" placeholder="Nhập email" value="${temp.email}">
-                        <span class="form-message"></span>
-                    </div>
-                    <div class="form-group">
                         <label for="diaChi">Địa chỉ:</label>
                         <div class="address">
                             <div class="form-group">
@@ -92,7 +87,6 @@ function fixButtons() {
                             Validator.isRequired('#suaQuanHuyen', 'Vui lòng chọn quận huyện.</br>*Chọn tỉnh thành trước.'),
                             Validator.isRequired('#suaXa', 'Vui lòng chọn xã.</br>*Chọn tỉnh và quận huyện trước.'),
                             Validator.isRequired('#suaDuong', messageRequired),
-                            Validator.isEmail('#suaEmail', messageEmail),
                             Validator.isPhone('#suaSoDienThoai', messagePhone),
                         ]
                     })
