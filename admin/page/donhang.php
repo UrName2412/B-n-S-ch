@@ -1,4 +1,4 @@
-<?php 
+<?php
 require '../config/config.php';
 require '../handlers/admin_handle.php';
 session_start();
@@ -56,14 +56,14 @@ $admin = getAdminInfoByUsername($database, $username);
         </aside>
         <!--End of Sidebar Section-->
 
-        
+
         <!--Header-->
         <div class="header">
             <div class="toggle">
                 <div class="logo">
                     <a href="nguoidung.php">
                         <img src="../image/LogoSach.png">
-                        <h2><?php echo $admin['tenNguoiDung'];?></h2>
+                        <h2><?php echo $admin['tenNguoiDung']; ?></h2>
                     </a>
                 </div>
             </div>
@@ -93,7 +93,7 @@ $admin = getAdminInfoByUsername($database, $username);
                 </div>
             </div>
 
-            
+
             <div class="menuFilter" style="display: none;">
                 <div class="timeFilter">
                     <div class="part">
@@ -121,16 +121,16 @@ $admin = getAdminInfoByUsername($database, $username);
                 </div>
                 <div class="buttons">
                     <button type="button" class="clearFilter" id="clearButton">Bỏ lọc</button>
-                    <button type="button" class="acceptFilter" id="acceptFilter" >Lọc</button>
+                    <button type="button" class="acceptFilter" id="acceptFilter">Lọc</button>
                 </div>
             </div>
 
             <!-- Tool Section -->
             <div class="tool">
+                <button type="button" class="filterBtnTool" id="filterBtnCart">
+                    <i class="fas fa-filter"></i>
+                </button>
                 <div class="search">
-                    <button type="button" id="filterBtnCart">
-                        <i class="fas fa-filter"></i>
-                    </button>
                     <select name="cartFilter" id="cartFilter">
                         <option value="Tất cả đơn hàng" selected>Tất cả đơn hàng</option>
                         <option value="Chưa xác nhận">Chưa xác nhận</option>
@@ -147,7 +147,7 @@ $admin = getAdminInfoByUsername($database, $username);
         </div>
 
         <!-- Tool Menu -->
-        <div class="tool-menu" style="display: none;"  id="tool-menu">
+        <div class="tool-menu" style="display: none;" id="tool-menu">
             <button type="button" class="menu-close" id="closeToolMenuButton">
                 <i class="fas fa-times"></i>
             </button>
@@ -161,10 +161,10 @@ $admin = getAdminInfoByUsername($database, $username);
     <script src="../asset/js/admin.js"></script>
     <script type="module" src="../asset/js/apiAddress.js"></script>
     <?php
-        if (isset($_SESSION["thongBaoSua"])){
-            echo "<script>createAlert('".$_SESSION["thongBaoSua"]."');</script>";
-            unset($_SESSION["thongBaoSua"]);
-        }
+    if (isset($_SESSION["thongBaoSua"])) {
+        echo "<script>createAlert('" . $_SESSION["thongBaoSua"] . "');</script>";
+        unset($_SESSION["thongBaoSua"]);
+    }
     ?>
 </body>
 

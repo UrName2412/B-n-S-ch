@@ -187,6 +187,11 @@ function previewImage(input, previewImgId, errorSelector = '.form-message') {
     }
 }
 
+function formatVND(amount) {
+    amount*=1000;
+    return amount.toLocaleString('vi-VN') + ' đ';
+}
+  
 
 
 

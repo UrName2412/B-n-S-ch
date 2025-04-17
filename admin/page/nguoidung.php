@@ -121,14 +121,16 @@ $admin = getAdminInfoByUsername($database, $username);
 
             <!-- Tool Section -->
             <div class="tool">
-                <button type="button" class="add" id="addBtnUser" onclick="openToolMenu('')">
-                    <i class="fas fa-plus"></i>
-                </button>
+                <div class="buttons">
+                    <button type="button" class="add" id="addBtnUser" onclick="openToolMenu('')">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    <button type="button"  class="filterBtnTool" id="filterBtnUser">
+                            <i class="fas fa-filter"></i>
+                    </button>
+                </div>
 
                 <div class="search">
-                    <button type="button" id="filterBtnUser">
-                        <i class="fas fa-filter"></i>
-                    </button>
                     <select name="userFilter" id="userFilter">
                         <option value="allUsers">Tất cả người dùng</option>
                         <option value="activeUsers">Người dùng hoạt động</option>

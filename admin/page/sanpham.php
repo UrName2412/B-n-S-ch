@@ -165,13 +165,15 @@ $stmt->close();
 
             <!-- Tool Section -->
             <div class="tool">
-                <button type="button" class="add" id="addBtnProduct" onclick="openToolMenu('')">
-                    <i class="fas fa-plus"></i>
-                </button>
-                <div class="search">
-                    <button type="button" id="filterBtnProduct">
-                        <i class="fas fa-filter"></i>
+                <div class="buttons">
+                    <button type="button" class="add" id="addBtnProduct" onclick="openToolMenu('')">
+                        <i class="fas fa-plus"></i>
                     </button>
+                    <button type="button" class="filterBtnTool" id="filterBtnProduct">
+                            <i class="fas fa-filter"></i>
+                    </button>
+                </div>
+                <div class="search">
                     <select name="productFilter" id="productFilter" onchange="productFilter()">
                         <option value="allProducts">Tất cả sản phẩm</option>
                         <option value="activeProducts">Sản phẩm hoạt động</option>

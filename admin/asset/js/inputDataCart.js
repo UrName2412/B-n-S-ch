@@ -235,7 +235,7 @@ async function allCarts(listCartsBlock) {
                 <textarea placeholder="Nhập tên người dùng..." readonly>${cart.tenNguoiDung}</textarea>
                 <textarea placeholder="Nhập địa chỉ..." readonly>${diaChi}</textarea>
                 <textarea placeholder="Nhập số điện thoại..." readonly>${cart.soDienThoai}</textarea>
-                <textarea placeholder="Nhập tổng giá..." readonly>${cart.tongTien}</textarea>
+                <textarea placeholder="Nhập tổng giá..." readonly>${formatVND(cart.tongTien)}</textarea>
                 <div class="buttonCart">
                     <button type="button" class="status">${cart.tinhTrang}</button>
                     <button type="button" class="detailButton">Chi tiết đơn hàng</button>
@@ -267,7 +267,7 @@ async function statusCarts(listCartsBlock, status) {
                 <textarea placeholder="Nhập tên người dùng..." readonly>${cart.tenNguoiDung}</textarea>
                 <textarea placeholder="Nhập địa chỉ..." readonly>${diaChi}</textarea>
                 <textarea placeholder="Nhập số điện thoại..." readonly>${cart.soDienThoai}</textarea>
-                <textarea placeholder="Nhập tổng giá..." readonly>${cart.tongTien}</textarea>
+                <textarea placeholder="Nhập tổng giá..." readonly>${formatVND(cart.tongTien)}</textarea>
                 <div class="buttonCart">
                     <button type="button" class="status">${cart.tinhTrang}</button>
                     <button type="button" class="detailButton">Chi tiết đơn hàng</button>
@@ -362,7 +362,7 @@ async function handleFilter(dateStart, dateEnd, city, district) {
                 <textarea placeholder="Nhập tên người dùng..." readonly>${carts[i].tenNguoiDung}</textarea>
                 <textarea placeholder="Nhập địa chỉ..." readonly>${diaChi}</textarea>
                 <textarea placeholder="Nhập số điện thoại..." readonly>${carts[i].soDienThoai}</textarea>
-                <textarea placeholder="Nhập tổng giá..." readonly>${carts[i].tongTien}</textarea>
+                <textarea placeholder="Nhập tổng giá..." readonly>${formatVND(carts[i].tongTien)}</textarea>
                 <div class="buttonCart">
                     <button type="button" class="status">${carts[i].tinhTrang}</button>
                     <button type="button" class="detailButton">Chi tiết đơn hàng</button>

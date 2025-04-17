@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $tongTien = 0;
     foreach ($cart as $item) {
-        $giaBan = preg_replace('/[^\d.]/', '', $item['productPrice']); // Loại bỏ các ký tự không phải số
+        $giaBan = (int) preg_replace('/[^\d]/', '', $item['productPrice']);
         $tongTien += $giaBan * $item['quantity'];  
     }
 
