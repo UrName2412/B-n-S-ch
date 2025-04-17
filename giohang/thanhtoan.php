@@ -3,10 +3,6 @@ require '../admin/config/config.php';
 require '../asset/handler/user_handle.php';
 session_start();
 
-
-if (!isset($_SESSION['user'])) {
-  echo "Bạn chưa đăng nhập.";
-}
 if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role'] == false)) {
   $username = $_SESSION['username'];
 } elseif (isset($_COOKIE['username']) && isset($_COOKIE['pass'])) {
@@ -25,7 +21,7 @@ if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role
   exit();
 }
 
-$user = $_SESSION['user'];
+$user = getUserInfoByUsername($database, $username);
 
 // Kiểm tra trạng thái đăng nhập 
 if (!isset($_SESSION['username'])) {

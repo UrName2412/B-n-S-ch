@@ -293,7 +293,7 @@ function searchButton() {
                             <textarea placeholder="Nhập tên tác giả..." readonly>${product.tacGia}</textarea>
                             <textarea placeholder="chọn thể loại..." readonly>${product.tenTheLoai}</textarea>
                             <textarea placeholder="Nhập nhà xuất bản..." readonly>${product.tenNhaXuatBan}</textarea>
-                            <textarea placeholder="Nhập giá tiền..." readonly>${product.giaBan}</textarea>
+                            <textarea placeholder="Nhập giá tiền..." readonly>${formatVND(product.giaBan)}</textarea>
                             <div class="input-picture">
                                 <input type="file" name="picture" class="picture" placeholder="Chọn ảnh" onchange="displayFileName()" style="display: none;">
                                 <img class="pictureProduct" src="${diaChiAnh}${product.hinhAnh}" alt="" srcset="">
@@ -313,7 +313,7 @@ function searchButton() {
                             <textarea placeholder="Nhập tên tác giả..." readonly>${product.tacGia}</textarea>
                             <textarea placeholder="chọn thể loại..." readonly>${product.tenTheLoai}</textarea>
                             <textarea placeholder="Nhập nhà xuất bản..." readonly>${product.tenNhaXuatBan}</textarea>
-                            <textarea placeholder="Nhập giá tiền..." readonly>${product.giaBan}</textarea>
+                            <textarea placeholder="Nhập giá tiền..." readonly>${formatVND(product.giaBan)}</textarea>
                             <div class="input-picture">
                                 <input type="file" name="picture" class="picture" placeholder="Chọn ảnh" onchange="displayFileName()" style="display: none;">
                                 <img class="pictureProduct" src="${diaChiAnh}${product.hinhAnh}" alt="" srcset="">
@@ -360,7 +360,7 @@ function activeProducts(listProductsBlock) {
                 <textarea placeholder="Nhập tên tác giả..." readonly>${product.tacGia}</textarea>
                 <textarea placeholder="chọn thể loại..." readonly>${product.tenTheLoai}</textarea>
                 <textarea placeholder="Nhập nhà xuất bản..." readonly>${product.tenNhaXuatBan}</textarea>
-                <textarea placeholder="Nhập giá tiền..." readonly>${product.giaBan}</textarea>
+                <textarea placeholder="Nhập giá tiền..." readonly>${formatVND(product.giaBan)}</textarea>
                 <div class="input-picture">
                     <input type="file" name="picture" class="picture" placeholder="Chọn ảnh" onchange="displayFileName()" style="display: none;">
                     <img class="pictureProduct" src="${diaChiAnh}${product.hinhAnh}" alt="" srcset="">
@@ -394,7 +394,7 @@ function allProducts(listProductsBlock) {
                 <textarea placeholder="Nhập tên tác giả..." readonly>${product.tacGia}</textarea>
                 <textarea placeholder="chọn thể loại..." readonly>${product.tenTheLoai}</textarea>
                 <textarea placeholder="Nhập nhà xuất bản..." readonly>${product.tenNhaXuatBan}</textarea>
-                <textarea placeholder="Nhập giá tiền..." readonly>${product.giaBan}</textarea>
+                <textarea placeholder="Nhập giá tiền..." readonly>${formatVND(product.giaBan)}</textarea>
                 <div class="input-picture">
                     <input type="file" name="picture" class="picture" placeholder="Chọn ảnh" onchange="displayFileName()" style="display: none;">
                     <img class="pictureProduct" src="${diaChiAnh}${product.hinhAnh}" alt="" srcset="">
@@ -412,7 +412,7 @@ function allProducts(listProductsBlock) {
                 <textarea placeholder="Nhập tên tác giả..." readonly>${product.tacGia}</textarea>
                 <textarea placeholder="chọn thể loại..." readonly>${product.tenTheLoai}</textarea>
                 <textarea placeholder="Nhập nhà xuất bản..." readonly>${product.tenNhaXuatBan}</textarea>
-                <textarea placeholder="Nhập giá tiền..." readonly>${product.giaBan}</textarea>
+                <textarea placeholder="Nhập giá tiền..." readonly>${formatVND(product.giaBan)}</textarea>
                 <div class="input-picture">
                     <input type="file" name="picture" class="picture" placeholder="Chọn ảnh" onchange="displayFileName()" style="display: none;">
                     <img class="pictureProduct" src="${diaChiAnh}${product.hinhAnh}" alt="" srcset="">
@@ -447,7 +447,7 @@ function hiddenProducts(listProductsBlock) {
                 <textarea placeholder="Nhập tên tác giả..." readonly>${product.tacGia}</textarea>
                 <textarea placeholder="chọn thể loại..." readonly>${product.tenTheLoai}</textarea>
                 <textarea placeholder="Nhập nhà xuất bản..." readonly>${product.tenNhaXuatBan}</textarea>
-                <textarea placeholder="Nhập giá tiền..." readonly>${product.giaBan}</textarea>
+                <textarea placeholder="Nhập giá tiền..." readonly>${formatVND(product.giaBan)}</textarea>
                 <div class="input-picture">
                     <input type="file" name="picture" class="picture" placeholder="Chọn ảnh" onchange="displayFileName()" style="display: none;">
                     <img class="pictureProduct" src="${diaChiAnh}${product.hinhAnh}" alt="" srcset="">
@@ -543,7 +543,7 @@ function handleFilter(tacGia, maTheLoai, maNhaXuatBan, priceStart, priceEnd) {
                 <textarea placeholder="Nhập tên tác giả..." readonly>${products[i].tacGia}</textarea>
                 <textarea placeholder="chọn thể loại..." readonly>${products[i].tenTheLoai}</textarea>
                 <textarea placeholder="Nhập nhà xuất bản..." readonly>${products[i].tenNhaXuatBan}</textarea>
-                <textarea placeholder="Nhập giá tiền..." readonly>${products[i].giaBan}</textarea>
+                <textarea placeholder="Nhập giá tiền..." readonly>${formatVND(products[i].giaBan)}</textarea>
                 <div class="input-picture">
                     <input type="file" name="picture" class="picture" placeholder="Chọn ảnh" onchange="displayFileName()" style="display: none;">
                     <img class="pictureProduct" src="${diaChiAnh}${products[i].hinhAnh}" alt="" srcset="">

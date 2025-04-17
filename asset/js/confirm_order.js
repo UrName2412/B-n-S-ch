@@ -27,8 +27,9 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
 
     cart.forEach(item => {
-        const price = parseFloat(item.productPrice.replace(/[^\d]/g, ''));
-        const thanhTien = price * item.quantity;
+        const price = parseInt(item.productPrice.replace(/[^\d]/g, ''));
+        let thanhTien = price * item.quantity;
+        thanhTien.replace
         total += thanhTien;
 
         html += `
@@ -37,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <td>${item.productName}</td>
                 <td>${item.productPrice}</td>
                 <td>${item.quantity}</td>
-                <td>${thanhTien.toLocaleString()}₫</td>
+                <td>${formatVND(thanhTien)}</td>
             </tr>
         `;
     });
@@ -45,10 +46,14 @@ document.addEventListener("DOMContentLoaded", () => {
     html += `
             </tbody>
         </table>
-        <h4>Tổng cộng: ${total.toLocaleString()}₫</h4>
+        <h4>Tổng cộng: ${formatVND(total)}</h4>
     `;
 
     document.getElementById("hoaDon").innerHTML = html;
 });
+
+function formatVND(amount) {
+    return amount.toLocaleString('vi-VN') + ' đ';
+}
 
 

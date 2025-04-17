@@ -19,17 +19,24 @@ if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role
     echo "<script>alert('Bạn chưa đăng nhập!'); window.location.href='../dangky/dangnhap.php';</script>";
     exit();
 }
-
+$user = getUserInfoByUsername($database, $username);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Lấy thông tin người dùng từ session
-    $tenNguoiNhan = $_SESSION['user']['tenNguoiDung'];
-    $soDienThoai = $_SESSION['user']['soDienThoai'];
-    $tinhThanh = $_SESSION['user']['tinhThanh'];
-    $quanHuyen = $_SESSION['user']['quanHuyen'];
-    $xa = $_SESSION['user']['xa'];
-    $duong = $_SESSION['user']['duong'];
-    $tenNguoiDung = $_SESSION['user']['tenNguoiDung'];
+    $tenNguoiNhan = 
+    $user['tenNguoiDung'];
+    $soDienThoai = 
+    $user['soDienThoai'];
+    $tinhThanh = 
+    $user['tinhThanh'];
+    $quanHuyen = 
+    $user['quanHuyen'];
+    $xa = 
+    $user['xa'];
+    $duong = 
+    $user['duong'];
+    $tenNguoiDung = 
+    $user['tenNguoiDung'];
     $ngayTao = date('Y-m-d H:i:s');
     $ghiChu = '';
     $tinhTrang = 'Chưa xác nhận';
@@ -57,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         foreach ($cart as $item) {
             $maSach = $item['productId'];  
-            $giaBan = preg_replace('/[^\d.]/', '', $item['productPrice']); 
+            $giaBan = (int) preg_replace('/[^\d]/', '', $item['productPrice']); 
             $soLuong = $item['quantity']; 
             
             $stmt_ct->bind_param("iidi", $maSach, $maDon, $giaBan, $soLuong);
@@ -141,7 +148,7 @@ $paymentMethod = isset($_GET['method']) ? $_GET['method'] : '';
                                     <i class="fas fa-user" id="avatar" style="color: black;"></i>
                                 </a>
                                 <span class="mt-1" id="profile-name" style="top: 20px; padding: 2px;">
-                                <?php echo $_SESSION['user']['tenNguoiDung']; ?>
+                                <?php echo $user['tenNguoiDung']; ?>
                                 </span>
                                 <div class="dropdown">
                                     <button class="btn btn-outline-light dropdown-toggle" type="button"
@@ -172,11 +179,17 @@ $paymentMethod = isset($_GET['method']) ? $_GET['method'] : '';
 
             <!-- Thông tin người nhận -->
             <div id="thongTinNguoiNhan">
-                <p><strong>Người nhận:</strong> <?php echo $_SESSION['user']['tenNguoiDung']; ?></p>
+                <p><strong>Người nhận:</strong> <?php echo 
+                $user['tenNguoiDung']; ?></p>
                 <p><strong>Địa chỉ:</strong> 
-                    <?php echo $_SESSION['user']['duong'] . ', ' . $_SESSION['user']['xa'] . ', ' . $_SESSION['user']['quanHuyen'] . ', ' . $_SESSION['user']['tinhThanh']; ?>
+                    <?php echo 
+                    $user['duong'] . ', ' . 
+                    $user['xa'] . ', ' . 
+                    $user['quanHuyen'] . ', ' . 
+                    $user['tinhThanh']; ?>
                 </p>
-                <p><strong>Số điện thoại:</strong> <?php echo $_SESSION['user']['soDienThoai']; ?></p>
+                <p><strong>Số điện thoại:</strong> <?php echo 
+                $user['soDienThoai']; ?></p>
             </div>
 
             <!-- Hóa đơn được JS in ra -->
