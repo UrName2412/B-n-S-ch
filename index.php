@@ -6,6 +6,11 @@ if ((isset($_SESSION['username']) || isset($_COOKIE['username'])) && (isset($_SE
     header("Location: nguoidung/indexuser.php");
     exit();
 }
+
+if (isset($_COOKIE['username']) && isset($_COOKIE['pass']) && isset($_COOKIE['role'])) {
+    header("Location: nguoidung/indexuser.php");
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="vi">
