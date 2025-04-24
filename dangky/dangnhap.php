@@ -288,6 +288,19 @@ if (isset($_POST['action']) && $_POST['action'] == 'do-login') {
         </script>
     <?php endif; ?>
 
+    <script>
+        document.getElementById('searchForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const inputValue = document.getElementById('timkiem').value.trim();
+
+            if (inputValue) {
+                window.location.href = '../nguoidung/timkiem-nologin.php?tenSach=' + encodeURIComponent(inputValue);
+            } else {
+                alert('Vui lòng nhập nội dung tìm kiếm!');
+            }
+        });
+    </script>
+
 </body>
 
 </html>
