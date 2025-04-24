@@ -141,7 +141,7 @@ $paymentMethod = isset($_GET['method']) ? $_GET['method'] : '';
                             <a href="../nguoidung/sanpham-user.php" class="nav-link fw-bold" style="color: yellow;">SẢN PHẨM</a>
                         </li>
                     </ul>
-                    <form id="searchForm" class="d-flex me-auto" method="GET" action="nguoidung/timkiem.php">
+                    <form id="searchForm" class="d-flex me-auto" method="GET" action="../nguoidung/timkiem.php">
                         <input class="form-control me-2" type="text" id="timkiem" name="tenSach" placeholder="Tìm sách">
                         <button class="btn btn-outline-light" type="submit">
                             <i class="fas fa-search"></i>
@@ -290,8 +290,7 @@ $paymentMethod = isset($_GET['method']) ? $_GET['method'] : '';
             </div>
         </div>
     </div>
-
-
+    <script src="../vender/js/bootstrap.bundle.min.js"></script>
     <script src="../asset/js/sanpham.js"></script>
     <script>
     document.addEventListener('DOMContentLoaded', function() {

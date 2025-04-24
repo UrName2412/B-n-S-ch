@@ -187,7 +187,7 @@ $database->close();
                             <a href="../sanpham/sanpham-user.php" class="nav-link fw-bold text-white">SẢN PHẨM</a>
                         </li>
                     </ul>
-                    <form id="searchForm" class="d-flex me-auto" method="GET" action="nguoidung/timkiem.php">
+                    <form id="searchForm" class="d-flex me-auto" method="GET" action="timkiem.php">
                         <input class="form-control me-2" type="text" id="timkiem" name="tenSach" placeholder="Tìm sách">
                         <button class="btn btn-outline-light" type="submit">
                             <i class="fas fa-search"></i>
