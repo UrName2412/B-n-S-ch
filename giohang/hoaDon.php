@@ -30,6 +30,9 @@ if ($maDon) {
     echo "Không tìm thấy đơn hàng!";
     exit;
 }
+
+unset($_SESSION['maDon']);
+
 ?>
 
 <!DOCTYPE html>
@@ -117,7 +120,8 @@ if ($maDon) {
             <h2>Thông tin hóa đơn</h2>
             <p><strong>Người nhận:</strong> <?php echo htmlspecialchars($order['tenNguoiNhan']); ?></p>
             <p><strong>Số điện thoại:</strong> <?php echo htmlspecialchars($order['soDienThoai']); ?></p>
-            <p><strong>Địa chỉ:</strong> <?php echo htmlspecialchars($order['duong']) . ', ' . htmlspecialchars($order['xa']) . ', ' . htmlspecialchars($order['quanHuyen']) . ', ' . htmlspecialchars($order['tinhThanh']); ?></p>
+            <p><strong>Địa chỉ:</strong> 
+    <span id="address-info"><?php echo $_SESSION['user']['duong'] . ', ' . $_SESSION['user']['xa'] . ', ' . $_SESSION['user']['quanHuyen'] . ', ' . $_SESSION['user']['tinhThanh']; ?></span></p>
             <p><strong>Ngày tạo:</strong> <?php echo htmlspecialchars($order['ngayTao']); ?></p>
             <p><strong>Ghi chú:</strong> <?php echo htmlspecialchars($order['ghiChu']); ?></p>
         </div>
@@ -140,15 +144,15 @@ if ($maDon) {
                             <td><img src="../Images/<?php echo htmlspecialchars($item['hinhAnh']); ?>" alt="Product Image" style="width: 80px; height: auto; border-radius: 6px;"></td>
                             <td><?php echo htmlspecialchars($item['tenSach']); ?></td>
                             <td><?php echo $item['soLuong']; ?></td>
-                            <td><?php echo number_format($item['giaBan'] , 0, ',', '.'); ?>đ</td>
-                            <td><?php echo number_format($item['giaBan'] * $item['soLuong'] , 0, ',', '.'); ?>đ</td>
+                            <td><?php echo number_format($item['giaBan'] * 1000, 0, ',', '.'); ?>đ</td>
+                            <td><?php echo number_format($item['giaBan'] * $item['soLuong'] * 1000, 0, ',', '.'); ?>đ</td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
 
             <div class="total">
-                <p><strong>Tổng tiền:</strong> <?php echo number_format($order['tongTien'], 0, ',', '.') . 'đ'; ?></p>
+                <p><strong>Tổng tiền:</strong> <?php echo number_format($order['tongTien'] * 1000, 0, ',', '.') . 'đ'; ?></p>
             </div>
         </div>
     </div>
@@ -213,6 +217,7 @@ if ($maDon) {
     </footer>
     <!-- Bootstrap JS -->
     <script src="../vender/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="../admin/asset/js/apiAddress.js"></script>
 
     <script>
         document.getElementById('searchForm').addEventListener('submit', function(event) {
@@ -226,6 +231,24 @@ if ($maDon) {
             }
         });
     </script>
+
+<script>
+    const sessionAddress = {
+        province: "<?php echo $_SESSION['user']['tinhThanh']; ?>",
+        district: "<?php echo $_SESSION['user']['quanHuyen']; ?>",
+        ward: "<?php echo $_SESSION['user']['xa']; ?>",
+        street: "<?php echo $_SESSION['user']['duong']; ?>"
+    };
+    </script>
+
+    <script type="module" src="../asset/js/hoaDon.js"></script>
+
+    
+
+<script>
+    sessionStorage.removeItem('cart');
+</script>
+
 
 
 </body>

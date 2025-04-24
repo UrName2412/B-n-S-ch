@@ -3,6 +3,7 @@ require '../admin/config/config.php';
 require '../asset/handler/user_handle.php';
 session_start();
 
+
 if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role'] == false)) {
   $username = $_SESSION['username'];
 } elseif (isset($_COOKIE['username']) && isset($_COOKIE['pass'])) {
@@ -21,25 +22,15 @@ if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role
   exit();
 }
 
-$user = getUserInfoByUsername($database, $username);
+if (isset($_SESSION['user'])) {
+  $user = $_SESSION['user'];
+  $tinhThanhUser = $user['tinhThanh'];
+  $quanHuyenUser = $user['quanHuyen'];
+  $xaUser = $user['xa'];
+} 
 
-// Kiểm tra trạng thái đăng nhập 
-if (!isset($_SESSION['username'])) {
-  if (isset($_COOKIE['username']) && isset($_COOKIE['pass'])) {
-    $username = $_COOKIE['username'];
-    $password = $_COOKIE['pass'];
+  
 
-    if (checkLogin($database, $username, $password)) {
-      $_SESSION['username'] = $username;
-    } else {
-      echo "<script>alert('Bạn chưa đăng nhập!'); window.location.href='../dangky/dangnhap.php';</script>";
-      exit();
-    }
-  } else {
-    echo "<script>alert('Bạn chưa đăng nhập!'); window.location.href='../dangky/dangnhap.php';</script>";
-    exit();
-  }
-}
 ?>
 
 <!DOCTYPE html>
@@ -119,52 +110,121 @@ if (!isset($_SESSION['username'])) {
 
   <!-- PHẦN NHẬP THÔNG TIN ĐẶT HÀNG (GIAO HÀNG) -->
   <section class="payment_container my-4">
-    <div class="payment__content row justify-content-center">
-      <div class="payment__content__left col-12 col-md-8 col-lg-6 d-flex flex-column">
-        <h3>Thông tin giao hàng</h3>
-        <form class="payment--form d-flex flex-column gap-3" id="form-add" method="post"
-          onsubmit="return validateForm()">
-          <fieldset>
-            <legend>Thông tin giao hàng</legend>
-            <!-- Sử dụng thông tin mặc định -->
-            <div class="d-flex flex-row">
-              <input type="checkbox" id="default-info-checkbox" style="width: fit-content;" checked
-                onchange="toggleDefaultInfo()">
-              <label for="default-info-checkbox" style="width: fit-content;">Sử dụng thông tin mặc định</label>
-            </div>
-            <!-- Họ tên -->
-            <div>
-              <label for="name-user"><i class="fas fa-user"></i> Tên người nhận<span style="color: red;">*</span></label>
-              <input type="text" id="name-user" name="name-user" class="user-info" value="<?= htmlspecialchars($user['tenNguoiDung'] ?? '') ?>" placeholder="Tên người nhận hàng"
-                required>
-              <span class="form-message"></span>
-            </div>
-            <!-- Điện thoại -->
-            <div>
-              <label for="phone-user"><i class="fas fa-phone-volume"></i> Điện thoại <span
-                  style="color: red;">*</span></label>
-              <input type="tel" id="phone-user" name="phone-user" class="user-info" value="<?= htmlspecialchars($user['soDienThoai'] ?? '') ?>"
-                placeholder="Số điện thoại người nhận hàng" required>
-              <span class="form-message"></span>
-            </div>
-            <!-- Địa chỉ -->
-            <div>
-              <label for="payment--adr"><i class="far fa-address-card"></i> Địa chỉ <span
-                  style="color: red;">*</span></label>
-              <input type="text" id="payment--adr" class="user-info" value="<?= htmlspecialchars($user['duong'] ?? '') ?>, <?= htmlspecialchars($user['xa'] ?? '') ?>, <?= htmlspecialchars($user['quanHuyen'] ?? '') ?>, <?= htmlspecialchars($user['tinhThanh'] ?? '') ?>" name="payment--adr"
-                placeholder="Địa chỉ nhận hàng" required>
-              <span class="form-message"></span>
-            </div>
-            <!-- Ghi chú -->
-            <div>
-              <label for="payment--note"><i class="far fa-comment"></i> Ghi chú</label>
-              <textarea id="payment--note" name="payment--note" rows="3"
-                placeholder="Ghi yêu cầu của bạn tại đây."></textarea>
-              <span class="form-message"></span>
-            </div>
-          </fieldset>
+  <div class="payment__content row justify-content-center">
+    <div class="payment__content__left col-12 col-md-8 col-lg-6 d-flex flex-column">
+      <h3>Thông tin giao hàng</h3>
+      <form class="payment--form d-flex flex-column gap-3" id="payment-form" method="post" onsubmit="return validateForm()">
+        <fieldset>
+          <legend>Thông tin giao hàng</legend>
 
-          <fieldset>
+          <!-- Sử dụng thông tin mặc định -->
+          <div class="d-flex flex-row">
+  <input type="checkbox"
+    id="default-info-checkbox"
+    style="width: fit-content;"
+    onchange="toggleDefaultInfo()"
+    data-ten="<?= htmlspecialchars($user['tenNguoiDung'] ?? '') ?>"
+    data-sdt="<?= htmlspecialchars($user['soDienThoai'] ?? '') ?>"
+    data-duong="<?= htmlspecialchars($user['duong'] ?? '') ?>"
+    data-xa="<?= htmlspecialchars($user['xa'] ?? '') ?>"
+    data-huyen="<?= htmlspecialchars($user['quanHuyen'] ?? '') ?>"
+    data-tinh="<?= htmlspecialchars($user['tinhThanh'] ?? '') ?>"
+  >
+  <label for="default-info-checkbox" style="width: fit-content;">Sử dụng thông tin mặc định</label>
+</div>
+
+          <!-- Họ tên -->
+          <div>
+            <label for="name-user"><i class="fas fa-user"></i> Tên người nhận<span style="color: red;">*</span></label>
+            <input type="text" id="name-user" name="name-user" class="user-info" value="<?= htmlspecialchars($user['tenNguoiDung'] ?? '') ?>" placeholder="Tên người nhận hàng" required>
+            <span class="form-message"></span>
+          </div>
+
+          <!-- Điện thoại -->
+          <div>
+            <label for="phone-user"><i class="fas fa-phone-volume"></i> Điện thoại <span style="color: red;">*</span></label>
+            <input type="tel" id="phone-user" name="phone-user" class="user-info" value="<?= htmlspecialchars($user['soDienThoai'] ?? '') ?>" placeholder="Số điện thoại người nhận hàng" required>
+            <span class="form-message"></span>
+          </div>
+
+          <!-- Địa chỉ -->
+<div class="mb-3 d-flex gap-3">
+  <!-- Tỉnh/Thành phố -->
+  <div class="w-33">
+    <label class="form-label" for="province">Tỉnh/Thành phố <span style="color: red;">*</span></label>
+    <select class="form-select" id="province" name="province" onchange="loadDistricts()">
+      <option value="">Chọn tỉnh/thành phố</option>
+      <?php
+      $jsonProvinces = file_get_contents("../vender/apiAddress/province.json");
+      $provinces = json_decode($jsonProvinces, true);
+      foreach ($provinces as $prov) {
+        $selected = (isset($province) && $province == $prov['code']) ? "selected" : "";
+        echo "<option value='{$prov['code']}' $selected>{$prov['name']}</option>";
+      }
+      ?>
+    </select>
+  </div>
+
+  <!-- Quận/Huyện -->
+  <div class="w-33">
+    <label class="form-label" for="district">Quận/Huyện <span style="color: red;">*</span></label>
+    <select class="form-select" id="district" name="district" onchange="loadWards()">
+      <option value="">Chọn quận/huyện</option>
+      <?php
+      if (!empty($province)) {
+        $jsonDistricts = file_get_contents("../vender/apiAddress/district.json");
+        $districts = json_decode($jsonDistricts, true);
+        foreach ($districts as $dist) {
+          if ($dist['province_code'] == $province) {
+            $selected = ($district == $dist['code']) ? "selected" : "";
+            echo "<option value='{$dist['code']}' $selected>{$dist['name']}</option>";
+          }
+        }
+      }
+      ?>
+    </select>
+  </div>
+
+  <!-- Xã/Phường -->
+  <div class="w-33">
+    <label class="form-label" for="ward">Xã/Phường <span style="color: red;">*</span></label>
+    <select class="form-select" id="ward" name="ward">
+      <option value="">Chọn xã/phường</option>
+      <?php
+      if (!empty($district)) {
+        $jsonWards = file_get_contents("../vender/apiAddress/ward.json");
+        $wards = json_decode($jsonWards, true);
+        foreach ($wards as $wardItem) {
+          if ($wardItem['district_code'] == $district) {
+            $selected = ($ward == $wardItem['code']) ? "selected" : "";
+            echo "<option value='{$wardItem['code']}' $selected>{$wardItem['name']}</option>";
+          }
+        }
+      }
+      ?>
+    </select>
+  </div>
+</div>
+
+          <!-- Địa chỉ cụ thể (số nhà, tên đường) -->
+          <div>
+            <label for="payment--adr"><i class="fas fa-map-marker-alt"></i> Số nhà, tên đường <span style="color: red;">*</span></label>
+            <input type="text" id="payment--adr" name="payment--adr" class="user-info"
+              value="<?= htmlspecialchars($user['duong'] ?? '') ?>"
+              placeholder="nhập địa chỉ cụ thể" required>
+            <span class="form-message"></span>
+          </div>
+
+          <!-- Ghi chú -->
+          <div>
+            <label for="payment--note"><i class="far fa-comment"></i> Ghi chú</label>
+            <textarea id="payment--note" name="payment--note" rows="3" placeholder="Ghi yêu cầu của bạn tại đây."></textarea>
+            <span class="form-message"></span>
+          </div>
+
+        </fieldset>
+
+        <fieldset>
             <legend>Phương thức thanh toán</legend>
             <label>Chọn phương thức:</label>
             <div class="btn-group d-flex flex-column" id="payment__method" role="group" aria-label="Basic radio toggle button group">
@@ -226,42 +286,14 @@ if (!isset($_SESSION['username'])) {
             </div>
           </div>
 
-          <button type="submit" class="btn btn-primary">Tiếp tục</button>
+<button type="submit" class="btn btn-primary">Tiếp tục</button>
         </form>
       </div>
     </div>
   </section>
 
   <script src="../vender/js/bootstrap.bundle.min.js"></script>
-  <script src="../asset/js/thanhtoan.js"></script>
 
-  <script>
-    function toggleDefaultInfo() {
-      const defaultCheckbox = document.getElementById('default-info-checkbox');
-      if (!defaultCheckbox) return;
-      const isChecked = defaultCheckbox.checked;
-      const nameUser = document.getElementById('name-user');
-      const phoneUser = document.getElementById('phone-user');
-      const paymentAdr = document.getElementById('payment--adr');
-      const paymentNote = document.getElementById('payment--note');
-
-      nameUser.disabled = isChecked;
-      phoneUser.disabled = isChecked;
-      paymentAdr.disabled = isChecked;
-
-      if (!isChecked) {
-        nameUser.value = '';
-        phoneUser.value = '';
-        paymentAdr.value = '';
-        paymentNote.value = '';
-      } else {
-        nameUser.value = "<?= htmlspecialchars($user['tenNguoiDung'] ?? '') ?>";
-        phoneUser.value = "<?= htmlspecialchars($user['soDienThoai'] ?? '') ?>";
-        paymentAdr.value = "<?= htmlspecialchars($user['duong'] ?? '') ?>, <?= htmlspecialchars($user['xa'] ?? '') ?>, <?= htmlspecialchars($user['quanHuyen'] ?? '') ?>, <?= htmlspecialchars($user['tinhThanh'] ?? '') ?>";
-      }
-    }
-    window.toggleDefaultInfo = toggleDefaultInfo;
-  </script>
 
   <script>
     document.getElementById('searchForm').addEventListener('submit', function(event) {
@@ -276,51 +308,114 @@ if (!isset($_SESSION['username'])) {
     });
   </script>
 
-  <script>
-    function validateForm() {
-      const paymentMethods = document.getElementsByName('phuongThuc');
-      let isPaymentMethodSelected = false;
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+  const form = document.getElementById("payment-form");
 
-      for (const method of paymentMethods) {
-        if (method.checked) {
-          isPaymentMethodSelected = true;
-          break;
-        }
-      }
+  if (form) {
+    form.addEventListener("submit", function (e) {
+      e.preventDefault(); 
 
-      if (!isPaymentMethodSelected) {
-        alert('Vui lòng chọn phương thức thanh toán.');
-        return false;
-      }
 
-      // Lấy thông tin người dùng và đơn hàng
-      const nameUser = document.getElementById('name-user').value;
-      const phoneUser = document.getElementById('phone-user').value;
-      const paymentAdr = document.getElementById('payment--adr').value;
-      const paymentNote = document.getElementById('payment--note').value;
-      const paymentMethod = document.querySelector('input[name="phuongThuc"]:checked').value;
+      if (validateForm()) {  
+        const nameUser = document.getElementById('name-user').value.trim();
+        const phoneUser = document.getElementById('phone-user').value.trim();
+        const paymentAdr = document.getElementById('payment--adr').value.trim();
+        const paymentNote = document.getElementById('payment--note').value.trim();
+        const paymentMethod = document.querySelector('input[name="phuongThuc"]:checked').value;
 
-      // Thêm các tham số vào URL chuyển hướng 
-      window.location.href = `confirm_order.php?name=${encodeURIComponent(nameUser)}&phone=${encodeURIComponent(phoneUser)}&address=${encodeURIComponent(paymentAdr)}&note=${encodeURIComponent(paymentNote)}&method=${encodeURIComponent(paymentMethod)}`;
+        const redirectUrl = `confirm_order.php?name=${encodeURIComponent(nameUser)}&phone=${encodeURIComponent(phoneUser)}&address=${encodeURIComponent(paymentAdr)}&note=${encodeURIComponent(paymentNote)}&method=${encodeURIComponent(paymentMethod)}`;
+        console.log("Redirecting to:", redirectUrl);
 
+        // Chuyển hướng sau khi form hợp lệ
+        window.location.href = redirectUrl;
+      } 
+    });
+  }
+
+  // Xử lý ẩn/hiện form theo phương thức thanh toán
+  document.getElementById('btnradio1').addEventListener('change', function () {
+    document.getElementById('visa-form').style.display = 'block';
+    document.getElementById('momo-form').style.display = 'none';
+  });
+  document.getElementById('btnradio2').addEventListener('change', function () {
+    document.getElementById('visa-form').style.display = 'none';
+    document.getElementById('momo-form').style.display = 'block';
+  });
+  document.getElementById('btnradio3').addEventListener('change', function () {
+    document.getElementById('visa-form').style.display = 'none';
+    document.getElementById('momo-form').style.display = 'none';
+  });
+});
+
+// Hàm kiểm tra form
+function validateForm() {
+  const paymentMethods = document.getElementsByName('phuongThuc');
+  let isPaymentMethodSelected = false;
+
+  for (const method of paymentMethods) {
+    if (method.checked) {
+      isPaymentMethodSelected = true;
+      break;
+    }
+  }
+
+  if (!isPaymentMethodSelected) {
+    alert('Vui lòng chọn phương thức thanh toán.');
+    return false;
+  }
+
+  const paymentMethod = document.querySelector('input[name="phuongThuc"]:checked').value;
+
+  if (paymentMethod === "visa") {
+    const cardNumber = document.getElementById("card-number").value.trim();
+    const cardExpiry = document.getElementById("card-expiry").value.trim();
+    const cardCVV = document.getElementById("card-cvv").value.trim();
+
+    if (!cardNumber || !cardExpiry || !cardCVV) {
+      alert("Vui lòng nhập đầy đủ thông tin thẻ Visa!");
+      return false; 
+    }
+
+    if (!/^\d{16}$/.test(cardNumber)) {
+      alert("Số thẻ Visa không hợp lệ.");
       return false;
     }
 
+    if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(cardExpiry)) {
+      alert("Ngày hết hạn thẻ không hợp lệ.");
+      return false;
+    }
 
-    // Xử lý hiển thị form chi tiết theo lựa chọn
-    document.getElementById('btnradio1').addEventListener('change', function() {
-      document.getElementById('visa-form').style.display = 'block';
-      document.getElementById('momo-form').style.display = 'none';
-    });
-    document.getElementById('btnradio2').addEventListener('change', function() {
-      document.getElementById('visa-form').style.display = 'none';
-      document.getElementById('momo-form').style.display = 'block';
-    });
-    document.getElementById('btnradio3').addEventListener('change', function() {
-      document.getElementById('visa-form').style.display = 'none';
-      document.getElementById('momo-form').style.display = 'none';
-    });
-  </script>
+    if (!/^\d{3}$/.test(cardCVV)) {
+      alert("CVV không hợp lệ.");
+      return false;
+    }
+  }
+
+  if (paymentMethod === "momo") {
+    const momoNumber = document.getElementById("momo-number").value.trim();
+    if (!momoNumber || !/^0\d{9}$/.test(momoNumber)) {
+      alert("Số điện thoại Momo không hợp lệ!");
+      return false;
+    }
+  }
+
+  const nameUser = document.getElementById('name-user').value.trim();
+  const phoneUser = document.getElementById('phone-user').value.trim();
+  const paymentAdr = document.getElementById('payment--adr').value.trim();
+
+  if (!nameUser || !phoneUser || !paymentAdr) {
+    alert("Vui lòng điền đầy đủ thông tin giao hàng.");
+    return false; 
+  }
+
+  return true; 
+}
+
+</script>
+<script type="module" src="../asset/js/thanhtoan.js"></script>
+
 
 </body>
 

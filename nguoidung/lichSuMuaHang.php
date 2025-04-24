@@ -22,43 +22,69 @@ if (isset($_SESSION['username']) && isset($_SESSION['role']) && $_SESSION['role'
     exit();
 }
 
-// Lấy thông tin người dùng từ cơ sở dữ liệu
 $user = getUserInfoByUsername($database, $username);
 
-// Lấy lịch sử mua hàng của người dùng từ cơ sở dữ liệu
-$sql = "SELECT dh.*, ctdh.*, sp.tenSach, sp.hinhAnh
+$sql = "SELECT dh.maDon, dh.ngayTao, dh.tongTien, sp.tenSach, sp.hinhAnh, ctdh.soLuong, ctdh.giaBan
         FROM b01_donhang dh
         JOIN b01_chitiethoadon ctdh ON dh.maDon = ctdh.maDon
         JOIN b01_sanpham sp ON ctdh.maSach = sp.maSach
-        WHERE dh.tenNguoiDung = ?";
+        WHERE dh.tenNguoiDung = ?
+        ORDER BY dh.maDon DESC";
 $stmt = $database->prepare($sql);
 $stmt->bind_param('s', $username);
 $stmt->execute();
 $result = $stmt->get_result();
 
-// Kiểm tra xem có đơn hàng nào không
 if ($result->num_rows > 0) {
     $orderHistory = "<h2>Lịch sử mua hàng của bạn</h2>";
-    $orderHistory .= "<table border='1' class='table'>
-                    <tr>
-                        <th>Ngày nhận hàng</th>
-                        <th>Hình ảnh</th>
-                        <th>Tên sách</th>
-                        <th>Số lượng</th>
-                        <th>Giá bán</th>
-                        <th>Tổng tiền</th>
-                    </tr>";
+
+    $orders = [];
+
     while ($row = $result->fetch_assoc()) {
-        $orderHistory .= "<tr>
-                        <td>" . htmlspecialchars($row['ngayTao']) . "</td>
-                        <td><img src='../Images/" . htmlspecialchars($row['hinhAnh']) . "' alt='Hình ảnh sách' style='width: 80px; height: auto; border-radius: 6px;'></td>
-                        <td>" . htmlspecialchars($row['tenSach']) . "</td>
-                        <td>" . htmlspecialchars($row['soLuong']) . "</td>
-                        <td>" . number_format($row['giaBan'] * 1000, 0, ',', '.') . " VND</td>
-                        <td>" . number_format($row['soLuong'] * $row['giaBan'] * 1000, 0, ',', '.') . " VND</td>
-                      </tr>";
+        $maDon = $row['maDon'];
+
+        if (!isset($orders[$maDon])) {
+            $orders[$maDon] = [
+                'maDon' => $maDon,
+                'ngayTao' => $row['ngayTao'],
+                'tongTien' => $row['tongTien'],
+                'products' => []
+            ];
+        }
+
+        $orders[$maDon]['products'][] = [
+            'tenSach' => $row['tenSach'],
+            'hinhAnh' => $row['hinhAnh'],
+            'soLuong' => $row['soLuong'],
+            'giaBan' => $row['giaBan']
+        ];
     }
-    $orderHistory .= "</table>";
+
+    foreach ($orders as $order) {
+        $orderHistory .= "<h3>Mã đơn hàng: " . htmlspecialchars($order['maDon']) . "</h3>";
+        $orderHistory .= "<p>Ngày tạo đơn: " . htmlspecialchars($order['ngayTao']) . "</p>";
+        $orderHistory .= "<table border='1' class='table'>
+                            <tr>
+                                <th>Hình ảnh</th>
+                                <th>Tên sách</th>
+                                <th>Số lượng</th>
+                                <th>Giá bán</th>
+                                <th>Tổng tiền</th>
+                            </tr>";
+
+        foreach ($order['products'] as $product) {
+            $orderHistory .= "<tr>
+                                <td><img src='../Images/" . htmlspecialchars($product['hinhAnh']) . "' alt='Hình ảnh sách' style='width: 80px; height: auto; border-radius: 6px;'></td>
+                                <td>" . htmlspecialchars($product['tenSach']) . "</td>
+                                <td>" . htmlspecialchars($product['soLuong']) . "</td>
+                                <td>" . number_format($product['giaBan'] * 1000, 0, ',', '.') . " VND</td>
+                                <td>" . number_format($product['soLuong'] * $product['giaBan'] * 1000, 0, ',', '.') . " VND</td>
+                              </tr>";
+        }
+
+        $orderHistory .= "</table>";
+        $orderHistory .= "<p>Tổng tiền: " . number_format($order['tongTien'] * 1000, 0, ',', '.') . " VND</p>";
+    }
 } else {
     $orderHistory = "<p>Không có đơn hàng nào trong lịch sử mua hàng của bạn.</p>";
 }
@@ -78,7 +104,61 @@ $database->close();
     <link rel="stylesheet" href="../vender/css/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="../asset/css/index-user.css">
     <link rel="stylesheet" href="../asset/css/user.css">
-    <link rel="stylesheet" href="../asset/css/lichSuMuaHang.css">
+    <style>
+        .order-history-wrapper {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+
+.order-history-wrapper h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #2c3e50;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.order-history-wrapper h3 {
+    margin-top: 30px;
+    color: #1a73e8;
+}
+
+.order-history-wrapper table.table {
+    width: 100%;
+    margin-top: 15px;
+    border-collapse: collapse;
+    font-size: 15px;
+}
+
+.order-history-wrapper table.table th,
+.order-history-wrapper table.table td {
+    text-align: center;
+    padding: 12px 8px;
+    border: 1px solid #ccc;
+}
+
+.order-history-wrapper table.table th {
+    background-color: #f1f1f1;
+    color: #333;
+}
+
+.order-history-wrapper img {
+    max-width: 80px;
+    height: auto;
+    border-radius: 6px;
+}
+
+.order-history-wrapper p {
+    margin-top: 10px;
+    font-weight: 500;
+    color: #333;
+}
+    </style>
+
 </head>
 
 <body>
@@ -153,8 +233,10 @@ $database->close();
                 </ul>
             </div>
             <div class="col-9">
+            <div class="order-history-wrapper">
                 <!-- Hiển thị lịch sử mua hàng -->
                 <?php echo $orderHistory; ?>
+                </div>
             </div>
         </div>
     </main>

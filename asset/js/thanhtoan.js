@@ -1,6 +1,75 @@
-// ---------------------
-// Định nghĩa Validator
-// ---------------------
+import { addressHandler } from '../../admin/asset/js/apiAddress.js';
+const handler = new addressHandler("province", "district", "ward");
+window.toggleDefaultInfo = toggleDefaultInfo;
+
+function toggleDefaultInfo() {
+  const defaultCheckbox = document.getElementById('default-info-checkbox');
+  if (!defaultCheckbox) return;
+
+  const isChecked = defaultCheckbox.checked;
+  const nameUser = document.getElementById('name-user');
+  const phoneUser = document.getElementById('phone-user');
+  const paymentAdr = document.getElementById('payment--adr');
+  const paymentNote = document.getElementById('payment--note');
+
+  const province = defaultCheckbox.getAttribute("data-tinh");
+  const district = defaultCheckbox.getAttribute("data-huyen");
+  const ward = defaultCheckbox.getAttribute("data-xa");
+  const street = defaultCheckbox.getAttribute("data-duong");
+  const name = defaultCheckbox.getAttribute("data-ten");
+  const phone = defaultCheckbox.getAttribute("data-sdt");
+
+  if (isChecked) {
+    nameUser.value = name || "";
+    phoneUser.value = phone || "";
+    paymentAdr.value = street || "";
+    paymentNote.value = "";
+
+    nameUser.disabled = true;
+    phoneUser.disabled = true;
+    paymentAdr.disabled = true;
+
+    if (province && handler.provinceSelect) {
+      handler.provinceSelect.value = province;
+
+      const changeEvent = new Event('change');
+      handler.provinceSelect.dispatchEvent(changeEvent);
+
+      setTimeout(() => {
+        if (district && handler.districtSelect) {
+          handler.districtSelect.value = district;
+
+          const wardEvent = new Event('change');
+          handler.districtSelect.dispatchEvent(wardEvent);
+
+          setTimeout(() => {
+            if (ward && handler.wardSelect) {
+              handler.wardSelect.value = ward;
+            }
+          }, 100);
+        }
+      }, 100);
+    }
+  } else {
+    nameUser.value = "";
+    phoneUser.value = "";
+    paymentAdr.value = "";
+    paymentNote.value = "";
+
+    nameUser.disabled = false;
+    phoneUser.disabled = false;
+    paymentAdr.disabled = false;
+
+    if (handler.provinceSelect) handler.provinceSelect.value = "";
+    if (handler.districtSelect) handler.districtSelect.innerHTML = '<option value="">Chọn quận/huyện</option>';
+    if (handler.wardSelect) handler.wardSelect.innerHTML = '<option value="">Chọn xã/phường</option>';
+  }
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  toggleDefaultInfo();
+});
+
 function Validator(options) {
   const formElement = document.querySelector(options.form);
   if (formElement) {
@@ -21,13 +90,78 @@ function Validator(options) {
           }
         };
 
-        // Xử lý sự kiện nhập liệu (clear lỗi)
         inputElement.oninput = () => {
           errorElement.innerText = '';
           inputElement.classList.remove('is-invalid');
         };
       }
     });
+
+    formElement.onsubmit = (event) => {
+      event.preventDefault();
+
+      let isValid = true;
+      options.rules.forEach((rule) => {
+        const inputElement = formElement.querySelector(rule.selector);
+        const errorMessage = rule.test(inputElement.value);
+        const errorElement = inputElement.parentElement.querySelector('.form-message');
+
+        if (errorMessage) {
+          isValid = false;
+          errorElement.innerText = errorMessage;
+          inputElement.classList.add('is-invalid');
+        }
+      });
+
+      const selectedPayment = document.querySelector('input[name="phuongThuc"]:checked');
+      if (!selectedPayment) {
+        alert("Vui lòng chọn phương thức thanh toán.");
+        isValid = false;
+      } else {
+        const method = selectedPayment.value;
+        if (method === "visa") {
+          const cardNumber = document.getElementById("card-number").value.trim();
+          const cardExpiry = document.getElementById("card-expiry").value.trim();
+          const cardCVV = document.getElementById("card-cvv").value.trim();
+          if (!cardNumber || !cardExpiry || !cardCVV) {
+            alert("Vui lòng nhập đầy đủ thông tin thẻ Visa/Mastercard.");
+            isValid = false;
+          } else if (!/^\d{16}$/.test(cardNumber)) {
+            alert("Số thẻ Visa không hợp lệ.");
+            isValid = false;
+          } else if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(cardExpiry)) {
+            alert("Ngày hết hạn thẻ không hợp lệ.");
+            isValid = false;
+          } else if (!/^\d{3}$/.test(cardCVV)) {
+            alert("CVV không hợp lệ.");
+            isValid = false;
+          }
+        } else if (method === "momo") {
+          const momoNumber = document.getElementById("momo-number").value.trim();
+          if (!momoNumber) {
+            alert("Vui lòng nhập số điện thoại liên kết với ví Momo.");
+            isValid = false;
+          } else if (!/^0\d{9}$/.test(momoNumber)) {
+            alert("Số điện thoại Momo không hợp lệ!");
+            isValid = false;
+          }
+        }
+      }
+
+      const nameUser = document.getElementById('name-user').value.trim();
+      const phoneUser = document.getElementById('phone-user').value.trim();
+      const adrValue = document.getElementById('payment--adr').value.trim();
+
+      if (!nameUser || !phoneUser || !adrValue) {
+        alert("Vui lòng điền đầy đủ thông tin giao hàng.");
+        isValid = false;
+      }
+
+      if (isValid) {
+        const redirectUrl = `confirm_order.php?name=${encodeURIComponent(nameUser)}&phone=${encodeURIComponent(phoneUser)}&address=${encodeURIComponent(adrValue)}`;
+        window.location.href = redirectUrl;
+      }
+    };
   }
 }
 
@@ -49,61 +183,25 @@ Validator.isPhone = (selector) => {
 };
 
 
-let cartQuantity = [];
-const iconCartSpan = document.querySelector('.cart-icon span');
 
-const loadFromsessionStorage = () => {
-  const storedCart = sessionStorage.getItem('cart');
-  cartQuantity = storedCart ? JSON.parse(storedCart) : [];
-  updateTotal();
-};
-
-const updateTotal = () => {
-  const totalQuantity = cartQuantity.reduce((acc, item) => acc + item.quantity, 0);
-  iconCartSpan.innerText = totalQuantity < 99 ? totalQuantity : '99+';
-};
-
-loadFromsessionStorage();
-
+// Thực hiện gọi toggleDefaultInfo trong DOMContentLoaded
 document.addEventListener("DOMContentLoaded", function () {
+  let cartQuantity = [];
+  const iconCartSpan = document.querySelector('.cart-icon span');
 
-  // Định nghĩa hàm validateForm và gán vào window
-  function validateForm() {
-    const nameValue = document.getElementById('name-user').value.trim();
-    const phoneValue = document.getElementById('phone-user').value.trim();
-    const adrValue = document.getElementById('payment--adr').value.trim();
+  const loadFromsessionStorage = () => {
+    const storedCart = sessionStorage.getItem('cart');
+    cartQuantity = storedCart ? JSON.parse(storedCart) : [];
+    updateTotal();
+  };
 
-    if (!nameValue || !phoneValue || !adrValue) {
-      alert("Vui lòng điền đầy đủ thông tin giao hàng.");
-      return false;
-    }
-    return true;
-  }
-  window.validateForm = validateForm;
+  const updateTotal = () => {
+    const totalQuantity = cartQuantity.reduce((acc, item) => acc + item.quantity, 0);
+    iconCartSpan.innerText = totalQuantity < 99 ? totalQuantity : '99+';
+  };
 
-  const orderForm = document.querySelector("#form-add");
-  if (orderForm) {
-    orderForm.addEventListener("submit", function (event) {
-      event.preventDefault();
+  loadFromsessionStorage();
 
-      if (validateForm()) {
-        const nameUser = document.getElementById('name-user').value.trim();
-        const phoneUser = document.getElementById('phone-user').value.trim();
-        const adrValue = document.getElementById('payment--adr').value.trim();
-
-        // Chuyển hướng tới confirm_order.php với tham số URL
-        const redirectUrl = `confirm_order.php?name=${encodeURIComponent(nameUser)}&phone=${encodeURIComponent(phoneUser)}&address=${encodeURIComponent(adrValue)}`;
-        window.location.href = redirectUrl;
-      }
-    });
-  }
-
-  const defaultCheckbox = document.getElementById('default-info-checkbox');
-  if (defaultCheckbox) {
-    defaultCheckbox.addEventListener('change', toggleDefaultInfo);
-  }
-
-  toggleDefaultInfo();
 
   Validator({
     form: '#form-add',
