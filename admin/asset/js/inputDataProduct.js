@@ -591,7 +591,7 @@ function handleFilter(tacGia, maTheLoai, maNhaXuatBan, priceStart, priceEnd) {
 
 function clearFilter() {
     productFilter();
-    const ids = ['authorSearch', 'categorySearch', 'nxbSearchSearch', 'priceStart','priceEnd'];
+    const ids = ['authorSearch', 'categorySearch', 'nxbSearch', 'priceStart','priceEnd'];
 
     ids.forEach(id => {
         const element = document.getElementById(id);
