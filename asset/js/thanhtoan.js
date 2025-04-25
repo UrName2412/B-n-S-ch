@@ -1,7 +1,6 @@
 import { addressHandler } from '../../admin/asset/js/apiAddress.js';
 const handler = new addressHandler("province", "district", "ward");
 window.toggleDefaultInfo = toggleDefaultInfo;
-
 function toggleDefaultInfo() {
   const defaultCheckbox = document.getElementById('default-info-checkbox');
   if (!defaultCheckbox) return;
@@ -29,6 +28,10 @@ function toggleDefaultInfo() {
     phoneUser.disabled = true;
     paymentAdr.disabled = true;
 
+    if (handler.provinceSelect) handler.provinceSelect.disabled = true;
+    if (handler.districtSelect) handler.districtSelect.disabled = true;
+    if (handler.wardSelect) handler.wardSelect.disabled = true;
+
     if (province && handler.provinceSelect) {
       handler.provinceSelect.value = province;
 
@@ -54,7 +57,6 @@ function toggleDefaultInfo() {
       }, 100);
     }
   } else {
-
     nameUser.value = "";
     phoneUser.value = "";
     paymentAdr.value = "";
@@ -64,11 +66,23 @@ function toggleDefaultInfo() {
     phoneUser.disabled = false;
     paymentAdr.disabled = false;
 
-    if (handler.provinceSelect) handler.provinceSelect.value = "";
-    if (handler.districtSelect) handler.districtSelect.innerHTML = '<option value="">Chọn quận/huyện</option>';
-    if (handler.wardSelect) handler.wardSelect.innerHTML = '<option value="">Chọn xã/phường</option>';
+    if (handler.provinceSelect) {
+      handler.provinceSelect.value = "";
+      handler.provinceSelect.disabled = false;
+    }
+
+    if (handler.districtSelect) {
+      handler.districtSelect.innerHTML = '<option value="">Chọn quận/huyện</option>';
+      handler.districtSelect.disabled = false;
+    }
+
+    if (handler.wardSelect) {
+      handler.wardSelect.innerHTML = '<option value="">Chọn xã/phường</option>';
+      handler.wardSelect.disabled = false;
+    }
   }
 }
+
 
 document.addEventListener("DOMContentLoaded", function () {
   setTimeout(() => {
