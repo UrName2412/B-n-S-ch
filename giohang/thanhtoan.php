@@ -119,7 +119,7 @@ if (isset($_SESSION['user'])) {
 
           <!-- Sử dụng thông tin mặc định -->
           <div class="d-flex flex-row">
-  <input type="checkbox"
+  <input type="checkbox" checked
     id="default-info-checkbox"
     style="width: fit-content;"
     onchange="toggleDefaultInfo()"
@@ -136,15 +136,16 @@ if (isset($_SESSION['user'])) {
           <!-- Họ tên -->
           <div>
             <label for="name-user"><i class="fas fa-user"></i> Tên người nhận<span style="color: red;">*</span></label>
-            <input type="text" id="name-user" name="name-user" class="user-info" value="<?= htmlspecialchars($user['tenNguoiDung'] ?? '') ?>" placeholder="Tên người nhận hàng" required>
-            <span class="form-message"></span>
+            <input type="text" id="name-user" name="name-user" class="user-info" value="<?= htmlspecialchars($user['tenNguoiDung'] ?? '') ?>" placeholder="Tên người nhận hàng">
+            <span class="form-message name-user-message"></span>
           </div>
 
           <!-- Điện thoại -->
           <div>
             <label for="phone-user"><i class="fas fa-phone-volume"></i> Điện thoại <span style="color: red;">*</span></label>
-            <input type="tel" id="phone-user" name="phone-user" class="user-info" value="<?= htmlspecialchars($user['soDienThoai'] ?? '') ?>" placeholder="Số điện thoại người nhận hàng" required>
-            <span class="form-message"></span>
+            <input type="tel" id="phone-user" name="phone-user" class="user-info" value="<?= htmlspecialchars($user['soDienThoai'] ?? '') ?>" placeholder="Số điện thoại người nhận hàng"
+            >
+            <span class="form-message phone-user-message"></span>
           </div>
 
           <!-- Địa chỉ -->
@@ -152,7 +153,7 @@ if (isset($_SESSION['user'])) {
   <!-- Tỉnh/Thành phố -->
   <div class="w-33">
     <label class="form-label" for="province">Tỉnh/Thành phố <span style="color: red;">*</span></label>
-    <select class="form-select" id="province" name="province" onchange="loadDistricts()">
+    <select class="form-select" id="province" name="province">
       <option value="">Chọn tỉnh/thành phố</option>
       <?php
       $jsonProvinces = file_get_contents("../vender/apiAddress/province.json");
@@ -163,12 +164,13 @@ if (isset($_SESSION['user'])) {
       }
       ?>
     </select>
+    <span class="form-message province-message"></span>
   </div>
 
   <!-- Quận/Huyện -->
   <div class="w-33">
     <label class="form-label" for="district">Quận/Huyện <span style="color: red;">*</span></label>
-    <select class="form-select" id="district" name="district" onchange="loadWards()">
+    <select class="form-select" id="district" name="district">
       <option value="">Chọn quận/huyện</option>
       <?php
       if (!empty($province)) {
@@ -183,6 +185,7 @@ if (isset($_SESSION['user'])) {
       }
       ?>
     </select>
+    <span class="form-message district-message"></span>
   </div>
 
   <!-- Xã/Phường -->
@@ -203,6 +206,7 @@ if (isset($_SESSION['user'])) {
       }
       ?>
     </select>
+    <span class="form-message ward-message"></span>
   </div>
 </div>
 
@@ -211,80 +215,95 @@ if (isset($_SESSION['user'])) {
             <label for="payment--adr"><i class="fas fa-map-marker-alt"></i> Số nhà, tên đường <span style="color: red;">*</span></label>
             <input type="text" id="payment--adr" name="payment--adr" class="user-info"
               value="<?= htmlspecialchars($user['duong'] ?? '') ?>"
-              placeholder="nhập địa chỉ cụ thể" required>
-            <span class="form-message"></span>
+              placeholder="nhập địa chỉ cụ thể">
+              <span class="form-message payment-adr-message"></span>
           </div>
 
           <!-- Ghi chú -->
           <div>
             <label for="payment--note"><i class="far fa-comment"></i> Ghi chú</label>
             <textarea id="payment--note" name="payment--note" rows="3" placeholder="Ghi yêu cầu của bạn tại đây."></textarea>
-            <span class="form-message"></span>
+            <span class="form-message payment-note-message"></span>
           </div>
 
         </fieldset>
 
         <fieldset>
-            <legend>Phương thức thanh toán</legend>
-            <label>Chọn phương thức:</label>
-            <div class="btn-group d-flex flex-column" id="payment__method" role="group" aria-label="Basic radio toggle button group">
-              <!-- Visa/Mastercard -->
-              <div class="payment-option">
-                <input type="radio" name="phuongThuc" id="btnradio1" value="visa" autocomplete="off">
-                <label class="btn d-flex align-items-center" for="btnradio1">
-                  <img src="../Images/visa.png" class="w-12" alt="Visa">
-                  <span class="ms-2">Visa/Mastercard</span>
-                </label>
-              </div>
-              <!-- Ví Momo -->
-              <div class="payment-option">
-                <input type="radio" name="phuongThuc" id="btnradio2" value="momo" autocomplete="off">
-                <label class="btn d-flex align-items-center" for="btnradio2">
-                  <img src="../Images/momo.png" class="w-12" alt="Momo">
-                  <span class="ms-2">Ví Momo</span>
-                </label>
-              </div>
-              <!-- Tiền mặt -->
-              <div class="payment-option">
-                <input type="radio" name="phuongThuc" id="btnradio3" value="cash" autocomplete="off" checked>
-                <label class="btn d-flex align-items-center" for="btnradio3">
-                  <div class="cash-icon"><i class="fas fa-money-bill"></i></div>
-                  <span class="ms-2">Tiền mặt</span>
-                </label>
-              </div>
-            </div>
-          </fieldset>
+  <legend>Phương thức thanh toán</legend>
+  <label>Chọn phương thức:</label>
+  <div class="btn-group d-flex flex-column" id="payment__method" role="group" aria-label="Basic radio toggle button group">
+    <!-- Visa/Mastercard -->
+    <div class="payment-option">
+      <input type="radio" name="phuongThuc" id="btnradio1" value="visa" autocomplete="off">
+      <label class="btn d-flex align-items-center" for="btnradio1">
+        <img src="../Images/visa.png" class="w-12" alt="Visa">
+        <span class="ms-2">Visa/Mastercard</span>
+      </label>
+      <span class="card-number-message" style="display: none;"></span>
+<span class="card-expiry-message" style="display: none;"></span>
+<span class="card-cvv-message" style="display: none;"></span>
+    </div>
+    
+    <!-- Ví Momo -->
+    <div class="payment-option">
+      <input type="radio" name="phuongThuc" id="btnradio2" value="momo" autocomplete="off">
+      <label class="btn d-flex align-items-center" for="btnradio2">
+        <img src="../Images/momo.png" class="w-12" alt="Momo">
+        <span class="ms-2">Ví Momo</span>
+      </label>
+      <span class="momo-number-message" style="display: none;"></span>
+    </div>
 
-          <!-- Thông tin chi tiết theo phương thức được chọn -->
-          <div id="visa-form" class="payment-detail-form" style="display: none;">
-            <div class="card p-3 shadow-sm">
-              <h4 class="mb-3">Thông tin thẻ Visa/Mastercard</h4>
-              <div class="mb-3">
-                <label for="card-number" class="form-label">Số thẻ:</label>
-                <input type="text" id="card-number" class="form-control" placeholder="Nhập số thẻ">
-              </div>
-              <div class="row">
-                <div class="col-md-6 mb-3">
-                  <label for="card-expiry" class="form-label">Ngày hết hạn:</label>
-                  <input type="text" id="card-expiry" class="form-control" placeholder="MM/YY">
-                </div>
-                <div class="col-md-6 mb-3">
-                  <label for="card-cvv" class="form-label">Mã CVV:</label>
-                  <input type="text" id="card-cvv" class="form-control" placeholder="Mã CVV">
-                </div>
-              </div>
-            </div>
-          </div>
+    <!-- Tiền mặt -->
+    <div class="payment-option">
+      <input type="radio" name="phuongThuc" id="btnradio3" value="cash" autocomplete="off" checked>
+      <label class="btn d-flex align-items-center" for="btnradio3">
+        <div class="cash-icon"><i class="fas fa-money-bill"></i></div>
+        <span class="ms-2">Tiền mặt</span>
+      </label>
+    </div>
+  </div>
+</fieldset>
 
-          <div id="momo-form" class="payment-detail-form" style="display: none;">
-            <div class="card p-3 shadow-sm">
-              <h4 class="mb-3">Thông tin Ví Momo</h4>
-              <div class="mb-3">
-                <label for="momo-number" class="form-label">Số điện thoại:</label>
-                <input type="text" id="momo-number" class="form-control" placeholder="Nhập số điện thoại liên kết">
-              </div>
-            </div>
-          </div>
+<!-- Thông tin chi tiết theo phương thức được chọn -->
+<div id="visa-form" class="payment-detail-form" style="display: none;">
+  <div class="card p-3 shadow-sm">
+    <h4 class="mb-3">Thông tin thẻ Visa/Mastercard</h4>
+    
+    <div class="mb-3">
+      <label for="card-number" class="form-label">Số thẻ:</label>
+      <input type="text" id="card-number" class="form-control" placeholder="Nhập số thẻ">
+      <span class="card-number-message text-danger" style="display: none;"></span>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="card-expiry" class="form-label">Ngày hết hạn:</label>
+        <input type="text" id="card-expiry" class="form-control" placeholder="MM/YY">
+        <span class="card-expiry-message text-danger" style="display: none;"></span>
+      </div>
+
+      <div class="col-md-6 mb-3">
+        <label for="card-cvv" class="form-label">Mã CVV:</label>
+        <input type="text" id="card-cvv" class="form-control" placeholder="Mã CVV">
+        <span class="card-cvv-message text-danger" style="display: none;"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="momo-form" class="payment-detail-form" style="display: none;">
+  <div class="card p-3 shadow-sm">
+    <h4 class="mb-3">Thông tin Ví Momo</h4>
+    <div class="mb-3">
+      <label for="momo-number" class="form-label">Số điện thoại:</label>
+      <input type="text" id="momo-number" class="form-control" placeholder="Nhập số điện thoại liên kết">
+      <span class="momo-number-message text-danger" style="display: none;"></span>
+    </div>
+  </div>
+</div>
+
+
 
 <button type="submit" class="btn btn-primary">Tiếp tục</button>
         </form>
@@ -308,48 +327,79 @@ if (isset($_SESSION['user'])) {
     });
   </script>
 
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-  const form = document.getElementById("payment-form");
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("payment-form");
 
-  if (form) {
-    form.addEventListener("submit", function (e) {
-      e.preventDefault(); 
+    if (form) {
+      form.addEventListener("submit", function (e) {
+  e.preventDefault();
 
+  if (validateForm()) {
+    const nameUser = document.getElementById('name-user').value.trim();
+    const phoneUser = document.getElementById('phone-user').value.trim();
+    const paymentAdr = document.getElementById('payment--adr').value.trim();
+    const paymentNote = document.getElementById('payment--note').value.trim();
+    const paymentMethod = document.querySelector('input[name="phuongThuc"]:checked').value;
+    const province = document.getElementById('province').value.trim();
+    const district = document.getElementById('district').value.trim();
+    const ward = document.getElementById('ward').value.trim();
 
-      if (validateForm()) {  
-        const nameUser = document.getElementById('name-user').value.trim();
-        const phoneUser = document.getElementById('phone-user').value.trim();
-        const paymentAdr = document.getElementById('payment--adr').value.trim();
-        const paymentNote = document.getElementById('payment--note').value.trim();
-        const paymentMethod = document.querySelector('input[name="phuongThuc"]:checked').value;
+    const cart = JSON.parse(sessionStorage.getItem("cart") || "[]");
 
-        const redirectUrl = `confirm_order.php?name=${encodeURIComponent(nameUser)}&phone=${encodeURIComponent(phoneUser)}&address=${encodeURIComponent(paymentAdr)}&note=${encodeURIComponent(paymentNote)}&method=${encodeURIComponent(paymentMethod)}`;
-        console.log("Redirecting to:", redirectUrl);
+    const formData = new FormData();
+    formData.append('name', nameUser);
+    formData.append('phone', phoneUser);
+    formData.append('address', paymentAdr);
+    formData.append('note', paymentNote);
+    formData.append('method', paymentMethod);
+    formData.append('province', province);
+    formData.append('district', district);
+    formData.append('ward', ward);
+    formData.append('cart', JSON.stringify(cart));
 
-        // Chuyển hướng sau khi form hợp lệ
-        window.location.href = redirectUrl;
-      } 
+    fetch('confirm_order.php', {
+      method: 'POST',
+      body: formData
+    }).then(response => {
+      if (response.redirected) {
+        window.location.href = response.url; 
+      } else {
+        return response.text();
+      }
+    }).then(data => {
+      if (data) alert(data); 
+    }).catch(error => {
+      alert("Lỗi kết nối: " + error);
     });
   }
-
-  // Xử lý ẩn/hiện form theo phương thức thanh toán
-  document.getElementById('btnradio1').addEventListener('change', function () {
-    document.getElementById('visa-form').style.display = 'block';
-    document.getElementById('momo-form').style.display = 'none';
-  });
-  document.getElementById('btnradio2').addEventListener('change', function () {
-    document.getElementById('visa-form').style.display = 'none';
-    document.getElementById('momo-form').style.display = 'block';
-  });
-  document.getElementById('btnradio3').addEventListener('change', function () {
-    document.getElementById('visa-form').style.display = 'none';
-    document.getElementById('momo-form').style.display = 'none';
-  });
 });
+    }
 
-// Hàm kiểm tra form
+    // Xử lý ẩn/hiện form theo phương thức thanh toán
+    document.getElementById('btnradio1').addEventListener('change', function () {
+      document.getElementById('visa-form').style.display = 'block';
+      document.getElementById('momo-form').style.display = 'none';
+    });
+    document.getElementById('btnradio2').addEventListener('change', function () {
+      document.getElementById('visa-form').style.display = 'none';
+      document.getElementById('momo-form').style.display = 'block';
+    });
+    document.getElementById('btnradio3').addEventListener('change', function () {
+      document.getElementById('visa-form').style.display = 'none';
+      document.getElementById('momo-form').style.display = 'none';
+    });
+  });
+
+
+
+
+</script>
+
+<script>
 function validateForm() {
+  let isValid = true;
+
   const paymentMethods = document.getElementsByName('phuongThuc');
   let isPaymentMethodSelected = false;
 
@@ -360,60 +410,156 @@ function validateForm() {
     }
   }
 
+  const paymentMethodMessage = document.querySelector('.payment-method-message');
   if (!isPaymentMethodSelected) {
-    alert('Vui lòng chọn phương thức thanh toán.');
-    return false;
+    if (paymentMethodMessage) {
+      paymentMethodMessage.textContent = 'Vui lòng chọn phương thức thanh toán.';
+      paymentMethodMessage.style.display = 'block';
+    }
+    isValid = false;
+  } else {
+    if (paymentMethodMessage) {
+      paymentMethodMessage.textContent = '';
+      paymentMethodMessage.style.display = 'none';
+    }
   }
 
-  const paymentMethod = document.querySelector('input[name="phuongThuc"]:checked').value;
+  const selectedMethod = document.querySelector('input[name="phuongThuc"]:checked').value;
 
-  if (paymentMethod === "visa") {
-    const cardNumber = document.getElementById("card-number").value.trim();
-    const cardExpiry = document.getElementById("card-expiry").value.trim();
-    const cardCVV = document.getElementById("card-cvv").value.trim();
+  document.querySelectorAll('.card-number-message, .card-expiry-message, .card-cvv-message, .momo-number-message')
+    .forEach(span => {
+      span.style.display = 'none';
+      span.textContent = '';
+    });
 
-    if (!cardNumber || !cardExpiry || !cardCVV) {
-      alert("Vui lòng nhập đầy đủ thông tin thẻ Visa!");
-      return false; 
-    }
+  if (selectedMethod === 'visa') {
+    const cardNumber = document.getElementById('card-number').value.trim();
+    const expiry = document.getElementById('card-expiry').value.trim();
+    const cvv = document.getElementById('card-cvv').value.trim();
+
+    let valid = true;
+
+    const cardNumberMessage = document.querySelector('#visa-form .card-number-message');
+    const cardExpiryMessage = document.querySelector('#visa-form .card-expiry-message');
+    const cardCvvMessage = document.querySelector('#visa-form .card-cvv-message');
 
     if (!/^\d{16}$/.test(cardNumber)) {
-      alert("Số thẻ Visa không hợp lệ.");
-      return false;
+      cardNumberMessage.textContent = 'Số thẻ Visa không hợp lệ phải đủ 16 số.';
+      cardNumberMessage.style.display = 'block';
+      valid = false;
     }
 
-    if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(cardExpiry)) {
-      alert("Ngày hết hạn thẻ không hợp lệ.");
-      return false;
+    if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(expiry)) {
+      cardExpiryMessage.textContent = 'Ngày hết hạn thẻ không hợp lệ.';
+      cardExpiryMessage.style.display = 'block';
+      valid = false;
     }
 
-    if (!/^\d{3}$/.test(cardCVV)) {
-      alert("CVV không hợp lệ.");
-      return false;
+    if (!/^\d{3}$/.test(cvv)) {
+      cardCvvMessage.textContent = 'CVV không hợp lệ.';
+      cardCvvMessage.style.display = 'block';
+      valid = false;
+    }
+
+    if (!valid) {
+      isValid = false;
+    }
+  } else if (selectedMethod === 'momo') {
+    const momoNumber = document.getElementById('momo-number').value.trim();
+    const momoMessage = document.querySelector('#momo-form .momo-number-message');
+
+    if (!/^0\d{9}$/.test(momoNumber)) {
+      momoMessage.textContent = 'Số điện thoại Momo không hợp lệ.';
+      momoMessage.style.display = 'block';
+      isValid = false;
     }
   }
 
-  if (paymentMethod === "momo") {
-    const momoNumber = document.getElementById("momo-number").value.trim();
-    if (!momoNumber || !/^0\d{9}$/.test(momoNumber)) {
-      alert("Số điện thoại Momo không hợp lệ!");
-      return false;
-    }
+  const nameUser = document.getElementById('name-user');
+  const nameUserMessage = document.querySelector('.name-user-message');
+  if (nameUser.value.trim() === '') {
+    nameUserMessage.textContent = 'Vui lòng nhập tên người nhận!';
+    nameUserMessage.style.display = 'block';
+    isValid = false;
+  } else {
+    nameUserMessage.textContent = '';
+    nameUserMessage.style.display = 'none';
   }
 
-  const nameUser = document.getElementById('name-user').value.trim();
-  const phoneUser = document.getElementById('phone-user').value.trim();
-  const paymentAdr = document.getElementById('payment--adr').value.trim();
-
-  if (!nameUser || !phoneUser || !paymentAdr) {
-    alert("Vui lòng điền đầy đủ thông tin giao hàng.");
-    return false; 
+  const phoneUser = document.getElementById('phone-user');
+  const phoneUserMessage = document.querySelector('.phone-user-message');
+  const phoneRegex = /^[0-9]{10,11}$/;
+  if (!phoneRegex.test(phoneUser.value.trim())) {
+    phoneUserMessage.textContent = 'Số điện thoại không hợp lệ!';
+    phoneUserMessage.style.display = 'block';
+    isValid = false;
+  } else {
+    phoneUserMessage.textContent = '';
+    phoneUserMessage.style.display = 'none';
   }
 
-  return true; 
+  const province = document.getElementById('province');
+  const provinceMessage = document.querySelector('.province-message');
+  if (province.value === '') {
+    provinceMessage.textContent = 'Vui lòng chọn tỉnh/thành phố!';
+    provinceMessage.style.display = 'block';
+    isValid = false;
+  } else {
+    provinceMessage.textContent = '';
+    provinceMessage.style.display = 'none';
+  }
+
+  const district = document.getElementById('district');
+  const districtMessage = document.querySelector('.district-message');
+  if (district.value === '') {
+    districtMessage.textContent = 'Vui lòng chọn quận/huyện!';
+    districtMessage.style.display = 'block';
+    isValid = false;
+  } else {
+    districtMessage.textContent = '';
+    districtMessage.style.display = 'none';
+  }
+
+  const ward = document.getElementById('ward');
+  const wardMessage = document.querySelector('.ward-message');
+  if (ward.value === '') {
+    wardMessage.textContent = 'Vui lòng chọn xã/phường!';
+    wardMessage.style.display = 'block';
+    isValid = false;
+  } else {
+    wardMessage.textContent = '';
+    wardMessage.style.display = 'none';
+  }
+
+  const paymentAdr = document.getElementById('payment--adr');
+  const paymentAdrMessage = document.querySelector('.payment-adr-message');
+  if (paymentAdr.value.trim() === '') {
+    paymentAdrMessage.textContent = 'Vui lòng nhập địa chỉ cụ thể!';
+    paymentAdrMessage.style.display = 'block';
+    isValid = false;
+  } else {
+    paymentAdrMessage.textContent = '';
+    paymentAdrMessage.style.display = 'none';
+  }
+
+  const paymentNote = document.getElementById('payment--note');
+  const paymentNoteMessage = document.querySelector('.payment-note-message');
+  if (paymentNote.value.length > 200) { 
+    paymentNoteMessage.textContent = 'Ghi chú không được vượt quá 200 ký tự!';
+    paymentNoteMessage.style.display = 'block';
+    isValid = false;
+  } else {
+    paymentNoteMessage.textContent = '';
+    paymentNoteMessage.style.display = 'none';
+  }
+
+  return isValid;
 }
 
 </script>
+
+
+
 <script type="module" src="../asset/js/thanhtoan.js"></script>
 
 

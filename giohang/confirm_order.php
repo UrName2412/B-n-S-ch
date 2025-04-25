@@ -1,5 +1,5 @@
 <?php
-//ngăn web lưu cache
+
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
@@ -25,73 +25,87 @@ if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role
     exit();
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Lấy thông tin người dùng từ session
+// Lấy dữ liệu POST
+$name = $_POST['name'] ?? '';
+$phone = $_POST['phone'] ?? '';
+$address = $_POST['address'] ?? '';
+$note = $_POST['note'] ?? '';
+$paymentMethod = $_POST['method'] ?? '';
+$province = $_POST['province'] ?? '';
+$district = $_POST['district'] ?? '';
+$ward = $_POST['ward'] ?? '';
+$cart = isset($_POST['cart']) ? json_decode($_POST['cart'], true) : [];
+
+if (empty($cart)) {
+    echo "Giỏ hàng trống. Không thể đặt hàng.";
+    exit();
+}
+
+if ($name && $phone && $province && $district && $ward && $address) {
+    $tenNguoiNhan = $name;
+    $soDienThoai = $phone;
+    $tinhThanh = $province;
+    $quanHuyen = $district;
+    $xa = $ward;
+    $duong = $address;
+} else {
+    // Dùng thông tin từ session nếu không nhập tay
     $tenNguoiNhan = $_SESSION['user']['tenNguoiDung'];
     $soDienThoai = $_SESSION['user']['soDienThoai'];
     $tinhThanh = $_SESSION['user']['tinhThanh'];
     $quanHuyen = $_SESSION['user']['quanHuyen'];
     $xa = $_SESSION['user']['xa'];
     $duong = $_SESSION['user']['duong'];
-    $tenNguoiDung = $_SESSION['user']['tenNguoiDung'];
-    $ngayTao = date('Y-m-d H:i:s');
-    $ghiChu = '';
-    $tinhTrang = 'Chưa xác nhận';
-
-
-    $cart = json_decode($_POST['cart'], true);
-
-    if (empty($cart)) {
-        echo "Giỏ hàng trống. Không thể đặt hàng.";
-        exit();
-    }
-
-    $tongTien = 0;
-    foreach ($cart as $item) {
-        $giaBan = preg_replace('/[^\d.]/', '', $item['productPrice']);
-        $tongTien += $giaBan * $item['quantity'];  
-    }
-
-    $sql = "INSERT INTO b01_donhang (tenNguoiNhan, soDienThoai, ngayTao, tinhThanh, quanHuyen, xa, duong, tongTien, tinhTrang, ghiChu, tenNguoiDung)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    $stmt = $database->prepare($sql);
-    $stmt->bind_param("sssssssssss", $tenNguoiNhan, $soDienThoai, $ngayTao, $tinhThanh, $quanHuyen, $xa, $duong, $tongTien, $tinhTrang, $ghiChu, $tenNguoiDung);
-
-    if ($stmt->execute()) {
-        $maDon = $stmt->insert_id; 
-
-        $sql_ct = "INSERT INTO b01_chitiethoadon (maSach, maDon, giaBan, soLuong) VALUES (?, ?, ?, ?)";
-        $stmt_ct = $database->prepare($sql_ct);
-
-        foreach ($cart as $item) {
-            $maSach = $item['productId'];  
-            $giaBan = preg_replace('/[^\d.]/', '', $item['productPrice']); 
-            $soLuong = $item['quantity']; 
-            
-            $stmt_ct->bind_param("iidi", $maSach, $maDon, $giaBan, $soLuong);
-            
-            if (!$stmt_ct->execute()) {
-                echo "Lỗi khi thêm chi tiết hóa đơn: " . $stmt_ct->error;
-            }
-        }
-
-        $_SESSION['maDon'] = $maDon;
-
-        header("Location: hoaDon.php?maDon=$maDon");
-        exit;
-
-    } else {
-        echo "Lỗi khi thêm đơn hàng: " . $stmt->error;
-    }
 }
 
-// Lấy dữ liệu từ URL (nếu có)
-$name = isset($_GET['name']) ? $_GET['name'] : '';
-$phone = isset($_GET['phone']) ? $_GET['phone'] : '';
-$address = isset($_GET['address']) ? $_GET['address'] : '';
-$note = isset($_GET['note']) ? $_GET['note'] : '';
-$paymentMethod = isset($_GET['method']) ? $_GET['method'] : '';
+$tenNguoiDung = $_SESSION['user']['tenNguoiDung'];
+$ngayTao = date('Y-m-d H:i:s');
+$tinhTrang = 'Chưa xác nhận';
+$ghiChu = $note;
+
+$tongTien = 0;
+foreach ($cart as $item) {
+    $giaBan = preg_replace('/[^\d.]/', '', $item['productPrice']);
+    $tongTien += $giaBan * $item['quantity'];
+}
+
+$sql = "INSERT INTO b01_donhang (tenNguoiNhan, soDienThoai, ngayTao, tinhThanh, quanHuyen, xa, duong, tongTien, tinhTrang, ghiChu, tenNguoiDung)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+$stmt = $database->prepare($sql);
+$stmt->bind_param("sssssssssss", $tenNguoiNhan, $soDienThoai, $ngayTao, $tinhThanh, $quanHuyen, $xa, $duong, $tongTien, $tinhTrang, $ghiChu, $tenNguoiDung);
+
+if ($stmt->execute()) {
+    $maDon = $stmt->insert_id;
+
+    // Thêm chi tiết đơn hàng
+    $sql_ct = "INSERT INTO b01_chitiethoadon (maSach, maDon, giaBan, soLuong) VALUES (?, ?, ?, ?)";
+    $stmt_ct = $database->prepare($sql_ct);
+
+    foreach ($cart as $item) {
+        $maSach = $item['productId'];
+        $giaBan = preg_replace('/[^\d.]/', '', $item['productPrice']);
+        $soLuong = $item['quantity'];
+
+        $stmt_ct->bind_param("iidi", $maSach, $maDon, $giaBan, $soLuong);
+
+        if (!$stmt_ct->execute()) {
+            echo "Lỗi khi thêm chi tiết hóa đơn: " . $stmt_ct->error;
+            exit();
+        }
+    }
+
+    $_SESSION['maDon'] = $maDon;
+
+    header("Location: hoaDon.php?maDon=$maDon");
+    exit();
+} else {
+    echo "Lỗi khi thêm đơn hàng: " . $stmt->error;
+}
 ?>
+
+
+
+
 
 <!DOCTYPE html>
 <html lang="vi">
@@ -187,7 +201,7 @@ $paymentMethod = isset($_GET['method']) ? $_GET['method'] : '';
             <div id="thongTinNguoiNhan">
     <p><strong>Người nhận:</strong> <?php echo $_SESSION['user']['tenNguoiDung']; ?></p>
     <p><strong>Địa chỉ:</strong> 
-    <span id="address-info"><?php echo $_SESSION['user']['duong'] . ', ' . $_SESSION['user']['xa'] . ', ' . $_SESSION['user']['quanHuyen'] . ', ' . $_SESSION['user']['tinhThanh']; ?></span></p>
+    <span id="address-info"><?php echo htmlspecialchars($order['duong']) . ', ' . htmlspecialchars($order['xa']) . ', ' . htmlspecialchars($order['quanHuyen']) . ', ' . htmlspecialchars($order['tinhThanh']); ?></span></p>
     <p><strong>Số điện thoại:</strong> <?php echo $_SESSION['user']['soDienThoai']; ?></p>
 </div>
 

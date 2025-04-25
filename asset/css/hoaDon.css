@@ -1,12 +1,3 @@
-img {
-    width: 100px;
-
-    height: auto;
-
-    border-radius: 8px;
-
-}
-
 .product_info {
     display: flex;
     justify-content: space-between;

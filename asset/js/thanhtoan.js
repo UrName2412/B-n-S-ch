@@ -39,18 +39,22 @@ function toggleDefaultInfo() {
         if (district && handler.districtSelect) {
           handler.districtSelect.value = district;
 
-          const wardEvent = new Event('change');
-          handler.districtSelect.dispatchEvent(wardEvent);
+          const districtEvent = new Event('change');
+          handler.districtSelect.dispatchEvent(districtEvent);
 
           setTimeout(() => {
             if (ward && handler.wardSelect) {
               handler.wardSelect.value = ward;
+
+              const wardEvent = new Event('change');
+              handler.wardSelect.dispatchEvent(wardEvent);
             }
           }, 100);
         }
       }, 100);
     }
   } else {
+
     nameUser.value = "";
     phoneUser.value = "";
     paymentAdr.value = "";
@@ -67,8 +71,12 @@ function toggleDefaultInfo() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  toggleDefaultInfo();
+  setTimeout(() => {
+    toggleDefaultInfo();
+  }, 100);
 });
+
+
 
 function Validator(options) {
   const formElement = document.querySelector(options.form);
@@ -148,14 +156,39 @@ function Validator(options) {
         }
       }
 
-      const nameUser = document.getElementById('name-user').value.trim();
-      const phoneUser = document.getElementById('phone-user').value.trim();
-      const adrValue = document.getElementById('payment--adr').value.trim();
+      const defaultCheckbox = document.getElementById('default-info-checkbox');
+      const nameUserEl = document.getElementById('name-user');
+      const phoneUserEl = document.getElementById('phone-user');
+      const adrValueEl = document.getElementById('payment--adr');
 
-      if (!nameUser || !phoneUser || !adrValue) {
-        alert("Vui lòng điền đầy đủ thông tin giao hàng.");
-        isValid = false;
+      if (!defaultCheckbox.checked) {
+        if (!nameUserEl.value.trim()) {
+          const errorEl = nameUserEl.parentElement.querySelector('.form-message');
+          errorEl.innerText = 'Vui lòng nhập tên người nhận!';
+          nameUserEl.classList.add('is-invalid');
+          isValid = false;
+        }
+
+        if (!phoneUserEl.value.trim()) {
+          const errorEl = phoneUserEl.parentElement.querySelector('.form-message');
+          errorEl.innerText = 'Vui lòng nhập số điện thoại!';
+          phoneUserEl.classList.add('is-invalid');
+          isValid = false;
+        } else if (!/^(0[3|5|7|8|9])[0-9]{8}$/.test(phoneUserEl.value.trim())) {
+          const errorEl = phoneUserEl.parentElement.querySelector('.form-message');
+          errorEl.innerText = 'Số điện thoại không hợp lệ!';
+          phoneUserEl.classList.add('is-invalid');
+          isValid = false;
+        }
+
+        if (!adrValueEl.value.trim()) {
+          const errorEl = adrValueEl.parentElement.querySelector('.form-message');
+          errorEl.innerText = 'Vui lòng nhập địa chỉ!';
+          adrValueEl.classList.add('is-invalid');
+          isValid = false;
+        }
       }
+
 
       if (isValid) {
         const redirectUrl = `confirm_order.php?name=${encodeURIComponent(nameUser)}&phone=${encodeURIComponent(phoneUser)}&address=${encodeURIComponent(adrValue)}`;
@@ -213,3 +246,5 @@ document.addEventListener("DOMContentLoaded", function () {
     ],
   });
 });
+
+
