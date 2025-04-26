@@ -25,6 +25,11 @@ if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role
 
 $user = getUserInfoByUsername($database, $username);
 
+if ($user['trangThai'] == false) {
+    echo "<script>alert('Tài khoản của bạn đã bị khóa!'); window.location.href='../dangky/dangxuat.php';</script>";
+    exit();
+}
+
 if (isset($_SESSION['user'])) {
     $ten_user = $_SESSION['user']['tenNguoiDung'] ?? '';
     $email_user = $_SESSION['user']['email'] ?? '';
