@@ -176,15 +176,15 @@ if ($user['trangThai'] == false) {
                             <td><img src="../Images/<?php echo htmlspecialchars($item['hinhAnh']); ?>" alt="Product Image" style="width: 80px; height: auto; border-radius: 6px;"></td>
                             <td><?php echo htmlspecialchars($item['tenSach']); ?></td>
                             <td><?php echo $item['soLuong']; ?></td>
-                            <td><?php echo number_format($item['giaBan'] * 1000, 0, ',', '.'); ?>đ</td>
-                            <td><?php echo number_format($item['giaBan'] * $item['soLuong'] * 1000, 0, ',', '.'); ?>đ</td>
+                            <td><?php echo number_format($item['giaBan'] , 0, ',', '.'); ?>đ</td>
+                            <td><?php echo number_format($item['giaBan'] * $item['soLuong'] , 0, ',', '.'); ?>đ</td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
 
             <div class="total">
-                <p><strong>Tổng tiền:</strong> <?php echo number_format($order['tongTien'] * 1000, 0, ',', '.') . 'đ'; ?></p>
+                <p><strong>Tổng tiền:</strong> <?php echo number_format($order['tongTien'] , 0, ',', '.') . 'đ'; ?></p>
             </div>
         </div>
         <!-- Nút thoát về trang chủ -->

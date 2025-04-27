@@ -3,6 +3,9 @@ require '../admin/config/config.php';
 require '../asset/handler/user_handle.php';
 session_start();
 
+if (isset($_GET['error']) && $_GET['error'] == 'empty_cart') {
+    echo "<script>alert('Giỏ hàng trống, không thể đặt hàng!');</script>";
+}
 
 // Kiểm tra nếu người dùng đã đăng nhập
 if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role'] == false)) {

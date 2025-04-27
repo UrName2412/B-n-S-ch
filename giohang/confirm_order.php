@@ -45,8 +45,10 @@ $cart = isset($_POST['cart']) ? json_decode($_POST['cart'], true) : [];
 
 if (empty($cart)) {
     echo "<script>alert('Giỏ hàng trống. Không thể đặt hàng.'); window.location.href='giohangnguoidung.php';</script>";
+    header('Location: giohangnguoidung.php?error=empty_cart');
     exit();
 }
+
 
 if ($name && $phone && $province && $district && $ward && $address) {
     $tenNguoiNhan = $name;
@@ -72,7 +74,7 @@ $ghiChu = $note;
 
 $tongTien = 0;
 foreach ($cart as $item) {
-    $giaBan = preg_replace('/[^\d.]/', '', $item['productPrice']);
+    $giaBan = (int) str_replace(['.', 'đ', ' '], '', $item['productPrice']);
     $tongTien += $giaBan * $item['quantity'];
 }
 
@@ -90,7 +92,7 @@ if ($stmt->execute()) {
 
     foreach ($cart as $item) {
         $maSach = $item['productId'];
-        $giaBan = preg_replace('/[^\d.]/', '', $item['productPrice']);
+        $giaBan = (int) str_replace(['.', 'đ', ' '], '', $item['productPrice']);
         $soLuong = $item['quantity'];
 
         $stmt_ct->bind_param("iidi", $maSach, $maDon, $giaBan, $soLuong);
