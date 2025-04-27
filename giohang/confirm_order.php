@@ -44,7 +44,6 @@ $ward = $_POST['ward'] ?? '';
 $cart = isset($_POST['cart']) ? json_decode($_POST['cart'], true) : [];
 
 if (empty($cart)) {
-    echo "<script>alert('Giỏ hàng trống. Không thể đặt hàng.'); window.location.href='giohangnguoidung.php';</script>";
     header('Location: giohangnguoidung.php?error=empty_cart');
     exit();
 }
