@@ -6,6 +6,7 @@ unset($_SESSION['username']);
 unset($_SESSION['pass']);
 unset($_SESSION['role']);
 unset($_SESSION['cart']);
+unset($_SESSION['maDon']);
 // Xóa cookie đăng nhập
 setcookie('username', '', time() - 3600, "/");
 setcookie('pass', '', time() - 3600, "/");
