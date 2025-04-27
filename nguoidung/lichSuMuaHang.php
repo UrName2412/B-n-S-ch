@@ -29,7 +29,7 @@ if ($user['trangThai'] == false) {
     exit();
 }
 
-$sql = "SELECT dh.maDon, dh.ngayTao, dh.tongTien, sp.tenSach, sp.hinhAnh, ctdh.soLuong, ctdh.giaBan
+$sql = "SELECT dh.maDon, dh.ngayTao, dh.tongTien, dh.tinhTrang, sp.tenSach, sp.hinhAnh, ctdh.soLuong, ctdh.giaBan
         FROM b01_donhang dh
         JOIN b01_chitiethoadon ctdh ON dh.maDon = ctdh.maDon
         JOIN b01_sanpham sp ON ctdh.maSach = sp.maSach
@@ -53,6 +53,7 @@ if ($result->num_rows > 0) {
                 'maDon' => $maDon,
                 'ngayTao' => $row['ngayTao'],
                 'tongTien' => $row['tongTien'],
+                'tinhTrang' => $row['tinhTrang'],
                 'products' => []
             ];
         }
@@ -68,6 +69,7 @@ if ($result->num_rows > 0) {
     foreach ($orders as $order) {
         $orderHistory .= "<h3>Mã đơn hàng: " . htmlspecialchars($order['maDon']) . "</h3>";
         $orderHistory .= "<p>Ngày tạo đơn: " . htmlspecialchars($order['ngayTao']) . "</p>";
+        $orderHistory .= "<p>Tình trạng đơn hàng: " . htmlspecialchars($order['tinhTrang']) . "</p>";
         $orderHistory .= "<table border='1' class='table'>
                             <tr>
                                 <th>Hình ảnh</th>
