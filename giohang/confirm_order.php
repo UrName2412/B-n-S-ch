@@ -10,16 +10,6 @@ session_start();
 
 if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role'] == false)) {
     $username = $_SESSION['username'];
-} elseif (isset($_COOKIE['username']) && isset($_COOKIE['pass'])) {
-    $username = $_COOKIE['username'];
-    $password = $_COOKIE['pass'];
-
-    if (checkLogin($database, $username, $password)) {
-        $_SESSION['username'] = $username;
-    } else {
-        echo "<script>alert('Bạn chưa đăng nhập!'); window.location.href='../dangky/dangnhap.php';</script>";
-        exit();
-    }
 } else {
     echo "<script>alert('Bạn chưa đăng nhập!'); window.location.href='../dangky/dangnhap.php';</script>";
     exit();
@@ -135,7 +125,6 @@ if ($stmt->execute()) {
         }
     });
 </script>
-
     <!-- Header -->
     <header class="text-white py-3" id="top">
         <div class="container">

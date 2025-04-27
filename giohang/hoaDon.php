@@ -1,23 +1,12 @@
 <?php
 session_start();
 require '../admin/config/config.php';
-
+require '../asset/handler/user_handle.php';
 
 if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role'] == false)) {
     $username = $_SESSION['username'];
-} elseif (isset($_COOKIE['username']) && isset($_COOKIE['pass'])) {
-    $username = $_COOKIE['username'];
-    $password = $_COOKIE['pass'];
-
-    if (checkLogin($database, $username, $password)) {
-        $_SESSION['username'] = $username;
-    } else {
-        echo "<script>alert('Bạn cần đăng nhập để tiếp tục thanh toán!'); window.location.href='../dangky/dangnhap.php';</script>";
-        exit();
-    }
 } else {
     echo "<script>alert('Bạn cần đăng nhập để tiếp tục thanh toán!'); window.location.href='../dangky/dangnhap.php';</script>";
-
     exit();
 }
 
@@ -188,7 +177,7 @@ if ($user['trangThai'] == false) {
             </div>
         </div>
         <!-- Nút thoát về trang chủ -->
-        <div class="text-center mt-4">
+        <div class="text-center p-5">
             <a href="../index.php" class="btn btn-primary">Quay về trang chủ</a>
         </div>
 

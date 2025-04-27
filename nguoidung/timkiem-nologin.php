@@ -3,13 +3,8 @@ require "../admin/config/config.php";
 require "../asset/handler/user_handle.php";
 session_start();
 
-if ((isset($_SESSION['username']) || isset($_COOKIE['username'])) && (isset($_SESSION['role']) && $_SESSION['role'] == false)) {
+if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role'] == false)) {
     header("Location: ../nguoidung/indexuser.php");
-    exit();
-}
-
-if (isset($_COOKIE['username']) && isset($_COOKIE['pass']) && isset($_COOKIE['role'])) {
-    header("Location: indexuser.php");
     exit();
 }
 
