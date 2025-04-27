@@ -1,7 +1,7 @@
 <?php
 session_start();
 require '../admin/config/config.php';
-
+require '../asset/handler/user_handle.php';
 
 if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role'] == false)) {
     $username = $_SESSION['username'];

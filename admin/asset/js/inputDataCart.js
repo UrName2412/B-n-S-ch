@@ -148,7 +148,7 @@ function setDetailButtons() {
                         <span>Thông tin đơn hàng</span>
                     </div>
                     <ul class="header-info">
-                        <li><strong>Tên người dùng:</strong> ${cart.tenNguoiDung}</li>
+                        <li><strong>Tên người nhận:</strong> ${cart.tenNguoiNhan}</li>
                         <li><strong>Số điện thoại:</strong> ${cart.soDienThoai}</li>
                         <li><strong>Ngày đặt hàng:</strong> ${cart.ngayTao}</li>
                         <li><strong>Địa chỉ:</strong> ${diaChi}</li>
