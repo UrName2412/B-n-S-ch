@@ -6,17 +6,6 @@ session_start();
 // Kiểm tra nếu người dùng đã đăng nhập
 if (isset($_SESSION['username']) && isset($_SESSION['role']) && $_SESSION['role'] == false) {
     $username = $_SESSION['username'];
-} elseif (isset($_COOKIE['username']) && isset($_COOKIE['pass'])) {
-    $username = $_COOKIE['username'];
-    $password = $_COOKIE['pass'];
-
-    // Kiểm tra đăng nhập qua cookie
-    if (checkLogin($database, $username, $password)) {
-        $_SESSION['username'] = $username;
-    } else {
-        echo "<script>alert('Bạn chưa đăng nhập!'); window.location.href='../dangky/dangnhap.php';</script>";
-        exit();
-    }
 } else {
     echo "<script>alert('Bạn cần đăng nhập để xem lịch sử mua hàng!'); window.location.href='../dangky/dangnhap.php';</script>";
     exit();
@@ -82,13 +71,13 @@ if ($result->num_rows > 0) {
                                 <td><img src='../Images/" . htmlspecialchars($product['hinhAnh']) . "' alt='Hình ảnh sách' style='width: 80px; height: auto; border-radius: 6px;'></td>
                                 <td>" . htmlspecialchars($product['tenSach']) . "</td>
                                 <td>" . htmlspecialchars($product['soLuong']) . "</td>
-                                <td>" . number_format($product['giaBan'] * 1000, 0, ',', '.') . " VND</td>
-                                <td>" . number_format($product['soLuong'] * $product['giaBan'] * 1000, 0, ',', '.') . " VND</td>
+                                <td>" . number_format($product['giaBan'] , 0, ',', '.') . " VND</td>
+                                <td>" . number_format($product['soLuong'] * $product['giaBan'] , 0, ',', '.') . " VND</td>
                               </tr>";
         }
 
         $orderHistory .= "</table>";
-        $orderHistory .= "<p>Tổng tiền: " . number_format($order['tongTien'] * 1000, 0, ',', '.') . " VND</p>";
+        $orderHistory .= "<p>Tổng tiền: " . number_format($order['tongTien'] , 0, ',', '.') . " VND</p>";
     }
 } else {
     $orderHistory = "<p>Không có đơn hàng nào trong lịch sử mua hàng của bạn.</p>";
@@ -295,13 +284,16 @@ $database->close();
             <div class="row footer__bar">
                 <div class="col-md-12">
                     <ul class="list-unstyled">
-                        <li>Chi nhánh 1: 273 An Dương Vương, Phường 3, Quận 5, TP. Hồ Chí Minh</li>
-                        <li>Chi nhánh 2: 105 Xô Viết Nghệ Tĩnh, Phường 26, Quận Bình Thạnh, TP. Hồ Chí Minh</li>
+                    <li>Chi nhánh 1: 273 An Dương Vương, Phường 3, Quận 5, TP. Hồ Chí Minh</li>
+                        <li>Chi nhánh 2: 105 Bà Huyện Thanh Quan, Phường Võ Thị Sáu, Quận 3, TP. Hồ Chí Minh</li>
+                        <li>Chi nhánh 3: 4 Tôn Đức Thắng, Phường Bến Nghé, Quận 1, TP. Hồ Chí Minh</li>
                     </ul>
                 </div>
             </div>
         </div>
     </footer>
+
+    <script src="../vender/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
