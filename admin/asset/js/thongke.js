@@ -276,60 +276,71 @@ function closeModal() {
 }
 
 
+fetch('../../admin/handlers/lay/laychitietsachdcbanchaynhat.php')
+    .then(response => response.json())
+    .then(data => {
+        const labels = data.map(item => item.tenSach);
+        const dataValues = data.map(item => item.tongTien * 1000);
 
-const labels = ["3/2025", "2/2025", "1/2025", "12/2024", "11/2024", "10/2024"];
+        // Cắt bớt phần label nếu dài quá
+        const truncatedLabels = labels.map(label => {
+            return label.length > 15 ? label.slice(0, 15) + "..." : label;
+        });
 
-function getRandomData(min, max, length) {
-    return Array.from({ length }, () => (Math.floor(Math.random() * (max - min + 1)) + min) * 1000);
-}
+        const chartData = {
+            labels: truncatedLabels,  // Dùng labels đã cắt bớt
+            datasets: [{
+                label: "VNĐ",
+                data: dataValues,
+                borderColor: "#059bff",
+                backgroundColor: "#82cdff",
+                borderWidth: 2,
+                borderRadius: 10,
+                borderSkipped: false,
+            }]
+        };
 
-const data = {
-    labels: labels,
-    datasets: [
-        {
-            label: "VNĐ",
-            data: getRandomData(10000, 95000, labels.length),
-            borderColor: "#059bff",
-            backgroundColor: "#82cdff",
-            borderWidth: 2,
-            borderRadius: 10,
-            borderSkipped: false,
-        }
-    ]
-}
-
-new Chart("myChart", {
-    type: "bar",
-    data: data,
-    options: {
-        plugins: {
-            legend: { display: false },
-            title: {
-                display: true,
-                text: "Thống kê doanh thu trong 5 tháng gần nhất"
-            },
-            datalabels: {
-                anchor: "end",
-                align: "top",
-                formatter:(value) => value.toLocaleString("vi-VN")+ " VNĐ",
-                font: {
-                    weight: "bold",
-                    size: 10
+        new Chart("myChart", {
+            type: "bar",
+            data: chartData,
+            options: {
+                plugins: {
+                    legend: { display: false },
+                    title: {
+                        display: true,
+                        text: "Top 5 Sách có doanh thu cao nhất",
+                    },
+                    datalabels: {
+                        anchor: "end",
+                        align: "top",
+                        formatter: (value) => value.toLocaleString("vi-VN") + " VNĐ",
+                        font: {
+                            weight: "bold",
+                            size: 10
+                        },
+                        color: "#000"
+                    }
                 },
-                color: "#000" // Màu chữ hiển thị
-            }
-        },
-        responsive: true,
-        maintainAspectRatio: true,
-        scales: {
-            y: {
-                ticks: {
-                    callback: function(value) {
-                        return value.toLocaleString("vi-VN") + " VNĐ"; // Hiển thị số trên trục Y có dấu chấm và đơn vị
+                responsive: true,
+                maintainAspectRatio: true,
+                scales: {
+                    y: {
+                        ticks: {
+                            callback: function (value) {
+                                return value.toLocaleString("vi-VN") + " VNĐ";
+                            }
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            maxRotation: 45,  // Xoay các label nếu cần thiết
+                            autoSkip: true,   // Tự động bỏ qua một số label nếu quá dài
+                            maxTicksLimit: 10, // Giới hạn số lượng label hiển thị trên trục X
+                        }
                     }
                 }
-            }
-        }
-    },
-    plugins: [ChartDataLabels]
-});
+            },
+            plugins: [ChartDataLabels]
+        });
+    })
+    .catch(error => console.error("Lỗi khi tải dữ liệu:", error));
