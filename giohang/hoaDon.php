@@ -5,19 +5,8 @@ require '../asset/handler/user_handle.php';
 
 if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role'] == false)) {
     $username = $_SESSION['username'];
-} elseif (isset($_COOKIE['username']) && isset($_COOKIE['pass'])) {
-    $username = $_COOKIE['username'];
-    $password = $_COOKIE['pass'];
-
-    if (checkLogin($database, $username, $password)) {
-        $_SESSION['username'] = $username;
-    } else {
-        echo "<script>alert('Bạn cần đăng nhập để tiếp tục thanh toán!'); window.location.href='../dangky/dangnhap.php';</script>";
-        exit();
-    }
 } else {
     echo "<script>alert('Bạn cần đăng nhập để tiếp tục thanh toán!'); window.location.href='../dangky/dangnhap.php';</script>";
-
     exit();
 }
 
@@ -176,19 +165,19 @@ if ($user['trangThai'] == false) {
                             <td><img src="../Images/<?php echo htmlspecialchars($item['hinhAnh']); ?>" alt="Product Image" style="width: 80px; height: auto; border-radius: 6px;"></td>
                             <td><?php echo htmlspecialchars($item['tenSach']); ?></td>
                             <td><?php echo $item['soLuong']; ?></td>
-                            <td><?php echo number_format($item['giaBan'] * 1000, 0, ',', '.'); ?>đ</td>
-                            <td><?php echo number_format($item['giaBan'] * $item['soLuong'] * 1000, 0, ',', '.'); ?>đ</td>
+                            <td><?php echo number_format($item['giaBan'] , 0, ',', '.'); ?>đ</td>
+                            <td><?php echo number_format($item['giaBan'] * $item['soLuong'] , 0, ',', '.'); ?>đ</td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
 
             <div class="total">
-                <p><strong>Tổng tiền:</strong> <?php echo number_format($order['tongTien'] * 1000, 0, ',', '.') . 'đ'; ?></p>
+                <p><strong>Tổng tiền:</strong> <?php echo number_format($order['tongTien'] , 0, ',', '.') . 'đ'; ?></p>
             </div>
         </div>
         <!-- Nút thoát về trang chủ -->
-        <div class="text-center mt-4">
+        <div class="text-center p-5">
             <a href="../index.php" class="btn btn-primary">Quay về trang chủ</a>
         </div>
 

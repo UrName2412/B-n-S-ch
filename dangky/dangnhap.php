@@ -3,7 +3,7 @@ require "../admin/config/config.php";
 require "../asset/handler/user_handle.php";
 session_start();
 
-if ((isset($_SESSION['username']) || isset($_COOKIE['username'])) && (isset($_SESSION['role']) && $_SESSION['role'] == false)) {
+if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role'] == false)) {
     header("Location: ../nguoidung/indexuser.php");
     exit();
 }
@@ -17,19 +17,6 @@ $usererror = $passerror = "";
 $success = $stasflag = false;
 $username = "";
 $password = "";
-
-if (isset($_COOKIE['username']) && isset($_COOKIE['pass']) && isset($_COOKIE['role'])) {
-    $username = $_COOKIE['username'];
-    $password = $_COOKIE['pass'];
-
-    $user = checkLogin($database, $username, $password);
-    if ($user && $_COOKIE['role'] == $user['vaiTro']) {
-        $_SESSION['username'] = $user['tenNguoiDung'];
-        $_SESSION['user'] = $user;
-        $_SESSION['role'] = false;
-        $success = true;
-    }
-}
 
 if (isset($_POST['action']) && $_POST['action'] == 'do-login') {
     if ($_SERVER['REQUEST_METHOD'] === "POST") {
@@ -49,16 +36,6 @@ if (isset($_POST['action']) && $_POST['action'] == 'do-login') {
             $_SESSION['user'] = $user;
             $_SESSION['role'] = false;
             $success = true;
-
-            if (isset($_POST['remember'])) {
-                setcookie('username', $username, time() + 30 * 24 * 60 * 60, "/");
-                setcookie('pass', $password, time() + 30 * 24 * 60 * 60, "/");
-                setcookie('role', $user['vaiTro'], time() + 30 * 24 * 60 * 60, "/");
-            } else {
-                setcookie('username', '', time() - 3600, "/");
-                setcookie('pass', '', time() - 3600, "/");
-                setcookie('role', '', time() - 3600, "/");
-            }
         }
     }
 }
@@ -152,12 +129,6 @@ if (isset($_POST['action']) && $_POST['action'] == 'do-login') {
                             </div>
                             <input type="hidden" name="action" value="do-login">
                             <button type="submit" class="btn text-white w-100" style="background-color: #336799;">Đăng Nhập</button>
-                            <div class="mt-3 d-flex justify-content-between">
-                                <div>
-                                    <input type="checkbox" class="form-check-input" id="remember" name="remember">
-                                    <label class="form-check-label" for="remember">Ghi nhớ mật khẩu</label>
-                                </div>
-                            </div>
                         </form>
                         <div class="mt-3 d-flex justify-content-center">
                             <p>Bạn chưa có tài khoản? <a href="dangky.php">Đăng ký ngay</a></p>

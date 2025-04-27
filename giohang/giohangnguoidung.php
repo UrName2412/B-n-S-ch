@@ -3,21 +3,13 @@ require '../admin/config/config.php';
 require '../asset/handler/user_handle.php';
 session_start();
 
+if (isset($_GET['error']) && $_GET['error'] == 'empty_cart') {
+    echo "<script>alert('Giỏ hàng trống, không thể đặt hàng!');</script>";
+}
 
 // Kiểm tra nếu người dùng đã đăng nhập
 if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role'] == false)) {
     $username = $_SESSION['username'];
-} elseif (isset($_COOKIE['username']) && isset($_COOKIE['pass'])) {
-    $username = $_COOKIE['username'];
-    $password = $_COOKIE['pass'];
-
-    // Kiểm tra đăng nhập qua cookie
-    if (checkLogin($database, $username, $password)) {
-        $_SESSION['username'] = $username;
-    } else {
-        echo "<script>alert('Bạn chưa đăng nhập!'); window.location.href='../dangky/dangnhap.php';</script>";
-        exit();
-    }
 } else {
     echo "<script>alert('Bạn cần đăng nhập để tiếp tục thanh toán!'); window.location.href='../dangky/dangnhap.php';</script>";
     exit();
@@ -54,6 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     exit();
 }
+
 ?>
 
 
