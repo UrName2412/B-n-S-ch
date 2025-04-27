@@ -5,21 +5,21 @@ require '../admin/config/config.php';
 
 if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role'] == false)) {
     $username = $_SESSION['username'];
-  } elseif (isset($_COOKIE['username']) && isset($_COOKIE['pass'])) {
+} elseif (isset($_COOKIE['username']) && isset($_COOKIE['pass'])) {
     $username = $_COOKIE['username'];
     $password = $_COOKIE['pass'];
-  
+
     if (checkLogin($database, $username, $password)) {
-      $_SESSION['username'] = $username;
+        $_SESSION['username'] = $username;
     } else {
-      echo "<script>alert('Bạn cần đăng nhập để tiếp tục thanh toán!'); window.location.href='../dangky/dangnhap.php';</script>";
-      exit();
+        echo "<script>alert('Bạn cần đăng nhập để tiếp tục thanh toán!'); window.location.href='../dangky/dangnhap.php';</script>";
+        exit();
     }
-  } else {
+} else {
     echo "<script>alert('Bạn cần đăng nhập để tiếp tục thanh toán!'); window.location.href='../dangky/dangnhap.php';</script>";
-  
+
     exit();
-  }
+}
 
 // Lấy mã đơn từ URL
 $maDon = isset($_GET['maDon']) ? $_GET['maDon'] : ($_SESSION['maDon'] ?? '');
@@ -56,6 +56,13 @@ if ($maDon) {
 }
 
 unset($_SESSION['maDon']);
+
+$user = getUserInfoByUsername($database, $username);
+
+if ($user['trangThai'] == false) {
+    echo "<script>alert('Tài khoản của bạn đã bị khóa!'); window.location.href='../dangky/dangxuat.php';</script>";
+    exit();
+}
 
 ?>
 
@@ -144,8 +151,9 @@ unset($_SESSION['maDon']);
             <h2>Thông tin hóa đơn</h2>
             <p><strong>Người nhận:</strong> <?php echo htmlspecialchars($order['tenNguoiNhan']); ?></p>
             <p><strong>Số điện thoại:</strong> <?php echo htmlspecialchars($order['soDienThoai']); ?></p>
-            <p><strong>Địa chỉ:</strong> 
-    <span id="address-info"><?php echo htmlspecialchars($order['duong']) . ', ' . htmlspecialchars($order['xa']) . ', ' . htmlspecialchars($order['quanHuyen']) . ', ' . htmlspecialchars($order['tinhThanh']); ?></span></p>
+            <p><strong>Địa chỉ:</strong>
+                <span id="address-info"><?php echo htmlspecialchars($order['duong']) . ', ' . htmlspecialchars($order['xa']) . ', ' . htmlspecialchars($order['quanHuyen']) . ', ' . htmlspecialchars($order['tinhThanh']); ?></span>
+            </p>
             <p><strong>Ngày tạo:</strong> <?php echo htmlspecialchars($order['ngayTao']); ?></p>
             <p><strong>Ghi chú:</strong> <?php echo htmlspecialchars($order['ghiChu']); ?></p>
         </div>
@@ -180,9 +188,9 @@ unset($_SESSION['maDon']);
             </div>
         </div>
         <!-- Nút thoát về trang chủ -->
-<div class="text-center mt-4">
-    <a href="../index.php" class="btn btn-primary">Quay về trang chủ</a>
-</div>
+        <div class="text-center mt-4">
+            <a href="../index.php" class="btn btn-primary">Quay về trang chủ</a>
+        </div>
 
     </div>
 
@@ -261,22 +269,22 @@ unset($_SESSION['maDon']);
         });
     </script>
 
-<script>
-    const sessionAddress = {
-    province: "<?php echo htmlspecialchars($order['tinhThanh']); ?>",
-    district: "<?php echo htmlspecialchars($order['quanHuyen']); ?>",
-    ward: "<?php echo htmlspecialchars($order['xa']); ?>",
-    street: "<?php echo htmlspecialchars($order['duong']); ?>"
-};
+    <script>
+        const sessionAddress = {
+            province: "<?php echo htmlspecialchars($order['tinhThanh']); ?>",
+            district: "<?php echo htmlspecialchars($order['quanHuyen']); ?>",
+            ward: "<?php echo htmlspecialchars($order['xa']); ?>",
+            street: "<?php echo htmlspecialchars($order['duong']); ?>"
+        };
     </script>
 
     <script type="module" src="../asset/js/hoaDon.js"></script>
 
-    
 
-<script>
-    sessionStorage.removeItem('cart');
-</script>
+
+    <script>
+        sessionStorage.removeItem('cart');
+    </script>
 
 
 

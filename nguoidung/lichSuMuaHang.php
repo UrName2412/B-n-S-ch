@@ -24,6 +24,11 @@ if (isset($_SESSION['username']) && isset($_SESSION['role']) && $_SESSION['role'
 
 $user = getUserInfoByUsername($database, $username);
 
+if ($user['trangThai'] == false) {
+    echo "<script>alert('Tài khoản của bạn đã bị khóa!'); window.location.href='../dangky/dangxuat.php';</script>";
+    exit();
+}
+
 $sql = "SELECT dh.maDon, dh.ngayTao, dh.tongTien, sp.tenSach, sp.hinhAnh, ctdh.soLuong, ctdh.giaBan
         FROM b01_donhang dh
         JOIN b01_chitiethoadon ctdh ON dh.maDon = ctdh.maDon

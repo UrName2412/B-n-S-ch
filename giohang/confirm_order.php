@@ -25,6 +25,13 @@ if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role
     exit();
 }
 
+$user = getUserInfoByUsername($database, $username);
+
+if ($user['trangThai'] == false) {
+    echo "<script>alert('Tài khoản của bạn đã bị khóa!'); window.location.href='../dangky/dangxuat.php';</script>";
+    exit();
+}
+
 // Lấy dữ liệu POST
 $name = $_POST['name'] ?? '';
 $phone = $_POST['phone'] ?? '';
@@ -37,7 +44,7 @@ $ward = $_POST['ward'] ?? '';
 $cart = isset($_POST['cart']) ? json_decode($_POST['cart'], true) : [];
 
 if (empty($cart)) {
-    echo "Giỏ hàng trống. Không thể đặt hàng.";
+    echo "<script>alert('Giỏ hàng trống. Không thể đặt hàng.'); window.location.href='giohangnguoidung.php';</script>";
     exit();
 }
 

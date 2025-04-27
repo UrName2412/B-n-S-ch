@@ -12,6 +12,10 @@ if (isset($_SESSION['usernameadmin']) && (isset($_SESSION['roleadmin']) && $_SES
 }
 
 $admin = getAdminInfoByUsername($database, $username);
+if ($admin['trangThai'] == false) {
+    echo "<script>alert('Tài khoản của bạn đã bị khóa!'); window.location.href='dangxuat.php';</script>";
+    exit();
+}
 
 $stmt = $database->prepare("SELECT * FROM b01_theLoai");
 $stmt->execute();
