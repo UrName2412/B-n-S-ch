@@ -385,11 +385,14 @@ async function handleFilter(dateStart, dateEnd, city, district) {
 
 function clearFilter() {
     cartFilter();
-    const ids = ['dateStart', 'dateEbd', 'city', 'district'];
+    const ids = ['dateStart', 'dateEnd'];
     ids.forEach(id => {
         const Element = document.getElementById(id);
         if (Element) Element.value = "";
     })
+    let tinhThanh = document.getElementById('city');
+    if (tinhThanh) tinhThanh.value = "";
+    tinhThanh.dispatchEvent(new Event('change'));
 }
 
 
