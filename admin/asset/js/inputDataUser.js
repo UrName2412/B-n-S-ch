@@ -520,11 +520,14 @@ async function handleFilter(vaiTro, tinhThanh, quanHuyen, soDienThoai) {
 
 function clearFilter() {
     userFilter();
-    const ids = ['vaiTroTimKiem', 'tinhThanhTimKiem', 'quanHuyenTimKiem', 'soDienThoaiTimKiem'];
+    const ids = ['vaiTroTimKiem', 'soDienThoaiTimKiem'];
     ids.forEach(id => {
         const Element = document.getElementById(id);
         if (Element) Element.value = "";
     })
+    let tinhThanh = document.getElementById('tinhThanhTimKiem');
+    if (tinhThanh) tinhThanh.value = "";
+    tinhThanh.dispatchEvent(new Event('change'));
 }
 
 

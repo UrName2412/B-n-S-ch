@@ -148,7 +148,7 @@ function setDetailButtons() {
                         <span>Thông tin đơn hàng</span>
                     </div>
                     <ul class="header-info">
-                        <li><strong>Tên người dùng:</strong> ${cart.tenNguoiDung}</li>
+                        <li><strong>Tên người nhận:</strong> ${cart.tenNguoiNhan}</li>
                         <li><strong>Số điện thoại:</strong> ${cart.soDienThoai}</li>
                         <li><strong>Ngày đặt hàng:</strong> ${cart.ngayTao}</li>
                         <li><strong>Địa chỉ:</strong> ${diaChi}</li>
@@ -385,11 +385,14 @@ async function handleFilter(dateStart, dateEnd, city, district) {
 
 function clearFilter() {
     cartFilter();
-    const ids = ['dateStart', 'dateEbd', 'city', 'district'];
+    const ids = ['dateStart', 'dateEnd'];
     ids.forEach(id => {
         const Element = document.getElementById(id);
         if (Element) Element.value = "";
     })
+    let tinhThanh = document.getElementById('city');
+    if (tinhThanh) tinhThanh.value = "";
+    tinhThanh.dispatchEvent(new Event('change'));
 }
 
 

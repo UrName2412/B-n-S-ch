@@ -26,7 +26,7 @@ if ($admin['trangThai'] == false) {
     <link rel="stylesheet" href="../asset/css/style.css">
     <link rel="stylesheet" href="../asset/css/function.css">
     <link rel="stylesheet" href="../vender/css/fontawesome-free/css/all.min.css">
-    <title>Admin </title>
+    <title>Người dùng</title>
 </head>
 
 <body>
