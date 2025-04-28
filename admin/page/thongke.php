@@ -105,6 +105,27 @@ if ($admin['trangThai'] == false) {
                         <p id="worstSellingProduct">Không có dữ liệu</p>
                     </div>
                 </div>
+                <!-- Bảng Top 5 khách hàng -->
+                <div class="stats-container">
+                    <div class="stat-block full-width">
+                        <h3>5 khách hàng có mức mua hàng cao nhất</h3>
+                        <table class="top-customers-table">
+                            <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Tên người dùng</th>
+                                    <th>Mã đơn</th>
+                                    <th>Ngày tạo</th>
+                                    <th>Thành tiền</th>
+                                    <th>Tổng tiền mua (VNĐ)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="top5CustomersDetail">
+                                <!-- Dữ liệu sẽ được hiển thị ở đây -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
 
                 <!-- Block hiển thị top 5 khách hàng dựa trên số lượng -->
                 <div class="stats-container">

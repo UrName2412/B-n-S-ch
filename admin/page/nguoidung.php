@@ -62,7 +62,7 @@ if ($admin['trangThai'] == false) {
         <div class="header">
             <div class="toggle">
                 <div class="logo">
-                    <a href="#">
+                    <a href="thongke.php">
                         <img src="../image/LogoSach.png">
                         <h2><?php echo $admin['tenNguoiDung'];?></h2>
                     </a>

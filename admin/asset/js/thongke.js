@@ -93,6 +93,58 @@ function hienThiTop5KhachHang(users) {
     });
 }
 
+function fetchTop5Customers(startDate = "", endDate = "") {
+    let url = '../handlers/get_top5_customers.php';
+    if (startDate && endDate) {
+        url += `?start=${startDate}&end=${endDate}`;
+    }
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            const tbody = document.getElementById('top5CustomersDetail');
+            tbody.innerHTML = '';
+
+            if (data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6">Không có dữ liệu trong khoảng thời gian này.</td></tr>';
+                return;
+            }
+
+            data.forEach((customer, index) => {
+                const numOrders = customer.orders.length;
+
+                customer.orders.forEach((order, orderIndex) => {
+                    const tr = document.createElement('tr');
+
+                    if (orderIndex === 0) {
+                        tr.innerHTML = `
+                            <td rowspan="${numOrders}">${index + 1}</td>
+                            <td rowspan="${numOrders}">${customer.tenNguoiDung}</td>
+                            <td>${order.maDon}</td>
+                            <td>${new Date(order.ngayTao).toLocaleDateString()}</td>
+                            <td>${parseInt(order.tongTien).toLocaleString('vi-VN')} VNĐ</td>
+                            <td rowspan="${numOrders}">
+                                ${parseInt(customer.totalSpent).toLocaleString('vi-VN')} VNĐ
+                            </td>
+                        `;
+                    } else {
+                        tr.innerHTML = `
+                            <td>${order.maDon}</td>
+                            <td>${new Date(order.ngayTao).toLocaleDateString()}</td>
+                            <td>${parseInt(order.tongTien).toLocaleString('vi-VN')} VNĐ</td>
+                        `;
+                    }
+
+                    tbody.appendChild(tr);
+                });
+            });
+        })
+        .catch(error => {
+            console.error('Lỗi khi tải top 5 khách hàng:', error);
+        });
+}
+
+
 document.getElementById('filterButton').addEventListener('click', function () {
     const startDate = document.getElementById('startDate').value;
     const endDate = document.getElementById('endDate').value;
@@ -110,6 +162,8 @@ document.getElementById('filterButton').addEventListener('click', function () {
         hienThiNguoiDung(users);
         hienThiTop5KhachHang(users);
     });
+
+    fetchTop5Customers(startDate, endDate);
 });
 
 // Tải dữ liệu ban đầu
@@ -121,6 +175,8 @@ loadUsers().then(users => {
     hienThiNguoiDung(users);
     hienThiTop5KhachHang(users); // Hiển thị top 5 khách hàng ban đầu
 });
+
+fetchTop5Customers();
 
 // Hàm tải dữ liệu sp
 async function loadProducts() {
