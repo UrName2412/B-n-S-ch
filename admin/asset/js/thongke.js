@@ -280,18 +280,23 @@ fetch('../../admin/handlers/lay/laychitietsachdcbanchaynhat.php')
     .then(response => response.json())
     .then(data => {
         const labels = data.map(item => item.tenSach);
-        const dataValues = data.map(item => item.tongTien * 1000);
+        const dataValues = data.map(item => item.tongTien);
 
         // Cắt bớt phần label nếu dài quá
         const truncatedLabels = labels.map(label => {
             return label.length > 15 ? label.slice(0, 15) + "..." : label;
+        });
+        
+        const formattedDataValues = dataValues.map(value => {
+            const numericValue = Number(value);  // Chuyển giá trị thành số
+            return numericValue.toLocaleString("vi-VN");
         });
 
         const chartData = {
             labels: truncatedLabels,  // Dùng labels đã cắt bớt
             datasets: [{
                 label: "VNĐ",
-                data: dataValues,
+                data: formattedDataValues,
                 borderColor: "#059bff",
                 backgroundColor: "#82cdff",
                 borderWidth: 2,
