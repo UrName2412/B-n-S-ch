@@ -96,7 +96,9 @@ if ($admin['trangThai'] == false) {
                                 <label for="endDate">Đến:</label>
                                 <input type="date" id="endDate">
                             </div>
-                            <button type="button" id="filterButton">Lọc</button>
+                            <div class="child-block">
+                                <button type="button" id="filterButton">Lọc</button>
+                            </div>
                         </div>
                     </div>
                     <div class="stat-block">
