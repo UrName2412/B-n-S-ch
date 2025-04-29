@@ -1,4 +1,4 @@
-<?php 
+<?php
 require '../config/config.php';
 require '../handlers/admin_handle.php';
 session_start();
@@ -65,7 +65,7 @@ if ($admin['trangThai'] == false) {
                 <div class="logo">
                     <a href="#">
                         <img src="../image/LogoSach.png">
-                        <h2><?php echo $admin['tenNguoiDung'];?></h2>
+                        <h2><?php echo $admin['tenNguoiDung']; ?></h2>
                     </a>
                 </div>
             </div>
@@ -109,33 +109,23 @@ if ($admin['trangThai'] == false) {
                 <div class="stats-container">
                     <div class="stat-block full-width">
                         <h3>5 khách hàng có mức mua hàng cao nhất</h3>
-                        <table class="top-customers-table">
-                            <thead>
-                                <tr>
-                                    <th>STT</th>
-                                    <th>Tên người dùng</th>
-                                    <th>Mã đơn</th>
-                                    <th>Ngày tạo</th>
-                                    <th>Thành tiền</th>
-                                    <th>Tổng tiền mua (VNĐ)</th>
-                                </tr>
-                            </thead>
-                            <tbody id="top5CustomersDetail">
-                                <!-- Dữ liệu sẽ được hiển thị ở đây -->
-                            </tbody>
-                        </table>
+                        <div>
+                            <div class="grid-header">
+                                <span>Số thứ tự</span>
+                                <span>Tên người dùng</span>
+                                <span>Tổng tiền</span>
+                                <span>Chi tiết đơn hàng</span>
+                            </div>
+                            <div class="grid-body" id="listCustomersBlock">
+
+                            </div>
+                            <div id="pagination" class="pagination"></div>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Block hiển thị top 5 khách hàng dựa trên số lượng -->
                 <div class="stats-container">
-                    <div class="stat-block">
-                        <h3>Top 5 khách hàng (số lượng mua)</h3>
-                        <div id="topCustomersByQuantity">
-                            <!-- Danh sách top 5 khách hàng sẽ được hiển thị ở đây -->
-                        </div>
-                    </div>
-                    <!-- Biểu đồ -->
                     <div class="chart-container">
                         <h3 class="thongKeHeader">Biểu đồ thống kê</h3>
                         <canvas id="myChart">
@@ -143,41 +133,24 @@ if ($admin['trangThai'] == false) {
                         </canvas>
                     </div>
                 </div>
-                <div class="split-layout">
-                    <!--Danh sách sản phẩm -->
-                    <div class="left-panel">
-                        <h3>Danh sách sản phẩm</h3>
-                        <div class="product-list">
-                            <div class="grid-header-product">
-                                <span>Mã Sách</span>
-                                <span>Tên Sách</span>
-                                <span>Số lượng bán</span>
-                                <span>Tổng tiền</span>
-                                <span>Hành động</span>
-                            </div>
-                            <div class="grid-body" id="dataProducts">
-                                <!-- Dữ liệu sản phẩm sẽ được hiển thị ở đây -->
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Danh sách người dùng -->
-                    <div class="right-panel">
-                        <h3>Danh sách người dùng</h3>
-                        <div class="user-list" id="userList">
-                            <!-- Dữ liệu người dùng sẽ được hiển thị ở đây -->
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
+        <!-- Tool Menu -->
+        <div class="tool-menu" style="display: none;" id="tool-menu">
+            <button type="button" class="menu-close" id="closeToolMenuButton">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+    
 
 
         <script src="../asset/js/function.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>    
-        <script src="../asset/js/thongke.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+        <script type="module" src="../asset/js/thongke.js"></script>
         <script src="../asset/js/admin.js"></script>
+        <script type="module" src="../asset/js/apiAddress.js"></script>
 </body>
 
 </html>

@@ -1,9 +1,12 @@
 //BehindMenu: cái màn màu tối tối phía trong
 function createBehindMenu(){
-    var behindMenu = document.createElement('div');
-    behindMenu.className = 'behindMenu';
-    behindMenu.style.display = 'block';
-    document.body.appendChild(behindMenu);
+    let behindMenu = document.querySelector('.behindMenu');
+    if (!behindMenu) {
+        behindMenu = document.createElement('div');
+        behindMenu.className = 'behindMenu';
+        behindMenu.style.display = 'block';
+        document.body.appendChild(behindMenu);
+    }
     return behindMenu;
 }
 

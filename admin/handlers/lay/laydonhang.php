@@ -6,6 +6,12 @@ $sql = "SELECT * FROM b01_donHang";
 $params = [];
 $types = '';
 
+if (isset($_GET['tenNguoiDung'])) {
+    $sql .= " WHERE tenNguoiDung = ?";
+    $params[] = $_GET['tenNguoiDung'];
+    $types = 's';
+}
+
 if (isset($_GET['maDon'])) {
     $sql .= " WHERE maDon = ?";
     $params[] = $_GET['maDon'];

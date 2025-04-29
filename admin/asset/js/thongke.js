@@ -1,3 +1,6 @@
+import { addressHandler } from './apiAddress.js';
+const addressHandler1 = new addressHandler();
+
 const productsAPI = '../data/JSON/sanpham.json';
 const usersAPI = '../data/JSON/nguoidung.json';
 // Hàm tải dữ liệu người dùng
@@ -12,137 +15,225 @@ async function loadUsers() {
     }
 }
 
-// Hiển thị danh sách người dùng
-function hienThiNguoiDung(users) {
-    const userList = document.getElementById('userList');
-    userList.innerHTML = '';
-
-    users.forEach(user => {
-        const userItem = `
-            <div class="user-item" onclick="viewUserInvoices('${user.id}')">
-                <span>${user.name}</span>
-                <span>${user.quantity} sản phẩm</span>
-            </div>
-        `;
-        userList.innerHTML += userItem;
-    });
-}
-
-// Xem hóa đơn của người dùng
-async function viewUserInvoices(userId) {
-    try {
-        const response = await fetch(usersAPI);
-        const users = await response.json();
-        const user = users.find(u => u.id == userId);
-
-        if (!user) {
-            alert('Không tìm thấy người dùng.');
-            return;
-        }
-
-        const invoices = [
-            {
-                id: `${user.id}`,
-                total: parseFloat(user.quantity) * 100000
-            }
-        ];
-
-        // Hiển thị modal với hóa đơn của người dùng
-        const modal = document.createElement('div');
-        modal.className = 'modal show';
-
-        modal.innerHTML = `
-            <div class="headModal">Hóa Đơn Của ${user.name}</div>
-            <div class="modal-body">
-                ${invoices.map(invoice => `
-                    <p><strong>id: </strong>${invoice.id}</p>
-                    <p><strong>Tổng Tiền: </strong>${formatCurrency(invoice.total)}</p>
-                    <hr>
-                `).join('')}
-            </div>
-            <div class="choiceModal">
-                <button class="cancel" onclick="closeModal()">Đóng</button>
-            </div>
-        `;
-
-        document.body.appendChild(modal);
-    } catch (error) {
-        console.error('Lỗi khi lấy hóa đơn:', error);
-        alert('Không thể tải hóa đơn. Vui lòng thử lại sau.');
-    }
-}
-
-function hienThiTop5KhachHang(users) {
-    // Sắp xếp người dùng theo số lượng sản phẩm giảm dần
-    const sortedUsers = users.sort((a, b) => b.quantity - a.quantity);
-
-    const top5Users = sortedUsers.slice(0, 5);
-
-    // Hiển thị top 5 khách hàng
-    const topCustomersBlock = document.getElementById('topCustomersByQuantity');
-    topCustomersBlock.innerHTML = '';
-
-    top5Users.forEach((user, index) => {
-        const customerItem = `
-            <div class="top-customer-item">
-                <span>${index + 1}. ${user.name}</span>
-                <span>${user.quantity} sản phẩm</span>
-            </div>
-        `;
-        topCustomersBlock.innerHTML += customerItem;
-    });
-}
-
 function fetchTop5Customers(startDate = "", endDate = "") {
-    let url = '../handlers/get_top5_customers.php';
+    let url = '../handlers/lay/get_top5_customers.php';
     if (startDate && endDate) {
         url += `?start=${startDate}&end=${endDate}`;
     }
+    var listCustomersBlock = document.getElementById('listCustomersBlock');
 
     fetch(url)
         .then(response => response.json())
         .then(data => {
-            const tbody = document.getElementById('top5CustomersDetail');
-            tbody.innerHTML = '';
-
             if (data.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="6">Không có dữ liệu trong khoảng thời gian này.</td></tr>';
                 return;
             }
 
             data.forEach((customer, index) => {
-                const numOrders = customer.orders.length;
-
-                customer.orders.forEach((order, orderIndex) => {
-                    const tr = document.createElement('tr');
-
-                    if (orderIndex === 0) {
-                        tr.innerHTML = `
-                            <td rowspan="${numOrders}">${index + 1}</td>
-                            <td rowspan="${numOrders}">${customer.tenNguoiDung}</td>
-                            <td>${order.maDon}</td>
-                            <td>${new Date(order.ngayTao).toLocaleDateString()}</td>
-                            <td>${parseInt(order.tongTien).toLocaleString('vi-VN')} VNĐ</td>
-                            <td rowspan="${numOrders}">
-                                ${parseInt(customer.totalSpent).toLocaleString('vi-VN')} VNĐ
-                            </td>
-                        `;
-                    } else {
-                        tr.innerHTML = `
-                            <td>${order.maDon}</td>
-                            <td>${new Date(order.ngayTao).toLocaleDateString()}</td>
-                            <td>${parseInt(order.tongTien).toLocaleString('vi-VN')} VNĐ</td>
-                        `;
-                    }
-
-                    tbody.appendChild(tr);
-                });
+                var newCustomers = document.createElement('div');
+                newCustomers.className = 'grid-row';
+                newCustomers.innerHTML = `
+                        <textarea placeholder="Nhập số thứ tự..." readonly>${index + 1}</textarea>
+                        <textarea placeholder="Nhập tên người dùng..." readonly>${customer.tenNguoiDung}</textarea>
+                        <textarea placeholder="Nhập tổng tiền..." readonly>${formatCurrency(customer.totalSpent)}</textarea>
+                        <button type="button" class="detailButton">Chi tiết đơn hàng</button>
+                    `;
+                listCustomersBlock.appendChild(newCustomers);
             });
+            setDetailButtons();
         })
         .catch(error => {
             console.error('Lỗi khi tải top 5 khách hàng:', error);
         });
 }
+
+
+function setDetailButtons(currentOrderPage = null) {
+    if (currentOrderPage === null) {
+        currentOrderPage = 1;
+    }
+    else currentOrderPage = currentOrderPage;
+    const ordersPerPage = 4;
+    var detailButtons = document.querySelectorAll('.detailButton');
+    detailButtons.forEach(detailButton => {
+        detailButton.addEventListener('click', async function (event) {
+            var gridRow = event.target.closest('.grid-row');
+            var tenNguoiDung = gridRow.querySelector('textarea[placeholder="Nhập tên người dùng..."]').value.trim();
+
+            // Fetch tất cả đơn hàng của khách này
+            let response = await fetch(`../handlers/lay/laydonhang.php?tenNguoiDung=${encodeURIComponent(tenNguoiDung)}`);
+            let orders = await response.json();
+
+            if (orders && orders.length > 0) {
+                await showCustomerOrders(orders, tenNguoiDung, currentOrderPage, ordersPerPage);
+            } else {
+                alert("Không có đơn hàng nào.");
+            }
+        });
+    });
+}
+
+async function showCustomerOrders(orders, tenNguoiDung, currentOrderPage, ordersPerPage) {
+    const toolMenu = document.querySelector('.tool-menu');
+    toolMenu.style.display = 'block';
+
+    const oldMenuDetail = toolMenu.querySelector('.menu-detail');
+    if (oldMenuDetail) oldMenuDetail.remove();
+
+    const menuDetail = document.createElement('div');
+    menuDetail.className = 'menu-detail';
+    toolMenu.appendChild(menuDetail);
+    openToolMenu('.menu-detail');
+
+    function renderOrderPage() {
+        const startIndex = (currentOrderPage - 1) * ordersPerPage;
+        const endIndex = startIndex + ordersPerPage;
+        const pageOrders = orders.slice(startIndex, endIndex);
+
+        menuDetail.innerHTML = `
+            <h2>Danh sách đơn hàng của ${tenNguoiDung}</h2>
+            <div id="ordersList">
+                ${pageOrders.map(order => `
+                    <div class="order-item">
+                        <p><strong>Mã đơn:</strong> ${order.maDon}</p>
+                        <p><strong>Ngày đặt:</strong> ${order.ngayTao}</p>
+                        <p><strong>Tổng tiền:</strong> ${formatVND(order.tongTien)}</p>
+                        <button class="viewOrderDetail" data-ma-don="${order.maDon}">Xem chi tiết đơn này</button>
+                    </div>
+                `).join('')}
+            </div>
+            <div id="orderPagination"></div>
+        `;
+
+        renderOrderPagination(orders.length);
+        setViewOrderDetailButtons();
+    }
+
+    function renderOrderPagination(totalOrders) {
+        const pagination = document.getElementById('orderPagination');
+        pagination.innerHTML = '';
+
+        const totalPages = Math.ceil(totalOrders / ordersPerPage);
+        if (totalPages <= 1) return;
+
+        const prevBtn = document.createElement('button');
+        prevBtn.innerHTML = '<i class="fas fa-chevron-left"></i>';
+        prevBtn.disabled = currentOrderPage === 1;
+        prevBtn.addEventListener('click', () => {
+            if (currentOrderPage > 1) {
+                currentOrderPage--;
+                renderOrderPage();
+            }
+        });
+        pagination.appendChild(prevBtn);
+
+        for (let i = 1; i <= totalPages; i++) {
+            const pageBtn = document.createElement('button');
+            pageBtn.textContent = i;
+            if (i === currentOrderPage) {
+                pageBtn.classList.add('active');
+            }
+            pageBtn.addEventListener('click', () => {
+                currentOrderPage = i;
+                renderOrderPage();
+            });
+            pagination.appendChild(pageBtn);
+        }
+
+        const nextBtn = document.createElement('button');
+        nextBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
+        nextBtn.disabled = currentOrderPage === totalPages;
+        nextBtn.addEventListener('click', () => {
+            if (currentOrderPage < totalPages) {
+                currentOrderPage++;
+                renderOrderPage();
+            }
+        });
+        pagination.appendChild(nextBtn);
+    }
+
+    function setViewOrderDetailButtons() {
+        const viewDetailButtons = document.querySelectorAll('.viewOrderDetail');
+        viewDetailButtons.forEach(button => {
+            button.addEventListener('click', async function () {
+                const maDon = this.getAttribute('data-ma-don');
+                await showOrderProducts(maDon, orders, tenNguoiDung, currentOrderPage, ordersPerPage);
+            });
+            
+        });
+    }
+
+    renderOrderPage();
+}
+
+async function showOrderProducts(maDon, orders, tenNguoiDung, currentOrderPage, ordersPerPage) {
+    const pagination = document.getElementById('orderPagination');
+    pagination.innerHTML = '';
+    let response = await fetch(`../handlers/lay/laychitiethoadon.php?maDon=${maDon}`);
+    let detailCustomers = await response.json();
+
+    let response1 = await fetch(`../handlers/lay/laydonhang.php?maDon=${maDon}`);
+    let cart = await response1.json();
+    let diaChi = await addressHandler1.concatenateAddress(cart.tinhThanh, cart.quanHuyen, cart.xa, cart.duong);
+
+    let fetchProductPromises = detailCustomers.map(item =>
+        fetch(`../handlers/lay/laysanpham.php?maSach=${item.maSach}`).then(res => res.json())
+    );
+    let productList = await Promise.all(fetchProductPromises);
+
+    let detail = '';
+    let tongCong = 0;
+    for (let i = 0; i < detailCustomers.length; i++) {
+        let item = detailCustomers[i];
+        let product = productList[i];
+        let total = item.soLuong * item.giaBan;
+        tongCong += total;
+
+        detail += `
+            <div class="grid-row-detail">
+                <textarea readonly>${product.tenSach}</textarea>
+                <textarea readonly>${item.soLuong}</textarea>
+                <textarea readonly>${formatVND(item.giaBan)}</textarea>
+                <textarea readonly>${formatVND(total)}</textarea>
+            </div>
+        `;
+    }
+
+    let ordersList = document.getElementById('ordersList');
+    ordersList.classList.add('detail');
+    ordersList.innerHTML = `
+        <button id="backToOrders"><i class="fas fa-home"></i> <strong>Trở về</strong></button>
+        <div class="detailHeader">
+            <div class="header-title">
+                <span>Thông tin đơn hàng</span>
+            </div>
+            <ul class="header-info">
+                <li><strong>Tên người nhận:</strong> ${cart.tenNguoiNhan}</li>
+                <li><strong>Số điện thoại:</strong> ${cart.soDienThoai}</li>
+                <li><strong>Ngày đặt hàng:</strong> ${cart.ngayTao}</li>
+                <li><strong>Địa chỉ:</strong> ${diaChi}</li>
+            </ul>
+        </div>
+        <div class="grid-header-detail">
+            <textarea readonly>Sản phẩm</textarea>
+            <textarea readonly>Số lượng</textarea>
+            <textarea readonly>Đơn giá</textarea>
+            <textarea readonly>Thành tiền</textarea>
+        </div>
+        ${detail}
+        <div class="grid-footer-detail">
+            <textarea readonly>Tổng cộng</textarea>
+            <textarea readonly>${formatVND(tongCong)}</textarea>
+        </div>
+    `;
+
+    document.getElementById('backToOrders').addEventListener('click', () => {
+        showCustomerOrders(orders, tenNguoiDung, currentOrderPage, ordersPerPage);
+    });
+    
+}
+
 
 
 document.getElementById('filterButton').addEventListener('click', function () {
@@ -158,22 +249,12 @@ document.getElementById('filterButton').addEventListener('click', function () {
         thongKeBanHang(products, startDate, endDate);
     });
 
-    loadUsers().then(users => {
-        hienThiNguoiDung(users);
-        hienThiTop5KhachHang(users);
-    });
-
     fetchTop5Customers(startDate, endDate);
 });
 
 // Tải dữ liệu ban đầu
 loadProducts().then(products => {
     thongKeBanHang(products, "2023-01-01", "2023-12-31");
-});
-
-loadUsers().then(users => {
-    hienThiNguoiDung(users);
-    hienThiTop5KhachHang(users); // Hiển thị top 5 khách hàng ban đầu
 });
 
 fetchTop5Customers();
@@ -188,25 +269,6 @@ async function loadProducts() {
         console.error("Lỗi khi tải dữ liệu:", error);
         return [];
     }
-}
-
-// Hiển thị danh sách sản phẩm
-function hienThiSanPham(products) {
-    const productDataBlock = document.getElementById('dataProducts');
-    productDataBlock.innerHTML = '';
-
-    products.forEach(product => {
-        const productRow = `
-            <div class="grid-row">
-                <span>${product.id}</span>
-                <span>${product.name}</span>
-                <span>${product.quantity}</span>
-                <span>${formatCurrency(parseFloat(product.price.replace(/\./g, '')) * product.quantity)}</span>
-                <button onclick="viewInvoices('${product.id}')">Xem hóa đơn</button>
-            </div>
-        `;
-        productDataBlock.innerHTML += productRow;
-    });
 }
 
 // Tính toán tổng thu, mặt hàng bán chạy nhất và ít nhất
@@ -243,7 +305,6 @@ function thongKeBanHang(products, startDate, endDate) {
         return soldDate >= start && soldDate <= end;
     });
 
-    hienThiSanPham(sachBan);
     calculateStats(sachBan);
 }
 
@@ -331,6 +392,10 @@ function closeModal() {
     }
 }
 
+function formatVND(amount) {
+    return amount.toLocaleString('vi-VN') + ' đ';
+}
+
 
 fetch('../../admin/handlers/lay/laychitietsachdcbanchaynhat.php')
     .then(response => response.json())
@@ -342,7 +407,7 @@ fetch('../../admin/handlers/lay/laychitietsachdcbanchaynhat.php')
         const truncatedLabels = labels.map(label => {
             return label.length > 15 ? label.slice(0, 15) + "..." : label;
         });
-        
+
         const formattedDataValues = dataValues.map(value => {
             const numericValue = Number(value);  // Chuyển giá trị thành số
             return numericValue.toLocaleString("vi-VN");

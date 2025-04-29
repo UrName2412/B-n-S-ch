@@ -252,8 +252,12 @@ a {
 
 .menuHeader{
     position: absolute;
-    left: 15px;
+    left: 10px;
     display: none;
+    width: auto;
+    height: auto;
+    padding: 5px 10px;
+    font-size: clamp(1rem, 2.5vw, 1.5rem);;
 }
 
 .close{
@@ -270,8 +274,10 @@ a {
 }
 
 .close#closeHeaderButton{
-    width: 24px;
-    height: 24px;
+    width: auto;
+    height: auto;
+    padding: 5px 10px;
+    font-size: clamp(1rem, 2.5vw, 1.5rem);;
 }
 
 .container-content{
@@ -728,9 +734,9 @@ button:hover{
 .tool-menu{
     position: absolute;
     height: auto;
-    width: 50vw;
-    top:5vh;
-    left: 25vw;
+    width: 60vw;
+    top: 15px;
+    left: 20vw;
     background-color: var(--color-white);
     box-shadow: var(--box-shadow);
     border-radius: var(--border-radius-1);
@@ -741,8 +747,10 @@ button:hover{
     position: absolute;
     right: 5px;
     top: 5px;
-    width: 24px;
-    height: 24px;
+    width: auto;
+    height: auto;
+    padding: 5px 10px;
+    font-size: clamp(1rem, 2.5vw, 1.5rem);;
     border-radius: 5px;
 }
 .menu-detail,
@@ -758,7 +766,9 @@ button:hover{
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     flex-direction: column;
     align-content:center;
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
 }
+
 .menu-detail {
     background-color: #f1f5f9;
     color: #1f2937;
@@ -858,7 +868,7 @@ button:hover{
     border: 1px solid #e2e8f0;
     padding: 14px;
     border-radius: 8px;
-    font-size: 1rem;
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
     resize: none;
     text-align: center;
     font-weight: 500;
@@ -881,7 +891,6 @@ button:hover{
     color: #4f46e5;
     border: 1px solid #4f46e5;
 }
-
 
 
 #order-status{

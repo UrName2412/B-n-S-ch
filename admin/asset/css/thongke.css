@@ -54,17 +54,6 @@
     transform: scale(1.1);
 }
 
-/* Behind Menu */
-.behindMenuAlert, .behindMenuModal, .behindMenu {
-    position: fixed;
-    top: 0;
-    height: 100vh;
-    width: 100vw;
-    background-color: gray;
-    opacity: 0.5;
-    z-index: 1;
-}
-
 /* Media Queries */
 @media (max-width: 1024px) {
     .modal {
@@ -192,43 +181,7 @@
     background: #fff;
 }
 
-.grid-header-product {
-    display: flex;
-    justify-content: space-between;
-    font-weight: bold;
-    padding: 10px;
-    background: #f1f1f1;
-    border-radius: 4px;
-}
 
-.grid-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-}
-
-.grid-row:last-child {
-    border-bottom: none;
-}
-
-.grid-row span {
-    flex: 1;
-    text-align: center;
-}
-
-.grid-row button {
-    background: #007bff;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.grid-row button:hover {
-    background: #0056b3;
-}
 /* Giao diện chia đôi */
 .split-layout {
     display: flex;
@@ -419,4 +372,145 @@
 
 .full-width {
     width: 100%;
+}
+
+
+/* Them css */
+
+.grid-header{
+    display: grid;
+    grid-template-columns:  minmax(30px,0.5fr) repeat(2,minmax(80px,1.2fr)) minmax(50px,1.2fr);
+    font-weight: bold;
+    border-bottom: 2px solid #363949;
+    padding: 0.5rem 0;
+    text-align: center;
+}
+.grid-row{
+    display: grid;
+    grid-template-columns:  minmax(30px,0.5fr) repeat(2,minmax(80px,1.2fr)) minmax(50px,1.2fr);
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(132, 139, 200, 0.18);
+    margin-top: 0.3rem;
+    box-sizing: border-box;
+}
+
+.detailButton{
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+    box-sizing: border-box;
+    text-align: center;
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    background-color: var(--color-dark);
+    color: white;
+}
+.detailButton:hover{
+    background-color: black;
+}
+
+.menu-detail h2{
+    margin: 0;
+}
+
+/* Style for the orders list */
+#ordersList {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 20px;
+}
+#ordersList.detail{
+    display: block;
+    margin: 0;
+}
+
+.order-item {
+    background-color: #ffffff;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.order-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+.order-item p {
+    margin: 5px 0;
+    font-size: 1.1rem;
+    color: #374151;
+}
+
+.order-item p strong {
+    color: #1f2937;
+}
+
+.order-item button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #4f46e5;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.order-item button:hover {
+    background-color: #4338ca;
+}
+
+.order-item button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+}
+
+/* Pagination */
+#orderPagination {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+#orderPagination button {
+    padding: 8px 16px;
+    border-radius: 5px;
+    border: 1px solid #e2e8f0;
+    background-color: #ffffff;
+    cursor: pointer;
+    font-weight: 600;
+    color: #4f46e5;
+    transition: background-color 0.3s;
+}
+
+#orderPagination button:hover {
+    background-color: #f3f4f6;
+}
+
+#orderPagination button:disabled {
+    background-color: #f9fafb;
+    color: #a1a1a1;
+    cursor: not-allowed;
+}
+
+#orderPagination .active {
+    background-color: #4f46e5;
+    color: #ffffff;
+    border: none;
+}
+
+#backToOrders{
+    width: auto;
+    height: auto;
+    padding: 5px;
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
+    background-color: black;
+    color: white;
+    border-radius: 5px;
+    margin: 10px 0;
 }

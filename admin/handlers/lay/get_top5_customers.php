@@ -1,5 +1,5 @@
 <?php
-require '../config/config.php';
+require '../../config/config.php';
 
 header('Content-Type: application/json; charset=utf-8');
 
@@ -33,7 +33,7 @@ try {
     while ($row = $result->fetch_assoc()) {
         // Lấy danh sách đơn hàng cho từng khách
         $orderQuery = "
-            SELECT maDon, ngayTao, tongTien
+            SELECT maDon, tongTien, ngayTao
             FROM b01_donHang
             WHERE tenNguoiDung = ?
             AND ngayTao BETWEEN ? AND ?
