@@ -21,7 +21,7 @@ function fetchTop5Customers(startDate = "", endDate = "") {
         url += `?start=${startDate}&end=${endDate}`;
     }
     var listCustomersBlock = document.getElementById('listCustomersBlock');
-
+    listCustomersBlock.innerHTML = '';
     fetch(url)
         .then(response => response.json())
         .then(data => {
