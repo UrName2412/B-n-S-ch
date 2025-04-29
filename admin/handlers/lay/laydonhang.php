@@ -7,15 +7,33 @@ $params = [];
 $types = '';
 
 if (isset($_GET['tenNguoiDung'])) {
-    $sql .= " WHERE tenNguoiDung = ?";
+    if (!empty($params)) {
+        $sql .= " AND tenNguoiDung = ? ";
+    } else {
+        $sql .= " WHERE tenNguoiDung = ? ";
+    }
     $params[] = $_GET['tenNguoiDung'];
-    $types = 's';
+    $types .= 's';
 }
 
 if (isset($_GET['maDon'])) {
-    $sql .= " WHERE maDon = ?";
+    if (!empty($params)) {
+        $sql .= " AND maDon = ? ";
+    } else {
+        $sql .= " WHERE maDon = ? ";
+    }
     $params[] = $_GET['maDon'];
-    $types = 'i';
+    $types .= 'i';
+}
+
+if (isset($_GET['tinhTrang'])) {
+    if (!empty($params)) {
+        $sql .= " AND tinhTrang = ? ";
+    } else {
+        $sql .= " WHERE tinhTrang = ? ";
+    }
+    $params[] = $_GET['tinhTrang'];
+    $types .= 's';
 }
 
 $stmt = $database->prepare($sql);

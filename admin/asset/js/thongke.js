@@ -60,9 +60,7 @@ function setDetailButtons(currentOrderPage = null) {
         detailButton.addEventListener('click', async function (event) {
             var gridRow = event.target.closest('.grid-row');
             var tenNguoiDung = gridRow.querySelector('textarea[placeholder="Nhập tên người dùng..."]').value.trim();
-
-            // Fetch tất cả đơn hàng của khách này
-            let response = await fetch(`../handlers/lay/laydonhang.php?tenNguoiDung=${encodeURIComponent(tenNguoiDung)}`);
+            let response = await fetch(`../handlers/lay/laydonhang.php?tenNguoiDung=${(tenNguoiDung)}&tinhTrang=Đã xác nhận`);
             let orders = await response.json();
 
             if (orders && orders.length > 0) {

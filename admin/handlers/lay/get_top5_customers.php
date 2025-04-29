@@ -2,6 +2,7 @@
 require '../../config/config.php';
 
 header('Content-Type: application/json; charset=utf-8');
+$tinhTrang = 'Đã xác nhận';
 
 if (!isset($_GET['start']) || !isset($_GET['end'])) {
     // Nếu không có start và end, lấy tất cả dữ liệu từ trước đến nay
@@ -20,12 +21,13 @@ try {
         FROM b01_donHang dh
         INNER JOIN b01_nguoiDung nd ON dh.tenNguoiDung = nd.tenNguoiDung
         WHERE dh.ngayTao BETWEEN ? AND ?
+        AND dh.tinhTrang = ?
         GROUP BY nd.tenNguoiDung
         ORDER BY totalSpent DESC
         LIMIT 5
     ";
     $stmt = $database->prepare($query);
-    $stmt->bind_param('ss', $start, $end);
+    $stmt->bind_param('sss', $start, $end, $tinhTrang);
     $stmt->execute();
     $result = $stmt->get_result();
     $topCustomers = [];
@@ -36,11 +38,12 @@ try {
             SELECT maDon, tongTien, ngayTao
             FROM b01_donHang
             WHERE tenNguoiDung = ?
+            AND tinhTrang = ?
             AND ngayTao BETWEEN ? AND ?
             ORDER BY tongTien DESC
         ";
         $orderStmt = $database->prepare($orderQuery);
-        $orderStmt->bind_param('sss', $row['tenNguoiDung'], $start, $end);
+        $orderStmt->bind_param('ssss', $row['tenNguoiDung'],$tinhTrang, $start, $end);
         $orderStmt->execute();
         $orderResult = $orderStmt->get_result();
 
