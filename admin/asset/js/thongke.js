@@ -279,10 +279,14 @@ async function calculateStats(products) {
     let obj = await response.json();
     totalRevenue = obj.tongTien;
 
-    document.getElementById('totalRevenue').textContent = formatVND(totalRevenue);
+    const response1 = await fetch('../handlers/lay/laysanphamtieubieu.php?tieuBieu=1');
+    bestSellingProduct = await response1.json();
+    const response2 = await fetch('../handlers/lay/laysanphamtieubieu.php?tieuBieu=0');
+    worstSellingProduct = await response2.json();
 
-    document.getElementById('bestSellingProduct').textContent = bestSellingProduct ? `${bestSellingProduct.name} (${bestSellingProduct.quantity} sản phẩm)` : 'Không có dữ liệu';
-    document.getElementById('worstSellingProduct').textContent = worstSellingProduct ? `${worstSellingProduct.name} (${worstSellingProduct.quantity} sản phẩm)` : 'Không có dữ liệu';
+    document.getElementById('totalRevenue').textContent = formatVND(totalRevenue);
+    document.getElementById('bestSellingProduct').textContent = bestSellingProduct ? `${bestSellingProduct.tenSach} (${bestSellingProduct.soLuong} sản phẩm)` : 'Không có dữ liệu';
+    document.getElementById('worstSellingProduct').textContent = worstSellingProduct ? `${worstSellingProduct.tenSach} (${worstSellingProduct.soLuong} sản phẩm)` : 'Không có dữ liệu';
 }
 
 // Lọc và thống kê sản phẩm đã bán theo khoảng thời gian
