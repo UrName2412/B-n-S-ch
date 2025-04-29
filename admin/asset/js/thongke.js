@@ -36,7 +36,7 @@ function fetchTop5Customers(startDate = "", endDate = "") {
                 newCustomers.innerHTML = `
                         <textarea placeholder="Nhập số thứ tự..." readonly>${index + 1}</textarea>
                         <textarea placeholder="Nhập tên người dùng..." readonly>${customer.tenNguoiDung}</textarea>
-                        <textarea placeholder="Nhập tổng tiền..." readonly>${formatCurrency(customer.totalSpent)}</textarea>
+                        <textarea placeholder="Nhập tổng tiền..." readonly>${formatVND(customer.totalSpent)}</textarea>
                         <button type="button" class="detailButton">Chi tiết đơn hàng</button>
                     `;
                 listCustomersBlock.appendChild(newCustomers);
@@ -60,7 +60,7 @@ function setDetailButtons(currentOrderPage = null) {
         detailButton.addEventListener('click', async function (event) {
             var gridRow = event.target.closest('.grid-row');
             var tenNguoiDung = gridRow.querySelector('textarea[placeholder="Nhập tên người dùng..."]').value.trim();
-            let response = await fetch(`../handlers/lay/laydonhang.php?tenNguoiDung=${(tenNguoiDung)}&tinhTrang=Đã xác nhận`);
+            let response = await fetch(`../handlers/lay/laydonhang.php?tenNguoiDung=${encodeURIComponent(tenNguoiDung)}&tinhTrang=Đã xác nhận,Đã giao`);
             let orders = await response.json();
 
             if (orders && orders.length > 0) {
@@ -270,24 +270,16 @@ async function loadProducts() {
 }
 
 // Tính toán tổng thu, mặt hàng bán chạy nhất và ít nhất
-function calculateStats(products) {
+async function calculateStats(products) {
     let totalRevenue = 0;
     let bestSellingProduct = null;
     let worstSellingProduct = null;
 
-    products.forEach(product => {
-        const revenue = parseFloat(product.price.replace(/\./g, '')) * product.quantity;
-        totalRevenue += revenue;
+    const response = await fetch('../handlers/lay/laytongtiendonhang.php');
+    let obj = await response.json();
+    totalRevenue = obj.tongTien;
 
-        if (!bestSellingProduct || product.quantity > bestSellingProduct.quantity) {
-            bestSellingProduct = product;
-        }
-        if (!worstSellingProduct || product.quantity < worstSellingProduct.quantity) {
-            worstSellingProduct = product;
-        }
-    });
-
-    document.getElementById('totalRevenue').textContent = formatCurrency(totalRevenue);
+    document.getElementById('totalRevenue').textContent = formatVND(totalRevenue);
 
     document.getElementById('bestSellingProduct').textContent = bestSellingProduct ? `${bestSellingProduct.name} (${bestSellingProduct.quantity} sản phẩm)` : 'Không có dữ liệu';
     document.getElementById('worstSellingProduct').textContent = worstSellingProduct ? `${worstSellingProduct.name} (${worstSellingProduct.quantity} sản phẩm)` : 'Không có dữ liệu';
@@ -304,11 +296,6 @@ function thongKeBanHang(products, startDate, endDate) {
     });
 
     calculateStats(sachBan);
-}
-
-// Định dạng giá tiền
-function formatCurrency(amount) {
-    return amount.toLocaleString('en-US').replace(/,/g, '.').concat(' VNĐ');
 }
 
 document.getElementById('filterButton').addEventListener('click', function () {
@@ -330,69 +317,12 @@ loadProducts().then(products => {
     thongKeBanHang(products, "2023-01-01", "2025-12-31");
 });
 
-// Xem hóa đơn của sản phẩm
-async function viewInvoices(productId) {
-    console.log(`Đang tải hóa đơn cho sản phẩm: ${productId}`);
-    try {
-        const response = await fetch(productsAPI);
-        console.log('Phản hồi từ API:', response);
-        const products = await response.json();
-        console.log('Dữ liệu sản phẩm:', products);
-
-        const product = products.find(p => p.id == productId);
-        if (!product) {
-            alert('Không tìm thấy sản phẩm.');
-            return;
-        }
-
-        const invoices = [
-            {
-                id: `HD${product.id}`,
-                date: product.soldDate,
-                quantity: product.quantity,
-                total: parseFloat(product.price.replace(/\./g, '')) * product.quantity
-            }
-        ];
-
-        console.log('Dữ liệu hóa đơn giả lập:', invoices);
-
-        const modal = document.createElement('div');
-        modal.className = 'modal show';
-
-        modal.innerHTML = `
-            <div class="headModal">Hóa Đơn Mặt Hàng ${product.name}</div>
-            <div class="modal-body">
-                ${invoices.map(invoice => `
-                    <p><strong>Mã Hóa Đơn: </strong>${invoice.id}</p>
-                    <p><strong>Ngày: </strong>${invoice.date}</p>
-                    <p><strong>Số Lượng: </strong>${invoice.quantity}</p>
-                    <p><strong>Tổng Tiền: </strong>${formatCurrency(invoice.total)}</p>
-                    <hr>
-                `).join('')}
-            </div>
-            <div class="choiceModal">
-                <button class="cancel" onclick="closeModal()">Đóng</button>
-            </div>
-        `;
-
-        document.body.appendChild(modal);
-        console.log('Modal đã được thêm vào DOM');
-    } catch (error) {
-        console.error('Lỗi khi lấy hóa đơn:', error);
-        alert('Không thể tải hóa đơn. Vui lòng thử lại sau.');
-    }
+function formatVND(value) {
+    const number = Number(value);
+    if (isNaN(number)) return '0 ₫';
+    return number.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
 }
 
-function closeModal() {
-    const modal = document.querySelector('.modal');
-    if (modal) {
-        modal.remove();
-    }
-}
-
-function formatVND(amount) {
-    return amount.toLocaleString('vi-VN') + ' đ';
-}
 
 
 fetch('../../admin/handlers/lay/laychitietsachdcbanchaynhat.php')

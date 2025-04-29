@@ -108,7 +108,7 @@ if ($admin['trangThai'] == false) {
                 <!-- Bảng Top 5 khách hàng -->
                 <div class="stats-container">
                     <div class="stat-block full-width">
-                        <h3>5 khách hàng có mức mua hàng cao nhất</h3>
+                        <h2>5 khách hàng có mức mua hàng cao nhất</h2>
                         <div>
                             <div class="grid-header">
                                 <span>Số thứ tự</span>

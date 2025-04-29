@@ -7,33 +7,25 @@ $params = [];
 $types = '';
 
 if (isset($_GET['tenNguoiDung'])) {
-    if (!empty($params)) {
-        $sql .= " AND tenNguoiDung = ? ";
-    } else {
-        $sql .= " WHERE tenNguoiDung = ? ";
-    }
+    $sql .= empty($params) ? " WHERE tenNguoiDung = ?" : " AND tenNguoiDung = ?";
     $params[] = $_GET['tenNguoiDung'];
     $types .= 's';
 }
 
 if (isset($_GET['maDon'])) {
-    if (!empty($params)) {
-        $sql .= " AND maDon = ? ";
-    } else {
-        $sql .= " WHERE maDon = ? ";
-    }
+    $sql .= empty($params) ? " WHERE maDon = ?" : " AND maDon = ?";
     $params[] = $_GET['maDon'];
     $types .= 'i';
 }
 
 if (isset($_GET['tinhTrang'])) {
-    if (!empty($params)) {
-        $sql .= " AND tinhTrang = ? ";
-    } else {
-        $sql .= " WHERE tinhTrang = ? ";
+    $tinhTrangArr = explode(',', $_GET['tinhTrang']);
+    $placeholders = implode(',', array_fill(0, count($tinhTrangArr), '?'));
+    $sql .= empty($params) ? " WHERE tinhTrang IN ($placeholders)" : " AND tinhTrang IN ($placeholders)";
+    foreach ($tinhTrangArr as $tinhTrang) {
+        $params[] = $tinhTrang;
+        $types .= 's';
     }
-    $params[] = $_GET['tinhTrang'];
-    $types .= 's';
 }
 
 $stmt = $database->prepare($sql);
