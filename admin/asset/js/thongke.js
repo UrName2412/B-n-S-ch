@@ -93,6 +93,58 @@ function hienThiTop5KhachHang(users) {
     });
 }
 
+function fetchTop5Customers(startDate = "", endDate = "") {
+    let url = '../handlers/get_top5_customers.php';
+    if (startDate && endDate) {
+        url += `?start=${startDate}&end=${endDate}`;
+    }
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            const tbody = document.getElementById('top5CustomersDetail');
+            tbody.innerHTML = '';
+
+            if (data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6">Không có dữ liệu trong khoảng thời gian này.</td></tr>';
+                return;
+            }
+
+            data.forEach((customer, index) => {
+                const numOrders = customer.orders.length;
+
+                customer.orders.forEach((order, orderIndex) => {
+                    const tr = document.createElement('tr');
+
+                    if (orderIndex === 0) {
+                        tr.innerHTML = `
+                            <td rowspan="${numOrders}">${index + 1}</td>
+                            <td rowspan="${numOrders}">${customer.tenNguoiDung}</td>
+                            <td>${order.maDon}</td>
+                            <td>${new Date(order.ngayTao).toLocaleDateString()}</td>
+                            <td>${parseInt(order.tongTien).toLocaleString('vi-VN')} VNĐ</td>
+                            <td rowspan="${numOrders}">
+                                ${parseInt(customer.totalSpent).toLocaleString('vi-VN')} VNĐ
+                            </td>
+                        `;
+                    } else {
+                        tr.innerHTML = `
+                            <td>${order.maDon}</td>
+                            <td>${new Date(order.ngayTao).toLocaleDateString()}</td>
+                            <td>${parseInt(order.tongTien).toLocaleString('vi-VN')} VNĐ</td>
+                        `;
+                    }
+
+                    tbody.appendChild(tr);
+                });
+            });
+        })
+        .catch(error => {
+            console.error('Lỗi khi tải top 5 khách hàng:', error);
+        });
+}
+
+
 document.getElementById('filterButton').addEventListener('click', function () {
     const startDate = document.getElementById('startDate').value;
     const endDate = document.getElementById('endDate').value;
@@ -110,6 +162,8 @@ document.getElementById('filterButton').addEventListener('click', function () {
         hienThiNguoiDung(users);
         hienThiTop5KhachHang(users);
     });
+
+    fetchTop5Customers(startDate, endDate);
 });
 
 // Tải dữ liệu ban đầu
@@ -121,6 +175,8 @@ loadUsers().then(users => {
     hienThiNguoiDung(users);
     hienThiTop5KhachHang(users); // Hiển thị top 5 khách hàng ban đầu
 });
+
+fetchTop5Customers();
 
 // Hàm tải dữ liệu sp
 async function loadProducts() {
@@ -276,60 +332,76 @@ function closeModal() {
 }
 
 
+fetch('../../admin/handlers/lay/laychitietsachdcbanchaynhat.php')
+    .then(response => response.json())
+    .then(data => {
+        const labels = data.map(item => item.tenSach);
+        const dataValues = data.map(item => item.tongTien);
 
-const labels = ["3/2025", "2/2025", "1/2025", "12/2024", "11/2024", "10/2024"];
+        // Cắt bớt phần label nếu dài quá
+        const truncatedLabels = labels.map(label => {
+            return label.length > 15 ? label.slice(0, 15) + "..." : label;
+        });
+        
+        const formattedDataValues = dataValues.map(value => {
+            const numericValue = Number(value);  // Chuyển giá trị thành số
+            return numericValue.toLocaleString("vi-VN");
+        });
 
-function getRandomData(min, max, length) {
-    return Array.from({ length }, () => (Math.floor(Math.random() * (max - min + 1)) + min) * 1000);
-}
+        const chartData = {
+            labels: truncatedLabels,  // Dùng labels đã cắt bớt
+            datasets: [{
+                label: "VNĐ",
+                data: formattedDataValues,
+                borderColor: "#059bff",
+                backgroundColor: "#82cdff",
+                borderWidth: 2,
+                borderRadius: 10,
+                borderSkipped: false,
+            }]
+        };
 
-const data = {
-    labels: labels,
-    datasets: [
-        {
-            label: "VNĐ",
-            data: getRandomData(10000, 95000, labels.length),
-            borderColor: "#059bff",
-            backgroundColor: "#82cdff",
-            borderWidth: 2,
-            borderRadius: 10,
-            borderSkipped: false,
-        }
-    ]
-}
-
-new Chart("myChart", {
-    type: "bar",
-    data: data,
-    options: {
-        plugins: {
-            legend: { display: false },
-            title: {
-                display: true,
-                text: "Thống kê doanh thu trong 5 tháng gần nhất"
-            },
-            datalabels: {
-                anchor: "end",
-                align: "top",
-                formatter:(value) => value.toLocaleString("vi-VN")+ " VNĐ",
-                font: {
-                    weight: "bold",
-                    size: 10
+        new Chart("myChart", {
+            type: "bar",
+            data: chartData,
+            options: {
+                plugins: {
+                    legend: { display: false },
+                    title: {
+                        display: true,
+                        text: "Top 5 Sách có doanh thu cao nhất",
+                    },
+                    datalabels: {
+                        anchor: "end",
+                        align: "top",
+                        formatter: (value) => value.toLocaleString("vi-VN") + " VNĐ",
+                        font: {
+                            weight: "bold",
+                            size: 10
+                        },
+                        color: "#000"
+                    }
                 },
-                color: "#000" // Màu chữ hiển thị
-            }
-        },
-        responsive: true,
-        maintainAspectRatio: true,
-        scales: {
-            y: {
-                ticks: {
-                    callback: function(value) {
-                        return value.toLocaleString("vi-VN") + " VNĐ"; // Hiển thị số trên trục Y có dấu chấm và đơn vị
+                responsive: true,
+                maintainAspectRatio: true,
+                scales: {
+                    y: {
+                        ticks: {
+                            callback: function (value) {
+                                return value.toLocaleString("vi-VN") + " VNĐ";
+                            }
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            maxRotation: 45,  // Xoay các label nếu cần thiết
+                            autoSkip: true,   // Tự động bỏ qua một số label nếu quá dài
+                            maxTicksLimit: 10, // Giới hạn số lượng label hiển thị trên trục X
+                        }
                     }
                 }
-            }
-        }
-    },
-    plugins: [ChartDataLabels]
-});
+            },
+            plugins: [ChartDataLabels]
+        });
+    })
+    .catch(error => console.error("Lỗi khi tải dữ liệu:", error));

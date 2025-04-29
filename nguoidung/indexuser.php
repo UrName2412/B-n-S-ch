@@ -98,87 +98,32 @@ if ($user['trangThai'] == false) {
         </div>
     </header>
 
-    <!-- Main -->
-    <div class="container my-4">
-        <div class="slider">
-            <div class="slide">
-                <h3 class="pt-2" style="text-align: center;"><strong>Sách Mới</strong></h3>
-                <div class="f-grid">
-                    <div class="f-grid-col">
-                        <a href="sanpham/chitietsanpham.php">
-                            <img src="../Images/tuduynguoc.jpg" alt="Ảnh 1" class=".f-grid-col">
-                        </a>
-                    </div>
-                    <div class="f-grid-col">
-                        <a href="sanpham/chitietsanpham.php">
-                            <img src="../Images/stopoverthinking.jpg" alt="Ảnh 1" class=".f-grid-col">
-                        </a>
-                    </div>
-                    <div class="f-grid-col">
-                        <a href="sanpham/chitietsanpham.php">
-                            <img src="../Images/tuduymo.jpg" alt="Ảnh 1" class=".f-grid-col">
-                        </a>
-                    </div>
-                </div>
+    <!-- Banner Section -->
+    <div id="carouselBanner" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselBanner" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselBanner" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselBanner" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="../Images/banner1.jpg" class="d-block w-100" alt="Banner 1" style="height: 500px; object-fit: fit-content;">
             </div>
-            <div class="slide">
-                <h3 class="pt-2" style="text-align: center;"><strong>Sách Nên Đọc</strong></h3>
-                <div class="f-grid">
-                    <div class="f-grid-col">
-                        <a href="sanpham/chitietsanpham.php">
-                            <img src="../Images/conduongchangmayaidi.jpg" alt="Ảnh 1" class=".f-grid-col">
-                        </a>
-                    </div>
-                    <div class="f-grid-col">
-                        <a href="sanpham/chitietsanpham.php">
-                            <img src="../Images/saochungtalaingu.jpg" alt="Ảnh 1" class=".f-grid-col">
-                        </a>
-                    </div>
-                    <div class="f-grid-col">
-                        <a href="sanpham/chitietsanpham.php">
-                            <img src="../Images/muonkiepnhansinh.jpg" alt="Ảnh 1" class=".f-grid-col">
-                        </a>
-                    </div>
-                </div>
+            <div class="carousel-item">
+                <img src="../Images/banner2.jpg" class="d-block w-100" alt="Banner 2" style="height: 500px; object-fit: fit-content;">
             </div>
-            <div class="slide">
-                <h3 class="pt-2" style="text-align: center;"><strong>Sách Hot</strong></h3>
-                <div class="f-grid">
-                    <div class="f-grid-col">
-                        <a href="sanpham/chitietsanpham.php">
-                            <img src="../Images/cuoccachmangglucose.jpg" alt="Ảnh 1" class=".f-grid-col">
-                        </a>
-                    </div>
-                    <div class="f-grid-col">
-                        <a href="sanpham/chitietsanpham.php">
-                            <img src="../Images/100kinangsinhton.jpg" alt="Ảnh 1" class=".f-grid-col">
-                        </a>
-                    </div>
-                    <div class="f-grid-col">
-                        <a href="sanpham/chitietsanpham.php">
-                            <img src="../Images/ghichepphapy.jpg" alt="Ảnh 1" class=".f-grid-col">
-                        </a>
-                    </div>
-                </div>
+            <div class="carousel-item">
+                <img src="../Images/banner3.jpg" class="d-block w-100" alt="Banner 3" style="height: 500px; object-fit: fit-content;">
             </div>
         </div>
-        <script>
-            let slideIndex = 1;
-            showSlides();
-
-            function showSlides() {
-                let slides = document.getElementsByClassName("slide");
-                for (let i = 0; i < slides.length; i++) {
-                    slides[i].style.display = "none";
-                }
-                if (slideIndex > slides.length) {
-                    slideIndex = 1
-                }
-                slides[slideIndex - 1].style.display = "block";
-                slideIndex++;
-                setTimeout(showSlides, 3000);
-            }
-        </script>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselBanner" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselBanner" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
     </div>
 
     <!-- Product Section with Pagination -->
