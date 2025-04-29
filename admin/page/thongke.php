@@ -82,16 +82,23 @@ if ($admin['trangThai'] == false) {
         <div class="container-content">
             <div class="content">
                 <!-- Date Range Picker -->
-                <div class="date-range-picker">
-                    <label for="startDate">Từ:</label>
-                    <input type="date" id="startDate">
-                    <label for="endDate">Đến:</label>
-                    <input type="date" id="endDate">
-                    <button type="button" id="filterButton">Lọc</button>
-                </div>
+
 
                 <!-- Thống kê tổng thu, mặt hàng bán chạy nhất và ế nhất -->
-                <div class="stats-container">
+                <div class="stats-container-header">
+                    <div class="stat-block">
+                        <div class="date-range-picker">
+                            <div class="child-block">
+                                <label for="startDate">Từ:</label>
+                                <input type="date" id="startDate">
+                            </div>
+                            <div class="child-block">
+                                <label for="endDate">Đến:</label>
+                                <input type="date" id="endDate">
+                            </div>
+                            <button type="button" id="filterButton">Lọc</button>
+                        </div>
+                    </div>
                     <div class="stat-block">
                         <h3>Tổng thu</h3>
                         <p id="totalRevenue">0 VNĐ</p>
@@ -99,10 +106,6 @@ if ($admin['trangThai'] == false) {
                     <div class="stat-block">
                         <h3>Mặt hàng bán chạy nhất</h3>
                         <p id="bestSellingProduct">Không có dữ liệu</p>
-                    </div>
-                    <div class="stat-block">
-                        <h3>Mặt hàng ế nhất</h3>
-                        <p id="worstSellingProduct">Không có dữ liệu</p>
                     </div>
                 </div>
                 <!-- Bảng Top 5 khách hàng -->
@@ -142,15 +145,15 @@ if ($admin['trangThai'] == false) {
             </button>
         </div>
     </div>
-    
 
 
-        <script src="../asset/js/function.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
-        <script type="module" src="../asset/js/thongke.js"></script>
-        <script src="../asset/js/admin.js"></script>
-        <script type="module" src="../asset/js/apiAddress.js"></script>
+
+    <script src="../asset/js/function.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    <script type="module" src="../asset/js/thongke.js"></script>
+    <script src="../asset/js/admin.js"></script>
+    <script type="module" src="../asset/js/apiAddress.js"></script>
 </body>
 
 </html>

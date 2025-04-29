@@ -7,7 +7,7 @@ $stmt = $database->prepare("
     FROM b01_chiTietHoaDon
     JOIN b01_sanPham ON b01_chiTietHoaDon.maSach = b01_sanPham.maSach
     JOIN b01_donHang ON b01_chiTietHoaDon.maDon = b01_donHang.maDon
-    WHERE b01_donHang.tinhTrang = 'Đã xác nhận'
+    WHERE b01_donHang.tinhTrang = 'Đã giao'
     GROUP BY tenSach
     ORDER BY tongTien DESC
     LIMIT 5

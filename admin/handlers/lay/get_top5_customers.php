@@ -20,7 +20,7 @@ try {
         FROM b01_donHang dh
         INNER JOIN b01_nguoiDung nd ON dh.tenNguoiDung = nd.tenNguoiDung
         WHERE dh.ngayTao BETWEEN ? AND ?
-        AND dh.tinhTrang IN ('Đã xác nhận', 'Đã giao')
+        AND dh.tinhTrang = 'Đã giao'
         GROUP BY nd.tenNguoiDung
         ORDER BY totalSpent DESC
         LIMIT 5
@@ -37,7 +37,7 @@ try {
             SELECT maDon, tongTien, ngayTao
             FROM b01_donHang
             WHERE tenNguoiDung = ?
-            AND tinhTrang IN ('Đã xác nhận', 'Đã giao')
+            AND tinhTrang = 'Đã giao'
             AND ngayTao BETWEEN ? AND ?
             ORDER BY tongTien DESC
         ";

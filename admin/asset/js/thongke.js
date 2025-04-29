@@ -25,8 +25,10 @@ function fetchTop5Customers(startDate = "", endDate = "") {
     fetch(url)
         .then(response => response.json())
         .then(data => {
-            if (data.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6">Không có dữ liệu trong khoảng thời gian này.</td></tr>';
+            if (!data || data.length === 0) {
+                listCustomersBlock.innerHTML = `
+                    <div class="no-data">Không có dữ liệu trong khoảng thời gian này.</div>
+                `;
                 return;
             }
 
@@ -281,12 +283,9 @@ async function calculateStats(products) {
 
     const response1 = await fetch('../handlers/lay/laysanphamtieubieu.php?tieuBieu=1');
     bestSellingProduct = await response1.json();
-    const response2 = await fetch('../handlers/lay/laysanphamtieubieu.php?tieuBieu=0');
-    worstSellingProduct = await response2.json();
-
+    
     document.getElementById('totalRevenue').textContent = formatVND(totalRevenue);
     document.getElementById('bestSellingProduct').textContent = bestSellingProduct ? `${bestSellingProduct.tenSach} (${bestSellingProduct.soLuong} sản phẩm)` : 'Không có dữ liệu';
-    document.getElementById('worstSellingProduct').textContent = worstSellingProduct ? `${worstSellingProduct.tenSach} (${worstSellingProduct.soLuong} sản phẩm)` : 'Không có dữ liệu';
 }
 
 // Lọc và thống kê sản phẩm đã bán theo khoảng thời gian
@@ -301,20 +300,6 @@ function thongKeBanHang(products, startDate, endDate) {
 
     calculateStats(sachBan);
 }
-
-document.getElementById('filterButton').addEventListener('click', function () {
-    const startDate = document.getElementById('startDate').value;
-    const endDate = document.getElementById('endDate').value;
-
-    if (!startDate || !endDate) {
-        alert('Vui lòng chọn khoảng thời gian hợp lệ.');
-        return;
-    }
-
-    loadProducts().then(products => {
-        thongKeBanHang(products, startDate, endDate);
-    });
-});
 
 // Tải dữ liệu ban đầu
 loadProducts().then(products => {

@@ -146,6 +146,10 @@
     justify-content: space-between;
     margin-bottom: 20px;
 }
+.stats-container-header{
+    display:  grid;
+    grid-template-columns: 2fr 1fr 1fr;
+}
 
 /* Block thống kê */
 .stat-block {
@@ -153,7 +157,7 @@
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 15px;
-    width: 30%;
+    width: 100%;
     text-align: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -370,11 +374,6 @@
     font-weight: bold;
 }
 
-.full-width {
-    width: 100%;
-}
-
-
 /* Them css */
 
 .grid-header{
@@ -513,4 +512,62 @@
     color: white;
     border-radius: 5px;
     margin: 10px 0;
+}
+
+.date-range-picker {
+    display: grid;
+    grid-template-columns: 3fr 3fr 1fr;
+    width: 100%;
+    align-items: center;
+    padding: 16px 20px;
+    background-color: #ffffff;
+    border: 2px solid #e0e0e0;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    gap: 5px;
+}
+.date-range-picker .child-block{
+    display: grid;
+    grid-template-columns: 20% 80%;
+    justify-items: center;
+    align-items: center;
+}
+
+.date-range-picker label {
+    font-weight: bold;
+    color: #2c3e50;
+    font-size: 14px; 
+    width: 100%;
+}
+
+.date-range-picker input[type="date"] {
+    padding: 10px 14px;
+    border: 1.5px solid #ccc;
+    border-radius: 10px;
+    font-size: 15px;
+    width: 100%;
+    background-color: #fefefe;
+    color: #333;
+    transition: border-color 0.2s;
+}
+
+.date-range-picker input[type="date"]:focus {
+    border-color: #2ecc71;
+    outline: none;
+}
+
+.date-range-picker button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.2s ease;
+}
+
+.date-range-picker button:hover {
+    background-color: #2a80b9;
 }

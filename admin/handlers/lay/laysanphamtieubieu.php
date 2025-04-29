@@ -2,21 +2,14 @@
 header("Content-Type: application/json");
 require '../../config/config.php';
 
-$tieuBieu = '';
-
-if (isset($_GET['tieuBieu'])){
-    if ($_GET['tieuBieu'] == 1){
-        $tieuBieu = 'DESC';
-    } else {
-        $tieuBieu = 'ASC';
-    }
-}
 
 $sql = "SELECT sp.tenSach ,COUNT(ct.soLuong) as soLuong
 FROM b01_chitiethoadon ct
 JOIN b01_sanpham sp ON sp.maSach = ct.maSach
+JOIN b01_donhang dh ON dh.maDon = ct.maDon
+WHERE dh.tinhTrang = 'Đã giao'
 GROUP BY ct.maSach
-ORDER BY soLuong $tieuBieu
+ORDER BY soLuong DESC
 LIMIT 1";
 
 $stmt = $database->prepare($sql);
