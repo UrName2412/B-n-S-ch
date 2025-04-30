@@ -1,7 +1,8 @@
 import { addressHandler } from './apiAddress.js';
 const addressHandler1 = new addressHandler();
 
-const productsAPI = '../handlers/lay/laysanpham.php';
+const productsAPI = '../data/JSON/sanpham.json';
+const usersAPI = '../data/JSON/nguoidung.json';
 // Hàm tải dữ liệu người dùng
 async function loadUsers() {
     try {
@@ -15,7 +16,6 @@ async function loadUsers() {
 }
 
 function fetchTop5Customers(startDate = "", endDate = "") {
-    calculateStats(startDate, endDate);
     let url = '../handlers/lay/get_top5_customers.php';
     if (startDate && endDate) {
         url += `?start=${startDate}&end=${endDate}`;
@@ -26,12 +26,9 @@ function fetchTop5Customers(startDate = "", endDate = "") {
         .then(response => response.json())
         .then(data => {
             if (!data || data.length === 0) {
-                let startDate = document.getElementById('startDate');
-                let endDate = document.getElementById('endDate');
-                createAlert('Không có dữ liệu khách hàng nào trong khoảng thời gian này.');
-                startDate.value = '';
-                endDate.value = '';
-                fetchTop5Customers();
+                listCustomersBlock.innerHTML = `
+                    <div class="no-data">Không có dữ liệu trong khoảng thời gian này.</div>
+                `;
                 return;
             }
 
@@ -245,35 +242,71 @@ document.getElementById('filterButton').addEventListener('click', function () {
     const startDate = document.getElementById('startDate').value;
     const endDate = document.getElementById('endDate').value;
 
-    if (!startDate || !endDate || startDate > endDate) {
-        createAlert('Vui lòng chọn khoảng thời gian hợp lệ.');
+    if (!startDate || !endDate) {
+        alert('Vui lòng chọn khoảng thời gian hợp lệ.');
         return;
     }
+
+    loadProducts().then(products => {
+        thongKeBanHang(products, startDate, endDate);
+    });
 
     fetchTop5Customers(startDate, endDate);
 });
 
+// Tải dữ liệu ban đầu
+loadProducts().then(products => {
+    thongKeBanHang(products, "2023-01-01", "2023-12-31");
+});
 
-async function calculateStats(startDate = "", endDate = "") {
-    let url1 = '../handlers/lay/laytongtiendonhang.php';
-    let url2 = '../handlers/lay/laysanphamtieubieu.php';
-    if (startDate && endDate) {
-        url1 += `?start=${startDate}&end=${endDate}`;
-        url2 += `?start=${startDate}&end=${endDate}`;
+fetchTop5Customers();
+
+// Hàm tải dữ liệu sp
+async function loadProducts() {
+    try {
+        const response = await fetch(productsAPI);
+        const products = await response.json();
+        return products;
+    } catch (error) {
+        console.error("Lỗi khi tải dữ liệu:", error);
+        return [];
     }
+}
+
+// Tính toán tổng thu, mặt hàng bán chạy nhất và ít nhất
+async function calculateStats(products) {
     let totalRevenue = 0;
     let bestSellingProduct = null;
+    let worstSellingProduct = null;
 
-    const response = await fetch(url1);
+    const response = await fetch('../handlers/lay/laytongtiendonhang.php');
     let obj = await response.json();
     totalRevenue = obj.tongTien;
 
-    const response1 = await fetch(url2);
+    const response1 = await fetch('../handlers/lay/laysanphamtieubieu.php?tieuBieu=1');
     bestSellingProduct = await response1.json();
     
     document.getElementById('totalRevenue').textContent = formatVND(totalRevenue);
     document.getElementById('bestSellingProduct').textContent = bestSellingProduct ? `${bestSellingProduct.tenSach} (${bestSellingProduct.soLuong} sản phẩm)` : 'Không có dữ liệu';
 }
+
+// Lọc và thống kê sản phẩm đã bán theo khoảng thời gian
+function thongKeBanHang(products, startDate, endDate) {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    const sachBan = products.filter(product => {
+        const soldDate = new Date(product.soldDate);
+        return soldDate >= start && soldDate <= end;
+    });
+
+    calculateStats(sachBan);
+}
+
+// Tải dữ liệu ban đầu
+loadProducts().then(products => {
+    thongKeBanHang(products, "2023-01-01", "2025-12-31");
+});
 
 function formatVND(value) {
     const number = Number(value);
@@ -281,7 +314,7 @@ function formatVND(value) {
     return number.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
 }
 
-fetchTop5Customers();
+
 
 fetch('../../admin/handlers/lay/laychitietsachdcbanchaynhat.php')
     .then(response => response.json())
