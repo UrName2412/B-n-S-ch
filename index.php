@@ -77,19 +77,23 @@ if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role
     <!-- Banner Section -->
     <div id="carouselBanner" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carouselBanner" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselBanner" data-bs-slide-to="0" class="active"
+                aria-current="true" aria-label="Slide 1"></button>
             <button type="button" data-bs-target="#carouselBanner" data-bs-slide-to="1" aria-label="Slide 2"></button>
             <button type="button" data-bs-target="#carouselBanner" data-bs-slide-to="2" aria-label="Slide 3"></button>
         </div>
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img src="Images/banner1.jpg" class="d-block w-100" alt="Banner 1" style="height: 500px; object-fit: fit-content;">
+                <img src="Images/banner1.jpg" class="d-block w-100" alt="Banner 1"
+                    style="height: 500px; object-fit: fit-content;">
             </div>
             <div class="carousel-item">
-                <img src="Images/banner2.jpg" class="d-block w-100" alt="Banner 2" style="height: 500px; object-fit: fit-content;">
+                <img src="Images/banner2.jpg" class="d-block w-100" alt="Banner 2"
+                    style="height: 500px; object-fit: fit-content;">
             </div>
             <div class="carousel-item">
-                <img src="Images/banner3.jpg" class="d-block w-100" alt="Banner 3" style="height: 500px; object-fit: fit-content;">
+                <img src="Images/banner3.jpg" class="d-block w-100" alt="Banner 3"
+                    style="height: 500px; object-fit: fit-content;">
             </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselBanner" data-bs-slide="prev">
@@ -169,16 +173,51 @@ if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role
             <!-- Main content -->
             <div class="col-lg-9">
                 <div class="border p-5">
-                    <div class="container my-4">
+                    <h3 class="text-center mb-4">SẢN PHẨM BÁN CHẠY NHẤT</h3>
+                    <div class="container">
                         <div id="listProduct" class="listProduct row">
+                            <?php
+                            $sql = "SELECT 
+                            b01_sanPham.maSach, 
+                            b01_sanPham.tenSach, 
+                            b01_sanPham.hinhAnh, 
+                            b01_sanPham.giaBan,
+                            b01_theLoai.tenTheLoai, 
+                            SUM(b01_chiTietHoaDon.soLuong * b01_chiTietHoaDon.giaBan) AS tongTien
+                            FROM b01_chiTietHoaDon
+                            JOIN b01_sanPham ON b01_chiTietHoaDon.maSach = b01_sanPham.maSach
+                            JOIN b01_donHang ON b01_chiTietHoaDon.maDon = b01_donHang.maDon
+                            JOIN b01_theLoai ON b01_sanPham.maTheLoai = b01_theLoai.maTheLoai
+                            WHERE b01_donHang.tinhTrang = 'Đã giao'
+                            GROUP BY b01_sanPham.maSach, b01_sanPham.tenSach, b01_sanPham.hinhAnh, b01_sanPham.giaBan, b01_theLoai.tenTheLoai
+                            ORDER BY tongTien DESC
+                            LIMIT 6";
+                            $result = $database->query($sql);
 
+                            if ($result->num_rows > 0) {
+                                while ($row = $result->fetch_assoc()) {
+                                    echo '<div class="col-md-4 mb-4">';
+                                    echo '<div class="card" style="width: 100%;">';
+                                    echo '<a href="#" class="view-detail" data-id="' . $row["maSach"] . '">';
+                                    echo '<img src="/B-n-S-ch/Images/' . $row["hinhAnh"] . '" alt="' . $row["tenSach"] . '" class="card-img-top">';
+                                    echo '</a>';
+                                    echo '<div class="card-body">';
+                                    echo '<h5 class="card-title">' . $row["tenSach"] . '</h5>';
+                                    echo '<p class="card-text">Thể loại: ' . $row["tenTheLoai"] . '</p>';
+                                    echo '<p class="card-text text-danger fw-bold">' . number_format($row["giaBan"], 0, ',', '.') . ' đ</p>';
+                                    echo '<button class="btn" style="background-color: #336799; color: #ffffff;">Thêm vào giỏ hàng</button>';
+                                    echo '</div></div></div>';
+                                }
+                            } else {
+                                echo '<p class="text-center">Không có sản phẩm nào.</p>';
+                            }
+                            ?>
+                        </div>
+                        <div class="d-flex justify-content-end mt-3">
+                            <a href="sanpham/sanpham.php" class="btn btn-outline-primary">Xem thêm <i
+                                    class="fas fa-arrow-right"></i></a>
                         </div>
                     </div>
-                    <nav class="pagination-container mt-4" aria-label="Page navigation">
-                        <ul id="pagination" class="pagination justify-content-center">
-
-                        </ul>
-                    </nav>
                 </div>
             </div>
         </div>
@@ -290,14 +329,7 @@ if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role
         window.addEventListener("load", adjustSidebar);
         window.addEventListener("resize", adjustSidebar);
     </script>
-
     <script>
-        // Tải sản phẩm ban đầu
-        document.addEventListener('DOMContentLoaded', function () {
-            loadProducts();  // Mặc định tải trang 1
-        });
-
-
         document.getElementById('searchForm').addEventListener('submit', function (event) {
             event.preventDefault();
             const inputValue = document.getElementById('timkiem').value.trim();

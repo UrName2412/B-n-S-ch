@@ -325,15 +325,25 @@ aside input {
     color: white;
     text-decoration: none;
 }
+/* Styling for best-selling products heading */
+.border h3 {
+    color: #336799;
+    font-weight: bold;
+    padding-bottom: 15px;
+    position: relative;
+    margin-bottom: 30px;
+}
 
-/* @media (max-width: 768px) {
-    #profile-name{
-        display: block!important;
-    }
-    #avatar{
-        margin-bottom: 10px;
-    }
-} */
+.border h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background-color: #336799;
+}
 
 @media (max-width: 430px) or (max-width: 693px) or (max-width: 768px){
     .benner img,.slider {

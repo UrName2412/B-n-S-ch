@@ -193,16 +193,51 @@ if ($user['trangThai'] == false) {
             <!-- Main content -->
             <div class="col-lg-9">
                 <div class="border p-5">
-                    <div class="container my-4">
+                    <h3 class="text-center mb-4">SẢN PHẨM BÁN CHẠY NHẤT</h3>
+                    <div class="container">
                         <div id="listProduct" class="listProduct row">
+                        <?php
+                            $sql = "SELECT 
+                            b01_sanPham.maSach, 
+                            b01_sanPham.tenSach, 
+                            b01_sanPham.hinhAnh, 
+                            b01_sanPham.giaBan,
+                            b01_theLoai.tenTheLoai, 
+                            SUM(b01_chiTietHoaDon.soLuong * b01_chiTietHoaDon.giaBan) AS tongTien
+                            FROM b01_chiTietHoaDon
+                            JOIN b01_sanPham ON b01_chiTietHoaDon.maSach = b01_sanPham.maSach
+                            JOIN b01_donHang ON b01_chiTietHoaDon.maDon = b01_donHang.maDon
+                            JOIN b01_theLoai ON b01_sanPham.maTheLoai = b01_theLoai.maTheLoai
+                            WHERE b01_donHang.tinhTrang = 'Đã giao'
+                            GROUP BY b01_sanPham.maSach, b01_sanPham.tenSach, b01_sanPham.hinhAnh, b01_sanPham.giaBan, b01_theLoai.tenTheLoai
+                            ORDER BY tongTien DESC
+                            LIMIT 6";
+                            $result = $database->query($sql);
 
+                            if ($result->num_rows > 0) {
+                                while ($row = $result->fetch_assoc()) {
+                                    echo '<div class="col-md-4 mb-4">';
+                                    echo '<div class="card" style="width: 100%;">';
+                                    echo '<a href="#" class="view-detail" data-id="' . $row["maSach"] . '">';
+                                    echo '<img src="/B-n-S-ch/Images/' . $row["hinhAnh"] . '" alt="' . $row["tenSach"] . '" class="card-img-top">';
+                                    echo '</a>';
+                                    echo '<div class="card-body">';
+                                    echo '<h5 class="card-title">' . $row["tenSach"] . '</h5>';
+                                    echo '<p class="card-text">Thể loại: ' . $row["tenTheLoai"] . '</p>';
+                                    echo '<p class="card-text text-danger fw-bold">' . number_format($row["giaBan"], 0, ',', '.') . ' đ</p>';
+                                    echo '<button class="btn" style="background-color: #336799; color: #ffffff;">Thêm vào giỏ hàng</button>';
+                                    echo '</div></div></div>';
+                                }
+                            } else {
+                                echo '<p class="text-center">Không có sản phẩm nào.</p>';
+                            }
+                            ?>
+                        </div>
+                        <div class="d-flex justify-content-end mt-3">
+                            <a href="../sanpham/sanpham-user.php" class="btn btn-outline-primary">Xem thêm <i
+                                    class="fas fa-arrow-right"></i></a>
                         </div>
                     </div>
-                    <nav class="pagination-container mt-4" aria-label="Page navigation">
-                        <ul id="pagination" class="pagination justify-content-center">
-
-                        </ul>
-                    </nav>
                 </div>
             </div>
         </div>
@@ -314,13 +349,6 @@ if ($user['trangThai'] == false) {
     </script>
 
     <script>
-
-        // Tải sản phẩm ban đầu
-        document.addEventListener('DOMContentLoaded', function () {
-            loadProducts();  // Mặc định tải trang 1
-        });
-
-
         document.getElementById('searchForm').addEventListener('submit', function (event) {
             event.preventDefault();
             const inputValue = document.getElementById('timkiem').value.trim();
@@ -332,7 +360,5 @@ if ($user['trangThai'] == false) {
             }
         });
     </script>
-
 </body>
-
 </html>
