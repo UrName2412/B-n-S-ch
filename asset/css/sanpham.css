@@ -204,3 +204,55 @@ aside input {
     height: 50%;
     padding-bottom: 20px;
 }
+
+/* Product Detail Modal Styles */
+.modal-dialog {
+    max-width: 1000px;
+    margin: 1.75rem auto;
+}
+
+.modal-content {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.product-detail {
+    padding: 20px;
+}
+
+.product-detail-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    height: 450px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+}
+
+.product-detail-image img {
+    width: auto;
+    height: 400px;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.product-detail-info {
+    height: 450px;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+@media (max-width: 768px) {
+    .product-detail-image {
+        height: 350px;
+    }
+    
+    .product-detail-image img {
+        height: 300px;
+    }
+    
+    .product-detail-info {
+        height: auto;
+    }
+}

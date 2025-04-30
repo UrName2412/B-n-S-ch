@@ -9,57 +9,85 @@ document.addEventListener("DOMContentLoaded", function () {
         window.location.reload(); // Tải lại trang để reset tất cả các bộ lọc
     })
 
+    function cleanupModal() {
+        document.body.classList.remove('modal-open');
+        document.body.removeAttribute('style');
+        document.body.style.removeProperty('padding-right');
+        document.body.style.removeProperty('overflow');
+        const backdrops = document.querySelectorAll('.modal-backdrop');
+        backdrops.forEach(backdrop => backdrop.remove());
+    }
 
-    // Hàm gán sự kiện cho các nút "Xem chi tiết"
-    function attachViewDetailListeners() {
-        const viewDetailButtons = document.querySelectorAll(".view-detail");
-
-        viewDetailButtons.forEach(button => {
-            button.addEventListener("click", function (e) {
-                e.preventDefault(); // Ngăn chặn hành động mặc định (chuyển trang)
-
-                const productId = button.getAttribute("data-id"); // Lấy ID của sản phẩm
-
-                // AJAX để lấy chi tiết sản phẩm bằng maSach
-                fetch(`/B-n-S-ch/asset/handler/ajax_get_product_detail.php?maSach=${productId}`, {
-                    method: 'GET'
-                })
-                    .then(response => response.text())
-                    .then(data => {
-                        document.getElementById("productDetailContent").innerHTML = data;
-
-                        let modal = new bootstrap.Modal(document.getElementById("productDetailModal"), { backdrop: true, keyboard: true });
-                        modal.show();
-                        document.getElementById("productDetailModal").removeAttribute("");
-
-                        // Add event listener for "Thêm vào giỏ hàng" button in the modal
-                        const addToCartButton = document.querySelector("#productDetailContent .btn-success");
-                        addToCartButton.addEventListener("click", () => {
-                            const productName = document.querySelector("#productDetailContent h5").textContent;
-                            const productPrice = document.querySelector("#productDetailContent p:nth-of-type(4)").textContent.split(":")[1].trim();
-                            const imageUrl = document.querySelector("#productDetailContent img").src;
-
-                            addToCart(productName, productPrice, imageUrl);
-
-                            // Hiển thị modal thông báo thêm sản phẩm thành công
-                            let notification = new bootstrap.Modal(document.getElementById("cartModal"), { backdrop: true, keyboard: true });
-                            notification.show();
-                            document.getElementById("cartModal").removeAttribute("");
-
-                            modal.hide();
-                            document.getElementById("productDetailModal").setAttribute("", "");
-                        });
-
-                        // Ensure modal is properly hidden after filtering
-                        document.getElementById("productDetailModal").addEventListener("hidden.bs.modal", () => {
-                            document.getElementById("productDetailContent").innerHTML = ""; // Reset modal content
-                        });
-                    })
-                    .catch(error => console.error("Error fetching product details:", error));
+    function fetchProductDetails(productId) {
+        const modalElement = document.getElementById('productDetailModal');
+        const modalContent = document.getElementById('productDetailContent');
+        
+        if (!modalElement || !modalContent) {
+            console.error('Modal elements not found');
+            return;
+        }
+        
+        modalContent.innerHTML = '<div class="text-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>';
+        
+        fetch(`/B-n-S-ch/asset/handler/ajax_get_product_detail.php?id=${productId}`)
+            .then(response => response.text())
+            .then(data => {
+                modalContent.innerHTML = data;
+                
+                // Create and show modal
+                const modal = new bootstrap.Modal(modalElement);
+                modal.show();
+                
+                // Add event listener for Add to Cart button after content is loaded
+                const addToCartBtn = modalContent.querySelector('.add-to-cart-detail');
+                if (addToCartBtn) {
+                    addToCartBtn.addEventListener('click', function() {
+                        try {
+                            const name = modalContent.querySelector('h5').textContent;
+                            const price = modalContent.querySelector('.text-danger').textContent;
+                            const img = modalContent.querySelector('img').src;
+                            
+                            if (typeof addToCart === 'function') {
+                                addToCart(name, price, img, productId);
+                                const cartModal = new bootstrap.Modal(document.getElementById('cartModal'));
+                                cartModal.show();
+                                modal.hide();
+                            }
+                        } catch (err) {
+                            console.error('Error handling cart operation:', err);
+                        }
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                modalContent.innerHTML = '<div class="alert alert-danger">Không thể tải thông tin sản phẩm. Vui lòng thử lại sau.</div>';
             });
+    }
+
+    // Remove duplicate event listeners
+    let productDetailModal = document.getElementById('productDetailModal');
+    if (productDetailModal) {
+        productDetailModal.addEventListener('hidden.bs.modal', function () {
+            document.body.classList.remove('modal-open');
+            document.body.style.removeProperty('padding-right');
+            document.body.style.removeProperty('overflow');
+            const backdrop = document.querySelector('.modal-backdrop');
+            if (backdrop) backdrop.remove();
         });
     }
 
+    // Use event delegation for view detail links
+    document.addEventListener('click', function(e) {
+        const viewDetailLink = e.target.closest('.view-detail');
+        if (viewDetailLink) {
+            e.preventDefault();
+            const productId = viewDetailLink.getAttribute('data-id');
+            if (productId) {
+                fetchProductDetails(productId);
+            }
+        }
+    });
 
     // Hàm hiển thị sản phẩm theo trang
     function showPage(page) {
@@ -71,8 +99,6 @@ document.addEventListener("DOMContentLoaded", function () {
         products.slice(start, end).forEach(productHTML => {
             document.getElementById("listProduct").innerHTML += productHTML;
         });
-
-        attachViewDetailListeners(); // Reattach event listeners after rendering
     }
 
     // Hàm tạo phân trang

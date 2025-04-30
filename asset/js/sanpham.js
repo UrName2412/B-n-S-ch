@@ -7,70 +7,70 @@ const listProductHTML = document.querySelector(".listProduct");
 document.addEventListener("DOMContentLoaded", () => {
     loadFromsessionStorage();
 
-    // Xử lý sự kiện thêm vào giỏ hàng
+    // Xử lý sự kiện thêm vào giỏ hàng từ danh sách sản phẩm
     listProductHTML.addEventListener("click", function (event) {
         if (event.target.classList.contains("btn")) {
             const card = event.target.closest(".card");
             const productTitle = card.querySelector(".card-title").textContent;
             const productPrice = card.querySelector(".card-text.text-danger").textContent;
             const imageUrl = card.querySelector(".card-img-top").src;
-            const productId = card.querySelector(".view-detail").getAttribute("data-id");  // Đảm bảo lấy đúng productId
+            const productId = card.querySelector(".view-detail").getAttribute("data-id");
 
-            // Hiển thị modal thông báo thêm sản phẩm thành công
-            let notification = new bootstrap.Modal(modalElement, { backdrop: true, keyboard: true });
-            notification.show();
-            modalElement.removeAttribute("");
-
-            // Thêm vào giỏ hàng
             addToCart(productTitle, productPrice, imageUrl, productId);
+
+            // Hiển thị thông báo
+            let notification = new bootstrap.Modal(modalElement);
+            notification.show();
         }
     });
 
     // Xử lý sự kiện xem chi tiết sản phẩm
     listProductHTML.addEventListener("click", function (event) {
-        if (event.target.closest(".view-detail")) {
+        const viewDetailLink = event.target.closest(".view-detail");
+        if (viewDetailLink) {
             event.preventDefault();
-            const productId = event.target.closest(".view-detail").getAttribute("data-id");
+            const productId = viewDetailLink.getAttribute("data-id");
+            const modalContent = document.getElementById("productDetailContent");
+            const modalElement = document.getElementById("productDetailModal");
 
-            fetch("/B-n-S-ch/asset/handler/ajax_get_product_detail.php", {
-                method: "POST",
-                headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: "id=" + productId
-            })
+            // Show loading indicator
+            modalContent.innerHTML = '<div class="text-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>';
+
+            fetch("/B-n-S-ch/asset/handler/ajax_get_product_detail.php?id=" + productId)
                 .then(response => response.text())
                 .then(data => {
-                    document.getElementById("productDetailContent").innerHTML = data;
-
-                    let modal = new bootstrap.Modal(document.getElementById("productDetailModal"), { backdrop: true, keyboard: true });
+                    modalContent.innerHTML = data;
+                    const modal = new bootstrap.Modal(modalElement);
                     modal.show();
-                    document.getElementById("productDetailModal").removeAttribute("");
 
-                    // Add event listener for "Thêm vào giỏ hàng" button in the modal
-                    const addToCartButton = document.querySelector("#productDetailContent .btn-success");
-                    addToCartButton.addEventListener("click", () => {
-                        const productName = document.querySelector("#productDetailContent h5").textContent;
-                        const productPrice = document.querySelector("#productDetailContent p:nth-of-type(4)").textContent.split(":")[1].trim();
-                        const imageUrl = document.querySelector("#productDetailContent img").src;
+                    // Add event listener for "Thêm vào giỏ hàng" button after content is loaded
+                    const addToCartButton = modalContent.querySelector(".add-to-cart-detail");
+                    if (addToCartButton) {
+                        addToCartButton.addEventListener("click", function() {
+                            try {
+                                const productName = modalContent.querySelector("h5").textContent;
+                                const productPrice = modalContent.querySelector(".text-danger").textContent;
+                                const imageUrl = modalContent.querySelector("img").src;
 
-                        addToCart(productName, productPrice, imageUrl, productId);
+                                addToCart(productName, productPrice, imageUrl, productId);
 
-                        // Hiển thị modal thông báo thêm sản phẩm thành công
-                        let notification = new bootstrap.Modal(document.getElementById("cartModal"), { backdrop: true, keyboard: true });
-                        notification.show();
-                        document.getElementById("cartModal").removeAttribute("");
-
-                        modal.hide();
-                        document.getElementById("productDetailModal").setAttribute("", "");
-                    });
-
-                    // Ensure modal is properly hidden after filtering
-                    document.getElementById("productDetailModal").addEventListener("hidden.bs.modal", () => {
-                        document.getElementById("productDetailContent").innerHTML = ""; // Reset modal content
-                    });
+                                // Show success notification
+                                const cartModal = new bootstrap.Modal(document.getElementById("cartModal"));
+                                cartModal.show();
+                                modal.hide();
+                            } catch (err) {
+                                console.error("Error adding to cart:", err);
+                            }
+                        });
+                    }
                 })
-                .catch(error => console.error("Error fetching product details:", error));
+                .catch(error => {
+                    console.error("Error fetching product details:", error);
+                    modalContent.innerHTML = '<div class="alert alert-danger">Không thể tải thông tin sản phẩm. Vui lòng thử lại sau.</div>';
+                });
         }
     });
+
     const searchInput = document.getElementById("searchTheLoai");
     const select = document.getElementById("theloai");
 
