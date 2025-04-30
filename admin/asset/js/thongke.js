@@ -43,7 +43,7 @@ function fetchTop5Customers(startDate = "", endDate = "") {
                     `;
                 listCustomersBlock.appendChild(newCustomers);
             });
-            setDetailButtons();
+            setDetailButtons(null,startDate, endDate);
         })
         .catch(error => {
             console.error('Lỗi khi tải top 5 khách hàng:', error);
@@ -51,25 +51,27 @@ function fetchTop5Customers(startDate = "", endDate = "") {
 }
 
 
-function setDetailButtons(currentOrderPage = null) {
+function setDetailButtons(currentOrderPage = null,startDate = "", endDate = "") {
     if (currentOrderPage === null) {
         currentOrderPage = 1;
     }
-    else currentOrderPage = currentOrderPage;
     const ordersPerPage = 4;
     var detailButtons = document.querySelectorAll('.detailButton');
     detailButtons.forEach(detailButton => {
         detailButton.addEventListener('click', async function (event) {
             var gridRow = event.target.closest('.grid-row');
             var tenNguoiDung = gridRow.querySelector('textarea[placeholder="Nhập tên người dùng..."]').value.trim();
-            let response = await fetch(`../handlers/lay/laydonhang.php?tenNguoiDung=${encodeURIComponent(tenNguoiDung)}&tinhTrang=Đã xác nhận,Đã giao`);
+            let url = `../handlers/lay/laydonhang.php?tenNguoiDung=${encodeURIComponent(tenNguoiDung)}&tinhTrang=Đã giao`;
+            if (startDate && endDate) {
+                url += `&start=${startDate}&end=${endDate}`;
+            }
+            let response = await fetch(url);
             let orders = await response.json();
 
             if (orders && orders.length > 0) {
                 await showCustomerOrders(orders, tenNguoiDung, currentOrderPage, ordersPerPage);
-            } else {
-                alert("Không có đơn hàng nào.");
             }
+            console.log(startDate, endDate);
         });
     });
 }
