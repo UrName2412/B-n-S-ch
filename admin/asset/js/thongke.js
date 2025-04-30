@@ -79,7 +79,6 @@ function setDetailButtons(currentOrderPage = null,startDate = "", endDate = "") 
             if (orders && orders.length > 0) {
                 await showCustomerOrders(orders, tenNguoiDung, currentOrderPage, ordersPerPage);
             }
-            console.log(startDate, endDate);
         });
     });
 }
