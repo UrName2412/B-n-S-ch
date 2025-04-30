@@ -27,6 +27,17 @@ while ($row = $result->fetch_assoc()) {
 $result->close();
 $stmt->close();
 
+$stmt = $database->prepare("SELECT DISTINCT tl.maTheLoai ,tl.tenTheLoai FROM b01_sanPham sp
+JOIN b01_theLoai tl ON sp.maTheLoai = tl.maTheLoai");
+$stmt->execute();
+$result = $stmt->get_result();
+$danhSachTheLoaiTonTai = [];
+while ($row = $result->fetch_assoc()) {
+    $danhSachTheLoaiTonTai[] = $row;
+}
+$result->close();
+$stmt->close();
+
 $stmt = $database->prepare("SELECT * FROM b01_nhaXuatBan");
 $stmt->execute();
 $result = $stmt->get_result();
@@ -36,6 +47,18 @@ while ($row = $result->fetch_assoc()) {
 }
 $result->close();
 $stmt->close();
+
+$stmt = $database->prepare("SELECT DISTINCT nxb.maNhaXuatBan, nxb.tenNhaXuatBan FROM b01_sanPham sp
+JOIN b01_nhaXuatBan nxb ON nxb.maNhaXuatBan = sp.maNhaXuatBan");
+$stmt->execute();
+$result = $stmt->get_result();
+$danhSachNhaXuatBanTonTai = [];
+while ($row = $result->fetch_assoc()) {
+    $danhSachNhaXuatBanTonTai[] = $row;
+}
+$result->close();
+$stmt->close();
+
 ?>
 
 
@@ -130,7 +153,7 @@ $stmt->close();
                     <select name="categorySearch" id="categorySearch">
                         <option value="">Lựa chọn</option>
                         <?php
-                        foreach ($danhSachTheLoai as $theLoai) {
+                        foreach ($danhSachTheLoaiTonTai as $theLoai) {
                             echo "<option value='" . $theLoai['maTheLoai'] . "'>" . $theLoai['tenTheLoai'] . "</option>";
                         }
                         ?>
@@ -140,7 +163,7 @@ $stmt->close();
                     <select name="nxbSearch" id="nxbSearch">
                         <option value="">Lựa chọn</option>
                         <?php
-                        foreach ($danhSachNhaXuatBan as $nhaXuatBan) {
+                        foreach ($danhSachNhaXuatBanTonTai as $nhaXuatBan) {
                             echo "<option value='" . $nhaXuatBan['maNhaXuatBan'] . "'>" . $nhaXuatBan['tenNhaXuatBan'] . "</option>";
                         }
                         ?>
