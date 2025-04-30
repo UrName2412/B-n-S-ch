@@ -14,7 +14,7 @@ async function loadUsers() {
     }
 }
 
-function fetchTop5Customers(startDate = "", endDate = "") {
+function fetchTop5Customers(startDate = "", endDate = "",isFilter = false) {
     calculateStats(startDate, endDate);
     let url = '../handlers/lay/get_top5_customers.php';
     if (startDate && endDate) {
@@ -26,13 +26,18 @@ function fetchTop5Customers(startDate = "", endDate = "") {
         .then(response => response.json())
         .then(data => {
             if (!data || data.length === 0) {
-                let startDate = document.getElementById('startDate');
-                let endDate = document.getElementById('endDate');
-                createAlert('Không có dữ liệu khách hàng nào trong khoảng thời gian này.');
-                startDate.value = '';
-                endDate.value = '';
-                fetchTop5Customers();
-                return;
+                if (isFilter) {
+                    let startDate = document.getElementById('startDate');
+                    let endDate = document.getElementById('endDate');
+                    createAlert('Không có dữ liệu khách hàng nào trong khoảng thời gian này.');
+                    startDate.value = '';
+                    endDate.value = '';
+                    fetchTop5Customers();
+                    return;
+                } else{
+                    listCustomersBlock.innerHTML = '<p>Không có dữ liệu khách hàng nào.</p>';
+                    return;
+                }
             }
 
             data.forEach((customer, index) => {
@@ -250,7 +255,7 @@ document.getElementById('filterButton').addEventListener('click', function () {
         return;
     }
 
-    fetchTop5Customers(startDate, endDate);
+    fetchTop5Customers(startDate, endDate, true);
 });
 
 
