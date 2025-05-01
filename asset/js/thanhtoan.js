@@ -83,6 +83,12 @@ function toggleDefaultInfo() {
   }
 }
 
+function removeSessionCart() {
+  sessionStorage.removeItem("cart");
+  iconCartSpan.innerText = 0;
+  cart = [];
+}
+
 
 document.addEventListener("DOMContentLoaded", function () {
   setTimeout(() => {

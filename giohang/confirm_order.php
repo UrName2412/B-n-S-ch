@@ -172,7 +172,7 @@ if ($stmt->execute()) {
                                         data-bs-toggle="dropdown" aria-expanded="false"></button>
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item" href="../nguoidung/user.php">Thông tin tài khoản</a></li>
-                                        <li class="dropdownList"><a href="../dangky/dangxuat.php" class="dropdown-item">Đăng xuất</a></li>
+                                        <li class="dropdownList"><a href="../dangky/dangxuat.php" class="dropdown-item"  onclick="removeSessionCart()">Đăng xuất</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -302,7 +302,6 @@ if ($stmt->execute()) {
         </div>
     </div>
     <script src="../vender/js/bootstrap.bundle.min.js"></script>
-    <script src="../asset/js/sanpham.js"></script>
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         const cart = JSON.parse(sessionStorage.getItem('cart') || '[]');
@@ -321,6 +320,7 @@ if ($stmt->execute()) {
     </script>
 
     <script type="module" src="../asset/js/confirm_order.js"></script>
+    <script src="../asset/js/sanpham.js"></script>
 
 </body>
 </html>

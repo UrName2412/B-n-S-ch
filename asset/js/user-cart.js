@@ -137,7 +137,11 @@ const checkCart = () => {
         window.location.href = "thanhtoan.php";
     }
 }
-
+function removeSessionCart() {
+    sessionStorage.removeItem("cart");
+    iconCartSpan.innerText = 0;
+    cart = [];
+}
 
 
 loadFromsessionStorage();

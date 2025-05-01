@@ -82,7 +82,7 @@ if ($user['trangThai'] == false) {
                                         <li class="dropdownList"><a class="dropdown-item" href="user.php">Thông tin tài
                                                 khoản</a></li>
                                         <li class="dropdownList"><a href="../dangky/dangxuat.php"
-                                                class="dropdown-item">Đăng xuất</a></li>
+                                                class="dropdown-item"  onclick="removeSessionCart()">Đăng xuất</a></li>
                                     </ul>
                                 </div>
                             </div>
