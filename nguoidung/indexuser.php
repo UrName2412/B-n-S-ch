@@ -33,6 +33,7 @@ if ($user['trangThai'] == false) {
     <link rel="stylesheet" href="../vender/css/fontawesome-free/css/all.min.css">
     <!-- CSS  -->
     <link rel="stylesheet" href="../asset/css/index-user.css">
+    <link rel="stylesheet" href="../asset/css/sanpham.css">
 </head>
 
 <body>
