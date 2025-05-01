@@ -341,7 +341,29 @@ if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role
                 alert('Vui lòng nhập nội dung tìm kiếm!');
             }
         });
+
+        // Xử lý chuyển trang khi bấm nút lọc
+        document.getElementById('filterBtn').addEventListener('click', function () {
+            // Lấy giá trị các trường lọc
+            const tenSach = document.getElementById('tensach').value.trim();
+            const tacGia = document.getElementById('tentacgia').value.trim();
+            const nxb = document.getElementById('nxb').value;
+            const theloai = document.getElementById('theloai').value;
+            const minPrice = document.getElementById('minPrice').value;
+            const maxPrice = document.getElementById('maxPrice').value;
+
+            // Tạo query string
+            const params = new URLSearchParams();
+            if (tenSach) params.append('tensach', tenSach);
+            if (tacGia) params.append('tentacgia', tacGia);
+            if (nxb) params.append('nxb', nxb);
+            if (theloai) params.append('theloai', theloai);
+            if (minPrice) params.append('minPrice', minPrice);
+            if (maxPrice) params.append('maxPrice', maxPrice);
+
+            // Chuyển hướng sang trang sản phẩm với các tham số lọc
+            window.location.href = 'sanpham/sanpham.php?' + params.toString();
+        });
     </script>
 </body>
-
 </html>

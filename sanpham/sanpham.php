@@ -283,6 +283,39 @@ if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role
         });
 
     </script>
-</body>
+    <script>
+        // Hàm để lấy giá trị tham số từ URL
+        function getUrlParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
 
+        // Điền các giá trị từ URL vào form lọc
+        document.addEventListener('DOMContentLoaded', function() {
+            // Điền giá trị từ URL vào các trường input
+            const tensach = getUrlParam('tensach');
+            const tentacgia = getUrlParam('tentacgia'); 
+            const nxb = getUrlParam('nxb');
+            const theloai = getUrlParam('theloai');
+            const minPrice = getUrlParam('minPrice');
+            const maxPrice = getUrlParam('maxPrice');
+
+            // Set giá trị cho các trường input
+            if(tensach) document.getElementById('tensach').value = tensach;
+            if(tentacgia) document.getElementById('tentacgia').value = tentacgia;
+            if(nxb) document.getElementById('nxb').value = nxb;
+            if(theloai) document.getElementById('theloai').value = theloai;
+            if(minPrice) document.getElementById('minPrice').value = minPrice;
+            if(maxPrice) document.getElementById('maxPrice').value = maxPrice;
+
+            // Nếu có bất kỳ tham số lọc nào, tự động kích hoạt nút lọc
+            if(tensach || tentacgia || nxb || theloai || minPrice || maxPrice) {
+                document.getElementById('filterBtn').click();
+            } else {
+                // Nếu không có tham số lọc, tải tất cả sản phẩm
+                loadProducts();
+            }
+        });
+    </script>
+</body>
 </html>
