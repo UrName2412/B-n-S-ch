@@ -15,7 +15,8 @@ async function loadUsers() {
     }
 }
 
-function fetchTop5Customers(startDate = "", endDate = "") {
+function fetchTop5Customers(startDate = "", endDate = "",isFilter = false) {
+    calculateStats(startDate, endDate);
     let url = '../handlers/lay/get_top5_customers.php';
     if (startDate && endDate) {
         url += `?start=${startDate}&end=${endDate}`;
@@ -26,10 +27,18 @@ function fetchTop5Customers(startDate = "", endDate = "") {
         .then(response => response.json())
         .then(data => {
             if (!data || data.length === 0) {
-                listCustomersBlock.innerHTML = `
-                    <div class="no-data">Không có dữ liệu trong khoảng thời gian này.</div>
-                `;
-                return;
+                if (isFilter) {
+                    let startDate = document.getElementById('startDate');
+                    let endDate = document.getElementById('endDate');
+                    createAlert('Không có dữ liệu khách hàng nào trong khoảng thời gian này.');
+                    startDate.value = '';
+                    endDate.value = '';
+                    fetchTop5Customers();
+                    return;
+                } else{
+                    listCustomersBlock.innerHTML = '<p>Không có dữ liệu khách hàng nào.</p>';
+                    return;
+                }
             }
 
             data.forEach((customer, index) => {
@@ -71,7 +80,6 @@ function setDetailButtons(currentOrderPage = null,startDate = "", endDate = "") 
             if (orders && orders.length > 0) {
                 await showCustomerOrders(orders, tenNguoiDung, currentOrderPage, ordersPerPage);
             }
-            console.log(startDate, endDate);
         });
     });
 }
@@ -247,11 +255,7 @@ document.getElementById('filterButton').addEventListener('click', function () {
         return;
     }
 
-    loadProducts().then(products => {
-        thongKeBanHang(products, startDate, endDate);
-    });
-
-    fetchTop5Customers(startDate, endDate);
+    fetchTop5Customers(startDate, endDate, true);
 });
 
 // Tải dữ liệu ban đầu

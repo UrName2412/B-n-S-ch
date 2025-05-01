@@ -198,7 +198,7 @@ if ($user['trangThai'] == false) {
             <div class="row d-flex justify-content-center align-items-center footer__bar">
                 <div class="col-md-4">
                     <div class="logo">
-                        <a href="index.php" class="d-flex align-items-center">
+                        <a href="../index.php" class="d-flex align-items-center">
                             <img src="../Images/LogoSach.png" alt="logo" width="100" height="57">
                         </a>
                     </div>

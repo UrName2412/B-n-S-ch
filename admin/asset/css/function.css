@@ -124,12 +124,40 @@
 #alertCloseBtn:hover{
     background-color: #45a049;
 }
+.prevImg,
 #suaPreviewImg,
 #previewImg {
-    width: 100%;
-    max-width: 200px;
-    height: auto;
+    width: 200px;
+    height: 300px;
+    object-fit: cover;
     margin-top: 5px;
     margin-bottom: 5px;
     border-radius: 2px;
+}
+
+.fixImgBlock{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.childImgBlock {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: start;
+    width: 100%;
+    max-width: 220px;
+    text-align: center;
+}
+
+.childImgBlock label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.childImgBlock.hidden{
+    visibility: hidden;
 }

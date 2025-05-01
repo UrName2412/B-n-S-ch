@@ -47,7 +47,16 @@ function fixButtons() {
                     <label for="hinhAnh">Hình ảnh:</label>
                     <input type="file" name="hinhAnh" id="suaHinhAnh" placeholder="Chọn ảnh">
                     <span class="form-message"></span>
-                    <img id="suaPreviewImg" style="display:none;"/>
+                    <div class="fixImgBlock">
+                        <div class="childImgBlock">
+                            <label>Hình ảnh cũ:</label>
+                            <img class="prevImg" src="${diaChiAnh}${products[index].hinhAnh}" />
+                        </div>
+                        <div class="childImgBlock hidden" id="hiddenImgBlock">
+                            <label>Hình ảnh mới:</label>
+                            <img id="suaPreviewImg" style="display:none;"/>
+                        </div>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="tenSach">Tên sách:</label>
@@ -151,6 +160,7 @@ function fixButtons() {
                 const formGroup = input.closest('.form-group') || input.parentElement;
                 const errorMessage = formGroup.querySelector(errorSelector);
                 const file = input.files[0];
+                let childBlock = document.querySelector('#hiddenImgBlock');
             
                 const validTypes = ['image/jpeg', 'image/png', 'image/jpg'];
                 const maxSize = 5 * 1024 * 1024;
@@ -159,18 +169,18 @@ function fixButtons() {
                     const fileExtension = file.name.split('.').pop().toLowerCase();
             
                     if (!validTypes.includes(file.type) && !['jpg', 'jpeg', 'png'].includes(fileExtension)) {
-                        errorMessage.innerText = 'Vui lòng chọn ảnh có định dạng JPG, PNG, jpec.';
-                        previewImg.style.display = 'none';
+                        errorMessage.innerText = 'Vui lòng chọn ảnh có định dạng JPG, PNG, JPEG.';
                         input.value = '';
                         formGroup.classList.add('invalid');
+                        childBlock.classList.add('hidden');
                         return;
                     }
             
                     if (file.size > maxSize) {
                         errorMessage.innerText = 'Vui lòng chọn ảnh có dung lượng nhỏ hơn 5MB.';
-                        previewImg.style.display = 'none';
                         input.value = '';
                         formGroup.classList.add('invalid');
+                        childBlock.classList.add('hidden');
                         return;
                     }
             
@@ -178,6 +188,7 @@ function fixButtons() {
                     reader.onload = function(e) {
                         previewImg.src = e.target.result;
                         previewImg.style.display = 'block';
+                        childBlock.classList.remove('hidden');
                     };
                     reader.readAsDataURL(file);
             
