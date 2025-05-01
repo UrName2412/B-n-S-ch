@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
         
         modalContent.innerHTML = '<div class="text-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>';
         
-        fetch(`/B-n-S-ch/asset/handler/ajax_get_product_detail.php?id=${productId}`)
+        fetch(`../asset/handler/ajax_get_product_detail.php?id=${productId}`)
             .then(response => response.text())
             .then(data => {
                 modalContent.innerHTML = data;
@@ -186,7 +186,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let nhaXuatBan = document.getElementById("nxb").value.trim().toLowerCase();
         let theloai = document.getElementById("theloai").value.trim().toLowerCase();
 
-        let url = `/B-n-S-ch/asset/handler/fetch_product.php?category=${category}&min_price=${minPrice}&max_price=${maxPrice}`;
+        let url = `../asset/handler/fetch_product.php?category=${category}&min_price=${minPrice}&max_price=${maxPrice}`;
 
         fetch(url)
             .then(response => response.text()) // Đọc phản hồi dưới dạng text
@@ -266,7 +266,7 @@ function loadProducts(page = 1) {
         return new Intl.NumberFormat('vi-VN').format(price);
     }
 
-    fetch('/B-n-S-ch/asset/handler/pagination.php?page=' + page)
+    fetch('../asset/handler/pagination.php?page=' + page)
         .then(response => response.json())
         .then(data => {
             let products = data.products;

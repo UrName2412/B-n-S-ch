@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // Show loading indicator
             modalContent.innerHTML = '<div class="text-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>';
 
-            fetch("/B-n-S-ch/asset/handler/ajax_get_product_detail.php?id=" + productId)
+            fetch("../asset/handler/ajax_get_product_detail.php?id=" + productId)
                 .then(response => response.text())
                 .then(data => {
                     modalContent.innerHTML = data;
