@@ -9,16 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
         window.location.reload(); // Tải lại trang để reset tất cả các bộ lọc
     })
 
-    function cleanupModal() {
-        document.body.classList.remove('modal-open');
-        document.body.removeAttribute('style');
-        document.body.style.removeProperty('padding-right');
-        document.body.style.removeProperty('overflow');
-        const backdrops = document.querySelectorAll('.modal-backdrop');
-        backdrops.forEach(backdrop => backdrop.remove());
-    }
-
-    function fetchProductDetails(productId) {
+    function fetchProductDetails(productId,baseUrl) {
         const modalElement = document.getElementById('productDetailModal');
         const modalContent = document.getElementById('productDetailContent');
         
@@ -29,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
         
         modalContent.innerHTML = '<div class="text-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>';
         
-        fetch(`../asset/handler/ajax_get_product_detail.php?id=${productId}`)
+        fetch(`${baseUrl}?id=${productId}`)
             .then(response => response.text())
             .then(data => {
                 modalContent.innerHTML = data;
@@ -83,8 +74,9 @@ document.addEventListener("DOMContentLoaded", function () {
         if (viewDetailLink) {
             e.preventDefault();
             const productId = viewDetailLink.getAttribute('data-id');
+            const baseUrl = document.getElementById('baseUrl').value;
             if (productId) {
-                fetchProductDetails(productId);
+                fetchProductDetails(productId, baseUrl);
             }
         }
     });
