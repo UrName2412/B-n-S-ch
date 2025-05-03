@@ -281,7 +281,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <div class="col-md-4 mb-4">
                         <div class="card" style="width: 100%;">
                             <a href="#" class="view-detail" data-id="${product.maSach}">
-                                <img src="/B-n-S-ch/Images/${product.hinhAnh}" alt="${product.tenSach}" class="card-img-top">
+                                <img src="../Images/${product.hinhAnh}" alt="${product.tenSach}" class="card-img-top">
                             </a>
                             <div class="card-body">
                                 <h5 class="card-title">${product.tenSach}</h5>
@@ -321,7 +321,7 @@ function loadProducts(page = 1) {
                 productDiv.innerHTML = `
                     <div class="card" style="width: 100%;">
                         <a href="#" class="view-detail" data-id="${product.maSach}">
-                            <img src="/B-n-S-ch/Images/${product.hinhAnh}" alt="${product.tenSach}" class="card-img-top">
+                            <img src="../Images/${product.hinhAnh}" alt="${product.tenSach}" class="card-img-top">
                         </a>
                         <div class="card-body">
                             <h5 class="card-title">${product.tenSach}</h5>
