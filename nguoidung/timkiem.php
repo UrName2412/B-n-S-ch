@@ -36,7 +36,7 @@ if ($user['trangThai'] == false) {
     <link rel="stylesheet" href="../asset/css/index-user.css">
 </head>
 
-<body>
+<body id="top">
     <!-- Header -->
     <header class="text-white py-3" id="top">
         <div class="container">
@@ -99,8 +99,6 @@ if ($user['trangThai'] == false) {
             </nav>
         </div>
     </header>
-
-    <!-- Main -->
     <!-- Main -->
     <div class="container my-4">
         <div class="row">
