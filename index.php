@@ -364,6 +364,11 @@ if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role
             // Chuyển hướng sang trang sản phẩm với các tham số lọc
             window.location.href = 'sanpham/sanpham.php?' + params.toString();
         });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            handleViewDetailClick('Images/');
+        });
+
     </script>
 </body>
 </html>

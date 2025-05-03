@@ -78,8 +78,8 @@ if ($user['trangThai'] == false) {
                                     <ul class="dropdown-menu">
                                         <li class="dropdownList"><a class="dropdown-item"
                                                 href="../nguoidung/user.php">Thông tin tài khoản</a></li>
-                                        <li class="dropdownList"><a href="../dangky/dangxuat.php"
-                                                class="dropdown-item" onclick="removeSessionCart()">Đăng xuất</a></li>
+                                        <li class="dropdownList"><a href="../dangky/dangxuat.php" class="dropdown-item"
+                                                onclick="removeSessionCart()">Đăng xuất</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -177,7 +177,7 @@ if ($user['trangThai'] == false) {
             </div>
         </div>
     </div>
-    <input type="hidden" id="baseUrl" value="../asset/handler/ajax_get_product_detail.php">                           
+    <input type="hidden" id="baseUrl" value="../asset/handler/ajax_get_product_detail.php">
     <!-- Footer -->
     <footer class="text-white py-4">
         <div class="container">
@@ -311,7 +311,7 @@ if ($user['trangThai'] == false) {
         }
 
         // Điền các giá trị từ URL vào form lọc và tự động lọc
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Điền giá trị từ URL vào các trường input
             const tensach = getUrlParam('tensach');
             const tentacgia = getUrlParam('tentacgia');
@@ -321,21 +321,24 @@ if ($user['trangThai'] == false) {
             const maxPrice = getUrlParam('maxPrice');
 
             // Set giá trị cho các trường input
-            if(tensach) document.getElementById('tensach').value = tensach;
-            if(tentacgia) document.getElementById('tentacgia').value = tentacgia;
-            if(nxb) document.getElementById('nxb').value = nxb;
-            if(theloai) document.getElementById('theloai').value = theloai;
-            if(minPrice) document.getElementById('minPrice').value = minPrice;
-            if(maxPrice) document.getElementById('maxPrice').value = maxPrice;
+            if (tensach) document.getElementById('tensach').value = tensach;
+            if (tentacgia) document.getElementById('tentacgia').value = tentacgia;
+            if (nxb) document.getElementById('nxb').value = nxb;
+            if (theloai) document.getElementById('theloai').value = theloai;
+            if (minPrice) document.getElementById('minPrice').value = minPrice;
+            if (maxPrice) document.getElementById('maxPrice').value = maxPrice;
 
             // Nếu có bất kỳ tham số lọc nào, tự động kích hoạt nút lọc
-            if(tensach || tentacgia || nxb || theloai || minPrice || maxPrice) {
+            if (tensach || tentacgia || nxb || theloai || minPrice || maxPrice) {
                 document.getElementById('filterBtn').click();
             } else {
                 // Nếu không có tham số lọc, tải tất cả sản phẩm
                 loadProducts();
             }
+
+            handleViewDetailClick('../Images/');
         });
     </script>
 </body>
+
 </html>

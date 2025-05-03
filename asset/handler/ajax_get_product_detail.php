@@ -3,6 +3,7 @@ include '../../admin/config/config.php';
 
 if (isset($_GET['id'])) {
     $id = intval($_GET['id']);
+    $url = $_GET['url'];
     
     $sql = "SELECT sp.*, tl.tenTheLoai, nxb.tenNhaXuatBan 
             FROM b01_sanPham sp 
@@ -20,11 +21,11 @@ if (isset($_GET['id'])) {
         echo "<div class='container-fluid product-detail'>
                 <div class='row h-100'>
                     <div class='col-md-6 product-detail-image'>
-                        <img src='/Images/{$row['hinhAnh']}' class='img-fluid' alt='{$row['tenSach']}'>
+                        <img src='$url/{$row['hinhAnh']}' class='img-fluid' alt='{$row['tenSach']}'>
                     </div>
-                    <div class='col-md-6 product-detail-info'>
-                        <h5 class='product-title fw-bold mb-3'>{$row['tenSach']}</h5>
+                    <div class='col-md-6 product-detail-info d-flex justify-content-between flex-column'>
                         <div class='product-info'>
+                            <h5 class='product-title fw-bold mb-3'>{$row['tenSach']}</h5>
                             <p class='mb-2'><strong>Thể loại:</strong> {$row['tenTheLoai']}</p>
                             <p class='mb-2'><strong>Tác giả:</strong> {$row['tacGia']}</p>
                             <p class='mb-2'><strong>Nhà xuất bản:</strong> {$row['tenNhaXuatBan']}</p>
@@ -33,8 +34,8 @@ if (isset($_GET['id'])) {
                                 <p><strong>Mô tả:</strong></p>
                                 <div class='description-content'>{$row['moTa']}</div>
                             </div>
-                            <button class='btn btn-success add-to-cart-detail w-100'>Thêm vào giỏ hàng</button>
                         </div>
+                        <button class='btn btn-success add-to-cart-detail w-100'>Thêm vào giỏ hàng</button>
                     </div>
                 </div>
             </div>";

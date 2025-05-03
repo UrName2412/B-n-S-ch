@@ -344,6 +344,8 @@ if ($user['trangThai'] == false) {
                 alert('Vui lòng nhập nội dung tìm kiếm!');
             }
         });
+
+        handleViewDetailClick('../Images/');
     </script>
 </body>
 

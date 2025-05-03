@@ -81,8 +81,8 @@ if ($user['trangThai'] == false) {
                                     <ul class="dropdown-menu">
                                         <li class="dropdownList"><a class="dropdown-item" href="user.php">Thông tin tài
                                                 khoản</a></li>
-                                        <li class="dropdownList"><a href="../dangky/dangxuat.php"
-                                                class="dropdown-item"  onclick="removeSessionCart()">Đăng xuất</a></li>
+                                        <li class="dropdownList"><a href="../dangky/dangxuat.php" class="dropdown-item"
+                                                onclick="removeSessionCart()">Đăng xuất</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -102,19 +102,23 @@ if ($user['trangThai'] == false) {
     <!-- Banner Section -->
     <div id="carouselBanner" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carouselBanner" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselBanner" data-bs-slide-to="0" class="active"
+                aria-current="true" aria-label="Slide 1"></button>
             <button type="button" data-bs-target="#carouselBanner" data-bs-slide-to="1" aria-label="Slide 2"></button>
             <button type="button" data-bs-target="#carouselBanner" data-bs-slide-to="2" aria-label="Slide 3"></button>
         </div>
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img src="../Images/banner1.jpg" class="d-block w-100" alt="Banner 1" style="height: 500px; object-fit: fit-content;">
+                <img src="../Images/banner1.jpg" class="d-block w-100" alt="Banner 1"
+                    style="height: 500px; object-fit: fit-content;">
             </div>
             <div class="carousel-item">
-                <img src="../Images/banner2.jpg" class="d-block w-100" alt="Banner 2" style="height: 500px; object-fit: fit-content;">
+                <img src="../Images/banner2.jpg" class="d-block w-100" alt="Banner 2"
+                    style="height: 500px; object-fit: fit-content;">
             </div>
             <div class="carousel-item">
-                <img src="../Images/banner3.jpg" class="d-block w-100" alt="Banner 3" style="height: 500px; object-fit: fit-content;">
+                <img src="../Images/banner3.jpg" class="d-block w-100" alt="Banner 3"
+                    style="height: 500px; object-fit: fit-content;">
             </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselBanner" data-bs-slide="prev">
@@ -197,7 +201,7 @@ if ($user['trangThai'] == false) {
                     <h3 class="text-center mb-4">SẢN PHẨM BÁN CHẠY NHẤT</h3>
                     <div class="container">
                         <div id="listProduct" class="listProduct row">
-                        <?php
+                            <?php
                             $sql = "SELECT 
                             b01_sanPham.maSach, 
                             b01_sanPham.tenSach, 
@@ -243,7 +247,7 @@ if ($user['trangThai'] == false) {
             </div>
         </div>
     </div>
-    <input type="hidden" id="baseUrl" value="../asset/handler/ajax_get_product_detail.php">                        
+    <input type="hidden" id="baseUrl" value="../asset/handler/ajax_get_product_detail.php">
     <!-- Footer -->
     <footer class="text-white py-4">
         <div class="container">
@@ -366,7 +370,7 @@ if ($user['trangThai'] == false) {
         document.getElementById('filterBtn').addEventListener('click', function () {
             // Lấy giá trị các trường lọc
             const tenSach = document.getElementById('tensach').value.trim();
-            const tacGia = document.getElementById('tentacgia').value.trim(); 
+            const tacGia = document.getElementById('tentacgia').value.trim();
             const nxb = document.getElementById('nxb').value;
             const theloai = document.getElementById('theloai').value;
             const minPrice = document.getElementById('minPrice').value;
@@ -383,7 +387,10 @@ if ($user['trangThai'] == false) {
 
             // Chuyển hướng sang trang sản phẩm với các tham số lọc
             window.location.href = '../sanpham/sanpham-user.php?' + params.toString();
+
+            handleViewDetailClick('../Images/');
         });
     </script>
 </body>
+
 </html>

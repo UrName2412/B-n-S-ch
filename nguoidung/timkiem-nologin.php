@@ -324,6 +324,8 @@ if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role
                 alert('Vui lòng nhập nội dung tìm kiếm!');
             }
         });
+
+        handleViewDetailClick('../Images/');
     </script>
 </body>
 
