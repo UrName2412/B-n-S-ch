@@ -106,6 +106,25 @@ document.addEventListener("DOMContentLoaded", function () {
         const totalPages = Math.ceil(products.length / productsPerPage);
         paginationContainer.innerHTML = ""; // Xóa phân trang cũ
 
+        // Add First Page button
+        if (currentPage > 1) {
+            const firstLi = document.createElement("li");
+            firstLi.classList.add("page-item");
+            const firstLink = document.createElement("a");
+            firstLink.classList.add("page-link");
+            firstLink.href = "#top";
+            firstLink.innerHTML = "&#171;&#171;"; // Double left arrow
+            firstLink.addEventListener("click", (e) => {
+                e.preventDefault();
+                currentPage = 1;
+                showPage(currentPage);
+                createPagination();
+                document.getElementById('top').scrollIntoView({ behavior: 'smooth' });
+            });
+            firstLi.appendChild(firstLink);
+            paginationContainer.appendChild(firstLi);
+        }
+
         // Tính trang bắt đầu và kết thúc để chỉ hiển thị tối đa 3 trang
         let startPage = Math.max(1, currentPage - 1);
         let endPage = Math.min(totalPages, startPage + 2);
@@ -121,13 +140,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const prevLink = document.createElement("a");
             prevLink.classList.add("page-link");
-            prevLink.href = "#";
+            prevLink.href = "#top";
             prevLink.innerHTML = "&laquo;";
             prevLink.addEventListener("click", (e) => {
                 e.preventDefault();
                 currentPage--;
                 showPage(currentPage);
                 createPagination();
+                document.getElementById('top').scrollIntoView({ behavior: 'smooth' });
             });
 
             prevLi.appendChild(prevLink);
@@ -142,13 +162,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const a = document.createElement("a");
             a.classList.add("page-link");
-            a.href = "#";
+            a.href = "#top";
             a.textContent = i;
             a.addEventListener("click", (e) => {
                 e.preventDefault();
                 currentPage = i;
                 showPage(currentPage);
                 createPagination();
+                document.getElementById('top').scrollIntoView({ behavior: 'smooth' });
             });
 
             li.appendChild(a);
@@ -162,22 +183,46 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const nextLink = document.createElement("a");
             nextLink.classList.add("page-link");
-            nextLink.href = "#";
+            nextLink.href = "#top";
             nextLink.innerHTML = "&raquo;";
             nextLink.addEventListener("click", (e) => {
                 e.preventDefault();
                 currentPage++;
                 showPage(currentPage);
                 createPagination();
+                document.getElementById('top').scrollIntoView({ behavior: 'smooth' });
             });
 
             nextLi.appendChild(nextLink);
             paginationContainer.appendChild(nextLi);
         }
+
+        // Add Last Page button
+        if (currentPage < totalPages) {
+            const lastLi = document.createElement("li");
+            lastLi.classList.add("page-item");
+            const lastLink = document.createElement("a");
+            lastLink.classList.add("page-link");
+            lastLink.href = "#top";
+            lastLink.innerHTML = "&#187;&#187;"; // Double right arrow
+            lastLink.addEventListener("click", (e) => {
+                e.preventDefault();
+                currentPage = totalPages;
+                showPage(currentPage);
+                createPagination();
+                document.getElementById('top').scrollIntoView({ behavior: 'smooth' });
+            });
+            lastLi.appendChild(lastLink);
+            paginationContainer.appendChild(lastLi);
+        }
     }
 
     // Gọi từ AJAX
     document.getElementById("filterBtn").addEventListener("click", function () {
+        const listProduct = document.getElementById("listProduct");
+        listProduct.innerHTML = '<div class="text-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>';
+        document.getElementById('top').scrollIntoView({ behavior: 'smooth' });
+
         let category = document.getElementById("theloai").value || "";
         let minPrice = document.getElementById("minPrice").value || "0";
         let maxPrice = document.getElementById("maxPrice").value || "999999";
@@ -298,6 +343,15 @@ function loadProducts(page = 1) {
                 startPage = Math.max(1, endPage - 2);
             }
 
+            // First page button
+            if (page > 1) {
+                paginationHTML += `
+                    <li class="page-item">
+                        <a class="page-link" href="#top" onclick="loadProducts(1)">&#171;&#171;</a>
+                    </li>
+                `;
+            }
+
             // Nút quay về
             if (page > 1) {
                 paginationHTML += `
@@ -321,6 +375,15 @@ function loadProducts(page = 1) {
                 paginationHTML += `
                     <li class="page-item">
                         <a class="page-link" href="#top" onclick="loadProducts(${page + 1})">&raquo;</a>
+                    </li>
+                `;
+            }
+
+            // Last page button
+            if (page < totalPages) {
+                paginationHTML += `
+                    <li class="page-item">
+                        <a class="page-link" href="#top" onclick="loadProducts(${totalPages})">&#187;&#187;</a>
                     </li>
                 `;
             }

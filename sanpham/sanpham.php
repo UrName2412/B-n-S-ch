@@ -23,7 +23,7 @@ if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role
     <link rel="stylesheet" href="../asset/css/sanpham.css">
 </head>
 
-<body>
+<body id="top">
     <!-- Header -->
     <header class="text-white py-3">
         <div class="container">
