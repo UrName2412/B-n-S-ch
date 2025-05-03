@@ -204,15 +204,15 @@ if ($user['trangThai'] == false) {
                             b01_sanPham.hinhAnh, 
                             b01_sanPham.giaBan,
                             b01_theLoai.tenTheLoai, 
-                            SUM(b01_chiTietHoaDon.soLuong * b01_chiTietHoaDon.giaBan) AS tongTien
-                            FROM b01_chiTietHoaDon
-                            JOIN b01_sanPham ON b01_chiTietHoaDon.maSach = b01_sanPham.maSach
-                            JOIN b01_donHang ON b01_chiTietHoaDon.maDon = b01_donHang.maDon
+                            COALESCE(SUM(b01_chiTietHoaDon.soLuong * b01_chiTietHoaDon.giaBan), 0) AS tongTien
+                            FROM b01_sanPham
+                            LEFT JOIN b01_chiTietHoaDon ON b01_chiTietHoaDon.maSach = b01_sanPham.maSach
+                            LEFT JOIN b01_donHang ON b01_chiTietHoaDon.maDon = b01_donHang.maDon
+                            AND b01_donHang.tinhTrang = 'Đã giao'
                             JOIN b01_theLoai ON b01_sanPham.maTheLoai = b01_theLoai.maTheLoai
-                            WHERE b01_donHang.tinhTrang = 'Đã giao'
                             GROUP BY b01_sanPham.maSach, b01_sanPham.tenSach, b01_sanPham.hinhAnh, b01_sanPham.giaBan, b01_theLoai.tenTheLoai
                             ORDER BY tongTien DESC
-                            LIMIT 6";
+                            LIMIT 9"; // Lấy 9 sản phẩm bán chạy nhất
                             $result = $database->query($sql);
 
                             if ($result->num_rows > 0) {
@@ -243,7 +243,7 @@ if ($user['trangThai'] == false) {
             </div>
         </div>
     </div>
-
+    <input type="hidden" id="baseUrl" value="../asset/handler/ajax_get_product_detail.php">                        
     <!-- Footer -->
     <footer class="text-white py-4">
         <div class="container">

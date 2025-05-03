@@ -200,6 +200,7 @@ if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role
             </div>
         </div>
     </div>
+    <input type="hidden" id="baseUrl" value="../asset/handler/ajax_get_product_detail.php">   
     <!-- Footer -->
     <footer class="text-white py-4">
         <div class="container">

@@ -178,21 +178,21 @@ if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role
                     <div class="container">
                         <div id="listProduct" class="listProduct row">
                             <?php
-                            $sql = "SELECT 
-                            b01_sanPham.maSach, 
-                            b01_sanPham.tenSach, 
-                            b01_sanPham.hinhAnh, 
-                            b01_sanPham.giaBan,
-                            b01_theLoai.tenTheLoai, 
-                            SUM(b01_chiTietHoaDon.soLuong * b01_chiTietHoaDon.giaBan) AS tongTien
-                            FROM b01_chiTietHoaDon
-                            JOIN b01_sanPham ON b01_chiTietHoaDon.maSach = b01_sanPham.maSach
-                            JOIN b01_donHang ON b01_chiTietHoaDon.maDon = b01_donHang.maDon
-                            JOIN b01_theLoai ON b01_sanPham.maTheLoai = b01_theLoai.maTheLoai
-                            WHERE b01_donHang.tinhTrang = 'Đã giao'
-                            GROUP BY b01_sanPham.maSach, b01_sanPham.tenSach, b01_sanPham.hinhAnh, b01_sanPham.giaBan, b01_theLoai.tenTheLoai
-                            ORDER BY tongTien DESC
-                            LIMIT 6";
+                           $sql = "SELECT 
+                           b01_sanPham.maSach, 
+                           b01_sanPham.tenSach, 
+                           b01_sanPham.hinhAnh, 
+                           b01_sanPham.giaBan,
+                           b01_theLoai.tenTheLoai, 
+                           COALESCE(SUM(b01_chiTietHoaDon.soLuong * b01_chiTietHoaDon.giaBan), 0) AS tongTien
+                           FROM b01_sanPham
+                           LEFT JOIN b01_chiTietHoaDon ON b01_chiTietHoaDon.maSach = b01_sanPham.maSach
+                           LEFT JOIN b01_donHang ON b01_chiTietHoaDon.maDon = b01_donHang.maDon
+                           AND b01_donHang.tinhTrang = 'Đã giao'
+                           JOIN b01_theLoai ON b01_sanPham.maTheLoai = b01_theLoai.maTheLoai
+                           GROUP BY b01_sanPham.maSach, b01_sanPham.tenSach, b01_sanPham.hinhAnh, b01_sanPham.giaBan, b01_theLoai.tenTheLoai
+                           ORDER BY tongTien DESC
+                           LIMIT 9;";
                             $result = $database->query($sql);
 
                             if ($result->num_rows > 0) {
@@ -200,7 +200,7 @@ if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role
                                     echo '<div class="col-md-4 mb-4">';
                                     echo '<div class="card" style="width: 100%;">';
                                     echo '<a href="#" class="view-detail" data-id="' . $row["maSach"] . '">';
-                                    echo '<img src="/B-n-S-ch/Images/' . $row["hinhAnh"] . '" alt="' . $row["tenSach"] . '" class="card-img-top">';
+                                    echo '<img src="Images/' . $row["hinhAnh"] . '" alt="' . $row["tenSach"] . '" class="card-img-top">';
                                     echo '</a>';
                                     echo '<div class="card-body">';
                                     echo '<h5 class="card-title">' . $row["tenSach"] . '</h5>';
@@ -223,7 +223,7 @@ if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role
             </div>
         </div>
     </div>
-
+    <input type="hidden" id="baseUrl" value="asset/handler/ajax_get_product_detail.php">
     <!-- Footer -->
     <footer class="text-white py-4">
         <div class="container">
