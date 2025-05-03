@@ -170,7 +170,10 @@ if ($user['trangThai'] == false) {
                     <div class="container my-4">
                         <div class="listProduct row" id="listProduct">
                             <?php
-                            require '../admin/config/config.php';
+                            require '../admin/config/config.php';               
+                            function formatVND($value) {
+                                return number_format($value, 0, ',', '.') . ' đ';
+                            }
                             if (isset($_GET['tenSach']) && !empty($_GET['tenSach'])) {
                                 $keyword = '%' . $_GET['tenSach'] . '%';
                                 $stmt = $database->prepare("
@@ -194,9 +197,7 @@ if ($user['trangThai'] == false) {
                                                 </a>
                                                 <div class="card-body">
                                                     <h5 class="card-title"><?php echo $row['tenSach']; ?></h5>
-                                                    <p class="card-text text-danger fw-bold">
-                                                        <?php echo number_format($row['giaBan']); ?> đ
-                                                    </p>
+                                                    <p class="card-text text-danger fw-bold"><?php echo formatVND($row['giaBan']); ?></p>
                                                     <button class="btn" style="background-color: #336799; color: #ffffff;">Thêm vào
                                                         giỏ hàng</button>
                                                 </div>

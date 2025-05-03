@@ -241,7 +241,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             <div class="card-body">
                                 <h5 class="card-title">${product.tenSach}</h5>
                                 <p class="card-text">Thể loại: ${product.tenTheLoai}</p>
-                                <p class="card-text text-danger fw-bold">${formatPrice(parseInt(product.giaBan, 10))} đ</p>
+                                <p class="card-text text-danger fw-bold">${formatVND(product.giaBan)}</p>
                                 <button class="btn" style="background-color: #336799; color: #ffffff;">Thêm vào giỏ hàng</button>
                             </div>
                         </div>
@@ -254,15 +254,10 @@ document.addEventListener("DOMContentLoaded", function () {
             })
             .catch(error => console.log("Lỗi khi tải sản phẩm:", error));
     });
-
-    // Hàm định dạng giá tiền
-    function formatPrice(price) {
-        return new Intl.NumberFormat('vi-VN').format(price);
-    }
 });
 
 function loadProducts(page = 1) {
-    function formatPrice(price) {
+    function formatVND(price) {
         return new Intl.NumberFormat('vi-VN').format(price);
     }
 
@@ -286,7 +281,7 @@ function loadProducts(page = 1) {
                         <div class="card-body">
                             <h5 class="card-title">${product.tenSach}</h5>
                             <p class="card-text">Thể loại: ${product.tenTheLoai}</p>
-                            <p class="card-text text-danger fw-bold">${formatPrice(parseInt(product.giaBan, 10))} đ</p>
+                            <p class="card-text text-danger fw-bold">${formatVND(product.giaBan)} đ</p>
                             <button class="btn" style="background-color: #336799; color: #ffffff;">Thêm vào giỏ hàng</button>
                         </div>
                     </div>
@@ -335,3 +330,11 @@ function loadProducts(page = 1) {
         .catch(error => console.error('Error loading products:', error));
 }
 
+
+function formatVND(value) {
+    const cleaned = String(value).replace(/[^\d]/g, '');
+    const number = Number(cleaned);
+    if (isNaN(number)) return '0 đ';
+
+    return number.toLocaleString('vi-VN') + ' đ';
+}

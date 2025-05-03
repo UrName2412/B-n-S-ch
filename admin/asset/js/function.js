@@ -191,10 +191,13 @@ function previewImage(input, previewImgId, errorSelector = '.form-message') {
 }
 
 function formatVND(value) {
-    const number = Number(value);
-    if (isNaN(number)) return '0 ₫';
-    return number.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+    const cleaned = String(value).replace(/[^\d]/g, '');
+    const number = Number(cleaned);
+    if (isNaN(number)) return '0 đ';
+
+    return number.toLocaleString('vi-VN') + ' đ';
 }
+
 
   
 

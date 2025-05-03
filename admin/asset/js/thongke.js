@@ -312,11 +312,7 @@ loadProducts().then(products => {
     thongKeBanHang(products, "2023-01-01", "2025-12-31");
 });
 
-function formatVND(value) {
-    const number = Number(value);
-    if (isNaN(number)) return '0 ₫';
-    return number.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
-}
+
 
 
 

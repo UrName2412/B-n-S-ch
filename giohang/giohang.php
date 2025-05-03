@@ -86,17 +86,19 @@ if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role
         <div class="d-flex align-items-center">
             <!-- Section for Total and Checkout -->
             <section class="cart-total mt-4">
-                <div class="d-flex justify-content-between fw-bold">
-                    <span>Tổng cộng:</span>
-                    <span class="text-danger">đ</span>
-                </div>
+                <div class="w-100">
+                    <div class="d-flex justify-content-between fw-bold">
+                        <span>Tổng cộng:</span>
+                        <span class="text-danger">đ</span>
+                    </div>
 
-                <!-- Buttons -->
-                <div class="text-end d-flex justify-content-end mt-3">
-                    <a href="../sanpham/sanpham.php" class="btn btn-secondary me-2"> <i
-                            class="fas fa-arrow-left mr-2"></i> Tiếp tục mua sắm</a>
-                    <button data-bs-toggle="modal" data-bs-target="#login-check" class="btn btn-success">Thanh
-                        toán</button>
+                    <!-- Buttons -->
+                    <div class="text-end d-flex justify-content-end mt-3">
+                        <a href="../sanpham/sanpham.php" class="btn btn-secondary me-2"> <i
+                                class="fas fa-arrow-left mr-2"></i> Tiếp tục mua sắm</a>
+                        <button data-bs-toggle="modal" data-bs-target="#login-check" class="btn btn-success">Thanh
+                            toán</button>
+                    </div>
                 </div>
             </section>
         </div>
