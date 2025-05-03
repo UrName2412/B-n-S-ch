@@ -215,6 +215,18 @@ if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role
     <!-- Bootstrap JS -->
     <script src="../vender/js/bootstrap.bundle.min.js"></script>
     <script src="../asset/js/user-cart.js"></script>
+    <script>
+        document.getElementById('searchForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const inputValue = document.getElementById('timkiem').value.trim();
+
+            if (inputValue) {
+                window.location.href = '/B-n-S-ch/nguoidung/timkiem-nologin.php?tenSach=' + encodeURIComponent(inputValue);
+            } else {
+                alert('Vui lòng nhập nội dung tìm kiếm!');
+            }
+        });
+    </script>
 </body>
 
 </html>
