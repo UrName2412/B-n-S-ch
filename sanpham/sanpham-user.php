@@ -296,7 +296,7 @@ if ($user['trangThai'] == false) {
             const inputValue = document.getElementById('timkiem').value.trim();
 
             if (inputValue) {
-                window.location.href = '/B-n-S-ch/nguoidung/timkiem.php?tenSach=' + encodeURIComponent(inputValue);
+                window.location.href = '../nguoidung/timkiem.php?tenSach=' + encodeURIComponent(inputValue);
             } else {
                 alert('Vui lòng nhập nội dung tìm kiếm!');
             }
