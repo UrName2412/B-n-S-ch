@@ -20,7 +20,7 @@ if (isset($_GET['id'])) {
         echo "<div class='container-fluid product-detail'>
                 <div class='row h-100'>
                     <div class='col-md-6 product-detail-image'>
-                        <img src='/B-n-S-ch/Images/{$row['hinhAnh']}' class='img-fluid' alt='{$row['tenSach']}'>
+                        <img src='/Images/{$row['hinhAnh']}' class='img-fluid' alt='{$row['tenSach']}'>
                     </div>
                     <div class='col-md-6 product-detail-info'>
                         <h5 class='product-title fw-bold mb-3'>{$row['tenSach']}</h5>
