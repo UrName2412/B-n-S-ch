@@ -170,7 +170,7 @@ if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role
                                         <div class="col-md-4 mb-4">
                                             <div class="card" style="width: 100%;">
                                                 <a href="#" class="view-detail" data-id="<?php echo $row['maSach']; ?>">
-                                                    <img src="../images/<?php echo $row['hinhAnh']; ?>" class="card-img-top"
+                                                    <img src="../Images/<?php echo $row['hinhAnh']; ?>" class="card-img-top"
                                                         alt="...">
                                                 </a>
                                                 <div class="card-body">
