@@ -91,22 +91,42 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 const addToCart = (productName, productPrice, imageUrl, productId) => {
+    const MAX_QUANTITY = 99;
+    const MAX_CART_ITEMS = 20;
+
+    if (!productName || !productPrice || !imageUrl || !productId) {
+        console.error("Missing required product information");
+        return;
+    }
+
     let productIndex = cart.findIndex((item) => item.productId === productId);
 
     if (productIndex < 0) {
+        if (cart.length >= MAX_CART_ITEMS) {
+            alert("Giỏ hàng đã đạt số lượng tối đa!");
+            return;
+        }
         cart.push({
             productId: productId,
             image: imageUrl,
             productName: productName,
-            productPrice: productPrice,
+            productPrice: cleanPrice(productPrice),
             quantity: 1
         });
     } else {
+        if (cart[productIndex].quantity >= MAX_QUANTITY) {
+            alert("Đã đạt số lượng tối đa cho sản phẩm này!");
+            return;
+        }
         cart[productIndex].quantity += 1;
     }
 
     addTosessionStorage();
 };
+
+function cleanPrice(price) {
+    return price.replace(/[^\d]/g, '');
+}
 
 function removeSessionCart() {
     sessionStorage.removeItem("cart");
@@ -125,10 +145,15 @@ const addTosessionStorage = () => {
 
 // Tải giỏ hàng từ sessionStorage khi trang mở lại
 const loadFromsessionStorage = () => {
-    const storedCart = sessionStorage.getItem("cart");
-    cart = storedCart ? JSON.parse(storedCart) : [];
+    try {
+        const storedCart = sessionStorage.getItem("cart");
+        cart = storedCart ? JSON.parse(storedCart) : [];
 
-    let totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
-
-    iconCartSpan.innerText = totalQuantity < 99 ? totalQuantity : "99+";
+        let totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
+        iconCartSpan.innerText = totalQuantity < 99 ? totalQuantity : "99+";
+    } catch (error) {
+        console.error("Error loading cart:", error);
+        cart = [];
+        iconCartSpan.innerText = "0";
+    }
 };
