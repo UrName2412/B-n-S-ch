@@ -29,7 +29,7 @@ if ($maDon) {
     $sql_ct = "
     SELECT ct.*, sp.tenSach, sp.hinhAnh 
     FROM b01_chitiethoadon ct
-    JOIN b01_sanpham sp ON ct.maSach = sp.maSach
+    JOIN b01_sanPham sp ON ct.maSach = sp.maSach
     WHERE ct.maDon = ?";
     $stmt_ct = $database->prepare($sql_ct);
     $stmt_ct->bind_param("i", $maDon);

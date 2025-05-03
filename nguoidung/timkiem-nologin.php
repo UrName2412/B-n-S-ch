@@ -155,7 +155,7 @@ if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role
                             if (isset($_GET['tenSach']) && !empty($_GET['tenSach'])) {
                                 $keyword = '%' . $_GET['tenSach'] . '%';
                                 $stmt = $database->prepare("
-                                SELECT * FROM b01_sanpham 
+                                SELECT * FROM b01_sanPham 
                                 WHERE (tenSach LIKE ? OR moTa LIKE ?) 
                                 AND trangThai = 1
                             ");

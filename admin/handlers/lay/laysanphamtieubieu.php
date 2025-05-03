@@ -5,7 +5,7 @@ require '../../config/config.php';
 
 $sql = "SELECT sp.tenSach ,COUNT(ct.soLuong) as soLuong
 FROM b01_chitiethoadon ct
-JOIN b01_sanpham sp ON sp.maSach = ct.maSach
+JOIN b01_sanPham sp ON sp.maSach = ct.maSach
 JOIN b01_donhang dh ON dh.maDon = ct.maDon
 WHERE dh.tinhTrang = 'Đã giao'
 GROUP BY ct.maSach

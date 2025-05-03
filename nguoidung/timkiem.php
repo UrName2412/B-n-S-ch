@@ -175,7 +175,7 @@ if ($user['trangThai'] == false) {
                             if (isset($_GET['tenSach']) && !empty($_GET['tenSach'])) {
                                 $keyword = '%' . $_GET['tenSach'] . '%';
                                 $stmt = $database->prepare("
-                                SELECT * FROM b01_sanpham 
+                                SELECT * FROM b01_sanPham 
                                 WHERE (tenSach LIKE ? OR moTa LIKE ?) 
                                 AND trangThai = 1
                             ");
