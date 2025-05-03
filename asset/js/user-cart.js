@@ -42,7 +42,7 @@ const renderCart = () => {
                 <!-- Số lượng và giá -->
                 <div class="d-flex align-items-center">
                     <input type="number" class="form-control text-center" value="${escapeHTML(item.quantity)}" min="1" style="width: 60px;">
-                    <span class="ms-2 fw-bold">${escapeHTML(item.productPrice)}</span>
+                    <span class="ms-2 fw-bold">${escapeHTML(formatVND(item.productPrice))}</span>
                 </div>
                 <!-- Nút xóa -->
                 <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
@@ -143,5 +143,12 @@ function removeSessionCart() {
     cart = [];
 }
 
+function formatVND(value) {
+    const cleaned = String(value).replace(/[^\d]/g, '');
+    const number = Number(cleaned);
+    if (isNaN(number)) return '0 đ';
+
+    return number.toLocaleString('vi-VN') + ' đ';
+}
 
 loadFromsessionStorage();
