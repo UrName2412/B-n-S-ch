@@ -3,7 +3,6 @@ let iconCartSpan = document.querySelector(".cart-icon span");
 const modalElement = document.getElementById("cartModal");
 const listProductHTML = document.querySelector(".listProduct");
 
-// Khi trang tải xong, khởi tạo giỏ hàng từ sessionStorage
 document.addEventListener("DOMContentLoaded", () => {
     loadFromsessionStorage();
 
@@ -18,56 +17,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
             addToCart(productTitle, productPrice, imageUrl, productId);
 
-            // Hiển thị thông báo
             let notification = new bootstrap.Modal(modalElement);
             notification.show();
-        }
-    });
-
-    // Xử lý sự kiện xem chi tiết sản phẩm
-    listProductHTML.addEventListener("click", function (event) {
-        const viewDetailLink = event.target.closest(".view-detail");
-        if (viewDetailLink) {
-            event.preventDefault();
-            const productId = viewDetailLink.getAttribute("data-id");
-            const modalContent = document.getElementById("productDetailContent");
-            const modalElement = document.getElementById("productDetailModal");
-
-            // Show loading indicator
-            modalContent.innerHTML = '<div class="text-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>';
-
-            fetch("../asset/handler/ajax_get_product_detail.php?id=" + productId)
-                .then(response => response.text())
-                .then(data => {
-                    modalContent.innerHTML = data;
-                    const modal = new bootstrap.Modal(modalElement);
-                    modal.show();
-
-                    // Add event listener for "Thêm vào giỏ hàng" button after content is loaded
-                    const addToCartButton = modalContent.querySelector(".add-to-cart-detail");
-                    if (addToCartButton) {
-                        addToCartButton.addEventListener("click", function() {
-                            try {
-                                const productName = modalContent.querySelector("h5").textContent;
-                                const productPrice = modalContent.querySelector(".text-danger").textContent;
-                                const imageUrl = modalContent.querySelector("img").src;
-
-                                addToCart(productName, productPrice, imageUrl, productId);
-
-                                // Show success notification
-                                const cartModal = new bootstrap.Modal(document.getElementById("cartModal"));
-                                cartModal.show();
-                                modal.hide();
-                            } catch (err) {
-                                console.error("Error adding to cart:", err);
-                            }
-                        });
-                    }
-                })
-                .catch(error => {
-                    console.error("Error fetching product details:", error);
-                    modalContent.innerHTML = '<div class="alert alert-danger">Không thể tải thông tin sản phẩm. Vui lòng thử lại sau.</div>';
-                });
         }
     });
 
@@ -91,22 +42,42 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 const addToCart = (productName, productPrice, imageUrl, productId) => {
+    const MAX_QUANTITY = 99;
+    const MAX_CART_ITEMS = 20;
+
+    if (!productName || !productPrice || !imageUrl || !productId) {
+        console.error("Missing required product information");
+        return;
+    }
+
     let productIndex = cart.findIndex((item) => item.productId === productId);
 
     if (productIndex < 0) {
+        if (cart.length >= MAX_CART_ITEMS) {
+            alert("Giỏ hàng đã đạt số lượng tối đa!");
+            return;
+        }
         cart.push({
             productId: productId,
             image: imageUrl,
             productName: productName,
-            productPrice: productPrice,
+            productPrice: cleanPrice(productPrice),
             quantity: 1
         });
     } else {
+        if (cart[productIndex].quantity >= MAX_QUANTITY) {
+            alert("Đã đạt số lượng tối đa cho sản phẩm này!");
+            return;
+        }
         cart[productIndex].quantity += 1;
     }
 
     addTosessionStorage();
 };
+
+function cleanPrice(price) {
+    return price.replace(/[^\d]/g, '');
+}
 
 function removeSessionCart() {
     sessionStorage.removeItem("cart");
@@ -125,10 +96,15 @@ const addTosessionStorage = () => {
 
 // Tải giỏ hàng từ sessionStorage khi trang mở lại
 const loadFromsessionStorage = () => {
-    const storedCart = sessionStorage.getItem("cart");
-    cart = storedCart ? JSON.parse(storedCart) : [];
+    try {
+        const storedCart = sessionStorage.getItem("cart");
+        cart = storedCart ? JSON.parse(storedCart) : [];
 
-    let totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
-
-    iconCartSpan.innerText = totalQuantity < 99 ? totalQuantity : "99+";
+        let totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
+        iconCartSpan.innerText = totalQuantity < 99 ? totalQuantity : "99+";
+    } catch (error) {
+        console.error("Error loading cart:", error);
+        cart = [];
+        iconCartSpan.innerText = "0";
+    }
 };

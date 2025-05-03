@@ -8,17 +8,8 @@ document.addEventListener("DOMContentLoaded", function () {
     resetButton.addEventListener("click", function () {
         window.location.reload(); // Tải lại trang để reset tất cả các bộ lọc
     })
-
-    function cleanupModal() {
-        document.body.classList.remove('modal-open');
-        document.body.removeAttribute('style');
-        document.body.style.removeProperty('padding-right');
-        document.body.style.removeProperty('overflow');
-        const backdrops = document.querySelectorAll('.modal-backdrop');
-        backdrops.forEach(backdrop => backdrop.remove());
-    }
-
-    function fetchProductDetails(productId) {
+    
+    function fetchProductDetails(productId, baseUrl) {
         const modalElement = document.getElementById('productDetailModal');
         const modalContent = document.getElementById('productDetailContent');
         
@@ -29,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
         
         modalContent.innerHTML = '<div class="text-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>';
         
-        fetch(`../asset/handler/ajax_get_product_detail.php?id=${productId}`)
+        fetch(`${baseUrl}?id=${productId}`)
             .then(response => response.text())
             .then(data => {
                 modalContent.innerHTML = data;
@@ -83,8 +74,9 @@ document.addEventListener("DOMContentLoaded", function () {
         if (viewDetailLink) {
             e.preventDefault();
             const productId = viewDetailLink.getAttribute('data-id');
+            const baseUrl = document.getElementById('baseUrl').value;
             if (productId) {
-                fetchProductDetails(productId);
+                fetchProductDetails(productId, baseUrl);
             }
         }
     });
@@ -178,6 +170,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Gọi từ AJAX
     document.getElementById("filterBtn").addEventListener("click", function () {
+        const listProduct = document.getElementById("listProduct");
+        listProduct.innerHTML = '<div class="text-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>';
+
         let category = document.getElementById("theloai").value || "";
         let minPrice = document.getElementById("minPrice").value || "0";
         let maxPrice = document.getElementById("maxPrice").value || "999999";
@@ -189,21 +184,13 @@ document.addEventListener("DOMContentLoaded", function () {
         let url = `../asset/handler/fetch_product.php?category=${category}&min_price=${minPrice}&max_price=${maxPrice}`;
 
         fetch(url)
-            .then(response => response.text()) // Đọc phản hồi dưới dạng text
-            .then(data => {
-                try {
-                    return JSON.parse(data); // Thử parse JSON
-                } catch (error) {
-                    console.error("Lỗi khi parse JSON:", error);
-                    throw new Error("Server không trả về JSON hợp lệ");
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
                 }
+                return response.json();
             })
-            .catch(error => console.log("Lỗi khi tải sản phẩm:", error));
-
-        fetch(url)
-            .then(response => response.json())
             .then(data => {
-
                 let filteredProducts = data.filter(product => {
                     let productName = (product.tenSach || "").toLowerCase();
                     if (tenSach && !productName.includes(tenSach)) return false;
@@ -236,7 +223,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <div class="col-md-4 mb-4">
                         <div class="card" style="width: 100%;">
                             <a href="#" class="view-detail" data-id="${product.maSach}">
-                                <img src="/B-n-S-ch/Images/${product.hinhAnh}" alt="${product.tenSach}" class="card-img-top">
+                                <img src="../Images/${product.hinhAnh}" alt="${product.tenSach}" class="card-img-top">
                             </a>
                             <div class="card-body">
                                 <h5 class="card-title">${product.tenSach}</h5>
@@ -252,7 +239,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 showPage(currentPage);
                 createPagination();
             })
-            .catch(error => console.log("Lỗi khi tải sản phẩm:", error));
+            .catch(error => {
+                console.error("Lỗi:", error);
+                listProduct.innerHTML = '<div class="alert alert-danger">Có lỗi xảy ra khi tải sản phẩm. Vui lòng thử lại.</div>';
+                paginationContainer.innerHTML = "";
+            });
     });
 });
 
@@ -276,7 +267,7 @@ function loadProducts(page = 1) {
                 productDiv.innerHTML = `
                     <div class="card" style="width: 100%;">
                         <a href="#" class="view-detail" data-id="${product.maSach}">
-                            <img src="/B-n-S-ch/Images/${product.hinhAnh}" alt="${product.tenSach}" class="card-img-top">
+                            <img src="../Images/${product.hinhAnh}" alt="${product.tenSach}" class="card-img-top">
                         </a>
                         <div class="card-body">
                             <h5 class="card-title">${product.tenSach}</h5>
