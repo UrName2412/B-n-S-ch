@@ -240,7 +240,7 @@ if ($admin['trangThai'] == false) {
         messageRequiredRole = 'Vui lòng chọn vai trò.';
         messageEmail = 'Vui lòng nhập đúng email.';
         messagePhone = 'Vui lòng nhập đúng số điện thoại.';
-        messagePassword = 'Yêu cầu kí tự hoa, kí tự thường, số và ít nhất 7 kí tự.';
+        messagePassword = 'Yêu cầu kí tự hoa, kí tự thường, số và ít nhất 8 kí tự.';
         messageConfirmPassword = 'Nhập sai mật khẩu, vui lòng nhập lại.';
         Validator({
             form: '#form-add',
