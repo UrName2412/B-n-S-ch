@@ -180,44 +180,45 @@ function searchButton() {
     var input = document.getElementById('searchInput');
     var valueSearch = input.value.trim().toLowerCase();
     const cartFilterValue = document.getElementById('cartFilter').value;
-    const keyCartSearch = "username";
+    const keyCartSearch = "maDon";
     if (valueSearch == "") {
         cartFilter();
     } else {
         listCartsBlock.innerHTML = '';
-        carts.forEach(cart => {
-            if (typeof (cart[keyCartSearch]) !== "string") {
-                var data = String(cart[keyCartSearch]);
-            } else data = cart[keyCartSearch]
-            data = data.trim().toLowerCase();
-            if (data.includes(valueSearch) && !data.includes("gmail")) {
-                console.log(cart.status);
-                if (cartFilterValue == "Tất cả đơn hàng" || cartFilterValue == cart.status) {
-                    flag = false;
-                    var newCart = document.createElement('div');
-                    newCart.className = 'grid-row-cart';
-                    newCart.innerHTML = `
-                        <textarea placeholder="Nhập id..." readonly>${cart.id}</textarea>
-                        <textarea placeholder="Nhập tên người dùng..." readonly>${cart.username}</textarea>
-                        <textarea placeholder="Nhập địa chỉ..." readonly>${cart.address}</textarea>
-                        <textarea placeholder="Nhập số điện thoại..." readonly>${cart.phone}</textarea>
-                        <textarea placeholder="Nhập tổng giá..." readonly>${cart.amount}</textarea>
-                        <div class="buttonCart">
-                            <button type="button" class="status">${cart.status}</button>
-                            <button type="button" class="detailButton">Chi tiết đơn hàng</button>
-                        </div>
-                    `;
-                    listCartsBlock.appendChild(newCart);
+        fetch('../handlers/lay/laydonhang.php')
+            .then(response => response.json())
+            .then(carts => {
+                carts.forEach(cart => {
+                    if (cart[keyCartSearch] == valueSearch && (cart.tinhTrang == cartFilterValue || cartFilterValue == "Tất cả đơn hàng")) {
+                        let diaChi = addressHandler1.concatenateAddress(cart.tinhThanh,cart.quanHuyen,cart.xa,cart.duong);
+                        var newCart = document.createElement('div');
+                        newCart.className = 'grid-row-cart';
+                        newCart.innerHTML = `
+                            <textarea placeholder="Nhập mã đơn..." readonly>${cart.maDon}</textarea>
+                            <textarea placeholder="Nhập tên người dùng..." readonly>${cart.tenNguoiDung}</textarea>
+                            <textarea placeholder="Nhập địa chỉ..." readonly>${diaChi}</textarea>
+                            <textarea placeholder="Nhập số điện thoại..." readonly>${cart.soDienThoai}</textarea>
+                            <textarea placeholder="Nhập tổng giá..." readonly>${formatVND(cart.tongTien)}</textarea>
+                            <div class="buttonCart">
+                                <button type="button" class="status">${cart.tinhTrang}</button>
+                                <button type="button" class="detailButton">Chi tiết đơn hàng</button>
+                            </div>
+                        `;
+                        listCartsBlock.appendChild(newCart);
+                        flag = false;
+                    }
+                })
+                if (flag) {
+                    createAlert("Không tìm thấy đơn hàng.");
+                    cartFilter();
+                } else {
+                    setStatusButtons();
+                    setDetailButtons();
                 }
-            }
-        })
-        if (flag) {
-            createAlert("Không tìm thấy đơn hàng.");
-            cartFilter();
-        } else {
-            setStatusButtons();
-            setDetailButtons();
-        }
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
     }
 }
 
