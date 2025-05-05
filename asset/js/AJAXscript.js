@@ -6,7 +6,19 @@ document.addEventListener("DOMContentLoaded", function () {
     let resetButton = document.getElementById("resetFilter");
 
     resetButton.addEventListener("click", function () {
-        window.location.reload(); // Tải lại trang để reset tất cả các bộ lọc
+        // Clear all input values
+        document.getElementById("tensach").value = '';
+        document.getElementById("tentacgia").value = '';
+        document.getElementById("nxb").value = '';
+        document.getElementById("theloai").value = '';
+        document.getElementById("minPrice").value = '';
+        document.getElementById("maxPrice").value = '';
+        
+        // Clear URL parameters
+        window.history.replaceState({}, '', window.location.pathname);
+        
+        // Reload products without filters
+        loadProducts(1);
     })
 
     // Hàm hiển thị sản phẩm theo trang
