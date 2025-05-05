@@ -224,7 +224,7 @@ if ($user['trangThai'] == false) {
                                     echo '<div class="col-md-4 mb-4">';
                                     echo '<div class="card" style="width: 100%;">';
                                     echo '<a href="#" class="view-detail" data-id="' . $row["maSach"] . '">';
-                                    echo '<img src="/B-n-S-ch/Images/' . $row["hinhAnh"] . '" alt="' . $row["tenSach"] . '" class="card-img-top">';
+                                    echo '<img src="../Images/' . $row["hinhAnh"] . '" alt="' . $row["tenSach"] . '" class="card-img-top">';
                                     echo '</a>';
                                     echo '<div class="card-body">';
                                     echo '<h5 class="card-title">' . $row["tenSach"] . '</h5>';
