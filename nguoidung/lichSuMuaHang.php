@@ -19,8 +19,8 @@ if ($user['trangThai'] == false) {
 }
 
 $sql = "SELECT dh.maDon, dh.ngayTao, dh.tongTien, dh.tinhTrang, sp.tenSach, sp.hinhAnh, ctdh.soLuong, ctdh.giaBan
-        FROM b01_donhang dh
-        JOIN b01_chitiethoadon ctdh ON dh.maDon = ctdh.maDon
+        FROM b01_donHang dh
+        JOIN b01_chiTietHoaDon ctdh ON dh.maDon = ctdh.maDon
         JOIN b01_sanPham sp ON ctdh.maSach = sp.maSach
         WHERE dh.tenNguoiDung = ?
         ORDER BY dh.maDon DESC";
@@ -296,6 +296,7 @@ $database->close();
     </footer>
 
     <script src="../vender/js/bootstrap.bundle.min.js"></script>
+    <script src="../asset/js/user.js"></script>
 </body>
 
 </html>

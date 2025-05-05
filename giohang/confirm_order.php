@@ -67,7 +67,7 @@ foreach ($cart as $item) {
     $tongTien += $giaBan * $item['quantity'];
 }
 
-$sql = "INSERT INTO b01_donhang (tenNguoiNhan, soDienThoai, ngayTao, tinhThanh, quanHuyen, xa, duong, tongTien, tinhTrang, ghiChu, tenNguoiDung)
+$sql = "INSERT INTO b01_donHang (tenNguoiNhan, soDienThoai, ngayTao, tinhThanh, quanHuyen, xa, duong, tongTien, tinhTrang, ghiChu, tenNguoiDung)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 $stmt = $database->prepare($sql);
 $stmt->bind_param("sssssssssss", $tenNguoiNhan, $soDienThoai, $ngayTao, $tinhThanh, $quanHuyen, $xa, $duong, $tongTien, $tinhTrang, $ghiChu, $tenNguoiDung);
@@ -76,7 +76,7 @@ if ($stmt->execute()) {
     $maDon = $stmt->insert_id;
 
     // Thêm chi tiết đơn hàng
-    $sql_ct = "INSERT INTO b01_chitiethoadon (maSach, maDon, giaBan, soLuong) VALUES (?, ?, ?, ?)";
+    $sql_ct = "INSERT INTO b01_chiTietHoaDon (maSach, maDon, giaBan, soLuong) VALUES (?, ?, ?, ?)";
     $stmt_ct = $database->prepare($sql_ct);
 
     foreach ($cart as $item) {
@@ -90,6 +90,12 @@ if ($stmt->execute()) {
             echo "Lỗi khi thêm chi tiết hóa đơn: " . $stmt_ct->error;
             exit();
         }
+
+        // Cập nhật trạng thái đã bán của sản phẩm
+        $sql_update = "UPDATE b01_sanPham SET daBan = true WHERE maSach = ?";
+        $stmt_update = $database->prepare($sql_update);
+        $stmt_update->bind_param("i", $maSach);
+        $stmt_update->execute();
     }
 
     $_SESSION['maDon'] = $maDon;
@@ -100,10 +106,6 @@ if ($stmt->execute()) {
     echo "Lỗi khi thêm đơn hàng: " . $stmt->error;
 }
 ?>
-
-
-
-
 
 <!DOCTYPE html>
 <html lang="vi">
@@ -119,13 +121,13 @@ if ($stmt->execute()) {
 </head>
 
 <body>
-<script>
-    window.addEventListener('pageshow', function (event) {
-        if (event.persisted) {
-            window.location.reload();
-        }
-    });
-</script>
+    <script>
+        window.addEventListener('pageshow', function(event) {
+            if (event.persisted) {
+                window.location.reload();
+            }
+        });
+    </script>
     <!-- Header -->
     <header class="text-white py-3" id="top">
         <div class="container">
@@ -165,14 +167,14 @@ if ($stmt->execute()) {
                                     <i class="fas fa-user" id="avatar" style="color: black;"></i>
                                 </a>
                                 <span class="mt-1" id="profile-name" style="top: 20px; padding: 2px;">
-                                <?php echo $_SESSION['user']['tenNguoiDung']; ?>
+                                    <?php echo $_SESSION['user']['tenNguoiDung']; ?>
                                 </span>
                                 <div class="dropdown">
                                     <button class="btn btn-outline-light dropdown-toggle" type="button"
                                         data-bs-toggle="dropdown" aria-expanded="false"></button>
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item" href="../nguoidung/user.php">Thông tin tài khoản</a></li>
-                                        <li class="dropdownList"><a href="../dangky/dangxuat.php" class="dropdown-item"  onclick="removeSessionCart()">Đăng xuất</a></li>
+                                        <li class="dropdownList"><a href="../dangky/dangxuat.php" class="dropdown-item" onclick="removeSessionCart()">Đăng xuất</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -196,22 +198,23 @@ if ($stmt->execute()) {
 
             <!-- Thông tin người nhận -->
             <div id="thongTinNguoiNhan">
-    <p><strong>Người nhận:</strong> <?php echo $_SESSION['user']['tenNguoiDung']; ?></p>
-    <p><strong>Địa chỉ:</strong> 
-    <span id="address-info"><?php echo htmlspecialchars($order['duong']) . ', ' . htmlspecialchars($order['xa']) . ', ' . htmlspecialchars($order['quanHuyen']) . ', ' . htmlspecialchars($order['tinhThanh']); ?></span></p>
-    <p><strong>Số điện thoại:</strong> <?php echo $_SESSION['user']['soDienThoai']; ?></p>
-</div>
+                <p><strong>Người nhận:</strong> <?php echo $_SESSION['user']['tenNguoiDung']; ?></p>
+                <p><strong>Địa chỉ:</strong>
+                    <span id="address-info"><?php echo htmlspecialchars($order['duong']) . ', ' . htmlspecialchars($order['xa']) . ', ' . htmlspecialchars($order['quanHuyen']) . ', ' . htmlspecialchars($order['tinhThanh']); ?></span>
+                </p>
+                <p><strong>Số điện thoại:</strong> <?php echo $_SESSION['user']['soDienThoai']; ?></p>
+            </div>
 
             <!-- Hóa đơn được JS in ra -->
             <div id="hoaDon" style="margin-top: 30px;"></div>
 
             <!-- Nút gửi đơn hàng -->
             <form action="confirm_order.php" method="post">
-        <input type="hidden" name="note" value="<?php echo htmlspecialchars($note); ?>">
-        <input type="hidden" name="method" value="<?php echo htmlspecialchars($paymentMethod); ?>">
-        <input type="hidden" name="cart" id="cartInput">
-            <input type="submit" value="Xác nhận đặt hàng" class="btn btn-success" onclick="removeSessionCart()">
-        </form>
+                <input type="hidden" name="note" value="<?php echo htmlspecialchars($note); ?>">
+                <input type="hidden" name="method" value="<?php echo htmlspecialchars($paymentMethod); ?>">
+                <input type="hidden" name="cart" id="cartInput">
+                <input type="submit" value="Xác nhận đặt hàng" class="btn btn-success" onclick="removeSessionCart()">
+            </form>
         </div>
     </div>
 
@@ -276,7 +279,7 @@ if ($stmt->execute()) {
 
     <a href="#top" id="backToTop">&#8593;</a>
 
-    <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" >
+    <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel">
         <div class="modal-dialog modal-sm position-absolute" style="top: 10%; left: 10%;">
             <div class="modal-content bg-success text-white">
                 <div class="modal-body text-center">
@@ -286,7 +289,7 @@ if ($stmt->execute()) {
         </div>
     </div>
 
-    <div class="modal fade" id="productDetailModal" tabindex="-1" aria-labelledby="productDetailLabel" >
+    <div class="modal fade" id="productDetailModal" tabindex="-1" aria-labelledby="productDetailLabel">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -303,24 +306,25 @@ if ($stmt->execute()) {
     </div>
     <script src="../vender/js/bootstrap.bundle.min.js"></script>
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const cart = JSON.parse(sessionStorage.getItem('cart') || '[]');
-        document.getElementById('cartInput').value = JSON.stringify(cart);
-        
-    });
+        document.addEventListener('DOMContentLoaded', function() {
+            const cart = JSON.parse(sessionStorage.getItem('cart') || '[]');
+            document.getElementById('cartInput').value = JSON.stringify(cart);
+
+        });
     </script>
 
     <script>
-    const sessionAddress = {
-        province: "<?php echo $_SESSION['user']['tinhThanh']; ?>",
-        district: "<?php echo $_SESSION['user']['quanHuyen']; ?>",
-        ward: "<?php echo $_SESSION['user']['xa']; ?>",
-        street: "<?php echo $_SESSION['user']['duong']; ?>"
-    };
+        const sessionAddress = {
+            province: "<?php echo $_SESSION['user']['tinhThanh']; ?>",
+            district: "<?php echo $_SESSION['user']['quanHuyen']; ?>",
+            ward: "<?php echo $_SESSION['user']['xa']; ?>",
+            street: "<?php echo $_SESSION['user']['duong']; ?>"
+        };
     </script>
 
     <script type="module" src="../asset/js/confirm_order.js"></script>
     <script src="../asset/js/sanpham.js"></script>
 
 </body>
+
 </html>
