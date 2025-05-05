@@ -40,7 +40,7 @@ if ($user['trangThai'] == false) {
         <div class="container">
             <nav class="navbar navbar-expand-md">
                 <div class="navbar-brand logo">
-                    <a href="index.php" class="d-flex align-items-center">
+                    <a href="../index.php" class="d-flex align-items-center">
                         <img src="../Images/LogoSach.png" alt="logo" width="100" height="57" loading="lazy">
                     </a>
                 </div>
