@@ -226,6 +226,10 @@ async function allCarts(listCartsBlock) {
     let carts = await response.json();
 
     listCartsBlock.innerHTML = '';
+    if (carts.length == 0) {
+        listCartsBlock.innerHTML = `<div style="text-align: center;color: red;">Không có dữ liệu</div>`;
+        return;
+    }
     for (let cart of carts){
         let diaChi = await addressHandler1.concatenateAddress(cart.tinhThanh,cart.quanHuyen,cart.xa,cart.duong)
         var newCart = document.createElement('div');
@@ -252,6 +256,10 @@ async function statusCarts(listCartsBlock, status) {
     let carts = await response.json();
 
     listCartsBlock.innerHTML = '';
+    if (carts.length == 0) {
+        listCartsBlock.innerHTML = `<div style="text-align: center;color: red;">Không có dữ liệu</div>`;
+        return;
+    }
     for (let cart of carts) {
         let cartStatus = cart.tinhTrang.trim().toLowerCase().normalize('NFC');
         let filterStatus = status.trim().toLowerCase().normalize('NFC');
