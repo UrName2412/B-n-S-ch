@@ -187,10 +187,10 @@ function searchButton() {
         listCartsBlock.innerHTML = '';
         fetch('../handlers/lay/laydonhang.php')
             .then(response => response.json())
-            .then(carts => {
-                carts.forEach(cart => {
+            .then(async carts => {
+                for (let cart of carts){
                     if (cart[keyCartSearch] == valueSearch && (cart.tinhTrang == cartFilterValue || cartFilterValue == "Tất cả đơn hàng")) {
-                        let diaChi = addressHandler1.concatenateAddress(cart.tinhThanh,cart.quanHuyen,cart.xa,cart.duong);
+                        let diaChi = await addressHandler1.concatenateAddress(cart.tinhThanh,cart.quanHuyen,cart.xa,cart.duong);
                         var newCart = document.createElement('div');
                         newCart.className = 'grid-row-cart';
                         newCart.innerHTML = `
@@ -207,7 +207,7 @@ function searchButton() {
                         listCartsBlock.appendChild(newCart);
                         flag = false;
                     }
-                })
+                }
                 if (flag) {
                     createAlert("Không tìm thấy đơn hàng.");
                     cartFilter();
@@ -264,8 +264,6 @@ async function statusCarts(listCartsBlock, status) {
     for (let cart of carts) {
         let cartStatus = cart.tinhTrang.trim().toLowerCase().normalize('NFC');
         let filterStatus = status.trim().toLowerCase().normalize('NFC');
-
-        console.log('Cart status:', cartStatus, 'Status filter:', filterStatus, cartStatus == filterStatus);
 
         if (cartStatus == filterStatus) {
             let diaChi = await addressHandler1.concatenateAddress(cart.tinhThanh, cart.quanHuyen, cart.xa, cart.duong);
