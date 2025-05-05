@@ -47,14 +47,13 @@ function test_input($data)
 }
 
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
-    $username1 = test_input($_POST['name']);
     $address1 = test_input($_POST['address']);
     $phone1 = test_input($_POST['phone']);
     $province1 = test_input($_POST['province']);
     $district1 = test_input($_POST['district']);
     $ward1 = test_input($_POST['ward']);
 
-    updateUser($database, $username1, $address1, $phone1, $province1, $district1, $ward1);
+    updateUser($database, $username, $address1, $phone1, $province1, $district1, $ward1);
 
     $_SESSION['update_success'] = true;
 
