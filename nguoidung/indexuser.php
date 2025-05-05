@@ -387,9 +387,8 @@ if ($user['trangThai'] == false) {
 
             // Chuyển hướng sang trang sản phẩm với các tham số lọc
             window.location.href = '../sanpham/sanpham-user.php?' + params.toString();
-
-            handleViewDetailClick('../Images/');
         });
+        handleViewDetailClick('../Images/');
     </script>
 </body>
 
