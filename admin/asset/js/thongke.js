@@ -1,8 +1,7 @@
 import { addressHandler } from './apiAddress.js';
 const addressHandler1 = new addressHandler();
 
-const productsAPI = '../data/JSON/sanpham.json';
-const usersAPI = '../data/JSON/nguoidung.json';
+const productsAPI = '../handlers/lay/laysanpham.php';
 // Hàm tải dữ liệu người dùng
 async function loadUsers() {
     try {
@@ -80,6 +79,7 @@ function setDetailButtons(currentOrderPage = null,startDate = "", endDate = "") 
             if (orders && orders.length > 0) {
                 await showCustomerOrders(orders, tenNguoiDung, currentOrderPage, ordersPerPage);
             }
+            console.log(startDate, endDate);
         });
     });
 }
@@ -250,71 +250,43 @@ document.getElementById('filterButton').addEventListener('click', function () {
     const startDate = document.getElementById('startDate').value;
     const endDate = document.getElementById('endDate').value;
 
-    if (!startDate || !endDate) {
-        alert('Vui lòng chọn khoảng thời gian hợp lệ.');
+    if (!startDate || !endDate || startDate > endDate) {
+        createAlert('Vui lòng chọn khoảng thời gian hợp lệ.');
         return;
     }
 
     fetchTop5Customers(startDate, endDate, true);
 });
 
-// Tải dữ liệu ban đầu
-loadProducts().then(products => {
-    thongKeBanHang(products, "2023-01-01", "2023-12-31");
-});
 
-fetchTop5Customers();
-
-// Hàm tải dữ liệu sp
-async function loadProducts() {
-    try {
-        const response = await fetch(productsAPI);
-        const products = await response.json();
-        return products;
-    } catch (error) {
-        console.error("Lỗi khi tải dữ liệu:", error);
-        return [];
+async function calculateStats(startDate = "", endDate = "") {
+    let url1 = '../handlers/lay/laytongtiendonhang.php';
+    let url2 = '../handlers/lay/laysanphamtieubieu.php';
+    if (startDate && endDate) {
+        url1 += `?start=${startDate}&end=${endDate}`;
+        url2 += `?start=${startDate}&end=${endDate}`;
     }
-}
-
-// Tính toán tổng thu, mặt hàng bán chạy nhất và ít nhất
-async function calculateStats(products) {
     let totalRevenue = 0;
     let bestSellingProduct = null;
-    let worstSellingProduct = null;
 
-    const response = await fetch('../handlers/lay/laytongtiendonhang.php');
+    const response = await fetch(url1);
     let obj = await response.json();
     totalRevenue = obj.tongTien;
 
-    const response1 = await fetch('../handlers/lay/laysanphamtieubieu.php?tieuBieu=1');
+    const response1 = await fetch(url2);
     bestSellingProduct = await response1.json();
     
     document.getElementById('totalRevenue').textContent = formatVND(totalRevenue);
     document.getElementById('bestSellingProduct').textContent = bestSellingProduct ? `${bestSellingProduct.tenSach} (${bestSellingProduct.soLuong} sản phẩm)` : 'Không có dữ liệu';
 }
 
-// Lọc và thống kê sản phẩm đã bán theo khoảng thời gian
-function thongKeBanHang(products, startDate, endDate) {
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-
-    const sachBan = products.filter(product => {
-        const soldDate = new Date(product.soldDate);
-        return soldDate >= start && soldDate <= end;
-    });
-
-    calculateStats(sachBan);
+function formatVND(value) {
+    const number = Number(value);
+    if (isNaN(number)) return '0 ₫';
+    return number.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
 }
 
-// Tải dữ liệu ban đầu
-loadProducts().then(products => {
-    thongKeBanHang(products, "2023-01-01", "2025-12-31");
-});
-
-
-
-
+fetchTop5Customers();
 
 fetch('../../admin/handlers/lay/laychitietsachdcbanchaynhat.php')
     .then(response => response.json())
@@ -353,7 +325,7 @@ fetch('../../admin/handlers/lay/laychitietsachdcbanchaynhat.php')
                     legend: { display: false },
                     title: {
                         display: true,
-                        text: "Sách có doanh thu cao nhất",
+                        text: "Top 5 Sách có doanh thu cao nhất",
                     },
                     datalabels: {
                         anchor: "end",
