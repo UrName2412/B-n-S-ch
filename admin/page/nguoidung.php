@@ -256,7 +256,7 @@ if ($admin['trangThai'] == false) {
                 Validator.isRequired('#duong', messageRequired),
                 Validator.isEmail('#email', messageEmail),
                 Validator.isPhone('#soDienThoai', messagePhone),
-                Validator.minLength('#tenNguoiDung', 6),
+                Validator.minLength('#tenNguoiDung', 5),
                 Validator.isPassword('#matKhau', messagePassword),
                 Validator.comparePassword('#kiemTraMatKhau', 'matKhau', messageConfirmPassword),
             ]

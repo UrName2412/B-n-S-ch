@@ -117,8 +117,12 @@ Validator.minLength = function (selector, min) {
 }
 
 function isValidPasswd(pass) {
-    return /[A-Z]/.test(pass) && /\d/.test(pass) && /[!@#$%^&*()_+\-={}[\]:;"'<>,.?/~\\|]/.test(pass);
+    return pass.length >= 8 &&
+           /[A-Z]/.test(pass) &&
+           /\d/.test(pass) &&
+           /[!@#$%^&*()_+\-={}[\]:;"'<>,.?/~\\|]/.test(pass);
 }
+
 
     
 
