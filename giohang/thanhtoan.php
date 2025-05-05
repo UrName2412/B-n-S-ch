@@ -602,12 +602,6 @@ if ($user1['trangThai'] == false) {
       return isValid;
     }
   </script>
-
-
-
   <script type="module" src="../asset/js/thanhtoan.js"></script>
-
-
 </body>
-
 </html>
