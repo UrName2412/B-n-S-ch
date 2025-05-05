@@ -13,6 +13,7 @@ $offset = ($currentPage - 1) * $productsPerPage;
 $sql = "SELECT sp.*, tl.tenTheLoai 
         FROM `b01_sanPham` sp 
         JOIN `b01_theLoai` tl ON sp.maTheLoai = tl.maTheLoai 
+        WHERE sp.trangThai = 1
         LIMIT $productsPerPage OFFSET $offset";
 $result = $database->query($sql);
 

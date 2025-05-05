@@ -13,7 +13,7 @@ $min_price = isset($_GET['min_price']) ? $_GET['min_price'] : "";
 $sql = "SELECT sp.*, tl.tenTheLoai 
         FROM b01_sanPham sp 
         LEFT JOIN b01_theLoai tl ON sp.maTheLoai = tl.maTheLoai 
-        WHERE 1=1";
+        WHERE sp.trangThai = 1";
 
 if (!empty($category)) {
     $sql .= " AND sp.maTheLoai = '" . $database->real_escape_string($category) . "'";

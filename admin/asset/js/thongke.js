@@ -353,7 +353,7 @@ fetch('../../admin/handlers/lay/laychitietsachdcbanchaynhat.php')
                     legend: { display: false },
                     title: {
                         display: true,
-                        text: "Top 5 Sách có doanh thu cao nhất",
+                        text: "Sách có doanh thu cao nhất",
                     },
                     datalabels: {
                         anchor: "end",
