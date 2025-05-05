@@ -60,12 +60,19 @@ if (isset($_FILES['hinhAnh']) && $_FILES['hinhAnh']['error'] === UPLOAD_ERR_OK) 
     }
 
     if (move_uploaded_file($tname, $upload_path)) {
+        if (!empty($duLieuCu['hinhAnh'])) {
+            $anhCuPath = $uploads_dir . $duLieuCu['hinhAnh'];
+            if (file_exists($anhCuPath)) {
+                unlink($anhCuPath);
+            }
+        }
         $duLieuMoi['hinhAnh'] = $pname;
     } else {
         $_SESSION["liDo"] = "Lỗi khi tải lên file ảnh.";
         header('Location: ../../page/sanpham.php');
         exit();
     }
+    
 }
 
 $updates = [];
