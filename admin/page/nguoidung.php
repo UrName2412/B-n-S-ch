@@ -140,7 +140,7 @@ if ($admin['trangThai'] == false) {
                         <option value="activeUsers">Người dùng hoạt động</option>
                         <option value="bannedUsers">Người dùng bị khóa</option>
                     </select>
-                    <input type="text" name="search" placeholder="Tìm kiếm..." id="searchInput">
+                    <input type="text" name="search" placeholder="Tìm kiếm tên nguời dùng..." id="searchInput">
                     <button type="button" id="searchButton">
                         <i class="fas fa-search"></i>
                     </button>

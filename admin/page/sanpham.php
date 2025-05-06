@@ -206,7 +206,7 @@ $stmt->close();
                         <option value="activeProducts">Sản phẩm hoạt động</option>
                         <option value="hiddenProducts">Sản phẩm bị ẩn</option>
                     </select>
-                    <input type="text" name="search" placeholder="Tìm kiếm..." id="searchInput">
+                    <input type="text" name="search" placeholder="Tìm kiếm tên sách..." id="searchInput">
                     <button type="button" id="searchButton" onclick="searchButton()">
                         <i class="fas fa-search"></i>
                     </button>

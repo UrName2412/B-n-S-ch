@@ -142,7 +142,7 @@ if ($admin['trangThai'] == false) {
                         <option value="Đã giao">Đã giao</option>
                         <option value="Đã hủy">Đã hủy</option>
                     </select>
-                    <input type="text" name="search" placeholder="Tìm kiếm..." id="searchInput">
+                    <input type="text" name="search" placeholder="Tìm kiếm mã đơn..." id="searchInput">
                     <button type="button" id="searchButton">
                         <i class="fas fa-search"></i>
                     </button>
