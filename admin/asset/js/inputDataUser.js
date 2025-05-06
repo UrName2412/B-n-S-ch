@@ -10,75 +10,81 @@ function start() {
 }
 
 function fixButtons() {
-    var fixButtons = document.querySelectorAll('.fix');
+    const fixButtons = document.querySelectorAll('.fix');
     const toolMenu = document.querySelector('.tool-menu');
-    const menuFix = document.createElement('div');
-    menuFix.className = 'menu-fix';
     const stringModal = 'Bạn có chắc muốn sửa người dùng không?';
     const stringAlert = 'Đã sửa.';
 
     fixButtons.forEach((fixButton) => {
         fixButton.addEventListener('click', (event) => {
-            var gridRow = event.target.closest('.grid-row');
-            let tenNguoiDung = gridRow.querySelector('textarea[placeholder="Nhập tên người dùng..."]').value;
-            fetch(`../handlers/lay/laythongtinnguoidung.php?tenNguoiDung=${tenNguoiDung}`)
+            const oldMenuFix = document.querySelector('.menu-fix');
+            if (oldMenuFix) oldMenuFix.remove();
+
+            const gridRow = event.target.closest('.grid-row');
+            const tenNguoiDung = gridRow.querySelector('textarea[placeholder="Nhập tên người dùng..."]').value;
+
+            fetch(`../handlers/lay/laythongtinnguoidung.php?tenNguoiDung=${encodeURIComponent(tenNguoiDung)}`)
                 .then(response => response.json())
                 .then(data => {
-                    let temp = data[0];
+                    const temp = data[0];
+                    const menuFix = document.createElement('div');
+                    menuFix.className = 'menu-fix';
                     menuFix.innerHTML = `
-                <h2>Sửa người dùng</h2>
-                <form class="form" id="form-fix" method="POST" action="../handlers/sua/suanguoidung.php">
-                    <input type="hidden" name="tenNguoiDung" value="${temp.tenNguoiDung}">
-                    <input type="hidden" name="vaiTro" value="${temp.vaiTro}">
-                    <input type="hidden" name="trangThai" value="${temp.trangThai}">
-                    <div class="form-group">
-                        <label for="soDienThoai">Số điện thoại:</label>
-                        <input type="tel" name="soDienThoai" id="suaSoDienThoai" placeholder="Nhập số điện thoại" value=${temp.soDienThoai}>
-                        <span class="form-message"></span>
-                    </div>
-                    <div class="form-group">
-                        <label for="diaChi">Địa chỉ:</label>
-                        <div class="address">
+                        <h2>Sửa người dùng</h2>
+                        <form class="form" id="form-fix" method="POST" action="../handlers/sua/suanguoidung.php">
+                            <input type="hidden" name="tenNguoiDung" value="${temp.tenNguoiDung}">
+                            <input type="hidden" name="vaiTro" value="${temp.vaiTro}">
+                            <input type="hidden" name="trangThai" value="${temp.trangThai}">
+
                             <div class="form-group">
-                                <select name="tinhThanh" id="suaTinhThanh">
-                                    <option value="">Chọn Tỉnh/Thành phố</option>
-                                </select>
+                                <label for="soDienThoai">Số điện thoại:</label>
+                                <input type="tel" name="soDienThoai" id="suaSoDienThoai" placeholder="Nhập số điện thoại" value="${temp.soDienThoai}">
                                 <span class="form-message"></span>
                             </div>
+
                             <div class="form-group">
-                                <select name="quanHuyen" id="suaQuanHuyen">
-                                    <option value="">Chọn Quận/Huyện</option>
-                                </select>
+                                <label for="diaChi">Địa chỉ:</label>
+                                <div class="address">
+                                    <div class="form-group">
+                                        <select name="tinhThanh" id="suaTinhThanh">
+                                            <option value="">Chọn Tỉnh/Thành phố</option>
+                                        </select>
+                                        <span class="form-message"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <select name="quanHuyen" id="suaQuanHuyen">
+                                            <option value="">Chọn Quận/Huyện</option>
+                                        </select>
+                                        <span class="form-message"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <select name="xa" id="suaXa">
+                                            <option value="">Chọn Xã/Phường</option>
+                                        </select>
+                                        <span class="form-message"></span>
+                                    </div>
+                                </div>
                                 <span class="form-message"></span>
                             </div>
+
                             <div class="form-group">
-                                <select name="xa" id="suaXa">
-                                    <option value="">Chọn Xã/Phường</option>
-                                </select>
+                                <label for="duong">Đường/Số nhà:</label>
+                                <input type="text" name="duong" id="suaDuong" placeholder="Số nhà, tên đường" value="${temp.duong}">
                                 <span class="form-message"></span>
                             </div>
-                        </div>
-                        <span class="form-message"></span>
-                    </div>
-                    <div class="form-group">
-                        <label for="duong">Đường/Số nhà:</label>
-                        <input type="text" name="duong" id="suaDuong" placeholder="Số nhà, tên đường" value="${temp.duong}">
-                        <span class="form-message"></span>
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" value="Thêm" class="btn-submit">
-                    </div>
-                </form>
-                `;
+
+                            <div class="form-group">
+                                <input type="submit" value="Sửa" class="btn-submit">
+                            </div>
+                        </form>
+                    `;
+
                     toolMenu.appendChild(menuFix);
                     openToolMenu('.menu-fix');
+
                     const addressHandlerFix = new addressHandler('suaTinhThanh', 'suaQuanHuyen', 'suaXa');
                     addressHandlerFix.setSelectedValues(temp.tinhThanh, temp.quanHuyen, temp.xa);
 
-                    messageRequired = 'Vui lòng nhập thông tin.';
-                    messageEmail = 'Vui lòng nhập đúng email.';
-                    messagePhone = 'Vui lòng nhập đúng số điện thoại.';
-                    messagePassword = 'Mật khẩu phải chứa ít nhất 1 ký tự Hoa, 1 ký tự số và 1 ký tự đặc biệt.';
                     Validator({
                         form: '#form-fix',
                         errorSelector: '.form-message',
@@ -86,14 +92,18 @@ function fixButtons() {
                             Validator.isRequired('#suaTinhThanh', 'Vui lòng chọn tỉnh thành.'),
                             Validator.isRequired('#suaQuanHuyen', 'Vui lòng chọn quận huyện.</br>*Chọn tỉnh thành trước.'),
                             Validator.isRequired('#suaXa', 'Vui lòng chọn xã.</br>*Chọn tỉnh và quận huyện trước.'),
-                            Validator.isRequired('#suaDuong', messageRequired),
-                            Validator.isPhone('#suaSoDienThoai', messagePhone),
+                            Validator.isRequired('#suaDuong', 'Vui lòng nhập thông tin.'),
+                            Validator.isPhone('#suaSoDienThoai', 'Vui lòng nhập đúng số điện thoại.'),
                         ]
-                    })
+                    });
+                })
+                .catch(error => {
+                    console.error('Lỗi khi lấy dữ liệu người dùng:', error);
                 });
-        })
-    })
+        });
+    });
 }
+
 
 function banButtons() {
     var banButtons = document.querySelectorAll('.delete');
