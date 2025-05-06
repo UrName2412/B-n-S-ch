@@ -1,7 +1,6 @@
 import { addressHandler } from './apiAddress.js';
 const addressHandler1 = new addressHandler('city', 'district',);
 
-let carts = [];
 var listCartsBlock = document.querySelector('#dataCarts');
 
 function start() {
@@ -365,7 +364,7 @@ async function handleFilter(dateStart, dateEnd, city, district) {
             var newCart = document.createElement('div');
             newCart.className = 'grid-row-cart';
             newCart.innerHTML = `
-                <textarea placeholder="Nhập maDon..." readonly>${carts[i].maDon}</textarea>
+                <textarea placeholder="Nhập mã đơn..." readonly>${carts[i].maDon}</textarea>
                 <textarea placeholder="Nhập tên người dùng..." readonly>${carts[i].tenNguoiDung}</textarea>
                 <textarea placeholder="Nhập địa chỉ..." readonly>${diaChi}</textarea>
                 <textarea placeholder="Nhập số điện thoại..." readonly>${carts[i].soDienThoai}</textarea>
