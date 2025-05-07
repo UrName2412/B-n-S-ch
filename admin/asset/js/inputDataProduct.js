@@ -27,116 +27,126 @@ function renderProducts() {
 }
 
 function fixButtons() {
-    var fixButtons = document.querySelectorAll('.fix');
+    const fixButtons = document.querySelectorAll('.fix');
     const toolMenu = document.querySelector('.tool-menu');
-    const menuFix = document.createElement('div');
-    menuFix.className = 'menu-fix';
     const stringModal = 'Bạn có chắc muốn sửa sản phẩm không?';
     const stringAlert = 'Đã sửa.';
+    const messageRequired = 'Vui lòng nhập thông tin.';
 
     fixButtons.forEach((fixButton) => {
         fixButton.addEventListener('click', (event) => {
-            var gridRow = event.target.closest('.grid-row-product');
-            let maSach = gridRow.querySelector('.grid-row-product textarea[placeholder="Nhập mã sách..."]').value;
-            let index = products.findIndex(product => product.maSach == maSach);
+            const oldMenuFix = document.querySelector('.menu-fix');
+            if (oldMenuFix) {
+                oldMenuFix.remove();
+            }
+
+            const gridRow = event.target.closest('.grid-row-product');
+            const maSach = gridRow.querySelector('.grid-row-product textarea[placeholder="Nhập mã sách..."]').value;
+            const index = products.findIndex(product => product.maSach == maSach);
+
+            const menuFix = document.createElement('div');
+            menuFix.className = 'menu-fix';
             menuFix.innerHTML = `
-            <h2>Sửa sản phẩm</h2>
-            <form class="form" id="form-fix" method="POST" action="../handlers/sua/suasanpham.php" enctype="multipart/form-data">
-                <input type="hidden" name="maSach" value="${maSach}">
-                <div class="form-group">
-                    <label for="hinhAnh">Hình ảnh:</label>
-                    <input type="file" name="hinhAnh" id="suaHinhAnh" placeholder="Chọn ảnh">
-                    <span class="form-message"></span>
-                    <div class="fixImgBlock">
-                        <div class="childImgBlock">
-                            <label>Hình ảnh cũ:</label>
-                            <img class="prevImg" src="${diaChiAnh}${products[index].hinhAnh}" />
-                        </div>
-                        <div class="childImgBlock hidden" id="hiddenImgBlock">
-                            <label>Hình ảnh mới:</label>
-                            <img id="suaPreviewImg" style="display:none;"/>
+                <h2>Sửa sản phẩm</h2>
+                <form class="form" id="form-fix" method="POST" action="../handlers/sua/suasanpham.php" enctype="multipart/form-data">
+                    <input type="hidden" name="maSach" value="${maSach}">
+                    <div class="form-group">
+                        <label for="hinhAnh">Hình ảnh:</label>
+                        <input type="file" name="hinhAnh" id="suaHinhAnh" placeholder="Chọn ảnh">
+                        <span class="form-message"></span>
+                        <div class="fixImgBlock">
+                            <div class="childImgBlock">
+                                <label>Hình ảnh cũ:</label>
+                                <img class="prevImg" src="${diaChiAnh}${products[index].hinhAnh}" />
+                            </div>
+                            <div class="childImgBlock hidden" id="hiddenImgBlock">
+                                <label>Hình ảnh mới:</label>
+                                <img id="suaPreviewImg" style="display:none;"/>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="tenSach">Tên sách:</label>
-                    <input type="text" name="tenSach" id="suaTenSach" placeholder="Nhập tên sách" value="${products[index].tenSach}">
-                    <span class="form-message"></span>
-                </div>
-                <div class="form-group">
-                    <label for="tacGia">Tác giả:</label>
-                    <input type="text" name="tacGia" id="suaTacGia" placeholder="Nhập tác giả" value="${products[index].tacGia}">
-                    <span class="form-message"></span>
-                </div>
-                <div class="form-group">
-                    <label for="theLoai">Thể loại:</label>
-                    <select name="theLoai" id="suaTheLoai">
-                        <option value="">Lựa chọn:</option>
-                    </select>
-                    <span class="form-message"></span>
-                </div>
-                <div class="form-group">
-                    <label for="nhaXuatBan">Nhà xuất bản:</label>
-                    <select name="nhaXuatBan" id="suaNhaXuatBan">
-                        <option value="">Lựa chọn:</option>
-                    </select>
-                    <span class="form-message"></span>
-                </div>
-                <div class="form-group">
-                    <label for="giaBan">Giá bán:</label>
-                    <input type="text" name="giaBan" id="suaGiaBan" placeholder="Nhập giá tiền" value="${products[index].giaBan}">
-                    <span class="form-message"></span>
-                </div>
-                <div class="form-group">
-                    <label for="soTrang">Số trang:</label>
-                    <input type="text" name="soTrang" id="suaSoTrang" placeholder="Nhập số trang" value="${products[index].soTrang}">
-                    <span class="form-message"></span>
-                </div>
-                <div class="form-group">
-                    <label for="moTa">Mô tả:</label>
-                    <textarea name="moTa" id="suaMoTa">${products[index].moTa}</textarea>
-                    <span class="form-message"></span>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Sửa" class="btn-submit">
-                </div>
-            </form>
+                    <div class="form-group">
+                        <label for="tenSach">Tên sách:</label>
+                        <input type="text" name="tenSach" id="suaTenSach" placeholder="Nhập tên sách" value="${products[index].tenSach}">
+                        <span class="form-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="tacGia">Tác giả:</label>
+                        <input type="text" name="tacGia" id="suaTacGia" placeholder="Nhập tác giả" value="${products[index].tacGia}">
+                        <span class="form-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="theLoai">Thể loại:</label>
+                        <select name="theLoai" id="suaTheLoai">
+                            <option value="">Lựa chọn:</option>
+                        </select>
+                        <span class="form-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="nhaXuatBan">Nhà xuất bản:</label>
+                        <select name="nhaXuatBan" id="suaNhaXuatBan">
+                            <option value="">Lựa chọn:</option>
+                        </select>
+                        <span class="form-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="giaBan">Giá bán:</label>
+                        <input type="text" name="giaBan" id="suaGiaBan" placeholder="Nhập giá tiền" value="${products[index].giaBan}">
+                        <span class="form-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="soTrang">Số trang:</label>
+                        <input type="text" name="soTrang" id="suaSoTrang" placeholder="Nhập số trang" value="${products[index].soTrang}">
+                        <span class="form-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="moTa">Mô tả:</label>
+                        <textarea name="moTa" id="suaMoTa">${products[index].moTa}</textarea>
+                        <span class="form-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Sửa" class="btn-submit">
+                    </div>
+                </form>
             `;
+
             toolMenu.appendChild(menuFix);
             openToolMenu('.menu-fix');
-            behindMenu = document.querySelector('.behindMenu');
+
             fetch("../handlers/lay/laytheloai.php")
                 .then(response => response.json())
                 .then(data => {
-                    let selectTheLoai = document.querySelector('#suaTheLoai');
+                    const select = document.getElementById('suaTheLoai');
                     data.forEach(theLoai => {
-                        let option = document.createElement("option");
+                        const option = document.createElement("option");
                         option.value = theLoai.maTheLoai;
                         option.textContent = theLoai.tenTheLoai;
                         if (theLoai.maTheLoai == products[index].maTheLoai) {
                             option.selected = true;
                         }
-                        selectTheLoai.appendChild(option);
+                        select.appendChild(option);
                     });
-                })
+                });
+
             fetch("../handlers/lay/laynhaxuatban.php")
                 .then(response => response.json())
                 .then(data => {
-                    let selectNhaXuatBan = document.querySelector('#suaNhaXuatBan');
-                    data.forEach(nhaXuatBan => {
-                        let option = document.createElement("option");
-                        option.value = nhaXuatBan.maNhaXuatBan;
-                        option.textContent = nhaXuatBan.tenNhaXuatBan;
-                        if (nhaXuatBan.maNhaXuatBan == products[index].maNhaXuatBan) {
+                    const select = document.getElementById('suaNhaXuatBan');
+                    data.forEach(nxb => {
+                        const option = document.createElement("option");
+                        option.value = nxb.maNhaXuatBan;
+                        option.textContent = nxb.tenNhaXuatBan;
+                        if (nxb.maNhaXuatBan == products[index].maNhaXuatBan) {
                             option.selected = true;
                         }
-                        selectNhaXuatBan.appendChild(option);
+                        select.appendChild(option);
                     });
-                })
-                document.getElementById('suaHinhAnh').addEventListener('change', function () {
-                    previewImage(this, 'suaPreviewImg', '.form-message');
                 });
-            messageRequired = 'Vui lòng nhập thông tin.';
+
+            document.getElementById('suaHinhAnh').addEventListener('change', function () {
+                previewImage(this, 'suaPreviewImg', '.form-message');
+            });
+
             Validator({
                 form: '#form-fix',
                 errorSelector: '.form-message',
@@ -160,14 +170,12 @@ function fixButtons() {
                 const formGroup = input.closest('.form-group') || input.parentElement;
                 const errorMessage = formGroup.querySelector(errorSelector);
                 const file = input.files[0];
-                let childBlock = document.querySelector('#hiddenImgBlock');
-            
+                const childBlock = document.querySelector('#hiddenImgBlock');
                 const validTypes = ['image/jpeg', 'image/png', 'image/jpg'];
                 const maxSize = 5 * 1024 * 1024;
-            
+
                 if (file) {
                     const fileExtension = file.name.split('.').pop().toLowerCase();
-            
                     if (!validTypes.includes(file.type) && !['jpg', 'jpeg', 'png'].includes(fileExtension)) {
                         errorMessage.innerText = 'Vui lòng chọn ảnh có định dạng JPG, PNG, JPEG.';
                         input.value = '';
@@ -175,7 +183,7 @@ function fixButtons() {
                         childBlock.classList.add('hidden');
                         return;
                     }
-            
+
                     if (file.size > maxSize) {
                         errorMessage.innerText = 'Vui lòng chọn ảnh có dung lượng nhỏ hơn 5MB.';
                         input.value = '';
@@ -183,15 +191,15 @@ function fixButtons() {
                         childBlock.classList.add('hidden');
                         return;
                     }
-            
+
                     const reader = new FileReader();
-                    reader.onload = function(e) {
+                    reader.onload = function (e) {
                         previewImg.src = e.target.result;
                         previewImg.style.display = 'block';
                         childBlock.classList.remove('hidden');
                     };
                     reader.readAsDataURL(file);
-            
+
                     errorMessage.innerText = '';
                     formGroup.classList.remove('invalid');
                 } else {
@@ -200,9 +208,10 @@ function fixButtons() {
                     formGroup.classList.remove('invalid');
                 }
             }
-        })
-    })
+        });
+    });
 }
+
 
 function deleteButtons() {
     var deleteButtons = document.querySelectorAll('.delete');

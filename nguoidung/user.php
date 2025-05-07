@@ -5,7 +5,6 @@ session_start();
 
 if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role'] == false)) {
     $username = $_SESSION['username'];
-    
 } else {
     echo "<script>alert('Bạn chưa đăng nhập!'); window.location.href='../dangky/dangnhap.php';</script>";
     exit();
@@ -47,14 +46,13 @@ function test_input($data)
 }
 
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
-    $username1 = test_input($_POST['name']);
     $address1 = test_input($_POST['address']);
     $phone1 = test_input($_POST['phone']);
     $province1 = test_input($_POST['province']);
     $district1 = test_input($_POST['district']);
     $ward1 = test_input($_POST['ward']);
 
-    updateUser($database, $username1, $address1, $phone1, $province1, $district1, $ward1);
+    updateUser($database, $username, $address1, $phone1, $province1, $district1, $ward1);
 
     $_SESSION['update_success'] = true;
 
@@ -126,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                                     <button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
                                     <ul class="dropdown-menu">
                                         <li class="dropdownList"><a class="dropdown-item" href="user.php">Thông tin tài khoản</a></li>
-                                        <li class="dropdownList"><a href="../dangky/dangxuat.php" class="dropdown-item"  onclick="removeSessionCart()">Đăng xuất</a></li>
+                                        <li class="dropdownList"><a href="../dangky/dangxuat.php" class="dropdown-item" onclick="removeSessionCart()">Đăng xuất</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -242,9 +240,9 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         <div class="mb-2">
             <label class="form-label" for="province">Tỉnh/Thành:</label>
             <select class="form-select" id="province" name="province">
-                <?php foreach ($provinces as $province): ?>
-                    <option value="<?= $province['code'] ?>" <?= $province['code'] == $user['tinhThanh'] ? 'selected' : '' ?>>
-                        <?= $province['name'] ?>
+                <?php foreach ($provinces as $p): ?>
+                    <option value="<?= $p['code'] ?>" <?= $p['code'] == $user['tinhThanh'] ? 'selected' : '' ?>>
+                        <?= $p['name'] ?>
                     </option>
                 <?php endforeach; ?>
             </select>
@@ -252,9 +250,15 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         <div class="mb-2">
             <label class="form-label" for="district">Quận/Huyện:</label>
             <select class="form-select" id="district" name="district">
-                <?php foreach ($districts as $district): ?>
-                    <option value="<?= $district['code'] ?>" <?= $district['code'] == $user['quanHuyen'] ? 'selected' : '' ?>>
-                        <?= $district['name'] ?>
+                <option value="">Chọn quận/huyện</option>
+                <?php
+                // Lọc quận/huyện theo tỉnh/thành
+                $userDistricts = array_filter($districts, function ($d) use ($user) {
+                    return $d['province_code'] == $user['tinhThanh'];
+                });
+                foreach ($userDistricts as $d): ?>
+                    <option value="<?= $d['code'] ?>" <?= $d['code'] == $user['quanHuyen'] ? 'selected' : '' ?>>
+                        <?= $d['name'] ?>
                     </option>
                 <?php endforeach; ?>
             </select>
@@ -262,9 +266,15 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         <div class="mb-2">
             <label class="form-label" for="ward">Xã/Phường:</label>
             <select class="form-select" id="ward" name="ward">
-                <?php foreach ($wards as $ward): ?>
-                    <option value="<?= $ward['code'] ?>" <?= $ward['code'] == $user['xa'] ? 'selected' : '' ?>>
-                        <?= $ward['name'] ?>
+                <option value="">Chọn phường/xã</option>
+                <?php
+                // Lọc phường/xã theo quận/huyện
+                $userWards = array_filter($wards, function ($w) use ($user) {
+                    return $w['district_code'] == $user['quanHuyen'];
+                });
+                foreach ($userWards as $w): ?>
+                    <option value="<?= $w['code'] ?>" <?= $w['code'] == $user['xa'] ? 'selected' : '' ?>>
+                        <?= $w['name'] ?>
                     </option>
                 <?php endforeach; ?>
             </select>

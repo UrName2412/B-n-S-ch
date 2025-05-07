@@ -5,17 +5,12 @@ const loadFromsessionStorage = () => {
     const storedCart = sessionStorage.getItem('cart');
     cart = storedCart ? JSON.parse(storedCart) : [];
 
-    // Update cart icon with the total quantity on page load
     let totalQuantity = 0;
     cart.forEach((cartItem) => {
         totalQuantity += cartItem.quantity;
     });
 
-    if (totalQuantity < 99) {
-        iconCartSpan.innerText = totalQuantity;
-    } else {
-        iconCartSpan.innerText = '99+';
-    }
+    iconCartSpan.innerText = totalQuantity < 99 ? totalQuantity : '99+';
 };
 
 loadFromsessionStorage();
@@ -31,59 +26,92 @@ let initialAddress = "";
 let initialPhone = "";
 
 async function loadData(isRestoring = false) {
+    // Lấy dữ liệu từ file JSON
     provinces = await fetch("../vender/apiAddress/province.json").then(res => res.json());
     districts = await fetch("../vender/apiAddress/district.json").then(res => res.json());
     wards = await fetch("../vender/apiAddress/ward.json").then(res => res.json());
 
-    const provinceSelect = document.getElementById("province");
-    provinceSelect.innerHTML = '<option value="" selected>Chọn tỉnh/thành phố</option>';
-    provinces.forEach(province => {
-        provinceSelect.add(new Option(province.name, province.code));
-    });
-
-    if (!isRestoring) {
-        const selectedProvince = provinceSelect.getAttribute("value");
-        if (selectedProvince) {
-            provinceSelect.value = selectedProvince;
-            loadDistricts(true);
-        }
+    // Lấy giá trị ban đầu từ các input
+    initialProvince = province.value;
+    initialDistrict = district.value;
+    initialWard = ward.value;
+    initialAddress = addr.value;
+    initialPhone = phone.value;
+    
+    // Nếu là khôi phục từ session (khi mở trang)
+    if (isRestoring) {
+        loadDistricts(false);
+        loadWards(false);
     }
-
-    provinceSelect.addEventListener("change", () => loadDistricts(true));
-    document.getElementById("district").addEventListener("change", () => loadWards(true));
 }
 
 function loadDistricts(setSelected = true) {
-    const provinceCode = document.getElementById("province").value;
-    const districtSelect = document.getElementById("district");
-
-    districtSelect.innerHTML = '<option value="" selected>Chọn quận/huyện</option>';
-    districts
-        .filter(d => d.province_code == provinceCode)
-        .forEach(district => {
-            districtSelect.add(new Option(district.name, district.code));
-        });
-
-    if (setSelected && initialDistrict) {
-        districtSelect.value = initialDistrict;
+    const provinceCode = province.value;
+    // Lọc quận/huyện theo mã tỉnh/thành
+    const filteredDistricts = districts.filter(d => d.province_code == provinceCode);
+    
+    district.innerHTML = '';
+    district.innerHTML = '<option value="">Chọn quận/huyện</option>';
+    
+    filteredDistricts.forEach(d => {
+        const option = document.createElement('option');
+        option.value = d.code;
+        option.textContent = d.name;
+        // Nếu đang set selected và mã quận bằng giá trị ban đầu từ DB
+        if (setSelected && d.code == initialDistrict) {
+            option.selected = true;
+        }
+        district.appendChild(option);
+    });
+    
+    // Nếu đang set selected, load tiếp phường/xã
+    if (setSelected && district.value) {
         loadWards(true);
+    } else {
+        ward.innerHTML = '<option value="">Chọn phường/xã</option>';
     }
 }
 
 function loadWards(setSelected = true) {
-    const districtCode = document.getElementById("district").value;
-    const wardSelect = document.getElementById("ward");
+    const districtCode = district.value;
+    // Lọc phường/xã theo mã quận/huyện
+    const filteredWards = wards.filter(w => w.district_code == districtCode);
+    
+    ward.innerHTML = '';
+    ward.innerHTML = '<option value="">Chọn phường/xã</option>';
+    
+    filteredWards.forEach(w => {
+        const option = document.createElement('option');
+        option.value = w.code;
+        option.textContent = w.name;
+        // Nếu đang set selected và mã phường bằng giá trị ban đầu từ DB
+        if (setSelected && w.code == initialWard) {
+            option.selected = true;
+        }
+        ward.appendChild(option);
+    });
+}
 
-    wardSelect.innerHTML = '<option value="" selected>Chọn phường/xã</option>';
-    wards
-        .filter(w => w.district_code == districtCode)
-        .forEach(ward => {
-            wardSelect.add(new Option(ward.name, ward.code));
-        });
-
-    if (setSelected && initialWard) {
-        wardSelect.value = initialWard;
+// Hàm xử lý khi nhấn nút chỉnh sửa
+function toggleEditForm() {
+    const overlay = document.querySelector(".overlay");
+    
+    [addr, phone, province, district, ward].forEach(hideError);
+    
+    if (form.classList.contains("show")) {
+        // Khi đóng form, reset về giá trị ban đầu
+        province.value = initialProvince;
+        loadDistricts(false);
+        ward.value = initialWard;
+        addr.value = initialAddress;
+        phone.value = initialPhone;
+    } else {
+        // Khi mở form, load giá trị hiện tại từ DB
+        loadDistricts(true);
     }
+    
+    form.classList.toggle("show");
+    overlay.classList.toggle("show");
 }
 
 const form = document.getElementById("edit-form");
@@ -93,7 +121,15 @@ const province = document.getElementById("province");
 const district = document.getElementById("district");
 const ward = document.getElementById("ward");
 
-// Hiển thị thông báo lỗi
+// Thêm event listeners cho các dropdown
+province.addEventListener("change", () => {
+    loadDistricts(true);
+});
+
+district.addEventListener("change", () => {
+    loadWards(true);
+});
+
 function showError(input, message) {
     const parent = input.parentElement;
     let error = parent.querySelector(".error-message");
@@ -105,7 +141,6 @@ function showError(input, message) {
     error.textContent = message;
 }
 
-// Xóa thông báo lỗi
 function hideError(input) {
     const parent = input.parentElement;
     const error = parent.querySelector(".error-message");
@@ -115,86 +150,67 @@ function hideError(input) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    form.addEventListener("submit", function (event) {
-        // Ngăn việc gửi form để kiểm tra thông tin
-        event.preventDefault();
+    // Load dữ liệu ban đầu khi trang được tải
+    loadData(true); 
 
+    // Thêm event listener khi tỉnh/thành thay đổi
+    province.addEventListener("change", () => {
+        loadDistricts(true);
+    });
+
+    // Thêm event listener khi quận/huyện thay đổi
+    district.addEventListener("change", () => {
+        loadWards(true);
+    });
+
+    form.addEventListener("submit", function (event) {
+        event.preventDefault();
         let valid = true;
 
-        // Kiểm tra địa chỉ
         if (/[^a-zA-Z0-9À-ỹ\s,-\.\/]/.test(addr.value)) {
             showError(addr, "Địa chỉ nhà không hợp lệ");
             valid = false;
-        }
-        else {
+        } else {
             hideError(addr);
         }
 
-        // Kiểm tra số điện thoại
         if (!/(03|05|07|08|09)+(\d{8})\b/.test(phone.value)) {
             showError(phone, "Số điện thoại phải bao gồm 10 số với các đầu số từ Việt Nam");
             valid = false;
-        }
-        else {
+        } else {
             hideError(phone);
         }
 
-        if (!province.value || province.value === "Chọn tỉnh/thành phố") {
+        if (!province.value) {
             showError(province, "Vui lòng chọn tỉnh/thành");
             valid = false;
         } else {
             hideError(province);
         }
 
-        if (district.value === "") {
+        if (!district.value) {
             showError(district, "Vui lòng chọn quận/huyện");
             valid = false;
         } else {
             hideError(district);
         }
 
-        if (ward.value === "") {
+        if (!ward.value) {
             showError(ward, "Vui lòng chọn phường/xã");
             valid = false;
         } else {
             hideError(ward);
         }
 
-        // Kiểm tra form hợp lệ
         if (valid) {
+            // Cập nhật giá trị ban đầu nếu submit thành công
+            initialProvince = province.value;
+            initialDistrict = district.value;
+            initialWard = ward.value;
+            initialAddress = addr.value;
+            initialPhone = phone.value;
+            
             form.submit();
         }
     });
 });
-
-function toggleEditForm() {
-    const overlay = document.querySelector(".overlay");
-    const isOpening = !form.classList.contains("show");
-
-    if (isOpening) {
-        // Lưu giá trị ban đầu
-        initialProvince = province.value;
-        initialDistrict = district.value;
-        initialWard = ward.value;
-        initialAddress = addr.value;
-        initialPhone = phone.value;
-    } else {
-        // Phục hồi lại các giá trị
-        loadData(true).then(() => {
-            province.value = initialProvince;
-            loadDistricts(false);
-            district.value = initialDistrict;
-            loadWards(false);
-            ward.value = initialWard;
-
-            addr.value = initialAddress;
-            phone.value = initialPhone;
-        });
-    }
-
-    // Xóa thông báo lỗi
-    [addr, phone, province, district, ward].forEach(hideError);
-
-    form.classList.toggle("show");
-    overlay.classList.toggle("show");
-}

@@ -14,7 +14,7 @@ if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role
 $maDon = isset($_GET['maDon']) ? $_GET['maDon'] : ($_SESSION['maDon'] ?? '');
 
 if ($maDon) {
-    $sql = "SELECT * FROM b01_donhang WHERE maDon = ?";
+    $sql = "SELECT * FROM b01_donHang WHERE maDon = ?";
     $stmt = $database->prepare($sql);
     $stmt->bind_param("i", $maDon);
     $stmt->execute();
@@ -28,7 +28,7 @@ if ($maDon) {
 
     $sql_ct = "
     SELECT ct.*, sp.tenSach, sp.hinhAnh 
-    FROM b01_chitiethoadon ct
+    FROM b01_chiTietHoaDon ct
     JOIN b01_sanPham sp ON ct.maSach = sp.maSach
     WHERE ct.maDon = ?";
     $stmt_ct = $database->prepare($sql_ct);

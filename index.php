@@ -190,6 +190,7 @@ if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role
                            LEFT JOIN b01_donHang ON b01_chiTietHoaDon.maDon = b01_donHang.maDon
                            AND b01_donHang.tinhTrang = 'Đã giao'
                            JOIN b01_theLoai ON b01_sanPham.maTheLoai = b01_theLoai.maTheLoai
+                           WHERE b01_sanPham.trangThai = 1
                            GROUP BY b01_sanPham.maSach, b01_sanPham.tenSach, b01_sanPham.hinhAnh, b01_sanPham.giaBan, b01_theLoai.tenTheLoai
                            ORDER BY tongTien DESC
                            LIMIT 9;";

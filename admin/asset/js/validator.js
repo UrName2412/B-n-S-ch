@@ -116,6 +116,15 @@ Validator.minLength = function (selector, min) {
     }
 }
 
+Validator.maxLength = function (selector, max) {
+    return {
+        selector: selector,
+        test: function (value) {
+            return value.length <= max ? undefined : `Vui lòng nhập tối đa ${max} kí tự.`
+        }
+    }
+}
+
 function isValidPasswd(pass) {
     return pass.length >= 8 &&
            /[A-Z]/.test(pass) &&

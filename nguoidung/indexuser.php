@@ -214,6 +214,7 @@ if ($user['trangThai'] == false) {
                             LEFT JOIN b01_donHang ON b01_chiTietHoaDon.maDon = b01_donHang.maDon
                             AND b01_donHang.tinhTrang = 'Đã giao'
                             JOIN b01_theLoai ON b01_sanPham.maTheLoai = b01_theLoai.maTheLoai
+                            WHERE b01_sanPham.trangThai = 1
                             GROUP BY b01_sanPham.maSach, b01_sanPham.tenSach, b01_sanPham.hinhAnh, b01_sanPham.giaBan, b01_theLoai.tenTheLoai
                             ORDER BY tongTien DESC
                             LIMIT 9"; // Lấy 9 sản phẩm bán chạy nhất
@@ -224,7 +225,7 @@ if ($user['trangThai'] == false) {
                                     echo '<div class="col-md-4 mb-4">';
                                     echo '<div class="card" style="width: 100%;">';
                                     echo '<a href="#" class="view-detail" data-id="' . $row["maSach"] . '">';
-                                    echo '<img src="/B-n-S-ch/Images/' . $row["hinhAnh"] . '" alt="' . $row["tenSach"] . '" class="card-img-top">';
+                                    echo '<img src="../Images/' . $row["hinhAnh"] . '" alt="' . $row["tenSach"] . '" class="card-img-top">';
                                     echo '</a>';
                                     echo '<div class="card-body">';
                                     echo '<h5 class="card-title">' . $row["tenSach"] . '</h5>';
@@ -268,7 +269,7 @@ if ($user['trangThai'] == false) {
             <div class="row d-flex justify-content-center align-items-center footer__bar">
                 <div class="col-md-4">
                     <div class="logo">
-                        <a href="index.php" class="d-flex align-items-center">
+                        <a href="../index.php" class="d-flex align-items-center">
                             <img src="../Images/LogoSach.png" alt="logo" width="100" height="57">
                         </a>
                     </div>
@@ -387,9 +388,8 @@ if ($user['trangThai'] == false) {
 
             // Chuyển hướng sang trang sản phẩm với các tham số lọc
             window.location.href = '../sanpham/sanpham-user.php?' + params.toString();
-
-            handleViewDetailClick('../Images/');
         });
+        handleViewDetailClick('../Images/');
     </script>
 </body>
 

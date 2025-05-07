@@ -48,6 +48,10 @@ document.addEventListener("DOMContentLoaded", function () {
             showError(username, "Tên đăng nhập phải có ít nhất 5 kí tự");
             valid = false;
         }
+        else if (username.value.length > 20) {
+            showError(username, "Tên đăng nhập không được vượt quá 20 kí tự");
+            valid = false;
+        }
         else {
             hideError(username);
         }
