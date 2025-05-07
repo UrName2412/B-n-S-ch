@@ -90,15 +90,15 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         // Kiểm tra số điện thoại
-        if (phone.value.trim() === "") {
+        const phoneValue = phone.value.trim();
+
+        if (phoneValue === "") {
             showError(phone, "Số điện thoại không được để trống");
             valid = false;
-        }
-        else if (!/(03|05|07|08|09)+(\d{8})\b/.test(phone.value)) {
-            showError(phone, "Số điện thoại phải bao gồm 10 số với các đầu số từ Việt Nam");
+        } else if (!/^(03|05|07|08|09)\d{8}$/.test(phoneValue)) {
+            showError(phone, "Số điện thoại phải đúng 10 chữ số và bắt đầu bằng đầu số hợp lệ của Việt Nam");
             valid = false;
-        }
-        else {
+        } else {
             hideError(phone);
         }
 
