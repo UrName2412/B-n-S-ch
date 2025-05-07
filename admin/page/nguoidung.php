@@ -259,7 +259,7 @@ if ($admin['trangThai'] == false) {
                 Validator.minLength('#tenNguoiDung', 5),
                 Validator.isPassword('#matKhau', messagePassword),
                 Validator.comparePassword('#kiemTraMatKhau', 'matKhau', messageConfirmPassword),
-                Validator.maxLength('#tenNguoiDung', 20)
+                Validator.maxLength('#tenNguoiDung', 20),
             ]
         })
     </script>
