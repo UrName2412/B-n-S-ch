@@ -101,7 +101,7 @@ Validator.isPhone = function (selector, message) {
     return {
         selector: selector,
         test: function (value) {
-            var regex = /(03|05|07|08|09)+([0-9]{8})\b/;
+            var regex = /^(03|05|07|08|09)\d{8}$/;
             return regex.test(value) ? undefined : message;
         }
     }

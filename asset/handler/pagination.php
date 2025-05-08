@@ -31,7 +31,7 @@ if ($result->num_rows > 0) {
 }
 
 // Tính tổng số sản phẩm để tạo phân trang
-$sqlTotal = "SELECT COUNT(*) AS total FROM `b01_sanPham`";
+$sqlTotal = "SELECT COUNT(*) AS total FROM `b01_sanPham` WHERE trangThai = 1";
 $resultTotal = $database->query($sqlTotal);
 $rowTotal = $resultTotal->fetch_assoc();
 $totalProducts = $rowTotal['total'];
