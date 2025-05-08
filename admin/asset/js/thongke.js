@@ -300,15 +300,15 @@ fetch('../../admin/handlers/lay/laychitietsachdcbanchaynhat.php')
         });
 
         const formattedDataValues = dataValues.map(value => {
-            const numericValue = Number(value);  // Chuyển giá trị thành số
-            return numericValue.toLocaleString("vi-VN");
+            const numericValue = Number(value);
+            return numericValue;  // Return numeric value for proper chart scaling
         });
 
         const chartData = {
-            labels: truncatedLabels,  // Dùng labels đã cắt bớt
+            labels: truncatedLabels,
             datasets: [{
-                label: "VNĐ",
-                data: formattedDataValues,
+                label: "Doanh thu",
+                data: formattedDataValues,  // Use numeric values
                 borderColor: "#059bff",
                 backgroundColor: "#82cdff",
                 borderWidth: 2,
@@ -327,10 +327,17 @@ fetch('../../admin/handlers/lay/laychitietsachdcbanchaynhat.php')
                         display: true,
                         text: "Sách có doanh thu cao nhất",
                     },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.parsed.y.toLocaleString('vi-VN') + ' VNĐ';
+                            }
+                        }
+                    },
                     datalabels: {
                         anchor: "end",
                         align: "top",
-                        formatter: (value) => value.toLocaleString("vi-VN") + " VNĐ",
+                        formatter: (value) => value.toLocaleString('vi-VN') + ' VNĐ',
                         font: {
                             weight: "bold",
                             size: 10
@@ -344,7 +351,7 @@ fetch('../../admin/handlers/lay/laychitietsachdcbanchaynhat.php')
                     y: {
                         ticks: {
                             callback: function (value) {
-                                return value.toLocaleString("vi-VN") + " VNĐ";
+                                return value.toLocaleString('vi-VN') + ' VNĐ';
                             }
                         }
                     },
