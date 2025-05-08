@@ -5,7 +5,7 @@ require '../../config/config.php';
 $start = $_GET['start'] ?? null;
 $end = $_GET['end'] ?? null;
 
-$sql = "SELECT sp.tenSach, COUNT(ct.soLuong) as soLuong
+$sql = "SELECT sp.tenSach, SUM(ct.soLuong) as soLuong
 FROM b01_chiTietHoaDon ct
 JOIN b01_sanPham sp ON sp.maSach = ct.maSach
 JOIN b01_donHang dh ON dh.maDon = ct.maDon
