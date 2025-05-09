@@ -45,6 +45,37 @@ function test_input($data)
     return $data;
 }
 
+function validateAddress($provinceCode, $districtCode, $wardCode)
+{
+    // Kiểm tra tỉnh
+    $provinces = json_decode(file_get_contents('../vender/apiAddress/province.json'), true);
+    $provinceValid = in_array($provinceCode, array_column($provinces, 'code'));
+
+    // Kiểm tra quận thuộc tỉnh
+    $districts = json_decode(file_get_contents('../vender/apiAddress/district.json'), true);
+    $districtValid = false;
+    foreach ($districts as $d) {
+        if ($d['code'] == $districtCode && $d['province_code'] == $provinceCode) {
+            $districtValid = true;
+            break;
+        }
+    }
+
+    // Kiểm tra phường thuộc quận
+    $wards = json_decode(file_get_contents('../vender/apiAddress/ward.json'), true);
+    $wardValid = false;
+    foreach ($wards as $w) {
+        if ($w['code'] == $wardCode && $w['district_code'] == $districtCode) {
+            $wardValid = true;
+            break;
+        }
+    }
+
+    return $provinceValid && $districtValid && $wardValid;
+}
+
+$valid = true;
+
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $address1 = test_input($_POST['address']);
     $phone1 = test_input($_POST['phone']);
@@ -52,12 +83,19 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $district1 = test_input($_POST['district']);
     $ward1 = test_input($_POST['ward']);
 
-    updateUser($database, $username, $address1, $phone1, $province1, $district1, $ward1);
+    if (!validateAddress($province1, $district1, $ward1)) {
+        echo "<script>alert('Địa chỉ không hợp lệ. Vui lòng kiểm tra lại.');</script>";
+        $valid = false;
+    }
 
-    $_SESSION['update_success'] = true;
+    if ($valid) {
+        updateUser($database, $username, $address1, $phone1, $province1, $district1, $ward1);
 
-    header("Location: user.php");
-    exit();
+        $_SESSION['update_success'] = true;
+
+        header("Location: user.php");
+        exit();
+    }
 }
 
 ?>

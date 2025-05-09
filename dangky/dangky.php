@@ -17,6 +17,35 @@ function test_input($data)
     return $data;
 }
 
+function validateAddress($provinceCode, $districtCode, $wardCode)
+{
+    // Kiểm tra tỉnh
+    $provinces = json_decode(file_get_contents('../vender/apiAddress/province.json'), true);
+    $provinceValid = in_array($provinceCode, array_column($provinces, 'code'));
+
+    // Kiểm tra quận thuộc tỉnh
+    $districts = json_decode(file_get_contents('../vender/apiAddress/district.json'), true);
+    $districtValid = false;
+    foreach ($districts as $d) {
+        if ($d['code'] == $districtCode && $d['province_code'] == $provinceCode) {
+            $districtValid = true;
+            break;
+        }
+    }
+
+    // Kiểm tra phường thuộc quận
+    $wards = json_decode(file_get_contents('../vender/apiAddress/ward.json'), true);
+    $wardValid = false;
+    foreach ($wards as $w) {
+        if ($w['code'] == $wardCode && $w['district_code'] == $districtCode) {
+            $wardValid = true;
+            break;
+        }
+    }
+
+    return $provinceValid && $districtValid && $wardValid;
+}
+
 $usrerror = $mailerror = "";
 $valid = true;
 
@@ -47,6 +76,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     } else {
         $mailerror = "";
     }
+    if (!validateAddress($province, $district, $ward)) {
+        echo "<script>alert('Địa chỉ không hợp lệ. Vui lòng kiểm tra lại.');</script>";
+        $valid = false;
+    }
+
     if ($valid) {
         $result = addUser($database, $username, $email, $password, $address, $phone, $province, $district, $ward);
 
@@ -319,7 +353,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     </script>
 
     <script>
-        document.getElementById('searchForm').addEventListener('submit', function (event) {
+        document.getElementById('searchForm').addEventListener('submit', function(event) {
             event.preventDefault();
             const inputValue = document.getElementById('timkiem').value.trim();
 
