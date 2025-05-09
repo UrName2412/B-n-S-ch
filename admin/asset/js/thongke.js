@@ -330,14 +330,14 @@ fetch('../../admin/handlers/lay/laychitietsachdcbanchaynhat.php')
                     tooltip: {
                         callbacks: {
                             label: function(context) {
-                                return context.parsed.y.toLocaleString('vi-VN') + ' VNĐ';
+                                return context.parsed.y.toLocaleString('vi-VN') + ' ₫';
                             }
                         }
                     },
                     datalabels: {
                         anchor: "end",
                         align: "top",
-                        formatter: (value) => value.toLocaleString('vi-VN') + ' VNĐ',
+                        formatter: (value) => value.toLocaleString('vi-VN') + ' ₫',
                         font: {
                             weight: "bold",
                             size: 10
@@ -351,7 +351,7 @@ fetch('../../admin/handlers/lay/laychitietsachdcbanchaynhat.php')
                     y: {
                         ticks: {
                             callback: function (value) {
-                                return value.toLocaleString('vi-VN') + ' VNĐ';
+                                return value.toLocaleString('vi-VN') + ' ₫';
                             }
                         }
                     },
