@@ -202,7 +202,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <i class="fas fa-arrow-left"></i> Tiếp tục mua sắm
                         </a>
                         <form method="POST">
-                        <button id="thanhtoan" class="btn btn-success" onclick="checkCart()" name="thanhtoan" >Thanh toán</button>
+                        <button id="thanhtoan" class="btn btn-success" onclick="return checkCart(event)" name="thanhtoan">Thanh toán</button>   
                         </form>
                     </div>
                 </div>

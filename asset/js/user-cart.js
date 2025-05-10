@@ -129,20 +129,20 @@ const changeQuantity = (productName, newQuantity) => {
     }
 };
 
-const checkCart = () => {
+const checkCart = (event) => {
     if (productCart.length === 0) {
         const emptyCart = new bootstrap.Modal(document.getElementById('empty'));
         emptyCart.show();
+        event.preventDefault();
         return;
     }
 
     const totalQuantity = productCart.reduce((sum, item) => sum + item.quantity, 0);
     if (totalQuantity > 100) {
         alert("Bạn chỉ được mua tối đa 100 sản phẩm trong một lần đặt hàng!");
+        event.preventDefault();
         return;
     }
-
-    window.location.href = "thanhtoan.php";
 }
 
 function removeSessionCart() {
