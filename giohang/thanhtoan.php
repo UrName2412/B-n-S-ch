@@ -3,6 +3,13 @@ require '../admin/config/config.php';
 require '../asset/handler/user_handle.php';
 session_start();
 
+if (!isset($_SESSION['thanhtoan_token'])) {
+  echo "<script>alert('Vui lòng thực hiện thanh toán theo các bước!'); window.location.href='giohangnguoidung.php';</script>";
+  exit;
+}
+
+// Hủy token sau khi sử dụng
+unset($_SESSION['thanhtoan_token']);
 
 if (isset($_SESSION['username']) && (isset($_SESSION['role']) && $_SESSION['role'] == false)) {
   $username = $_SESSION['username'];

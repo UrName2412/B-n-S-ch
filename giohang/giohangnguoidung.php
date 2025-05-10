@@ -3,6 +3,12 @@ require '../admin/config/config.php';
 require '../asset/handler/user_handle.php';
 session_start();
 
+if (isset($_POST['thanhtoan'])) {
+    $_SESSION['thanhtoan_token'] = bin2hex(random_bytes(32));
+    header('Location: thanhtoan.php');
+    exit;
+}
+
 if (isset($_GET['error']) && $_GET['error'] == 'empty_cart') {
     echo "<script>alert('Giỏ hàng trống, không thể đặt hàng!');</script>";
 }
@@ -195,7 +201,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <a href="../sanpham/sanpham-user.php" class="btn btn-secondary mb-2 mb-md-0 me-md-2">
                             <i class="fas fa-arrow-left"></i> Tiếp tục mua sắm
                         </a>
-                        <button id="thanhtoan" class="btn btn-success" onclick="checkCart()">Thanh toán</button>
+                        <form method="POST">
+                        <button id="thanhtoan" class="btn btn-success" onclick="checkCart()" name="thanhtoan" >Thanh toán</button>
+                        </form>
                     </div>
                 </div>
             </section>
