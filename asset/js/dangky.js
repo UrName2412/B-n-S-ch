@@ -144,6 +144,10 @@ document.addEventListener("DOMContentLoaded", function () {
             showError(passwdconf, "Xác nhận mật khẩu không được để trống");
             valid = false;
         }
+        else if (passwdconf.value.length < 8) {
+            showError(passwdconf, "Mật khẩu xác nhận phải có ít nhất 8 kí tự");
+            valid = false;
+        }
         else if (passwdconf.value != passwd.value) {
             showError(passwdconf, "Mật khẩu xác nhận phải khớp với mật khẩu vừa nhập");
             valid = false;
