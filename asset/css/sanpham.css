@@ -239,8 +239,19 @@ aside input {
 
 .product-detail-info {
     height: 450px;
-    overflow-y: auto;
     padding: 20px;
+}
+
+.product-info{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.description-content{
+    max-height: 200px;
+    overflow-y: auto;
+    margin-bottom: 10px;
 }
 
 @media (max-width: 768px) {
