@@ -207,7 +207,7 @@ aside input {
 
 /* Product Detail Modal Styles */
 .modal-dialog {
-    max-width: 1000px;
+    max-width: 1200px;
     margin: 1.75rem auto;
 }
 
@@ -249,7 +249,7 @@ aside input {
 }
 
 .description-content{
-    max-height: 200px;
+    max-height: 150px;
     overflow-y: auto;
     margin-bottom: 10px;
 }
