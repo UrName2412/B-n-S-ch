@@ -4,15 +4,15 @@ if (!defined('DB_SERVER')) {
 }
 
 if (!defined('DB_USERNAME')) {
-    define('DB_USERNAME', 'root');
+    define('DB_USERNAME', 'b01u');
 }
 
 if (!defined('DB_PASSWORD')) {
-    define('DB_PASSWORD', '');
+    define('DB_PASSWORD', 'kDnLjxq86tbddLHt');
 }
 
 if (!defined('DB_NAME')) {
-    define('DB_NAME', 'webbansach');
+    define('DB_NAME', 'b01db');
 }
 
 // Create connection
